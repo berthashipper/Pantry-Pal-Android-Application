@@ -17,7 +17,7 @@ An intuitive meal-planning assistant app that suggests recipes based on availabl
 @startuml
 skin rose
 
-title Full overview
+title Graphical high-level overview of the system
 
 ' human actors
 actor "User" as user
