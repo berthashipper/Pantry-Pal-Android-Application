@@ -9,6 +9,58 @@ An intuitive meal-planning assistant app that suggests recipes based on availabl
 
 
 ## Actors
-* __System administrator__: Runs the app
-* __System__: processes ingredients and selects recipes
+* __System__: processes ingredients and generates recipes
 * __User__: Uploads recipes, browses for recipes, submits their pantry items
+
+
+```plantuml
+@startuml
+skin rose
+
+title Full overview
+
+' human actors
+actor "User" as user
+
+' system actors
+actor "Recipe system" <<recipe system>> as recipeSystem
+
+' list all use cases in package
+package NextGenPOS{
+ usecase "Upload ingredients" as uploadingredients
+ usecase "Generate recipe" as generaterecipe
+ usecase "Upload recipes" as uploadrecipes
+ usecase "Store ingredients" as storeing
+ usecase "Store recipes" as storerec
+ usecase "See pantry" as seepantry
+ usecase "Delete ingredients" as deleing
+ usecase "Search recipes" as searchrec
+ usecase "Filter restrictions" as filterrestr
+}
+
+' list associations
+
+seepantry -down-> deleing : <<includes>>
+seepantry -down-> uploadingredients : <<includes>>
+seepantry -down-> searchrec : <<includes>>
+uploadingredients -down-> filterrestr : <<extends>>
+
+uploadingredients -right-> generaterecipe : <<extends>>
+filterrestr -right-> generaterecipe : <<extends>>
+
+user --> uploadrecipes 
+user --> seepantry
+
+uploadingredients -right-> storeing : <<extends>>
+uploadrecipes -left-> storerec : <<extends>>
+
+
+
+recipeSystem --> generaterecipe
+recipeSystem --> storeing
+recipeSystem --> storerec
+
+
+
+@enduml
+```
