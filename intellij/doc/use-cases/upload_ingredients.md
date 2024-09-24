@@ -21,63 +21,44 @@ __User__: wants to upload all the ingredients in their pantry to find out what r
 
 ## 4. Workflow
 
-The sequence of steps involved in the execution of the use case, in the form of one or more activity diagrams (please feel free to decompose into multiple diagrams for readability).
-
-The workflow can be specified at different levels of detail:
-
-* __Brief__: main success scenario only;
-* __Casual__: most common scenarios and variations;
-* __Fully-dressed__: all scenarios and variations.
-
-Please be sure indicate what level of detail the workflow you include represents.
-
-For example, for _process sale_:
+Casual workflow for _uploading ingredients_:
 
 ```plantuml
 @startuml
 
 skin rose
 
-title Process sale (casual level)
+title Upload Ingredients (casual level)
 
 'define the lanes
-|#application|Customer|
-|#technology|Cashier|
+|#application|User|
 |#implementation|System|
 
-|Customer|
+|User|
 start
-:Arrive at checkout with items to purchase;
+:Enter all ingredients in pantry;
 
-|Cashier|
+|System|
 while (More items?) is (yes)
-  :Enter item info (id and quantity);
+  :Enter ingredient info;
   |System|
-  :Validate line item;
-  :Record line item;
-  :Show line item detail and running total;
-  |Cashier|
+  :Approve ingredient;
+  :Store ingredient;
 endwhile (no)
 
 
-:Ask for payment type;
+:Ask for any other filters/specifications;
 
-|Customer|
-:Indicate payment type;
-
-|Cashier|
-if (Payment type?) is  ( Cash ) then
-:Execute __Pay by cash__;
-else ( Card ) 
-:Execute __Pay by credit card__;
-endif
+|User|
+:Select filters/specifications for recipe;
 
 |System|
-:Validate payment;
-:Record payment;
-:Print receipt;
-|Cashier|
-:Hand receipt to customer;
+if (Filters?) is  ( Yes ) then
+:Generate recipe with filters considered;
+else ( No ) 
+:Generate any recipe from database;
+endif
+
 stop
 @enduml
 ```
