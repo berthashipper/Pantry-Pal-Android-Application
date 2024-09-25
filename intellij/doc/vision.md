@@ -51,6 +51,8 @@ package PantryPal {
     usecase "Upload Personal Recipes" as uploadPersonalRecipes
     usecase "Plan Weekly Meals" as planWeeklyMeals
     usecase "Generate Grocery List" as generateGroceryList
+    usecase "Search Recipes" as searchRecipes
+    usecase "Delete Pantry Items" as deletePantryItems
 }
 
 ' Associations
@@ -58,6 +60,8 @@ user --> uploadPantryItems
 user --> uploadPersonalRecipes
 user --> planWeeklyMeals
 user --> generateGroceryList
+user --> searchRecipes
+user --> deletePantryItems
 
 uploadPantryItems -down-> generateRecipeSuggestions : <<includes>>
 generateRecipeSuggestions -down-> filterRecipes : <<extends>>
@@ -67,9 +71,12 @@ recipeSystem --> generateRecipeSuggestions
 recipeSystem --> filterRecipes
 recipeSystem --> uploadPersonalRecipes
 recipeSystem --> generateGroceryList
+recipeSystem --> searchRecipes
+recipeSystem --> deletePantryItems
 
 recipeDB --> uploadPersonalRecipes
 recipeDB --> generateRecipeSuggestions
+recipeDB --> searchRecipes
 
 @enduml
 ```
@@ -96,6 +103,14 @@ recipeDB --> generateRecipeSuggestions
 - **Interaction**: Users can adjust the ingredient quantities in the suggested recipes to match their desired number of servings. The Recipe Management System recalculates the amounts accordingly.
 - **Purpose**: To ensure users can prepare the correct quantities based on their needs.
 
+### Search Recipes
+- **Interaction**: The user can search for recipes in the Recipe Database based on keywords or ingredients. The Recipe Management System processes the search and returns relevant recipes.
+- **Purpose**: To allow users to easily find specific recipes they may want to cook, without relying solely on pantry items.
+
+### Delete Pantry Items
+- **Interaction**: The user can remove items from their pantry list. The Recipe Management System updates the user's available ingredients accordingly.
+- **Purpose**: To keep the pantry list up-to-date, ensuring accurate recipe suggestions and meal planning.
+
 ### Upload Personal Recipes
 - **Interaction**: The user has the option to upload their own recipes into the system. The Recipe Management System saves these to the Recipe Database for future reference.
 - **Purpose**: To personalize the recipe suggestions by including the user’s favorite recipes.
@@ -110,6 +125,6 @@ recipeDB --> generateRecipeSuggestions
 
 ## Actor Relationships
 
-- The user is directly linked to several use cases (uploading pantry items, uploading personal recipes, planning meals, and generating grocery lists).
-- The Recipe Management System is linked to various use cases, indicating that it is the central processor of actions related to recipe management and user interactions.
+- The user is directly linked to several use cases as they are the heart of the application (uploading pantry items, deleting items, uploading personal recipes, searching for recipes, planning meals, and generating grocery lists).
+- The Recipe Management System is linked to many use cases — it is the central processor of actions related to recipe management and user interactions.
 - The Recipe Database interacts with the Recipe Management System for both uploading personal recipes and generating recipe suggestions.
