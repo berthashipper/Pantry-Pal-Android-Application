@@ -6,17 +6,17 @@ Factors in assessing use case priority:
 
 ## Rank
 ### High
-* Upload ingredients
+* **Upload ingredients**
   * Software relies on the fact that ingredients can be uploaded, processed, and stored
-* Generate recipes
+* **Generate recipes**
   * Recipe database needs to be populated and be able to be searched through given ingredients in recipes
 ### Medium
-* Upload personal recipes
+* **Upload personal recipes**
   * As long as the recipe database can have some recipes in it, this is complementary
-* Scale ingredients
+* **Scale ingredients**
   * Affects user satisfaction
 ### Low
-* Plan weekly meals & Generate grocery list
+* **Plan weekly meals & Generate grocery list**
     * Complementary features, not core the main functionality of app
-* Search recipes
+* **Search recipes**
   * More important that recipes can be suggested rather than searched 
