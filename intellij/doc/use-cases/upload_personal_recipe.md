@@ -42,20 +42,23 @@ start
 :Enters personal recipe;
 
 |Recipe Management System|
-:analyze the ingredients in the recipe;
-if (Valid ingredients?) is (yes) then
-  |User|
-  :Enter recipe info;
-  |Recipe Management System|
-  :Approve recipe;
-  |Recipe Database|
-  :Store recipe;
+:Analyze ingredients in the recipe;
 
-else (no)
-|User|
-:Error Message;
-endif
+while (Are ingredients valid?) is (no)
+  |User|
+  :Error message, prompts user to re-enter or modify
+  invalid ingredients;
+  :Modifies/re-enters ingredients;  
+endwhile(yes) 
+  
+
+|Recipe Management System|
+:Approve recipe;
+|Recipe Database|
+:Store approved recipe;
 
 stop
+
+
 @enduml
 ```
