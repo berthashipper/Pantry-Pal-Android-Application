@@ -1,27 +1,29 @@
 # Upload Ingredients
 
 ## 1. Primary actor and goals
-__User__: wants to upload all the ingredients in their pantry to find out what recipes they can make with them.
+* __User__: wants to upload all the ingredients in their pantry to find out what recipes they can make with them.
+* __Recipe Management System__: wants to understand each ingredient uploaded and store it to be accessed by the Recipe Database.
 
 
 ## 2. Other stakeholders and their goals
 
-* __System__: Wants to save the ingredients into the database for easy access and analysis.
+* __Recipe Database__: Wants to understand and process the ingredients so that it can identify those ingredients in other recipes.
 
 
 
 ## 3. Preconditions
 
-* The user has successfully uploaded all the ingredients to they system and specified any other filters/specifications.
+* The user identifies the items in their pantry.
+* The system is ready to process and understand the ingredients.
 
 ## 4. Postconditions
 
-* Ingredients are saved into their online pantry.
+* Ingredients are successfully saved into the user's online pantry.
 
 
 ## 4. Workflow
 
-Casual workflow for _uploading ingredients_:
+Casual workflow for _upload ingredients_:
 
 ```plantuml
 @startuml
@@ -32,32 +34,24 @@ title Upload Ingredients (casual level)
 
 'define the lanes
 |#application|User|
-|#implementation|System|
+|#implementation|Recipe Management System|
+|#lightgreen|Recipe Database|
 
 |User|
 start
-:Enter all ingredients in pantry;
+:Enters one ingredient from pantry;
 
-|System|
-while (More items?) is (yes)
+|Recipe Management System|
+:Approve ingredient;
+:Store ingredient;
+while (More ingredients?) is (yes)
+   |User|
   :Enter ingredient info;
-  |System|
+  |Recipe Management System|
   :Approve ingredient;
   :Store ingredient;
 endwhile (no)
 
-
-:Ask for any other filters/specifications;
-
-|User|
-:Select filters/specifications for recipe;
-
-|System|
-if (Filters?) is  ( Yes ) then
-:Generate recipe with filters considered;
-else ( No ) 
-:Generate any recipe from database;
-endif
 
 stop
 @enduml
