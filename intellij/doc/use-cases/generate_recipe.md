@@ -1,83 +1,74 @@
-# Generate Recipe
+# Generate Recipe Suggestions
 
 ## 1. Primary actor and goals
-__System__: should synthesize the ingredients the user has indicated having and provides them with a recipe from a database. 
+* __User__: wants to receive accurate and appealing recipe suggestions that aligns with their specifications and ingredients.
+* __Recipe Database__: should be holding a comprehensive list of recipes.
+* __Recipe Management System__:  filters through the recipe database based on the ingredients the system has stored and presents fitting ones to the user.
 
 
 ## 2. Other stakeholders and their goals
 
-* __User__: Wants a recipe that fits the ingredients they have, is appealing to them based on other filters they specified, and is possible to make.
+* __User__: Wants the recipe system and database to interact efficiently so that they get their recipe suggestiions in a timely manner.
 
 
 
 ## 3. Preconditions
 
-* The system understands the ingredients and can recognize their appearances in recipes.
+* The recipe management system has understood, processed, and stored all the uploaded ingredients.
+* The recipe database can pull the ingredients stored in the management system and identify the ingredients in all the recipes in the database.
 
 ## 4. Postconditions
 
-* Recipe is identified/formed and presented to user.
+* Ingredients are identified and matched to all recipes in the database.
+* The recipe management system has filtered the recipes based on additional filters supplied by user. 
 
 
 ## 4. Workflow
 
-The sequence of steps involved in the execution of the use case, in the form of one or more activity diagrams (please feel free to decompose into multiple diagrams for readability).
-
-The workflow can be specified at different levels of detail:
-
-* __Brief__: main success scenario only;
-* __Casual__: most common scenarios and variations;
-* __Fully-dressed__: all scenarios and variations.
-
-Please be sure indicate what level of detail the workflow you include represents.
-
-For example, for _process sale_:
+Fully-dressed workflow for _generate recipe_:
 
 ```plantuml
 @startuml
 
 skin rose
 
-title Process sale (casual level)
+title Generate recipe (fully-dressed level)
 
 'define the lanes
-|#application|Customer|
-|#technology|Cashier|
-|#implementation|System|
+|#application|User|
+|#implementation|Recipe Management System|
+|#lightgreen|Recipe Database|
 
-|Customer|
+|User|
 start
-:Arrive at checkout with items to purchase;
+:Ask for recipe suggestions;
 
-|Cashier|
-while (More items?) is (yes)
-  :Enter item info (id and quantity);
-  |System|
-  :Validate line item;
-  :Record line item;
-  :Show line item detail and running total;
-  |Cashier|
-endwhile (no)
+|Recipe Management System|
+:Pulls ingredients from the stored list;
 
+|Recipe Database|
+:Holds a list of all recipes;
 
-:Ask for payment type;
+|Recipe Management System|
+:Evaluates list of ingredients on each
+recipe in the database;
+:Produces a final compilation of recipes
+that satisfy the given ingredients;
 
-|Customer|
-:Indicate payment type;
-
-|Cashier|
-if (Payment type?) is  ( Cash ) then
-:Execute __Pay by cash__;
-else ( Card ) 
-:Execute __Pay by credit card__;
+if (Asks user for filters) is  ( yes ) then
+|User|
+:Specify filters (cook time,
+vegetarian, etc.);
+|Recipe Management System|
+:Filter through the compiled list of recipes
+according to additional specifications;
+|Recipe Management System|
+else ( no ) 
+:Hold the compiled
+list of recipes;
 endif
 
-|System|
-:Validate payment;
-:Record payment;
-:Print receipt;
-|Cashier|
-:Hand receipt to customer;
+:Present list of recipes to user;
 stop
 @enduml
 ```
