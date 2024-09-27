@@ -8,7 +8,7 @@
 
 ## 2. Other stakeholders and their goals
 
-* __User__: Wants the recipe system and database to interact efficiently so that they get their recipe suggestiions in a timely manner.
+* __User__: Wants the recipe system and database to interact efficiently so that they get their recipe suggestions in a timely manner.
 
 
 
