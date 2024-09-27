@@ -1,4 +1,4 @@
-# Generate Recipe Suggestions
+# Generate & Filter Recipe Suggestions
 
 ## 1. Primary actor and goals
 * __User__: wants to receive accurate and appealing recipe suggestions that aligns with their specifications and ingredients.
@@ -25,14 +25,14 @@
 
 ## 4. Workflow
 
-Fully-dressed workflow for _generate recipe_:
+Fully-dressed workflow for _generate & filter recipe_:
 
 ```plantuml
 @startuml
 
 skin rose
 
-title Generate recipe (fully-dressed level)
+title Generate & filter recipe (fully-dressed level)
 
 'define the lanes
 |#application|User|
