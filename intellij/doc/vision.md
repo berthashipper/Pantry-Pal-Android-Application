@@ -44,15 +44,15 @@ actor "Recipe Database" <<database>> as recipeDB
 
 ' List all use cases in package
 package PantryPal {
-    usecase "Upload Pantry Items" as uploadPantryItems
-    usecase "Generate Recipe Suggestions" as generateRecipeSuggestions
+    usecase "Upload Pantry Items" as uploadPantryItems 
+    usecase "Generate Recipe Suggestions" as generateRecipeSuggestions 
     usecase "Filter Recipes" as filterRecipes
-    usecase "Scale Ingredients" as scaleIngredients
-    usecase "Upload Personal Recipes" as uploadPersonalRecipes
+    usecase "Scale Ingredients" as scaleIngredients 
+    usecase "Upload Personal Recipes" as uploadPersonalRecipes 
     usecase "Plan Weekly Meals" as planWeeklyMeals
     usecase "Generate Grocery List" as generateGroceryList
-    usecase "Search Recipes" as searchRecipes
-    usecase "Delete Pantry Items" as deletePantryItems
+    usecase "Search Recipes" as searchRecipes 
+    usecase "Delete Pantry Items" as deletePantryItems 
 }
 
 ' Associations
