@@ -6,9 +6,11 @@ Factors in assessing use case priority:
 
 ## Rank
 ### High
-* **Upload ingredients**
+* **Manage ingredients**
   * Software relies on the fact that ingredients can be uploaded, processed, and stored
+  * This will be the starting point for the app and user interface
 * **Generate recipes**
+  * Need to incorporate the EDAMAM API
   * Recipe database needs to be populated and be able to be searched through given ingredients in recipes
 ### Medium
 * **Upload personal recipes**

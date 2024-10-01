@@ -44,20 +44,17 @@ start
 :Ask for recipe suggestions;
 
 |Recipe Management System|
-:Pulls ingredients from the stored list;
-
-|Recipe Database|
-:Holds a list of all recipes;
+:Evaluates ingredients in pantry;
+:Pulls recipes from API;
 
 |Recipe Management System|
+
 :Evaluates list of ingredients on each
-recipe in the database;
+recipe;
 :Produces a final compilation of recipes
 that satisfy the given ingredients;
-
-:Apply __filter_recipe__ use case;
-
 :Present list of recipes to user;
+
 stop
 @enduml
 ```

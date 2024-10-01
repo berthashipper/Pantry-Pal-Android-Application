@@ -13,7 +13,7 @@
 
 
 ## 3. Preconditions
-
+* The user has a recipe to filter
 * The recipe management system has understood, processed, and stored all the filters.
 * The recipe database can pull the recipes stored in the database.
 
@@ -37,24 +37,21 @@ title Filter Recipe (fully-dressed level)
 'define the lanes
 |#application|User|
 |#implementation|Recipe Management System|
-|#lightgreen|Recipe Database|
 
 |User|
 start
-:choose filters and restrictions;
+:Has obtained recipe from either
+__Generate recipe__ or __search recipe__;
+:Choose filters and restrictions;
 
 |Recipe Management System|
-:matching the conditions to the recipes;
+:Match the conditions to the recipes;
 
-|Recipe Database|
-:Holds a list of all recipes;
-
-|Recipe Management System|
 :Evaluates list of restrictions on each
 recipe in the database;
 :Produces a final compilation of recipes
 that satisfy the given filters;
-:Present list of recipes to user;
+:Present list of filtered recipes to user;
 stop
 
 @enduml

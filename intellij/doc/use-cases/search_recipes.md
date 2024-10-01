@@ -55,10 +55,11 @@ stop
 else (yes)
 
 |Recipe Database|
-:Pulls matching recipes held in database;
+:Pulls matching recipes held in API;
 
 |Recipe Management System|
-:Gathers a list of recipes from database;
+:Gathers a list of recipes from API
+and internal list;
 :Apply __filter_recipe__ use case;
 
 

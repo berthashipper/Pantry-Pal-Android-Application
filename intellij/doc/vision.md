@@ -20,9 +20,9 @@ Our cooking assistant software addresses customer needs that other products do n
 - **Grocery List Generation**: Customized grocery lists created based on selected recipes, helping users streamline their shopping process.
 
 ## 4. Stakeholder goals summary
-- **User**: upload ingredients, upload personal recipes, specify filters, search recipes
-- **Recipe database**: hold and process all the recipes
-- **Recipe management system**: analyze data in recipes, suggest recipes to the user, scale ingredients, filter recipes
+- **User**: manage pantry, upload personal recipes, specify filters, search recipes
+- **Recipe database**: an online API called EDAMAM that holds a list of recipes from the internet: https://developer.edamam.com/recipe-demo
+- **Recipe management system**: analyze data in recipes, suggest recipes to the user, scale ingredients, filter recipes, holds user-uploaded recipes
 
 
 ## Use case diagram
@@ -36,47 +36,53 @@ title High-Level Overview of Meal Planning Assistant App
 ' Human actor
 actor "User" as user
 
-' System actor
-actor "Recipe Management System" <<system>> as recipeSystem
-
-' Database actor
-actor "Recipe Database" <<database>> as recipeDB
+' API actor
+actor "EDAMAM API (Recipe Database)" <<API>> as recipeDB
 
 ' List all use cases in package
 package PantryPal {
-    usecase "Upload Pantry Items" as uploadPantryItems 
-    usecase "Generate Recipe Suggestions" as generateRecipeSuggestions 
+' System actor
+    actor "Recipe Management System" <<system>> as recipeSystem
+    
+    usecase "Manage Pantry" as managepantry
+   
+    usecase "Upload Pantry Items" as uploadPantryItems
+    usecase "Generate Recipe Suggestions" as generateRecipeSuggestions
     usecase "Filter Recipes" as filterRecipes
-    usecase "Scale Ingredients" as scaleIngredients 
-    usecase "Upload Personal Recipes" as uploadPersonalRecipes 
+    usecase "Scale Ingredients" as scaleIngredients
+    usecase "Upload Personal Recipes" as uploadPersonalRecipes
     usecase "Plan Weekly Meals" as planWeeklyMeals
     usecase "Generate Grocery List" as generateGroceryList
-    usecase "Search Recipes" as searchRecipes 
-    usecase "Delete Pantry Items" as deletePantryItems 
+    usecase "Search Recipes" as searchRecipes
+    usecase "Delete Pantry Items" as deletePantryItems
+    
+    
 }
 
 ' Associations
-user --> uploadPantryItems
-user --> uploadPersonalRecipes
-user --> planWeeklyMeals
-user --> generateGroceryList
+user --> managepantry
+managepantry -down-> uploadPantryItems: <<includes>>
+managepantry -down-> deletePantryItems: <<includes>>
+
 user --> searchRecipes
-user --> deletePantryItems
+searchRecipes -down-> filterRecipes: <<includes>>
+searchRecipes -down-> generateRecipeSuggestions: <<extends>>
+generateRecipeSuggestions -down-> generateGroceryList: <<extends>>
+generateRecipeSuggestions -down-> filterRecipes: <<extends>>
+generateRecipeSuggestions -down-> scaleIngredients: <<includes>>
+filterRecipes -down-> scaleIngredients: <<includes>>
 
-uploadPantryItems -down-> generateRecipeSuggestions : <<includes>>
-generateRecipeSuggestions -down-> filterRecipes : <<extends>>
-generateRecipeSuggestions -down-> scaleIngredients : <<extends>>
+user --> planWeeklyMeals
+planWeeklyMeals -right-> searchRecipes: <<includes>>
 
-recipeSystem --> generateRecipeSuggestions
-recipeSystem --> filterRecipes
-recipeSystem --> uploadPersonalRecipes
-recipeSystem --> generateGroceryList
-recipeSystem --> searchRecipes
-recipeSystem --> deletePantryItems
+user --> uploadPersonalRecipes
 
-recipeDB --> uploadPersonalRecipes
-recipeDB --> generateRecipeSuggestions
-recipeDB --> searchRecipes
+generateRecipeSuggestions <|-down- recipeSystem : <<extends>>
+searchRecipes <|-down- recipeDB : <<extends>>
+generateRecipeSuggestions <|-down- recipeDB : <<extends>>
+searchRecipes <|-down- recipeSystem : <<extends>>
+
+
 
 @enduml
 ```

@@ -34,30 +34,29 @@ title Generate grocery list (casual level)
 'define the lanes
 |#application|User|
 |#implementation|Recipe Management System|
-|#lightgreen|Recipe Database|
 
 |User|
 start
-:Selects recipes;
+:__Searches recipes__;
+:Selects recipes to add to grocery list;
 
 |Recipe Management System|
-:Looks to the recipe database to 
-view the selected recieps;
+:Parses ingredients from recipes;
+:Forms a list of all ingredients from all the recipes;
 
-|Recipe Database|
-:Holds recipes to be scanned;
-
-|Recipe Management System|
-:Parses ingredients from recipes and forms
-a list of all ingredients from all the recipes;
-
-:Compares list to ingredients in the User's Pantry
-(ingredients they already have);
+:Compares list to ingredients in the User's Pantry;
 
 :Finds which ingredients are missing
 and how much of each is needed;
 
 :Presents list of ingredients to user;
+
+|User|
+:Confirms ingredients to add to grocery list;
+
+|Recipe Management System|
+:Adds ingredients into pantry, indicated as pending;
+
 stop
 @enduml
 ```
