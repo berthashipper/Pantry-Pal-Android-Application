@@ -35,7 +35,6 @@ title Scale Ingredients (casual level)
 'define the lanes
 |#application|User|
 |#implementation|Recipe Management System|
-|#lightgreen|Recipe Database|
 
 |User|
 start
@@ -52,10 +51,6 @@ qualitative quantities in the recipe;
 :Produces a new, modified version of the recipe
 with the new ingredient values;
 
-|Recipe Database|
-:Original recipe has remained unchanged;
-
-|Recipe Management System|
 :Present scaled recipe to user;
 stop
 @enduml

@@ -35,7 +35,6 @@ title Upload Personal Recipe (casual level)
 'define the lanes
 |#application|User|
 |#implementation|Recipe Management System|
-|#lightgreen|Recipe Database|
 
 |User|
 start
@@ -46,7 +45,7 @@ start
 
 while (Are ingredients valid?) is (no)
   |User|
-  :Error message, prompts user to re-enter or modify
+  :Error message, prompts user tore-enter or modify
   invalid ingredients;
   :Modifies/re-enters ingredients;  
 endwhile(yes) 
@@ -54,7 +53,6 @@ endwhile(yes)
 
 |Recipe Management System|
 :Approve recipe;
-|Recipe Database|
 :Store approved recipe;
 
 stop

@@ -41,27 +41,22 @@ title Plan Weekly Meals (casual level)
 
 |User|
 start
-:Choose recipe;
+:__Searches recipes__;
+:Chooses recipes to make for the week;
 
 |Recipe Management System|
-:Approve recipe;
-|Recipe Database|
-:Pull the recipe;
-|Recipe Management System|
-:Store Recipe to list;
+:Pulls the recipes;
+:Store recipes to list;
 while (More recipes?) is (yes)
    |User|
   :Choose another recipe;
   |Recipe Management System|
-:Approve recipe;
-|Recipe Database|
-:Pull the recipe;
-|Recipe Management System|
 :Store Recipe to list;
 endwhile (no)
 
 |Recipe Management System|
 :Present the final weekly meals;
+:Give user option to enact __generate grocery list__ use case;
 
 stop
 @enduml
