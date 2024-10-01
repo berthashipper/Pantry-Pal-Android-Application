@@ -21,7 +21,7 @@ Our cooking assistant software addresses customer needs that other products do n
 
 ## 4. Stakeholder goals summary
 - **User**: manage pantry, upload personal recipes, specify filters, search recipes
-- **Recipe database**: an online API called EDAMAM that holds a list of recipes from the internet
+- **Recipe database**: an online API called EDAMAM that holds a list of recipes from the internet: https://developer.edamam.com/recipe-demo
 - **Recipe management system**: analyze data in recipes, suggest recipes to the user, scale ingredients, filter recipes, holds user-uploaded recipes
 
 
