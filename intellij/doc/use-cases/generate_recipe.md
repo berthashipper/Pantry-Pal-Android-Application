@@ -55,18 +55,7 @@ recipe in the database;
 :Produces a final compilation of recipes
 that satisfy the given ingredients;
 
-if (Asks user for filters) is  ( yes ) then
-|User|
-:Specify filters (cook time,
-vegetarian, etc.);
-|Recipe Management System|
-:Filter through the compiled list of recipes
-according to additional specifications;
-|Recipe Management System|
-else ( no ) 
-:Hold the compiled
-list of recipes;
-endif
+:Apply __filter_recipe__ use case;
 
 :Present list of recipes to user;
 stop

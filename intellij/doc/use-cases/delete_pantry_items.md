@@ -7,7 +7,7 @@
 
 ## 2. Other stakeholders and their goals
 
-* * __User__: Want the recipe system to delete the right ingredients efficiently.
+* __User__: Want the recipe system to delete the right ingredients efficiently.
 
 
 
@@ -23,7 +23,7 @@
 
 ## 4. Workflow
 
-Casual workflow for _upload ingredients_:
+Casual workflow for _delete_pantry_items_:
 
 ```plantuml
 @startuml
@@ -37,21 +37,20 @@ title  Delete Pantry Items (casual level)
 |#implementation|Recipe Management System|
 |#lightgreen|Recipe Database|
 
+
 |User|
-start
-:Enters one ingredient from pantry;
+ start
+:Select one ingredient from pantry;
 
 |Recipe Management System|
-:Approve ingredient;
-:Delete ingredient;
 while (More ingredients?) is (yes)
-   |User|
-  :Enter ingredient;
-  |Recipe Management System|
-  :Approve ingredient;
-  :delete ingredient;
+:Ask user to select another ingredient;
+|User|
+:Selects ingredient;
 endwhile (no)
 
+  |Recipe Management System|
+  :Delete ingredient;
 
 stop
 @enduml

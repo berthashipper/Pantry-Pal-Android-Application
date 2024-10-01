@@ -44,7 +44,7 @@ start
 :choose filters and restrictions;
 
 |Recipe Management System|
-:matching the conditions to trhe recipes;
+:matching the conditions to the recipes;
 
 |Recipe Database|
 :Holds a list of all recipes;
@@ -56,6 +56,7 @@ recipe in the database;
 that satisfy the given filters;
 :Present list of recipes to user;
 stop
+
 @enduml
 ```
 

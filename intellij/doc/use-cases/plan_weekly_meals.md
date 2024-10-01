@@ -51,7 +51,7 @@ start
 :Store Recipe to list;
 while (More recipes?) is (yes)
    |User|
-  :Choose recipe;
+  :Choose another recipe;
   |Recipe Management System|
 :Approve recipe;
 |Recipe Database|

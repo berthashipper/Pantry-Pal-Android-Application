@@ -24,14 +24,14 @@
 
 ## 4. Workflow
 
-Fully-dressed workflow for search recipe_:
+Fully-dressed workflow for _search recipe_:
 
 ```plantuml
 @startuml
 
 skin rose
 
-title Generate & filter recipe (fully-dressed level)
+title Search recipe (fully-dressed level)
 
 'define the lanes
 |#application|User|
@@ -43,29 +43,24 @@ start
 :Search recipe;
 
 |Recipe Management System|
-:Checks the validation;
+:Checks if there are recipes
+that match keywords;
 
-if (Is valid?) is (no) then
+if (Matches found?) is (no) then
+:Prepare error message;
 |User|
-: Error message;
+:See that no recipes were
+found from search;
+stop
 else (yes)
-   |Recipe Database|
-   :Pulls matching recipe from the Recipe Database;
-if (Asks user for filters) is  ( yes ) then
-|User|
-:Specify filters (cook time,
-vegetarian, etc.);
-|Recipe Management System|
-:Filter through the compiled list of recipes
-according to additional specifications;
-|Recipe Management System|
-else ( no ) 
-:Hold the compiled
-list of recipes;
-endif
 
+|Recipe Database|
+:Pulls matching recipes held in database;
 
-endif
+|Recipe Management System|
+:Gathers a list of recipes from database;
+:Apply __filter_recipe__ use case;
+
 
 :Present list of recipes to user;
 stop
