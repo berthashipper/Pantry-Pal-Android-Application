@@ -20,7 +20,7 @@
 * Ingredients are successfully deleted from or uploaded to the user's online pantry.
 
 
-## 4. Workflow
+## 5. Workflow
 
 Casual workflow for _manage_pantry_items_:
 
@@ -57,4 +57,30 @@ stop
 @enduml
 ```
 
+## 6. Sequence Diagram
 
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Ingredient" as ingr
+participant ": curPantry : Pantry" as pantry
+
+ui -> user : Display add/delete buttons
+user -> ui : Input ingredient name and quantity
+user -> ui : Click "add ingredient"
+ui -> ingr **: ingr = create(name, quantity)
+ingr -> pantry: add(ingr)
+pantry -> ui : curPantry.list()
+ui -> user : show current pantry list
+user -> ui : Click "delete ingredient"
+ui -> pantry : delete(name, quantity)
+pantry -> ui : curPantry.list()
+ui -> user : show current pantry list
+
+@enduml
+````
