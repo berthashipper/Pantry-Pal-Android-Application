@@ -21,7 +21,7 @@
 * Recipe is successfully saved into the Recipe Database.
 
 
-## 4. Workflow
+## 5. Workflow
 
 Casual workflow for _upload personal recipe_:
 

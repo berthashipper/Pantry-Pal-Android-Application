@@ -20,7 +20,7 @@
 * The recipe management system has provided a list of ingredients to the user the recipes based on additional filters supplied by user.
 
 
-## 4. Workflow
+## 5. Workflow
 
 Fully-dressed workflow for _generate_grocery_list_:
 

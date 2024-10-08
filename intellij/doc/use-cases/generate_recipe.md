@@ -1,4 +1,4 @@
-# Generate & Filter Recipe Suggestions
+# Generate Recipe Suggestions
 
 ## 1. Primary actor and goals
 * __User__: wants to receive accurate and appealing recipe suggestions that aligns with their specifications and ingredients.
@@ -23,9 +23,9 @@
 * The recipe management system has filtered the recipes based on additional filters supplied by user. 
 
 
-## 4. Workflow
+## 5. Workflow
 
-Fully-dressed workflow for _generate & filter recipe_:
+Fully-dressed workflow for _generate_recipe_:
 
 ```plantuml
 @startuml
@@ -58,5 +58,34 @@ that satisfy the given ingredients;
 stop
 @enduml
 ```
+## 6. Sequence Diagram
 
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller" as cont
+participant ": RecipeDatabase" as recd
+
+ui -> user : Display generate recipe button
+user -> ui : Click "get recipe suggestions"
+ui -> cont : getRecipes()
+[o-> cont : getPantry()
+
+participant "getRecipeList[i] : RecipeList" as rec
+cont -> recd : getRecipeList()
+loop i in 0..recipeList.size-1
+recd -> rec : recipe = getRecipeInfo()
+end
+
+rec -> cont : recipeList.list()
+cont -> ui : displayRecipes()
+ui -> user : Present list of recipes
+
+@enduml
+````
 

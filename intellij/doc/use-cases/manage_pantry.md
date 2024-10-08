@@ -67,19 +67,41 @@ hide footbox
 
 actor User as user
 participant ": UI" as ui
-participant ": Ingredient" as ingr
+participant ": Controller"  as cont
 participant ": curPantry : Pantry" as pantry
+participant ": Ingredient" as ingr
 
 ui -> user : Display add/delete buttons
 user -> ui : Input ingredient name and quantity
 user -> ui : Click "add ingredient"
-ui -> ingr **: ingr = create(name, quantity)
-ingr -> pantry: add(ingr)
+ui -> cont : addItem(name, quantity)
+cont -> pantry : addItem(name, quantity)
+pantry -> ingr **: ingr = create(name, quantity)
 pantry -> ui : curPantry.list()
+cont -> ui : updateDisplay(pantry)
 ui -> user : show current pantry list
+
+@enduml
+````
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller"  as cont
+participant ": curPantry : Pantry" as pantry
+
+ui -> user : Display add/delete buttons
+user -> ui : Input ingredient name and quantity
 user -> ui : Click "delete ingredient"
-ui -> pantry : delete(name, quantity)
+ui -> cont : deleteItem(name, quantity)
+cont -> pantry : deleteItem(name, quantity)
 pantry -> ui : curPantry.list()
+cont -> ui : updateDisplay(pantry)
 ui -> user : show current pantry list
 
 @enduml

@@ -21,7 +21,7 @@
 * The recipe management system has filtered the recipes based on additional filters supplied by user.
 
 
-## 4. Workflow
+## 5. Workflow
 
 Casual workflow for _scale ingredients_:
 
