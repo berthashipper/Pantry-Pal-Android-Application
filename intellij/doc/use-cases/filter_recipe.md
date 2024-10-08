@@ -56,5 +56,37 @@ stop
 
 @enduml
 ```
+## 6. Sequence Diagram
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller" as cont
+participant ": RecipeList" as rec
+
+cont-> ui : displayRecipes()
+ui -> user : Present list of recipes
+ui -> user : Show filtering options
+user -> ui : Select filtering tags (i.e. sweet/savory, vegan, etc.)
+ui -> cont : recipeList.filter(tags)
+cont -> rec : recipeList.filter(tags)
+
+cont -> rec : getRecipeList()
+loop i in 0..recipeList.size-1
+cont -> rec : recipe = recipeList.filter(tags)
+end
+
+rec -> cont : recipeList.list()
+cont -> ui : displayRecipes()
+ui -> user : Present list of recipes
+
+
+@enduml
+````
 
 

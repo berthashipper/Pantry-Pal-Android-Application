@@ -79,7 +79,7 @@ ui -> cont : getRecipes()
 participant "getRecipeList[i] : RecipeList" as rec
 cont -> recd : getRecipeList()
 loop i in 0..recipeList.size-1
-recd -> rec : recipe = getRecipeInfo()
+recd -> rec : recipe = getRecipeList[i].getRecipeInfo()
 end
 
 rec -> cont : recipeList.list()
