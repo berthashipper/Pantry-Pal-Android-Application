@@ -2,8 +2,7 @@
 
 ## 1. Primary actor and goals
 * __User__: wants to search accurate recipe that aligns with their specifications.
-* __Recipe Database__: should be holding a comprehensive list of recipes.
-* __Recipe Management System__:  filters through the recipe database based on the recipes that the Recipe Database has stored and presents fitting ones to the user.
+* __Recipe Management System__:  Should be holding a comprehensive list of recipes. Filters through the recipe database based on the recipes that the Recipe Database has stored and presents fitting ones to the user.
 
 
 ## 2. Other stakeholders and their goals
@@ -36,34 +35,34 @@ title Search recipe (fully-dressed level)
 'define the lanes
 |#application|User|
 |#implementation|Recipe Management System|
-|#lightgreen|Recipe Database|
 
 |User|
 start
+: Input search parameters;
+
 :Search recipe;
 
 |Recipe Management System|
 :Checks if there are recipes
 that match keywords;
 
-if (Matches found?) is (no) then
-:Prepare error message;
+while (Matches found?) is (no)
+:Lets user input new parameters;
 |User|
-:See that no recipes were
-found from search;
-stop
-else (yes)
-
-|Recipe Database|
-:Pulls matching recipes held in API;
+:Inputs new parameters;
+endwhile(yes)
 
 |Recipe Management System|
+
+:Pulls matching recipes held in database;
+
 :Gathers a list of recipes from API
 and internal list;
-:Apply __filter_recipe__ use case;
+:Execute __Filter Recipe__ use case;
 
 
 :Present list of recipes to user;
+:Execute __Manage Cookbook__;
 stop
 @enduml
 ```

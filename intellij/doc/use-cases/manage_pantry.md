@@ -29,26 +29,87 @@ Casual workflow for _manage_pantry_items_:
 
 skin rose
 
-title  Manage Pantry Items (casual level)
+title  Manage Pantry Items: UPLOAD (casual level)
 
 'define the lanes
 |#application|User|
 |#implementation|Recipe Management System|
 
-|User|
+|Recipe Management System|
 start
-:Views pantry;
-if (Selects one ingredient) is (Upload) then
+:Displays pantry;
+|User|
+:Searches for ingredient;
 |Recipe Management System|
-if (Check if the ingredient is in the pantry) is (yes) then
-:Update the quantity;
-else (no)
+while (There are ingredients match user's search) is (no) 
+|User|
+:Searches again;
+endwhile (yes);
+
+|Recipe Management System|
+:Shows ingredients that match search;
+
+|User|
+:Selects one ingredient;
+|Recipe Management System|
+
 :Store ingredient to pantry;
-endif
-else (Delete)
+
+|User|
+:See the changes in pantry;
+
+stop
+@enduml
+```
+
+```plantuml
+@startuml
+
+skin rose
+
+title  Manage Pantry Items: DELETE (casual level)
+
+'define the lanes
+|#application|User|
+|#implementation|Recipe Management System|
+
 |Recipe Management System|
-  :Delete ingredient;
-endif
+start
+:Displays pantry;
+|User|
+:Select ingredient from pantry;
+|Recipe Management System|
+
+:Remove ingredient from pantry;
+
+|User|
+:See the changes in pantry;
+
+stop
+@enduml
+```
+
+```plantuml
+@startuml
+
+skin rose
+
+title  Manage Pantry Items: EDIT (casual level)
+
+'define the lanes
+|#application|User|
+|#implementation|Recipe Management System|
+
+|Recipe Management System|
+start
+:Displays pantry;
+|User|
+:Selects ingredient from pantry to edit;
+:Updates quantity of ingredient;
+
+|Recipe Management System|
+
+:Stores new ingredient quantity to pantry;
 
 |User|
 :See the changes in pantry;

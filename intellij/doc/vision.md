@@ -50,6 +50,9 @@ package PantryPal {
     usecase "View Recipe" as view    
     usecase "Manage Grocery List" as managegl
     usecase "Manage Recipes" as manager
+    usecase "Save Recipe" as saver
+    usecase "Manage Cookbook" as cookbook
+    usecase "View Saved Recipes" as viewsr
     
 }
 
@@ -61,21 +64,25 @@ managepantry -down-> deletePantryItems: <<includes>>
 user --> manager
 manager --> searchRecipes: <<includes>>
 manager --> uploadPersonalRecipes: <<includes>>
+manager -> generateRecipeSuggestions <<extends>>
 
 searchRecipes -down-> filterRecipes: <<includes>>
-searchRecipes -down-> generateRecipeSuggestions: <<extends>>
 generateRecipeSuggestions -down-> view: <<extends>>
 generateRecipeSuggestions -down-> filterRecipes: <<extends>>
 filterRecipes -down-> view: <<includes>>
 
 user --> planWeeklyMeals
-planWeeklyMeals -right-> searchRecipes: <<includes>>
+planWeeklyMeals -down-> searchRecipes: <<includes>>
 
 searchRecipes --> view: <<includes>>
 view --> scaleIngredients: <<extends>>
 
 view --> generateGroceryList: <<extends>>
 generateGroceryList --> managegl: <<extends>>
+view --> cookbook: <<extends>>
+cookbook --> saver: <<includes>>
+cookbook --> viewsr: <<includes>>
+manager -down--> cookbook: <<includes>>
 
 
 @enduml
