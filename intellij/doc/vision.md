@@ -33,14 +33,9 @@ title High-Level Overview of Meal Planning Assistant App
 ' Human actor
 actor "User" as user
 
-' API actor
-actor "EDAMAM API (Recipe Database)" <<API>> as recipeDB
 
 ' List all use cases in package
 package PantryPal {
-' System actor
-    actor "Recipe Management System" <<system>> as recipeSystem
-    
     usecase "Manage Pantry" as managepantry
    
     usecase "Upload Pantry Items" as uploadPantryItems
@@ -52,7 +47,9 @@ package PantryPal {
     usecase "Generate Grocery List" as generateGroceryList
     usecase "Search Recipes" as searchRecipes
     usecase "Delete Pantry Items" as deletePantryItems
-    
+    usecase "View Recipe" as view    
+    usecase "Manage Grocery List" as managegl
+    usecase "Manage Recipes" as manager
     
 }
 
@@ -61,24 +58,24 @@ user --> managepantry
 managepantry -down-> uploadPantryItems: <<includes>>
 managepantry -down-> deletePantryItems: <<includes>>
 
-user --> searchRecipes
+user --> manager
+manager --> searchRecipes: <<includes>>
+manager --> uploadPersonalRecipes: <<includes>>
+
 searchRecipes -down-> filterRecipes: <<includes>>
 searchRecipes -down-> generateRecipeSuggestions: <<extends>>
-generateRecipeSuggestions -down-> generateGroceryList: <<extends>>
+generateRecipeSuggestions -down-> view: <<extends>>
 generateRecipeSuggestions -down-> filterRecipes: <<extends>>
-generateRecipeSuggestions -down-> scaleIngredients: <<includes>>
-filterRecipes -down-> scaleIngredients: <<includes>>
+filterRecipes -down-> view: <<includes>>
 
 user --> planWeeklyMeals
 planWeeklyMeals -right-> searchRecipes: <<includes>>
 
-user --> uploadPersonalRecipes
+searchRecipes --> view: <<includes>>
+view --> scaleIngredients: <<extends>>
 
-generateRecipeSuggestions <|-down- recipeSystem : <<extends>>
-searchRecipes <|-down- recipeDB : <<extends>>
-generateRecipeSuggestions <|-down- recipeDB : <<extends>>
-searchRecipes <|-down- recipeSystem : <<extends>>
-
+view --> generateGroceryList: <<extends>>
+generateGroceryList --> managegl: <<extends>>
 
 
 @enduml
