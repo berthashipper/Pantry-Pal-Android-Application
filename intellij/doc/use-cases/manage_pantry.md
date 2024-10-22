@@ -133,11 +133,11 @@ participant ": curPantry : Pantry" as pantry
 participant ": Ingredient" as ingr
 
 ui -> user : Display add/delete buttons
-user -> ui : Input ingredient name and quantity
+user -> ui : Input ingredient name
 user -> ui : Click "add ingredient"
-ui -> cont : addItem(name, quantity)
-cont -> pantry : addItem(name, quantity)
-pantry -> ingr **: ingr = create(name, quantity)
+ui -> cont : addItem(name)
+cont -> pantry : addItem(name)
+pantry -> ingr **: ingr = create(name)
 pantry -> cont : curPantry.list()
 cont -> ui : updateDisplay(pantry)
 ui -> user : show current pantry list
@@ -157,13 +157,36 @@ participant ": Controller"  as cont
 participant ": curPantry : Pantry" as pantry
 
 ui -> user : Display add/delete buttons
-user -> ui : Select existing ingredient name and quantity
+user -> ui : Select existing ingredient name
 user -> ui : Click "delete ingredient"
-ui -> cont : deleteItem(name, quantity)
-cont -> pantry : deleteItem(name, quantity)
+ui -> cont : deleteItem(name)
+cont -> pantry : deleteItem(name)
 pantry -> cont : curPantry.list()
 cont -> ui : updateDisplay(pantry)
 ui -> user : show current pantry list
+
+@enduml
+````
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller"  as cont
+participant ": curPantry : Pantry" as pantry
+
+ui -> user : Display edit buttons
+user -> ui : Select existing ingredient name
+user -> ui : Click edit button to change quantity
+ui -> cont : editItem(name, quantity)
+cont -> pantry : editItem(name, quantity)
+pantry -> cont : curPantry.ingredient()
+cont -> ui : updateDisplay(pantry)
+ui -> user : show updated ingredient information
 
 @enduml
 ````
