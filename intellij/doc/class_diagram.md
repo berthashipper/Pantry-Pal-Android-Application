@@ -7,11 +7,11 @@ hide empty methods
 ' classes
 
 class Pantry{
- Map<String,Ingredient> ingredientList
+ Map<String, Ingredient> ingredientList
  --
- public void addIngredient(String name)
- public void deleteIngredient(String name)
- public void editIngredient(String name, int quantity)
+ public void add_ingredient(String name)
+ public void delete_ingredient(String name)
+ public void edit_ingredient(String name, int quantity)
  public void viewPantry()
 }
 
@@ -32,7 +32,7 @@ class Ingredient{
  int quantity
  List dietary_tags
  __
- public void printIngredient()
+ public String toString()
 }
 
 

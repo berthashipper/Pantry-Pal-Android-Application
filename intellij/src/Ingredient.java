@@ -1,18 +1,21 @@
 public class Ingredient {
     String name;
     int quantity;
+    String unit;
 
     enum dietary_tags {
         vegan,
         kosher
     }
 
-    public Ingredient(String name, int quantity) {
+    public Ingredient(String name, int quantity, String unit) {
         this.name = name;
         this.quantity = quantity;
+        this.unit = unit;
     }
 
-    public void print_ingredient() {
-        System.out.println(name + "; " + quantity);
+    @Override
+    public String toString() {
+        return "Ingredient: " + name + ", Quantity: " + quantity + unit;
     }
 }
