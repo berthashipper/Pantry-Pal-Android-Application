@@ -32,7 +32,7 @@ class Ingredient{
  int quantity
  List dietary_tags
  __
- public String printIngredient()
+ public void printIngredient()
 }
 
 

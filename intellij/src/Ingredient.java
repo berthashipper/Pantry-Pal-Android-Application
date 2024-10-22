@@ -1,5 +1,3 @@
-import java.util.List;
-
 public class Ingredient {
     String name;
     int quantity;
@@ -9,14 +7,12 @@ public class Ingredient {
         kosher
     }
 
-    public Ingredient(String name, int quantity){
-        name = this.name;
-        quantity = this.quantity;
+    public Ingredient(String name, int quantity) {
+        this.name = name;
+        this.quantity = quantity;
     }
 
-    public String print_ingredient(){
-        return name + "; " + quantity;
+    public void print_ingredient() {
+        System.out.println(name + "; " + quantity);
     }
-
 }
-
