@@ -8,6 +8,10 @@ public class Main {
         Pantry pantry = new Pantry();
 
         // Adding ingredients with dietary tags
+        Ingredient bread = new Ingredient("White Bread", 2, "slices", EnumSet.of(Ingredient.dietary_tags.VEGAN, Ingredient.dietary_tags.VEGETARIAN));
+        Ingredient butter = new Ingredient("Butter", 1, "tablespoon", EnumSet.of(Ingredient.dietary_tags.VEGETARIAN));
+        Ingredient cheese = new Ingredient("Cheddar Cheese", 1, "slice", EnumSet.of(Ingredient.dietary_tags.VEGETARIAN));
+
         pantry.add_ingredient("Butter", 10, "tablespoons", EnumSet.of(Ingredient.dietary_tags.VEGETARIAN));
         pantry.add_ingredient("White Bread", 20, "slices", EnumSet.of(Ingredient.dietary_tags.VEGAN, Ingredient.dietary_tags.VEGETARIAN));
         pantry.add_ingredient("Mozzarella Cheese", 1, "pack",null);
@@ -39,11 +43,28 @@ public class Main {
         // Print the grocery list
         pantry.printGroceryList();
 
+
         System.out.println("\n");
         //______________________________________________________________________________
-        Recipe.createTestGrilledCheeseRecipe().printRecipeDetails();
 
+        // Use the RecipeBuilder to create a test recipe
+        Recipe grilledCheese = new RecipeBuilder()
+                .setName("Grilled Cheese Sandwich")
+                .addIngredient(bread)
+                .addIngredient(butter)
+                .addIngredient(cheese)
+                .addInstruction("Heat a skillet over medium heat.")
+                .addInstruction("Butter 2 slices of bread and place 1 slice in the skillet, butter side down.")
+                .addInstruction("Add 1 slice of cheddar cheese, then top with the second slice of bread, butter side up.")
+                .addInstruction("Cook until golden brown and flip to cook the other side.")
+                .addTag(Ingredient.dietary_tags.VEGETARIAN)
+                .setDescription("A classic grilled cheese sandwich with crispy golden bread and melted cheddar cheese.")
+                .setCookTime(LocalTime.of(0, 10))
+                .setServingSize(1)
+                .build();
 
+        // Print the recipe details
+        grilledCheese.printRecipeDetails();
 
     }
 }
