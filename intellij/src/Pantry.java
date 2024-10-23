@@ -7,12 +7,19 @@ import java.util.EnumSet;
 public class Pantry {
     public Map<String, Ingredient> ingredientList = new HashMap<>();
 
-    // Method to add ingredient to pantry
+    // Method to add an existing Ingredient object to the pantry
+    public void add_ingredient(Ingredient ingredient) {
+        ingredientList.put(ingredient.name, ingredient);
+        System.out.println("Added " + ingredient.name + " to pantry.");
+    }
+
+    // Overloaded method to create AND add an Ingredient
     public void add_ingredient(String name, int quantity, String unit, Set<Ingredient.dietary_tags> tags) {
         if (tags == null) {
             tags = new HashSet<>();  // Initialize an empty set if no tags are provided
         }
-        ingredientList.put(name, new Ingredient(name, quantity, unit, tags));
+        Ingredient ingredient = new Ingredient(name, quantity, unit, tags);
+        ingredientList.put(name, ingredient);
         System.out.println("Added " + name + " to pantry.");
     }
 
@@ -74,7 +81,7 @@ public class Pantry {
         Ingredient ingredient = ingredientList.get(name);
         if (ingredient != null) {
             groceryList.put(ingredient, quantity);
-            System.out.println("Added " + quantity + " of " + ingredient.name + " to the grocery list.");
+            System.out.println("Added " + quantity + " " + ingredient.unit + " of "  + ingredient.name + " to the grocery list.");
         } else {
             System.out.println("Ingredient " + name + " not found in pantry.");
         }

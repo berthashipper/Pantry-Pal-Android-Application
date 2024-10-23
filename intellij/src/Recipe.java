@@ -25,14 +25,6 @@ public class Recipe {
         this.servingSize = servingSize;
     }
 
-    // Method to add ingredients to a recipe
-    public void addIngredient(Ingredient ingredient) {
-        if (ingredientsInRecipe == null) {
-            ingredientsInRecipe = new HashSet<>();
-        }
-        ingredientsInRecipe.add(ingredient);
-    }
-
     // Method to print recipe details
     public void printRecipeDetails() {
         System.out.println("Recipe: " + recipeName);

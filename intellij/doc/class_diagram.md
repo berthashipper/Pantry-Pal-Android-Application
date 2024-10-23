@@ -38,7 +38,6 @@ class Recipe{
  LocalTime cookTime
  int servingSize
  --
- public void addIngredient(Ingredient ingredient)
  public void printRecipeDetails()
 }
 
