@@ -1,15 +1,17 @@
+import java.time.LocalTime;
 import java.util.EnumSet;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
         Pantry pantry = new Pantry();
 
         // Adding ingredients with dietary tags
-        pantry.add_ingredient("apple", 10, "pieces", EnumSet.of(Ingredient.dietary_tags.VEGAN, Ingredient.dietary_tags.KOSHER));
-        pantry.add_ingredient("banana", 5, "pieces", EnumSet.of(Ingredient.dietary_tags.VEGAN));
-        pantry.add_ingredient("bread", 2, "loaves", EnumSet.of(Ingredient.dietary_tags.GLUTEN_FREE, Ingredient.dietary_tags.VEGAN));
-        pantry.add_ingredient("mozzarella cheese", 1, "pack",null);
-        pantry.add_ingredient("cheddar cheese", 11, "slices", null);
+        pantry.add_ingredient("Butter", 10, "tablespoons", EnumSet.of(Ingredient.dietary_tags.VEGETARIAN));
+        pantry.add_ingredient("White Bread", 20, "slices", EnumSet.of(Ingredient.dietary_tags.VEGAN, Ingredient.dietary_tags.VEGETARIAN));
+        pantry.add_ingredient("Mozzarella Cheese", 1, "pack",null);
+        pantry.add_ingredient("Cheddar Cheese", 11, "slices", null);
 
         System.out.println(pantry);
 
@@ -20,8 +22,8 @@ public class Main {
         }
 
         // Searching for an ingredient in pantry
-        System.out.println("Searching for 'banana':");
-        pantry.searchIngredient("banana");
+        System.out.println("Searching for 'Butter':");
+        pantry.searchIngredient("Butter");
 
         // Searching for ingredients with 'cheese' in the name
         System.out.println("Searching for 'cheese':");
@@ -32,9 +34,16 @@ public class Main {
         pantry.searchIngredient("milk");
 
         // Adding ingredient to the grocery list for refill (from pantry)
-        pantry.addToGroceryList("bread", 4);
+        pantry.addToGroceryList("White Bread", 10);
 
         // Print the grocery list
         pantry.printGroceryList();
+
+        System.out.println("\n");
+        //______________________________________________________________________________
+        Recipe.createTestGrilledCheeseRecipe().printRecipeDetails();
+
+
+
     }
 }

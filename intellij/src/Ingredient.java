@@ -13,7 +13,8 @@ public class Ingredient {
         KOSHER,
         GLUTEN_FREE,
         HALAL,
-        NUT_FREE
+        NUT_FREE,
+        VEGETARIAN
     }
 
     // Constructor
