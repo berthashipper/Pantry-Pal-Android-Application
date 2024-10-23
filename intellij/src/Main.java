@@ -19,7 +19,7 @@ public class Main {
             System.out.println(ingredient);
         }
 
-        // Searching for ingredients in pantry
+        // Searching for an ingredient in pantry
         System.out.println("Searching for 'banana':");
         pantry.searchIngredient("banana");
 
@@ -30,5 +30,11 @@ public class Main {
         // Searching for 'milk' (should return nothing)
         System.out.println("Searching for 'milk':");
         pantry.searchIngredient("milk");
+
+        // Adding ingredient to the grocery list for refill (from pantry)
+        pantry.addToGroceryList("bread", 4);
+
+        // Print the grocery list
+        pantry.printGroceryList();
     }
 }

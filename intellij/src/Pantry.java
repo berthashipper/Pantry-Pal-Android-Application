@@ -5,7 +5,7 @@ import java.util.Set;
 import java.util.EnumSet;
 
 public class Pantry {
-    Map<String, Ingredient> ingredientList = new HashMap<>();
+    public Map<String, Ingredient> ingredientList = new HashMap<>();
 
     // Method to add ingredient to pantry
     public void add_ingredient(String name, int quantity, String unit, Set<Ingredient.dietary_tags> tags) {
@@ -19,15 +19,23 @@ public class Pantry {
     // Method to delete ingredient from pantry
     public void delete_ingredient(String name) {
         Ingredient ing = ingredientList.get(name);
-        ingredientList.remove(name);
-        System.out.println("Deleted " + ing.name + " from pantry.");
+        if (ing != null) {
+            ingredientList.remove(name);
+            System.out.println("Deleted " + ing.name + " from pantry.");
+        } else {
+            System.out.println("Ingredient " + name + " not found in pantry.");
+        }
     }
 
     // Method to edit quantity of ingredient in pantry
     public void edit_ingredient(String name, int quantity) {
         Ingredient ing = ingredientList.get(name);
-        ing.quantity = quantity;
-        System.out.println("You now have " + ing.quantity + " " + ing.unit + " of " + ing.name + " in pantry.");
+        if (ing != null) {
+            ing.quantity = quantity;
+            System.out.println("You now have " + ing.quantity + " " + ing.unit + " of " + ing.name + " in pantry.");
+        } else {
+            System.out.println("Ingredient " + name + " not found in pantry.");
+        }
     }
 
     // Method to filter ingredients by dietary tag
@@ -57,6 +65,35 @@ public class Pantry {
             }
         }
     }
+
+    // Temporary grocery list since that use case hasn't been implemented yet
+    Map<Ingredient, Integer> groceryList = new HashMap<>();
+
+    // Method to add ingredient to grocery list
+    public void addToGroceryList(String name, int quantity) {
+        Ingredient ingredient = ingredientList.get(name);
+        if (ingredient != null) {
+            groceryList.put(ingredient, quantity);
+            System.out.println("Added " + quantity + " of " + ingredient.name + " to the grocery list.");
+        } else {
+            System.out.println("Ingredient " + name + " not found in pantry.");
+        }
+    }
+
+    // Method to print grocery list
+    public void printGroceryList() {
+        if (groceryList.isEmpty()) {
+            System.out.println("Grocery list is empty.");
+        } else {
+            System.out.println("Grocery List:");
+            for (Map.Entry<Ingredient, Integer> entry : groceryList.entrySet()) {
+                Ingredient ing = entry.getKey();
+                int qty = entry.getValue();
+                System.out.println(ing.name + ": " + qty + " " + ing.unit);
+            }
+        }
+    }
+
 
     // toString method to print pantry contents
     @Override
