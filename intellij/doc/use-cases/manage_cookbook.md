@@ -52,7 +52,6 @@ if (Save Recipe)
 :Save to cookbook;
 stop
 
-
 elseif (Upload Recipe)
 :Prompt for recipe details;
 |User|
