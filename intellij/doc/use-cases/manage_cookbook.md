@@ -1,8 +1,8 @@
 # Manage Cookbook
 
 ## 1. Primary actor and goals
-* __User__: wants to create, edit, delete, and view recipes in their cookbook.
-* __Recipe Management System__: provides functionalities for users to manage their recipes effectively, including adding new recipes, editing existing ones, and deleting recipes they no longer need.
+* __User__: wants to save recipes to cookbook and view recipes in their cookbook.
+* __Recipe Management System__: provides functionalities for users to manage their recipes effectively, including saving new recipe and viewing full list.
 
 
 ## 2. Other stakeholders and their goals
@@ -18,7 +18,7 @@
 
 ## 4. Postconditions
 
-* The user successfully adds, edits, or deletes recipes from their cookbook.
+* The user successfully adds recipes to their cookbook and can view all of them.
 * The updated list of recipes is displayed to the user after any modifications.
 
 
@@ -52,18 +52,10 @@ if (Save Recipe)
 :Save to cookbook;
 stop
 
-elseif (Upload Recipe)
-:Prompt for recipe details;
-|User|
-:Input recipe information;
-:Save recipe to cookbook;
-stop
-
 elseif (View Recipes)
 |Recipe Management System|
 :Display list of recipes in the cookbook;
 stop
-
 
 else
 stop
