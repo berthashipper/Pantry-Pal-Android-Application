@@ -6,7 +6,7 @@ Factors in assessing use case priority:
 
 ## Rank
 ### High
-* **Manage ingredients**
+* **Manage pantry**
   * Software relies on the fact that ingredients can be uploaded, processed, and stored
   * This will be the starting point for the app and user interface
 * **Generate recipes**

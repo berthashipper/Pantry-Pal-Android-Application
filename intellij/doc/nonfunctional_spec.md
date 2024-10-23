@@ -1,15 +1,13 @@
 # Non-Functional Specifications:
 ## FURPS+ model:
 * __Functional__:
-  * The system must allow user to modify their pantry (upload/delete ingredients).
-  * Must process and store ingredients.
-  * Must hold a database of recipes from both the internet and upload by user.
-  * Must be able to identify ingredients in recipes and further filter recipes by other restrictions.
-
+  * Sensitive user data is encrypted
+  * User can be authenticated/logged in
+  
 
 * __Usability__:
   * Should be easy and intuitive to use, as the application is designed to simplify and help manage cooking processes, not make them more complicated.
-  * Text should be visible from 1 meter if a screen.
+  * Text should be visible from 1 foot (typical smartphone from face length).
   * Colors associated with common forms of color blindness should be avoided.
 
 

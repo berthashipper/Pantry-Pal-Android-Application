@@ -1,14 +1,13 @@
 # Generate Recipe Suggestions
 
 ## 1. Primary actor and goals
-* __User__: wants to receive accurate and appealing recipe suggestions that aligns with their specifications and ingredients.
-* __Recipe Database__: should be holding a comprehensive list of recipes.
-* __Recipe Management System__:  filters through the recipe database based on the ingredients the system has stored and presents fitting ones to the user.
+* __User__: wants to receive accurate and appealing recipe suggestions that align with their specifications (e.g., type of dish, dietary preferences) and the ingredients available.
+* __Recipe Management System__:  filters through the recipe database based on the ingredients stored and user specifications, presenting fitting recipes to the user.
 
 
 ## 2. Other stakeholders and their goals
 
-* __User__: Wants the recipe system and database to interact efficiently so that they get their recipe suggestions in a timely manner.
+* __User__: wants the recipe system and database to interact efficiently to receive timely and relevant recipe suggestions based on their input.
 
 
 
@@ -20,7 +19,8 @@
 ## 4. Postconditions
 
 * Ingredients are identified and matched to all recipes in the database.
-* The recipe management system has filtered the recipes based on additional filters supplied by user. 
+* The recipe management system has filtered recipes based on additional filters supplied by the user (e.g., recipe type, dietary preferences).
+
 
 
 ## 5. Workflow
@@ -37,22 +37,21 @@ title Generate & filter recipe (fully-dressed level)
 'define the lanes
 |#application|User|
 |#implementation|Recipe Management System|
-|#lightgreen|Recipe Database|
 
 |User|
 start
-:Ask for recipe suggestions;
+:Request recipe suggestions;
+:Provide specifications (e.g., type of dish, dietary tags);
 
 |Recipe Management System|
 :Evaluates ingredients in pantry;
-:Pulls recipes from API;
+:Pulls recipes from database;
 
 |Recipe Management System|
-
-:Evaluates list of ingredients on each
-recipe;
-:Produces a final compilation of recipes
-that satisfy the given ingredients;
+:Evaluate specifications against each recipe;
+:Filter recipes based on user specifications;
+:Produce a final compilation of recipes
+that satisfy the given ingredients and preferences;
 :Present list of recipes to user;
 
 stop
@@ -73,11 +72,13 @@ participant ": RecipeDatabase" as recd
 
 ui -> user : Display generate recipe button
 user -> ui : Click "get recipe suggestions"
-ui -> cont : getRecipes()
+ui -> user : Prompt for recipe type and dietary preferences
+user -> ui : Provide preferences
+ui -> cont : getRecipes(preferences)
 [o-> cont : getPantry()
 
 participant "getRecipeList[i] : RecipeList" as rec
-cont -> recd : getRecipeList()
+cont -> recd : getRecipeList(preferences)
 loop i in 0..recipeList.size-1
 recd -> rec : recipe = getRecipeList[i].getRecipeInfo()
 end
