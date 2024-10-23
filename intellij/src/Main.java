@@ -19,6 +19,9 @@ public class Main {
         pantry.add_ingredient("Mozzarella Cheese", 1, "pack", EnumSet.of(Ingredient.dietary_tags.VEGETARIAN, Ingredient.dietary_tags.NUT_FREE));
         pantry.add_ingredient("Apple", 3, "apples", EnumSet.of(Ingredient.dietary_tags.VEGAN, Ingredient.dietary_tags.VEGETARIAN, Ingredient.dietary_tags.NUT_FREE));
 
+        // Deleting ingredients to pantry
+        pantry.delete_ingredient("Apple");
+
         System.out.println("\n");
         //______________________________________________________________________
 
