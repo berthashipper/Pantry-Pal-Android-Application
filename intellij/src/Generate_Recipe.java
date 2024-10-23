@@ -17,14 +17,20 @@ public class Generate_Recipe {
         Set<String> recipeIngredients = new HashSet<String>();
         Set<Recipe> matchedRecipe = new HashSet<>();
         for (Recipe recipe : recipes) { //iterating through all the recipe
-            Set<Ingredient> ingredientsInRecipe = recipe.ingredientsInRecipe; //the ingredients in each recipe
+            Set<Ingredient> ingredientsInRecipe = recipe.ingredientsInRecipe;//the ingredients in each recipe
             for (Ingredient ingredient : ingredientsInRecipe) {
                 recipeIngredients.add(ingredient.name); //get names of each ingredient in the current recipe
             }
-            if (ingredientsInPantry.containsAll(recipeIngredients)) {
-                matchedRecipe.add(recipe);
+            if (ingredientsInPantry.containsAll(recipeIngredients)) { //checks if the user has all the ingredients
+                for (String ingredientr :  recipeIngredients) {
+                    Ingredient count = pantry.ingredientList.get(ingredientr); //get the quantity of the ingredient in the pantry
+                    for (Ingredient ingredient : ingredientsInRecipe) {
+                        if (count.quantity >= ingredient.quantity) { //compare the quantity between the recipe and pantry
+                            matchedRecipe.add(recipe); //if it is higher, then add the recipe to the matched list
+                        }
+                    }
+                }
             }
-
         }
         return matchedRecipe;
     }
