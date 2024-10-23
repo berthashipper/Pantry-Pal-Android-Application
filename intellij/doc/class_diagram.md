@@ -6,13 +6,24 @@ skin rose
 hide empty methods
 ' classes
 
+class Ingredient{
+ String name
+ int quantity
+ String unit
+ Set<dietary_tags> tags
+ __
+ public String toString()
+}
+
 class Pantry{
  Map<String, Ingredient> ingredientList
  --
- public void add_ingredient(String name)
+ public void add_ingredient(String name, int quantity, String unit, Set<Ingredient.dietary_tags> tags)
  public void delete_ingredient(String name)
  public void edit_ingredient(String name, int quantity)
- public void viewPantry()
+ public void searchIngredient(String name)
+ public List<Ingredient> filter_ingredients_by_tag(Ingredient.dietary_tags tag)
+ public String toString()
 }
 
 class Recipe{
@@ -26,15 +37,6 @@ class RecipeDescription{
  serving size
  dietary tags
 }
-
-class Ingredient{
- String name
- int quantity
- List dietary_tags
- __
- public String toString()
-}
-
 
 class Application{
 

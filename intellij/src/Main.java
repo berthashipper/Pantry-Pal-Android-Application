@@ -1,23 +1,34 @@
-public class Main{
+import java.util.EnumSet;
 
+public class Main {
     public static void main(String[] args) {
-        Ingredient banana = new Ingredient("banana", 3, "unit");
-        Ingredient salt = new Ingredient("salt", 100, "grams");
-
-        System.out.println(banana);
-
         Pantry pantry = new Pantry();
-        pantry.add_ingredient("apple");
-        pantry.delete_ingredient("apple");
 
-        pantry.add_ingredient("banana");
-        pantry.edit_ingredient("banana", 4);
-        pantry.edit_ingredient("banana", 9);
-
-        pantry.add_ingredient("salt");
-        pantry.edit_ingredient("salt", 200);
-        pantry.add_ingredient("sugar");
+        // Adding ingredients with dietary tags
+        pantry.add_ingredient("apple", 10, "pieces", EnumSet.of(Ingredient.dietary_tags.VEGAN, Ingredient.dietary_tags.KOSHER));
+        pantry.add_ingredient("banana", 5, "pieces", EnumSet.of(Ingredient.dietary_tags.VEGAN));
+        pantry.add_ingredient("bread", 2, "loaves", EnumSet.of(Ingredient.dietary_tags.GLUTEN_FREE, Ingredient.dietary_tags.VEGAN));
+        pantry.add_ingredient("mozzarella cheese", 1, "pack",null);
+        pantry.add_ingredient("cheddar cheese", 11, "slices", null);
 
         System.out.println(pantry);
+
+        // Filtering by dietary tag
+        System.out.println("Filtered Ingredients (Vegan): ");
+        for (Ingredient ingredient : pantry.filter_ingredients_by_tag(Ingredient.dietary_tags.VEGAN)) {
+            System.out.println(ingredient);
+        }
+
+        // Searching for ingredients in pantry
+        System.out.println("Searching for 'banana':");
+        pantry.searchIngredient("banana");
+
+        // Searching for ingredients with 'cheese' in the name
+        System.out.println("Searching for 'cheese':");
+        pantry.searchIngredient("cheese");
+
+        // Searching for 'milk' (should return nothing)
+        System.out.println("Searching for 'milk':");
+        pantry.searchIngredient("milk");
     }
 }

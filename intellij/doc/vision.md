@@ -53,6 +53,7 @@ package PantryPal {
     usecase "Save Recipe" as saver
     usecase "Manage Cookbook" as cookbook
     usecase "View Saved Recipes" as viewsr
+    usecase "Search Ingredient" as searching
     
 }
 
@@ -83,6 +84,7 @@ view --> cookbook: <<extends>>
 cookbook --> saver: <<includes>>
 cookbook --> viewsr: <<includes>>
 manager -down--> cookbook: <<includes>>
+managepantry --> searching: <<includes>>
 
 
 @enduml
