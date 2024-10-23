@@ -1,15 +1,13 @@
 # Upload Personal Recipe
 
 ## 1. Primary actor and goals
-* __User__: wants to upload all the new personal recipe.
-* __Recipe Management System__: wants to understand each ingredient in the new uploaded recipe and store new ingredients and recipe to be accessed by the Recipe Database.
+* __User__: wants to upload a complete personal recipe, including ingredients and preparation steps.
+* __Recipe Management System__: wants to understand each ingredient in the new uploaded recipe and store both the new ingredients and recipe for access by the Recipe Database.
 
 
 ## 2. Other stakeholders and their goals
 
-* __Recipe Database__: Wants to understand and process the recipe.
-
-
+* __Recipe Database__: wants to understand and process the newly uploaded recipe for future retrieval and display.
 
 ## 3. Preconditions
 
@@ -18,7 +16,7 @@
 
 ## 4. Postconditions
 
-* Recipe is successfully saved into the Recipe Database.
+* Recipe is successfully saved into a Recipe Database.
 
 
 ## 5. Workflow
@@ -38,17 +36,31 @@ title Upload Personal Recipe (casual level)
 
 |User|
 start
-:Enters personal recipe;
+:Enters personal recipe name;
+:Enters ingredients for the recipe;
 
 |Recipe Management System|
 :Analyze ingredients in the recipe;
 
 while (Are ingredients valid?) is (no)
   |User|
-  :Error message, prompts user tore-enter or modify
+  :Error message, prompts user to re-enter or modify
   invalid ingredients;
   :Modifies/re-enters ingredients;  
 endwhile(yes) 
+
+|User|
+:Enters preparation steps;
+
+|Recipe Management System|
+:Analyze preparation steps;
+
+while (Are preparation steps valid?) is (no)
+  |User|
+  :Error message, prompts user to re-enter or modify
+  invalid preparation steps;
+  :Modifies/re-enters preparation steps;  
+endwhile(yes)
   
 
 |Recipe Management System|
