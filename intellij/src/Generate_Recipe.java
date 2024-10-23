@@ -5,5 +5,4 @@ public class Generate_Recipe {
     Set<Recipe> allRecipes;
 
 
-
 }

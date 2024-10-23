@@ -44,6 +44,7 @@ public class Main {
         pantry.printGroceryList();
 
 
+
         System.out.println("\n");
         //______________________________________________________________________________
 
@@ -65,6 +66,5 @@ public class Main {
 
         // Print the recipe details
         grilledCheese.printRecipeDetails();
-
     }
 }
