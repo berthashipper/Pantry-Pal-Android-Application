@@ -4,7 +4,6 @@
 ## 1. Primary actor and goals
 * __User__: want to plan their weekly meals by adding recipes they can make to list.
 * __Recipe Management System__: wants to understand the recipes and pull from the Recipe Database.
-* __Recipe Database__: should be holding a comprehensive list of recipes.
 
 
 ## 2. Other stakeholders and their goals
@@ -37,7 +36,6 @@ title Plan Weekly Meals (casual level)
 'define the lanes
 |#application|User|
 |#implementation|Recipe Management System|
-|#lightgreen|Recipe Database|
 
 |User|
 start
