@@ -30,7 +30,7 @@
 * __Implementation__:
   * Software must run on Android devices.
   * Software must be written using Java 
-  * English is the only lanugage the app can understand as of now.
+  * English is the only language the app can understand as of now.
 
 
 * __External interfaces__:

@@ -50,7 +50,7 @@ endwhile (yes);
 :Shows ingredients that match search;
 
 |User|
-:Selects one ingredient;
+:Selects one ingredient to add to pantry;
 |Recipe Management System|
 
 :Store ingredient to pantry;

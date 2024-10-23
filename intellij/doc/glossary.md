@@ -8,3 +8,6 @@
 
 
 * __Pantry__: The active list of all ingredients user has in real ife.
+
+
+* __Recipe__: A list of ingredients, instructions, and steps to follow to cook/bake something. The user can upload a recipe or see preloaded recipes based on ingredients they have inttheir pantry.
