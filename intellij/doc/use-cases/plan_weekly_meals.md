@@ -2,8 +2,8 @@
 # Plan Weekly Meals
 
 ## 1. Primary actor and goals
-* __User__: want to plan their weekly meals by adding recipes they can make to list.
-* __Recipe Management System__: wants to understand the recipes and pull from the Recipe Database.
+* __User__: wants to plan their weekly meals by selecting and organizing recipes from a saved list.
+* __Recipe Management System__: wants to process the user's selections, pull recipes, and create an accessible list
 
 
 ## 2. Other stakeholders and their goals
@@ -14,12 +14,13 @@
 
 ## 3. Preconditions
 
-* The user choose recipes.
-* The system is ready to process and understand the recipes and form the list.
+* The user has access to a list of saved recipes.
+* The system is ready to process and understand the user's selections.
 
 ## 4. Postconditions
 
-* Recipe System processes the list and show it to the user.
+* The Recipe Management System processes the selected recipes and displays a structured weekly meal plan to the user.
+
 
 
 ## 5. Workflow
@@ -39,22 +40,22 @@ title Plan Weekly Meals (casual level)
 
 |User|
 start
-:__Searches recipes__;
-:Chooses recipes to make for the week;
+:__View saved recipes__;
+:Selects recipes for the week;
 
 |Recipe Management System|
-:Pulls the recipes;
-:Store recipes to list;
+:Stores selected recipes in the meal plan;
 while (More recipes?) is (yes)
    |User|
   :Choose another recipe;
   |Recipe Management System|
-:Store Recipe to list;
+:Store recipe to meal plan;
 endwhile (no)
 
 |Recipe Management System|
-:Present the final weekly meals;
-:Give user option to enact __generate grocery list__ use case;
+:Present the final weekly meal plan;
+:Provide option to execute __generate grocery list__
+using ingredients from recipes;
 
 stop
 @enduml
