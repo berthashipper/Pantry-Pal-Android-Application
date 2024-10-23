@@ -39,8 +39,13 @@ title  Manage Pantry Items: UPLOAD (casual level)
 start
 :Displays pantry;
 |User|
+:Select "add ingredient";
+|Recipe Management System|
+:Prompts user to search for ingredient in preloaded list;
+|User|
 :Searches for ingredient;
 |Recipe Management System|
+
 while (There are ingredients match user's search) is (no) 
 |User|
 :Searches again;
@@ -56,7 +61,7 @@ endwhile (yes);
 :Store ingredient to pantry;
 
 |User|
-:See the changes in pantry;
+:Sees updated pantry;
 
 stop
 @enduml
@@ -113,6 +118,32 @@ start
 
 |User|
 :See the changes in pantry;
+
+stop
+@enduml
+```
+
+```plantuml
+@startuml
+
+skin rose
+
+title Manage Pantry Items: ADD TO GROCERY LIST (casual level)
+
+'define the lanes
+|#application|User|
+|#implementation|Recipe Management System|
+
+|Recipe Management System|
+start
+:Displays pantry;
+|User|
+:Selects ingredient from pantry to add to grocery list;
+|Recipe Management System|
+:Stores selected ingredient in grocery list;
+
+|User|
+:Sees confirmation that ingredient is added to grocery list;
 
 stop
 @enduml
@@ -187,6 +218,31 @@ cont -> pantry : editItem(name, quantity)
 pantry -> cont : curPantry.ingredient()
 cont -> ui : updateDisplay(pantry)
 ui -> user : show updated ingredient information
+
+@enduml
+````
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller" as cont
+participant ": curPantry : Pantry" as pantry
+participant ": Grocery List" as grocery
+
+ui -> user : Display pantry items
+user -> ui : Select ingredient to add
+ui -> cont : addToGroceryList(name)
+cont -> pantry : getIngredientDetails(name)
+pantry -> cont : ingredientDetails
+cont -> grocery : addItem(ingredientDetails)
+grocery -> cont : confirmation
+cont -> ui : updateDisplay(groceryList)
+ui -> user : Show updated grocery list
 
 @enduml
 ````

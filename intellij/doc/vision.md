@@ -54,6 +54,7 @@ package PantryPal {
     usecase "Manage Cookbook" as cookbook
     usecase "View Saved Recipes" as viewsr
     usecase "Search Ingredient" as searching
+    usecase "Add ingredient to grocery list" as addingr
     
 }
 
@@ -85,6 +86,8 @@ cookbook --> saver: <<includes>>
 cookbook --> viewsr: <<includes>>
 manager -down--> cookbook: <<includes>>
 managepantry --> searching: <<includes>>
+managepantry --> addingr: <<includes>>
+addingr -left-> generateGroceryList: <<extends>>
 
 
 @enduml
