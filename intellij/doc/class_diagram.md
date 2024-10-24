@@ -12,6 +12,9 @@ class Ingredient{
  String unit
  Set<dietary_tags> tags
  __
+ public Ingredient(String name, int quantity, String unit, Set<dietary_tags> tags)
+ public void updateQuantity(int newQuantity)
+ public String getName()
  public String toString()
 }
 
