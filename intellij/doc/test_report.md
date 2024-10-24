@@ -113,8 +113,34 @@ Summarizes the testing performed on the prototype, focusing on the Pantry and Re
 
 **Output:**
 - Printed recipe details for `Grilled Cheese Sandwich`:
-- SCREENSHOT
 
+`Recipe: Grilled Cheese Sandwich`
+
+  `Description: A classic grilled cheese sandwich with crispy golden bread and melted cheddar cheese.`
+  
+  `Cook Time: 00:10 minutes`
+  
+  `Serves: 1`
+
+
+  `Ingredients:`
+
+  `- 1 slice of Cheddar Cheese`
+
+  `- 1 tablespoons of Butter`
+
+  `- 2 slices of White Bread`
+
+  `Instructions:`
+  
+  `1. Heat a skillet over medium heat.`
+
+  `2. Butter 2 slices of bread and place 1 slice in the skillet, butter side down.`
+
+  `3. Add 1 slice of cheddar cheese, then top with the second slice of bread, butter side up.`
+
+  `4. Cook until golden brown and flip to cook the other side.`
+`
 ### 12. Generate Recipes Based on Pantry
 **Input:** Generate recipes using `Generate_Recipe` with current pantry contents.
 
@@ -122,6 +148,7 @@ Summarizes the testing performed on the prototype, focusing on the Pantry and Re
 
 **Output:**
 - `Matched Recipes:`
+
   `1. Grilled Cheese Sandwich`
 
 
