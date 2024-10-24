@@ -79,10 +79,10 @@ class Generate_Recipe{
 
 ' associations
 User "1" -up- "1" Pantry : \tIs-managed-by\t\t
-Pantry "1" -up- "*" Ingredient : \tContained-in\t\t
-User "1" -left- "1..*" Recipe : \tIs-shown-to\t\t
-Recipe "1..*" -up "1..*" RecipeBuilder : \tConstructs\t\t
-Generate_Recipe "*" -left "*" Recipe : \tIs-suggested-by\t\t
+Pantry "1" -left- "*" Ingredient : \tContained-in\t\t
+User "1" -down- "1..*" Recipe : \tIs-shown\t\t
+RecipeBuilder "1..*" -down "1..*" Recipe : \tConstructs\t\t
+Generate_Recipe "1" -left "*" Recipe : \tIs-suggested-by\t\t
 
 @enduml
 
