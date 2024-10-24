@@ -6,6 +6,8 @@ import java.util.EnumSet;
 
 public class Pantry {
     public Map<String, Ingredient> ingredientList = new HashMap<>();
+    // Temporary grocery list since that use case hasn't been implemented yet
+    Map<Ingredient, Integer> groceryList = new HashMap<>();
 
     // Method to add an existing Ingredient object to the pantry
     public void add_ingredient(Ingredient ingredient) {
@@ -45,7 +47,6 @@ public class Pantry {
         }
     }
 
-
     // Method to filter ingredients by dietary tag
     public List<Ingredient> filter_ingredients_by_tag(Ingredient.dietary_tags tag) {
         List<Ingredient> filteredList = new ArrayList<>();
@@ -74,15 +75,12 @@ public class Pantry {
         }
     }
 
-    // Temporary grocery list since that use case hasn't been implemented yet
-    Map<Ingredient, Integer> groceryList = new HashMap<>();
-
     // Method to add ingredient to grocery list
     public void addToGroceryList(String name, int quantity) {
-        Ingredient ingredient = ingredientList.get(name);
+        Ingredient ingredient = ingredientList.get(name.toLowerCase()); // Use lowercase for consistency
         if (ingredient != null) {
             groceryList.put(ingredient, quantity);
-            System.out.println("Added " + quantity + " " + ingredient.unit + " of "  + ingredient.name + " to the grocery list.");
+            System.out.println("Added " + quantity + " " + ingredient.unit + " of " + ingredient.name + " to the grocery list.");
         } else {
             System.out.println("Ingredient " + name + " not found in pantry.");
         }
