@@ -43,7 +43,7 @@ Added Apple to pantry.
 
 
 ### 4. Display Pantry Contents
-**Input:** Call `System.out.println(pantry);`
+**Input:** Call `System.out.println(pantry);` to display pantry
 
 **Expectation:** The pantry displays all ingredients with correct quantities and tags after edits.
 
@@ -57,7 +57,7 @@ White Bread: 2 slices, Tags: [VEGAN, VEGETARIAN]
 ```
 
 ### 5. Filter Ingredients by Dietary Tag
-**Input:** Filter by `NUT_FREE`: `pantry.printIngredientsByTag(Ingredient.dietary_tags.NUT_FREE);`
+**Input:** Filter ingredients in the pantry by `NUT_FREE`: `pantry.printIngredientsByTag(Ingredient.dietary_tags.NUT_FREE);`
 
 **Expectation:** Only nut-free ingredients are displayed.
 
@@ -78,7 +78,7 @@ Ingredient: Cheddar Cheese, Quantity: 1 slice, Tags: [NUT_FREE, VEGETARIAN]
 -  `Ingredient: Butter, Quantity: 1 tablespoons, Tags: [NUT_FREE, VEGETARIAN]`
 
 ### 7. Search for Ingredients with Substring
-**Input:** Search for "cheese": `pantry.searchIngredient("cheese");`
+**Input:** Search for all ingredients with the word "cheese": `pantry.searchIngredient("cheese");`
 
 **Expectation:** All ingredients containing "cheese" are returned.
 
@@ -105,7 +105,7 @@ Ingredient: Cheddar Cheese, Quantity: 1 slice, Tags: [NUT_FREE, VEGETARIAN]
 - `Added 10 slices of White Bread to the grocery list.`
 
 ### 10. View Grocery List
-**Input:** Call `pantry.printGroceryList();`
+**Input:** Call `pantry.printGroceryList();` to display grocery list
 
 **Expectation:** The grocery list displays all added ingredients.
 
@@ -144,7 +144,7 @@ Instructions:
 ```
 
 ### 12. Generate Recipes Based on Pantry
-**Input:** Generate recipes using `Generate_Recipe` with current pantry contents:
+**Input:** Generate recipes using `Generate_Recipe` with current pantry contents and the set of all recipes which contains grilled cheese and stiry fry.
 
 ```
 Set<Recipe> allRecipes = Set.of(grilledCheese, vegetableStirFry);

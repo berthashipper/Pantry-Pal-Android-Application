@@ -1,4 +1,4 @@
-# Iteration #2 Planning
+# Iteration Planning
 Factors in assessing use case priority:
 * **Criticality**: how much business value the functionality brings to the client
 * **Risk**: technical complexity, uncertainty regarding feasibility, usability, or other
@@ -22,3 +22,6 @@ Factors in assessing use case priority:
     * Complementary features, not core the main functionality of app
 * **Search recipes**
   * More important that recipes can be suggested rather than searched 
+
+___
+## Next Iteration (10/30)

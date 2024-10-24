@@ -76,6 +76,7 @@ ui -> user : Prompt for recipe type and dietary preferences
 user -> ui : Provide preferences
 ui -> cont : getRecipes(preferences)
 [o-> cont : getPantry()
+[o-> cont : getListofAllRecipes()
 
 participant "getRecipeList[i] : RecipeList" as rec
 cont -> recd : getRecipeList(preferences)

@@ -22,14 +22,14 @@
 
 ## 5. Workflow
 
-Casual workflow for _manage_pantry_items_:
+Workflow for _manage_pantry_items_:
 
 ```plantuml
 @startuml
 
 skin rose
 
-title  Manage Pantry Items: UPLOAD (casual level)
+title  Manage Pantry Items: UPLOAD (fully-dressed level)
 
 'define the lanes
 |#application|User|
@@ -72,7 +72,7 @@ stop
 
 skin rose
 
-title  Manage Pantry Items: DELETE (casual level)
+title  Manage Pantry Items: DELETE (fully-dressed level)
 
 'define the lanes
 |#application|User|
@@ -99,7 +99,7 @@ stop
 
 skin rose
 
-title  Manage Pantry Items: EDIT (casual level)
+title  Manage Pantry Items: EDIT (fully-dressed level)
 
 'define the lanes
 |#application|User|
@@ -128,7 +128,7 @@ stop
 
 skin rose
 
-title Manage Pantry Items: ADD TO GROCERY LIST (casual level)
+title Manage Pantry Items: ADD TO GROCERY LIST (fully-dressed level)
 
 'define the lanes
 |#application|User|
@@ -166,9 +166,9 @@ participant ": Ingredient" as ingr
 ui -> user : Display add/delete buttons
 user -> ui : Input ingredient name
 user -> ui : Click "add ingredient"
-ui -> cont : addItem(name)
-cont -> pantry : addItem(name)
-pantry -> ingr **: ingr = create(name)
+ui -> cont : addItem(name,quantity,unit,tags)
+cont -> pantry : addItem(name,quantity,unit,tags)
+pantry -> ingr **: ingr = create(name,quantity,unit,tags)
 pantry -> cont : curPantry.list()
 cont -> ui : updateDisplay(pantry)
 ui -> user : show current pantry list
@@ -236,8 +236,8 @@ participant ": Grocery List" as grocery
 
 ui -> user : Display pantry items
 user -> ui : Select ingredient to add
-ui -> cont : addToGroceryList(name)
-cont -> pantry : getIngredientDetails(name)
+ui -> cont : addToGroceryList(name, quantity)
+cont -> pantry : getIngredientDetails(name, quantity)
 pantry -> cont : ingredientDetails
 cont -> grocery : addItem(ingredientDetails)
 grocery -> cont : confirmation
