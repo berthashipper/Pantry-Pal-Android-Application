@@ -103,7 +103,7 @@ public class Main {
         // Generate recipes based on the pantry
         Generate_Recipe recipeGenerator = new Generate_Recipe(pantry, allRecipes);
 
-        // GPrint matched recipes
+        // Print matched recipes
         recipeGenerator.generateMatchingRecipes();
     }
 }

@@ -1,71 +1,128 @@
 # Test Report
 
 ## Overview
-This report summarizes the testing performed on the prototype, focusing on the Pantry functionality. The tests included adding ingredients, filtering by dietary tags, searching for ingredients, and managing the grocery list. All tests were conducted using the text-based interface of the application.
-
+Summarizes the testing performed on the prototype, focusing on the Pantry and Recipe functionalities. The tests included adding ingredients, filtering by dietary tags, searching for ingredients, managing the grocery list, and generating recipes based on pantry contents. All tests were conducted using the text-based interface of the application.
 ## Test Cases
 
-### Add Ingredients
+### 1. Add Ingredients
 **Input:**
-- Add "apple" with quantity 10, unit "pieces", tags [VEGAN, KOSHER]
-- Add "banana" with quantity 5, unit "pieces", tags [VEGAN]
-- Add "bread" with quantity 2, unit "loaves", tags [GLUTEN_FREE, VEGAN]
-- Add "mozzarella cheese" with quantity 1, unit "pack", no tags
-- Add "cheddar cheese" with quantity 11, unit "slices", no tags
+- Add "White Bread" with quantity 2, unit "slices", tags [VEGAN, VEGETARIAN].
+- Add "Butter" with quantity 1, unit "tablespoon", tags [VEGETARIAN, NUT_FREE].
+- Add "Cheddar Cheese" with quantity 1, unit "slice", tags [VEGETARIAN, NUT_FREE].
+- Add "Mozzarella Cheese" with quantity 1, unit "pack", tags [VEGETARIAN, NUT_FREE].
+- Add "Apple" with quantity 3, unit "apples", tags [VEGAN, VEGETARIAN, NUT_FREE].
 
 **Expectation:** All ingredients are added successfully, and corresponding confirmation messages are displayed.
 
 **Output:**
+- `Added Butter to pantry.`
+  `Added White Bread to pantry.`
+  `Added Cheddar Cheese to pantry.`
+  `Added Mozzarella Cheese to pantry.`
+  `Added Apple to pantry.`
+
+### 2. Edit Ingredient
+**Input:** Edit quantity of "Apple" to 10.
+
+**Expectation:** The quantity of "Apple" is updated successfully.
+
+**Output:**
+- `Updated Apple to 10 apples`
+
+### 3. Delete Ingredient
+**Input:** Delete "Apple" from the pantry.
+
+**Expectation:** The ingredient is removed from the pantry successfully.
+
+**Output:**
+- `Deleted Apple from pantry.`
 
 
-### Display Pantry Contents
+### 4. Display Pantry Contents
 **Input:** Call `System.out.println(pantry);`
 
-**Expectation:** The pantry displays all ingredients with correct quantities and tags.
+**Expectation:** The pantry displays all ingredients with correct quantities and tags after edits.
 
 **Output:**
+- `Pantry contents:
+  Butter: 1 tablespoons, Tags: [NUT_FREE, VEGETARIAN]
+  Mozzarella Cheese: 1 pack, Tags: [NUT_FREE, VEGETARIAN]
+  Cheddar Cheese: 1 slice, Tags: [NUT_FREE, VEGETARIAN]
+  White Bread: 2 slices, Tags: [VEGAN, VEGETARIAN]`
 
-### Filter Ingredients by Dietary Tag
-**Input:** Filter by `Ingredient.dietary_tags.VEGAN`.
+### 5. Filter Ingredients by Dietary Tag
+**Input:** Filter by `Ingredient.dietary_tags.NUT_FREE`.
 
-**Expectation:** Only vegan ingredients are displayed.
+**Expectation:** Only nut-free ingredients are displayed.
 
 **Output:**
+- `Nut-free Ingredients in Pantry:
+  Ingredient: Butter, Quantity: 1 tablespoons, Tags: [NUT_FREE, VEGETARIAN]
+  Ingredient: Mozzarella Cheese, Quantity: 1 pack, Tags: [NUT_FREE, VEGETARIAN]
+  Ingredient: Cheddar Cheese, Quantity: 1 slice, Tags: [NUT_FREE, VEGETARIAN]`
 
-### Search for an Ingredient
-**Input:** Search for "banana".
+### 6. Search for an Ingredient
+**Input:** Search for "Butter".
 
 **Expectation:** The search returns the correct ingredient.
 
 **Output:**
+- `Searching for 'Butter':
+  Ingredient: Butter, Quantity: 1 tablespoons, Tags: [NUT_FREE, VEGETARIAN]`
 
-### Search for Ingredients with Substring
+### 7. Search for Ingredients with Substring
 **Input:** Search for "cheese".
 
 **Expectation:** All ingredients containing "cheese" are returned.
 
 **Output:**
+- `Searching for 'cheese':
+  Ingredient: Mozzarella Cheese, Quantity: 1 pack, Tags: [NUT_FREE, VEGETARIAN]
+  Ingredient: Cheddar Cheese, Quantity: 1 slice, Tags: [NUT_FREE, VEGETARIAN]`
 
-### Search for Non-Existing Ingredient
+### 8. Search for Non-Existing Ingredient
 **Input:** Search for "milk".
 
 **Expectation:** The system indicates that the ingredient is not found.
 
 **Output:**
+- `Searching for 'milk':
+  Ingredient milk not found in the pantry.`
 
-### Add to Grocery List
-**Input:** Add "bread" with quantity 4 to the grocery list.
+### 9. Add to Grocery List
+**Input:** Add "White Bread" with quantity 10 to the grocery list.
 
 **Expectation:** The ingredient is successfully added to the grocery list.
 
 **Output:**
+- `Added 10 slices of White Bread to the grocery list.`
 
-### View Grocery List
+### 10. View Grocery List
 **Input:** Call `pantry.printGroceryList();`
 
 **Expectation:** The grocery list displays all added ingredients.
 
 **Output:**
+- `Grocery List:
+  White Bread: 10 slices`
+
+### 11. Use RecipeBuilder to Create Recipes
+**Input:** Use `RecipeBuilder` to create a `Grilled Cheese Sandwich` and a `Vegetable Stir Fry`.
+
+**Expectation:** Recipes are created successfully with correct details.
+
+**Output:**
+- Printed recipe details for `Grilled Cheese Sandwich`:
+- SCREENSHOT
+
+### 12. Generate Recipes Based on Pantry
+**Input:** Generate recipes using `Generate_Recipe` with current pantry contents.
+
+**Expectation:** The system generates and displays recipes that can be made with available ingredients.
+
+**Output:**
+- `Matched Recipes:`
+  `1. Grilled Cheese Sandwich`
 
 
 ## Conclusion
