@@ -14,7 +14,9 @@ public class Ingredient {
         GLUTEN_FREE,
         HALAL,
         NUT_FREE,
-        VEGETARIAN
+        VEGETARIAN,
+        DAIRY_FREE
+
     }
 
     // Constructor
@@ -23,6 +25,14 @@ public class Ingredient {
         this.quantity = quantity;
         this.unit = unit;
         this.tags = tags;
+    }
+
+    public void updateQuantity(int newQuantity) {
+        this.quantity = newQuantity;
+    }
+
+    public String getName() {
+        return name;
     }
 
     // toString method to view ingredient

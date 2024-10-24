@@ -9,7 +9,7 @@ public class Pantry {
 
     // Method to add an existing Ingredient object to the pantry
     public void add_ingredient(Ingredient ingredient) {
-        ingredientList.put(ingredient.name, ingredient);
+        ingredientList.put(ingredient.name.toLowerCase(), ingredient);
         System.out.println("Added " + ingredient.name + " to pantry.");
     }
 
@@ -19,15 +19,15 @@ public class Pantry {
             tags = new HashSet<>();  // Initialize an empty set if no tags are provided
         }
         Ingredient ingredient = new Ingredient(name, quantity, unit, tags);
-        ingredientList.put(name, ingredient);
+        ingredientList.put(name.toLowerCase(), ingredient);
         System.out.println("Added " + name + " to pantry.");
     }
 
     // Method to delete ingredient from pantry
     public void delete_ingredient(String name) {
-        Ingredient ing = ingredientList.get(name);
+        Ingredient ing = ingredientList.get(name.toLowerCase());  // Use lowercase for consistency
         if (ing != null) {
-            ingredientList.remove(name);
+            ingredientList.remove(name.toLowerCase());  // Also remove by lowercase name
             System.out.println("Deleted " + ing.name + " from pantry.");
         } else {
             System.out.println("Ingredient " + name + " not found in pantry.");
@@ -35,15 +35,16 @@ public class Pantry {
     }
 
     // Method to edit quantity of ingredient in pantry
-    public void edit_ingredient(String name, int quantity) {
-        Ingredient ing = ingredientList.get(name);
-        if (ing != null) {
-            ing.quantity = quantity;
-            System.out.println("You now have " + ing.quantity + " " + ing.unit + " of " + ing.name + " in pantry.");
+    public void edit_ingredient(String name, int newQuantity) {
+        Ingredient ingredient = ingredientList.get(name.toLowerCase());  // Use lowercase for consistency
+        if (ingredient != null) {
+            ingredient.updateQuantity(newQuantity);
+            System.out.println("Updated " + name + " to " + newQuantity + " " + ingredient.unit);
         } else {
             System.out.println("Ingredient " + name + " not found in pantry.");
         }
     }
+
 
     // Method to filter ingredients by dietary tag
     public List<Ingredient> filter_ingredients_by_tag(Ingredient.dietary_tags tag) {

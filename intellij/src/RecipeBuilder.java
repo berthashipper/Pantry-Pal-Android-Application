@@ -20,8 +20,15 @@ public class RecipeBuilder {
         return this;
     }
 
-    // Add an ingredient
+    // Add an ingredient using Ingredient object
     public RecipeBuilder addIngredient(Ingredient ingredient) {
+        ingredients.add(ingredient);
+        return this;
+    }
+
+    // Overloaded method to add an ingredient using name, quantity, unit, and dietary tags
+    public RecipeBuilder addIngredient(String name, int quantity, String unit, Set<Ingredient.dietary_tags> dietaryTags) {
+        Ingredient ingredient = new Ingredient(name, quantity, unit, dietaryTags);
         ingredients.add(ingredient);
         return this;
     }

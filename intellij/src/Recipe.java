@@ -25,6 +25,11 @@ public class Recipe {
         this.servingSize = servingSize;
     }
 
+    // Getter for ingredients
+    public Set<Ingredient> getIngredients() {
+        return ingredientsInRecipe;
+    }
+
     // Method to print recipe details
     public void printRecipeDetails() {
         System.out.println("Recipe: " + recipeName);
