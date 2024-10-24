@@ -25,3 +25,5 @@ Factors in assessing use case priority:
 
 ___
 ## Next Iteration (10/30)
+- Incorporating more recipes (thinking about parsing an API) so we can implement **filtering recipe** functionality.
+- On that note, it would be good to flesh out what we can do with more recipes, including the whole **manage cookbook** (includes saving and viewing saved recipes), and **scaling ingredients** in recipes.
