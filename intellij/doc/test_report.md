@@ -15,14 +15,17 @@ Summarizes the testing performed on the prototype, focusing on the Pantry and Re
 **Expectation:** All ingredients are added successfully, and corresponding confirmation messages are displayed.
 
 **Output:**
-- `Added Butter to pantry.`
-  `Added White Bread to pantry.`
-  `Added Cheddar Cheese to pantry.`
-  `Added Mozzarella Cheese to pantry.`
-  `Added Apple to pantry.`
+```
+Added Butter to pantry.
+Added White Bread to pantry.
+Added Cheddar Cheese to pantry.
+Added Mozzarella Cheese to pantry.
+Added Apple to pantry.
+```
 
 ### 2. Edit Ingredient
-**Input:** Edit quantity of "Apple" to 10.
+**Input:** Edit quantity of "Apple" to 10:
+`pantry.edit_ingredient("Apple", 10);`
 
 **Expectation:** The quantity of "Apple" is updated successfully.
 
@@ -30,7 +33,8 @@ Summarizes the testing performed on the prototype, focusing on the Pantry and Re
 - `Updated Apple to 10 apples`
 
 ### 3. Delete Ingredient
-**Input:** Delete "Apple" from the pantry.
+**Input:** Delete "Apple" from the pantry:
+`pantry.delete_ingredient("Apple");`
 
 **Expectation:** The ingredient is removed from the pantry successfully.
 
@@ -44,53 +48,56 @@ Summarizes the testing performed on the prototype, focusing on the Pantry and Re
 **Expectation:** The pantry displays all ingredients with correct quantities and tags after edits.
 
 **Output:**
-- `Pantry contents:
-  Butter: 1 tablespoons, Tags: [NUT_FREE, VEGETARIAN]
-  Mozzarella Cheese: 1 pack, Tags: [NUT_FREE, VEGETARIAN]
-  Cheddar Cheese: 1 slice, Tags: [NUT_FREE, VEGETARIAN]
-  White Bread: 2 slices, Tags: [VEGAN, VEGETARIAN]`
+```
+Pantry contents:
+Butter: 1 tablespoons, Tags: [NUT_FREE, VEGETARIAN]
+Mozzarella Cheese: 1 pack, Tags: [NUT_FREE, VEGETARIAN]
+Cheddar Cheese: 1 slice, Tags: [NUT_FREE, VEGETARIAN]
+White Bread: 2 slices, Tags: [VEGAN, VEGETARIAN]
+```
 
 ### 5. Filter Ingredients by Dietary Tag
-**Input:** Filter by `Ingredient.dietary_tags.NUT_FREE`.
+**Input:** Filter by `NUT_FREE`: `pantry.printIngredientsByTag(Ingredient.dietary_tags.NUT_FREE);`
 
 **Expectation:** Only nut-free ingredients are displayed.
 
 **Output:**
-- `Nut-free Ingredients in Pantry:
-  Ingredient: Butter, Quantity: 1 tablespoons, Tags: [NUT_FREE, VEGETARIAN]
-  Ingredient: Mozzarella Cheese, Quantity: 1 pack, Tags: [NUT_FREE, VEGETARIAN]
-  Ingredient: Cheddar Cheese, Quantity: 1 slice, Tags: [NUT_FREE, VEGETARIAN]`
+```
+NUT_FREE Ingredients in Pantry:
+Ingredient: Butter, Quantity: 1 tablespoons, Tags: [NUT_FREE, VEGETARIAN]
+Ingredient: Mozzarella Cheese, Quantity: 1 pack, Tags: [NUT_FREE, VEGETARIAN]
+Ingredient: Cheddar Cheese, Quantity: 1 slice, Tags: [NUT_FREE, VEGETARIAN]
+```
 
 ### 6. Search for an Ingredient
-**Input:** Search for "Butter".
+**Input:** Search for "Butter": `pantry.searchIngredient("Butter");`
 
 **Expectation:** The search returns the correct ingredient.
 
 **Output:**
-- `Searching for 'Butter':
-  Ingredient: Butter, Quantity: 1 tablespoons, Tags: [NUT_FREE, VEGETARIAN]`
+-  `Ingredient: Butter, Quantity: 1 tablespoons, Tags: [NUT_FREE, VEGETARIAN]`
 
 ### 7. Search for Ingredients with Substring
-**Input:** Search for "cheese".
+**Input:** Search for "cheese": `pantry.searchIngredient("cheese");`
 
 **Expectation:** All ingredients containing "cheese" are returned.
 
 **Output:**
-- `Searching for 'cheese':
-  Ingredient: Mozzarella Cheese, Quantity: 1 pack, Tags: [NUT_FREE, VEGETARIAN]
-  Ingredient: Cheddar Cheese, Quantity: 1 slice, Tags: [NUT_FREE, VEGETARIAN]`
+```
+Ingredient: Mozzarella Cheese, Quantity: 1 pack, Tags: [NUT_FREE, VEGETARIAN]
+Ingredient: Cheddar Cheese, Quantity: 1 slice, Tags: [NUT_FREE, VEGETARIAN]
+```
 
 ### 8. Search for Non-Existing Ingredient
-**Input:** Search for "milk".
+**Input:** Search for "milk": `pantry.searchIngredient("milk");`
 
 **Expectation:** The system indicates that the ingredient is not found.
 
 **Output:**
-- `Searching for 'milk':
-  Ingredient milk not found in the pantry.`
+- `Ingredient milk not found in the pantry.`
 
 ### 9. Add to Grocery List
-**Input:** Add "White Bread" with quantity 10 to the grocery list.
+**Input:** Add "White Bread" with quantity 10 to the grocery list: `pantry.addToGroceryList("White Bread", 10);`
 
 **Expectation:** The ingredient is successfully added to the grocery list.
 
@@ -103,46 +110,49 @@ Summarizes the testing performed on the prototype, focusing on the Pantry and Re
 **Expectation:** The grocery list displays all added ingredients.
 
 **Output:**
-- `Grocery List:
-  White Bread: 10 slices`
+```
+Grocery List:
+White Bread: 10 slices
+```
+
 
 ### 11. Use RecipeBuilder to Create Recipes
 **Input:** Use `RecipeBuilder` to create a `Grilled Cheese Sandwich` and a `Vegetable Stir Fry`.
+
+  To see recipe: `grilledCheese.printRecipeDetails();`
 
 **Expectation:** Recipes are created successfully with correct details.
 
 **Output:**
 - Printed recipe details for `Grilled Cheese Sandwich`:
+```
+Recipe: Grilled Cheese Sandwich
+Description: A classic grilled cheese sandwich with crispy golden bread and melted cheddar cheese.
+Cook Time: 00:10 minutes
+Serves: 1
 
-`Recipe: Grilled Cheese Sandwich`
+Ingredients:
+- 2 slices of White Bread
+- 1 tablespoons of Butter
+- 1 slice of Cheddar Cheese
 
-  `Description: A classic grilled cheese sandwich with crispy golden bread and melted cheddar cheese.`
-  
-  `Cook Time: 00:10 minutes`
-  
-  `Serves: 1`
+Instructions:
+1. Heat a skillet over medium heat.
+2. Butter 2 slices of bread and place 1 slice in the skillet, butter side down.
+3. Add 1 slice of cheddar cheese, then top with the second slice of bread, butter side up.
+4. Cook until golden brown and flip to cook the other side.
+```
 
-
-  `Ingredients:`
-
-  `- 1 slice of Cheddar Cheese`
-
-  `- 1 tablespoons of Butter`
-
-  `- 2 slices of White Bread`
-
-  `Instructions:`
-  
-  `1. Heat a skillet over medium heat.`
-
-  `2. Butter 2 slices of bread and place 1 slice in the skillet, butter side down.`
-
-  `3. Add 1 slice of cheddar cheese, then top with the second slice of bread, butter side up.`
-
-  `4. Cook until golden brown and flip to cook the other side.`
-`
 ### 12. Generate Recipes Based on Pantry
-**Input:** Generate recipes using `Generate_Recipe` with current pantry contents.
+**Input:** Generate recipes using `Generate_Recipe` with current pantry contents:
+
+```
+Set<Recipe> allRecipes = Set.of(grilledCheese, vegetableStirFry);
+
+Generate_Recipe recipeGenerator = new Generate_Recipe(pantry, allRecipes);
+
+recipeGenerator.generateMatchingRecipes();
+```
 
 **Expectation:** The system generates and displays recipes that can be made with available ingredients.
 

@@ -58,6 +58,19 @@ public class Pantry {
         return filteredList;
     }
 
+    // Method to print ingredients filtered by dietary tag
+    public void printIngredientsByTag(Ingredient.dietary_tags tag) {
+        List<Ingredient> filteredIngredients = filter_ingredients_by_tag(tag);
+        if (filteredIngredients.isEmpty()) {
+            System.out.println("No ingredients found with the tag: " + tag);
+        } else {
+            System.out.println(tag + " Ingredients in Pantry:");
+            for (Ingredient ingredient : filteredIngredients) {
+                System.out.println(ingredient);
+            }
+        }
+    }
+
     // Method to search for ingredients by name substring
     public void searchIngredient(String name) {
         List<Ingredient> foundIngredients = new ArrayList<>();

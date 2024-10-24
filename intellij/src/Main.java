@@ -29,10 +29,7 @@ public class Main {
         System.out.println(pantry);
 
         // Filtering by dietary tag
-        System.out.println("Nut-free Ingredients in Pantry:");
-        for (Ingredient ingredient : pantry.filter_ingredients_by_tag(Ingredient.dietary_tags.NUT_FREE)) {
-            System.out.println(ingredient);
-        }
+        pantry.printIngredientsByTag(Ingredient.dietary_tags.NUT_FREE);
 
         System.out.println("\n");
         //______________________________________________________________________
