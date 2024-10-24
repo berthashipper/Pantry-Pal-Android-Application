@@ -4,6 +4,9 @@ Factors in assessing use case priority:
 * **Risk**: technical complexity, uncertainty regarding feasibility, usability, or other
 * **Coverage**: how many parts of the system are affected by it
 
+___
+## First Iteration (10/4)
+
 ## Rank
 ### High
 * **Manage pantry**
@@ -19,11 +22,12 @@ Factors in assessing use case priority:
   * Affects user satisfaction
 ### Low
 * **Plan weekly meals & Generate grocery list**
-    * Complementary features, not core the main functionality of app
+    * Complementary features, not core or main functionality of app
 * **Search recipes**
   * More important that recipes can be suggested rather than searched 
 
 ___
 ## Next Iteration (10/30)
-- Incorporating more recipes (thinking about parsing an API) so we can implement **filtering recipe** functionality.
+- Incorporating more recipes (thinking about parsing a database) so we can implement **filtering recipe** functionality.
 - On that note, it would be good to flesh out what we can do with more recipes, including the whole **manage cookbook** (includes saving and viewing saved recipes), and **scaling ingredients** in recipes.
+- Also would be good to populate pantry with more ingredients (possibly from API database).
