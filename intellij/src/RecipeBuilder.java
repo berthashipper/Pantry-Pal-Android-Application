@@ -1,4 +1,4 @@
-import java.time.LocalTime;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,8 +11,9 @@ public class RecipeBuilder {
     private List<String> instructions = new ArrayList<>();  // Store instructions in a list
     private Set<Ingredient.dietary_tags> tags = new HashSet<>();
     private String description;
-    private LocalTime cookTime;
+    private Duration cookTime;
     private int servingSize;
+    private String url;
 
     // Set the recipe name
     public RecipeBuilder setName(String name) {
@@ -52,7 +53,7 @@ public class RecipeBuilder {
     }
 
     // Set the cook time
-    public RecipeBuilder setCookTime(LocalTime time) {
+    public RecipeBuilder setCookTime(Duration time) {
         this.cookTime = time;
         return this;
     }
@@ -63,12 +64,18 @@ public class RecipeBuilder {
         return this;
     }
 
+    // Add a method to set the URL
+    public RecipeBuilder setUrl(String url) {
+        this.url = url;
+        return this;
+    }
+
     // Build the recipe
     public Recipe build() {
         // Present instructions in a visually appealing way, separated by new lines
         String joinedInstructions = instructions.stream().collect(Collectors.joining("\n"));
 
         // Create and return the Recipe object
-        return new Recipe(recipeName, ingredients, joinedInstructions, tags, description, cookTime, servingSize);
+        return new Recipe(recipeName, ingredients, joinedInstructions, tags, description, cookTime, servingSize, url);
     }
 }

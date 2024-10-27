@@ -1,8 +1,5 @@
 import java.util.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.EnumSet;
+import java.util.stream.Collectors;
 
 public class Pantry {
     public Map<String, Ingredient> ingredientList = new HashMap<>();
@@ -113,6 +110,11 @@ public class Pantry {
         }
     }
 
+    public Set<String> getIngredientsAsStrings() {
+        return ingredientList.values().stream()
+                .map(Ingredient::getName)
+                .collect(Collectors.toSet());
+    }
 
     // toString method to print pantry contents
     @Override

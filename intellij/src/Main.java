@@ -1,6 +1,5 @@
-import java.time.LocalTime;
+import java.time.Duration;
 import java.util.EnumSet;
-import java.util.HashSet;
 import java.util.Set;
 
 public class Main {
@@ -73,7 +72,7 @@ public class Main {
                 .addInstruction("Cook until golden brown and flip to cook the other side.")
                 .addTag(Ingredient.dietary_tags.VEGETARIAN)
                 .setDescription("A classic grilled cheese sandwich with crispy golden bread and melted cheddar cheese.")
-                .setCookTime(LocalTime.of(0, 10))
+                .setCookTime(Duration.ofMinutes(10))
                 .setServingSize(1)
                 .build();
 
@@ -85,7 +84,7 @@ public class Main {
                 .addInstruction("Add soy sauce and cook until tender.")
                 .addTag(Ingredient.dietary_tags.VEGAN)
                 .setDescription("A quick vegetable stir fry.")
-                .setCookTime(LocalTime.of(0, 15))
+                .setCookTime(Duration.ofMinutes(15))
                 .setServingSize(2)
                 .build();
 

@@ -1,9 +1,8 @@
-import java.util.EnumSet;
 import java.util.Set;
 
 public class Ingredient {
     String name;
-    int quantity;
+    double quantity;
     String unit;
     Set<dietary_tags> tags;
 
@@ -20,7 +19,7 @@ public class Ingredient {
     }
 
     // Constructor
-    public Ingredient(String name, int quantity, String unit, Set<dietary_tags> tags) {
+    public Ingredient(String name, double quantity, String unit, Set<dietary_tags> tags) {
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
@@ -33,6 +32,14 @@ public class Ingredient {
 
     public String getName() {
         return name;
+    }
+
+    public double getQuantity() {
+        return quantity;
+    }
+
+    public String getUnit() {
+        return unit;
     }
 
     // toString method to view ingredient

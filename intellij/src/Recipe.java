@@ -1,21 +1,23 @@
-import java.time.LocalTime;
-import java.util.HashSet;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.time.Duration;
 import java.util.Set;
 
 public class Recipe {
     String recipeName;
     Set<Ingredient> ingredientsInRecipe;
-    String instructions;
+    String instructions; // Store instructions as a single string
     Set<Ingredient.dietary_tags> recipeTags;
     String recipeDescription;
-    LocalTime cookTime;
+    Duration cookTime;
     int servingSize;
+    String url; // Added URL field
 
     // Constructor method for Recipe
     public Recipe(String recipeName, Set<Ingredient> ingredientsInRecipe,
                   String instructions, Set<Ingredient.dietary_tags> recipeTags,
-                  String recipeDescription, LocalTime cookTime, int servingSize) {
-
+                  String recipeDescription, Duration cookTime, int servingSize, String url) {
         this.recipeName = recipeName;
         this.ingredientsInRecipe = ingredientsInRecipe;
         this.instructions = instructions;
@@ -23,29 +25,32 @@ public class Recipe {
         this.recipeDescription = recipeDescription;
         this.cookTime = cookTime;
         this.servingSize = servingSize;
-    }
-
-    // Getter for ingredients
-    public Set<Ingredient> getIngredients() {
-        return ingredientsInRecipe;
+        this.url = url; // Initialize URL
     }
 
     // Method to print recipe details
     public void printRecipeDetails() {
         System.out.println("Recipe: " + recipeName);
         System.out.println("Description: " + recipeDescription);
-        System.out.println("Cook Time: " + cookTime + " minutes");
+        System.out.println("Cook Time: " + (cookTime != null ? cookTime.toMinutes() : 0) + " minutes");
         System.out.println("Serves: " + servingSize);
         System.out.println("\nIngredients:");
+
+        // Print each ingredient with its details
         for (Ingredient ingredient : ingredientsInRecipe) {
-            System.out.println("- " + ingredient.quantity + " " + ingredient.unit + " of " + ingredient.name);
+            System.out.println("- " + ingredient.getQuantity() + " " + ingredient.getUnit() + " of " + ingredient.getName());
         }
 
-        // Split the instructions by newline and number them
+        // Print the instructions
         System.out.println("\nInstructions:");
         String[] steps = instructions.split("\n");
         for (int i = 0; i < steps.length; i++) {
             System.out.println((i + 1) + ". " + steps[i].trim());
         }
+    }
+
+    // Getter for ingredients
+    public Set<Ingredient> getIngredients() {
+        return ingredientsInRecipe;
     }
 }
