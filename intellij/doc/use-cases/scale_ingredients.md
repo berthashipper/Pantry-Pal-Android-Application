@@ -74,9 +74,9 @@ user -> ui: Choose to scale recipe
 user -> ui: Enter scalar (double recipe, half it, etc.)
 ui -> cont: Communicate the (scalar)
 cont -> rec: recipe.scale_ingredients(scalar)
-rec -> cont: recipe.display()
-cont -> ui: recipe.display()
-ui -> user: Present scaled recipe
+rec -> cont: Return recipe details (name, ingredients, instructions)
+cont -> ui: Display recipe details with new ingredient quantites
+ui -> user: Present recipe details
 
 @enduml
 ```

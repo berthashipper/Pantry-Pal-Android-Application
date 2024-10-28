@@ -76,8 +76,8 @@ ui -> user: Present list of relevant recipes
 user -> ui: Select a recipe to view details of
 ui -> cont: Communicate recipe choice
 cont -> rec: recipe.printRecipeDetails()
-rec -> cont: recipe.printRecipeDetails()
-cont -> ui: Print out string containing all recipe information
+rec -> cont: Return recipe details (name, ingredients, instructions)
+cont -> ui: Display recipe details
 ui -> user: Present recipe details
 
 loop User decides to save or not

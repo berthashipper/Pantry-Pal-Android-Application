@@ -21,14 +21,14 @@
 
 ## 5. Workflow
 
-Casual workflow for _view_saved_recipe_:
+Fully-dressed workflow for _view_saved_recipe_:
 
 ```plantuml
 @startuml
 
 skin rose
 
-title View Saved Recipe (casual level)
+title View Saved Recipe (fully-dressed level)
 
 'define the lanes
 |#application|User|
@@ -36,7 +36,8 @@ title View Saved Recipe (casual level)
 
 |User|
 start
-:Select a recipe from cookbook or search to view;
+:View cookbook;
+:Select a recipe from cookbook or search to view details of;
 |Recipe Management System|
 :Retrieve details of the selected recipe;
 :Display recipe details (name, ingredients, instructions);
@@ -44,6 +45,47 @@ start
 |User|
 :View recipe details;
 
+if (User wants to view another recipe?)
+    ->yes;
+    |Recipe Management System|333
+    :Navigate back to saved recipes list;
+    :Select another recipe to view details;
+    |Recipe Management System|
+    :Retrieve and display details of the new recipe;
+    |User|
+    :View recipe details;
+    stop
+endif
+->no;
+
 stop
+
+@enduml
+```
+## 6. Sequence Diagram
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller" as cont
+participant ": Recipe" as rec
+
+user -> ui: Open saved recipes (cookbook)
+ui -> user: Display list of saved recipes
+loop User wants to view another recipe
+    user -> ui: Select a recipe to view details
+    ui -> cont: Communicate selected recipe
+    cont -> rec: recipe.printRecipeDetails()
+    rec -> cont: Return recipe details (name, ingredients, instructions)
+    cont -> ui: Display recipe details
+    ui -> user: Present recipe details
+    user -> ui: Return to saved recipes list
+end
+
 @enduml
 ```

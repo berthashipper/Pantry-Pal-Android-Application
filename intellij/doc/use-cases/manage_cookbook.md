@@ -25,14 +25,14 @@
 
 ## 5. Workflow
 
-Casual workflow for _manage_cookbook_:
+Fully-dressed workflow for _manage_cookbook_:
 
 ```plantuml
 @startuml
 
 skin rose
 
-title Manage Cookbook (casual level)
+title Manage Cookbook (fully-dressed level)
 
 'define the lanes
 |#application|User|
@@ -40,24 +40,75 @@ title Manage Cookbook (casual level)
 
 |User|
 start
-:Select option (Upload, Save, View);
+:Open Cookbook;
 
+:Choose an action: "View Saved Recipes" or "Upload New Recipe";
 |Recipe Management System|
 :Receive user action;
-if (Save Recipe)
-|Recipe Management System|
-:Present user with recipe;
-:Prompt user to save recipe;
+
+if (View saved recipes) then
+    :Retrieve and display list of saved recipes;
+    |User|
+    :Select a recipe to view details;
+    |Recipe Management System|
+    :Retrieve recipe details;
+    :Display recipe details (name, ingredients, instructions);
+else (Upload new recipe)
+    :Present option to upload new recipe;
+    |User|
+    :Upload new recipe details (name, ingredients, instructions);
+    |Recipe Management System|
+    :Save recipe to cookbook;
+    :Display confirmation of save action;
+endif
+
 |User|
-:Save to cookbook;
-stop
+:Return to cookbook menu or exit;
 
-elseif (View Recipes)
-|Recipe Management System|
-:Display list of recipes in the cookbook;
 stop
+@enduml
+```
 
-else
-stop
+## 6. Sequence Diagram
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller" as cont
+participant ": Recipe" as rec
+
+user -> ui: Open cookbook
+ui -> user: Display cookbook menu options ("View Saved Recipes" or "Upload New Recipe")
+user -> ui: Choose an action
+
+alt View Saved Recipes
+    ui -> cont: Request saved recipes list
+    cont -> rec: Retrieve saved recipes
+    rec -> cont: Return list of saved recipes
+    cont -> ui: Display list of saved recipes
+    ui -> user: Show saved recipes
+
+    user -> ui: Select recipe to view details
+    ui -> cont: Request recipe details
+    cont -> rec: Fetch recipe details (name, ingredients, instructions)
+    rec -> cont: Return recipe details
+    cont -> ui: Display recipe details
+    ui -> user: Show recipe details
+
+else Upload New Recipe
+    ui -> user: Prompt user to enter new recipe details
+    user -> ui: Enter new recipe details (name, ingredients, instructions)
+    ui -> cont: Send new recipe data
+    cont -> rec: Save new recipe to cookbook
+    rec -> cont: Confirm save action
+    cont -> ui: Display confirmation message
+    ui -> user: Show confirmation of saved recipe
+end
+
 @enduml
 ```
