@@ -87,6 +87,6 @@ ui -> user : Present list of recipes
 
 
 @enduml
-````
+```
 
 

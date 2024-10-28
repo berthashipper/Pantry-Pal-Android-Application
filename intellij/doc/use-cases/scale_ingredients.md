@@ -56,4 +56,29 @@ stop
 @enduml
 ```
 
+## 6. Sequence Diagram
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller" as cont
+participant ": Recipe" as rec
+
+ui -> user: Present recipe
+user -> ui: Choose to scale recipe
+user -> ui: Enter scalar (double recipe, half it, etc.)
+ui -> cont: Communicate (scalar)
+cont -> rec: recipe.scale_ingredients(scalar)
+rec -> cont: recipe.display()
+cont -> ui: recipe.display()
+ui -> user: Present scaled recipe
+
+@enduml
+```
+
 

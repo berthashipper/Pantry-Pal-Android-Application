@@ -7,12 +7,12 @@ import java.util.Set;
 public class Recipe {
     String recipeName;
     Set<Ingredient> ingredientsInRecipe;
-    String instructions; // Store instructions as a single string
+    String instructions;
     Set<Ingredient.dietary_tags> recipeTags;
     String recipeDescription;
     Duration cookTime;
     int servingSize;
-    String url; // Added URL field
+    String url;
 
     // Constructor method for Recipe
     public Recipe(String recipeName, Set<Ingredient> ingredientsInRecipe,
