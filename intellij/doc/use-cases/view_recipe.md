@@ -22,14 +22,14 @@
 
 ## 5. Workflow
 
-Casual workflow for _view_recipe_:
+Fully-dressed workflow for _view_recipe_:
 
 ```plantuml
 @startuml
 
 skin rose
 
-title View Recipe (casual level)
+title View Recipe (fully-dressed level)
 
 'define the lanes
 |#application|User|
@@ -56,5 +56,42 @@ stop
 else (no)
 :Can search again or stop;
 stop
+@enduml
+```
+
+## 6. Sequence Diagram
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller" as cont
+participant ": Recipe" as rec
+
+ui -> user: Present list of relevant recipes
+user -> ui: Select a recipe to view details of
+ui -> cont: Communicate recipe choice
+cont -> rec: recipe.printRecipeDetails()
+rec -> cont: recipe.printRecipeDetails()
+cont -> ui: Print out string containing all recipe information
+ui -> user: Present recipe details
+
+loop User decides to save or not
+    ui -> user: Give user option to save recipe to cookbook
+    user -> ui: Choose to save recipe
+    alt User chooses to save
+        ui -> cont: recipe.save()
+        cont -> rec: recipe.save()
+        rec -> cont: Recipe saved to cookbook
+        cont -> ui: Recipe has been saved
+        ui -> user: Tell user recipe has been saved
+    else User does not save
+        ui -> user: Recipe not saved, user can search again or exit
+    end
+
 @enduml
 ```

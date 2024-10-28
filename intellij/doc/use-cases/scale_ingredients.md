@@ -72,7 +72,7 @@ participant ": Recipe" as rec
 ui -> user: Present recipe
 user -> ui: Choose to scale recipe
 user -> ui: Enter scalar (double recipe, half it, etc.)
-ui -> cont: Communicate (scalar)
+ui -> cont: Communicate the (scalar)
 cont -> rec: recipe.scale_ingredients(scalar)
 rec -> cont: recipe.display()
 cont -> ui: recipe.display()
