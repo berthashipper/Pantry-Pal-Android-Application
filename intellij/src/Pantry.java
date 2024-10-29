@@ -4,7 +4,7 @@ import java.util.stream.Collectors;
 public class Pantry {
     public Map<String, Ingredient> ingredientList = new HashMap<>();
     // Temporary grocery list since that use case hasn't been implemented yet
-    Map<Ingredient, Integer> groceryList = new HashMap<>();
+    Map<Ingredient, Double> groceryList = new HashMap<>();
 
     // Method to add an existing Ingredient object to the pantry
     public void add_ingredient(Ingredient ingredient) {
@@ -86,7 +86,7 @@ public class Pantry {
     }
 
     // Method to add ingredient to grocery list
-    public void addToGroceryList(String name, int quantity) {
+    public void addToGroceryList(String name, double quantity) {
         Ingredient ingredient = ingredientList.get(name.toLowerCase()); // Use lowercase for consistency
         if (ingredient != null) {
             groceryList.put(ingredient, quantity);
@@ -102,9 +102,9 @@ public class Pantry {
             System.out.println("Grocery list is empty.");
         } else {
             System.out.println("Grocery List:");
-            for (Map.Entry<Ingredient, Integer> entry : groceryList.entrySet()) {
+            for (Map.Entry<Ingredient, Double> entry : groceryList.entrySet()) {
                 Ingredient ing = entry.getKey();
-                int qty = entry.getValue();
+                Double qty = entry.getValue();
                 System.out.println(ing.name + ": " + qty + " " + ing.unit);
             }
         }

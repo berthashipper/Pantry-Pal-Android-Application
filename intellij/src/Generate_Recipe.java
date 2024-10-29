@@ -1,4 +1,5 @@
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class Generate_Recipe {
@@ -50,5 +51,27 @@ public class Generate_Recipe {
             }
         }
         return true; // All ingredients are available in sufficient quantity
+    }
+
+    public void generateGroceryList (Set<Recipe> matchedRecipes) {
+        Map<String, Ingredient> pantryIngredients = userPantry.ingredientList; //ingredients in pantry
+        Map<Ingredient, Double> inList =  userPantry.groceryList; //all the ingredients in groceryList
+        for (Recipe recipe : matchedRecipes) {
+            if (!canMakeRecipe(recipe)) {
+                Set<Ingredient> inRecipe = recipe.ingredientsInRecipe;
+                for (Ingredient ingredient : inRecipe) {
+                    Ingredient pantryIngredient = pantryIngredients.get(ingredient.name.toLowerCase());
+                    if (pantryIngredient == null) {
+                        userPantry.addToGroceryList(ingredient.name.toLowerCase(), ingredient.quantity);
+                    } else if(pantryIngredient.quantity < ingredient.quantity) {
+                            double count = ingredient.quantity - pantryIngredient.quantity;
+                            userPantry.addToGroceryList(ingredient.name.toLowerCase(), count);
+                            System.out.println("Added " + ingredient.name.toLowerCase() + " to grocery list.");
+                        }
+                }
+            }
+        }
+
+
     }
 }
