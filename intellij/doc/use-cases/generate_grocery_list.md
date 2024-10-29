@@ -61,4 +61,22 @@ stop
 @enduml
 ```
 
+## 6. Sequence Diagram
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller" as cont
+participant ": RecipeDatabase" as recd
+
+
+
+@enduml
+```
+
 

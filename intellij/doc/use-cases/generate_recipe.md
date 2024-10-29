@@ -89,5 +89,5 @@ cont -> ui : displayRecipes()
 ui -> user : Present list of recipes
 
 @enduml
-````
+```
 
