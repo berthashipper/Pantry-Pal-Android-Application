@@ -89,7 +89,7 @@ loop for each selected recipe
     loop for each ingredient
         cont -> pantry: Check if ingredient is in pantry
         alt ingredient not found or insufficient
-            cont -> ui: Add ingredient to grocery list
+            rec -> cont: Add ingredient to grocery list
         end
     end
 end
