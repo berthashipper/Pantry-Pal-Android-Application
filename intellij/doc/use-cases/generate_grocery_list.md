@@ -38,7 +38,8 @@ title Generate grocery list (casual level)
 |User|
 start
 :__Searches recipes__;
-:Selects recipes to add to grocery list;
+:Select recipes for the system to add
+missing ingredients from to grocery list;
 
 |Recipe Management System|
 :Parses ingredients from recipes;
@@ -72,8 +73,29 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": RecipeDatabase" as recd
+participant ": Recipe" as rec
+participant ": Pantry" as pantry
 
+ui -> user: Displays search/generate recipe button
+user -> ui: Searches/generates recipes
+user -> ui: Selects multiple recipes to add to grocery list
+
+loop for each selected recipe
+    ui -> cont: Get ingredients from selected recipe
+    cont -> rec: recipe.getIngredients()
+    rec -> cont: Returns ingredient list
+    
+    'Loop for each ingredient in the recipe
+    loop for each ingredient
+        cont -> pantry: Check if ingredient is in pantry
+        alt ingredient not found or insufficient
+            cont -> ui: Add ingredient to grocery list
+        end
+    end
+end
+
+cont -> ui: Display completed grocery list
+ui -> user: Shows final grocery list with missing ingredients
 
 
 @enduml
