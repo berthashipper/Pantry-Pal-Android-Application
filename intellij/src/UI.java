@@ -1,9 +1,11 @@
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 
 public class UI {
-    public static void main(String[] args) {
+    public static <Int> void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         Pantry userPantry = new Pantry();
         Controller controller = new Controller(userPantry);
@@ -30,7 +32,7 @@ public class UI {
                 System.out.println("Enter name of ingredient:");
                 String name = scanner.nextLine();
                 System.out.println("Enter quantity of ingredient:");
-                String quantity = scanner.nextLine();
+                int quantity = scanner.nextInt();
                 System.out.println("Enter unit of ingredient:");
                 String unit = scanner.nextLine();
                 System.out.println("List of dietary tags. Select applicable ones.\n" +
@@ -41,7 +43,33 @@ public class UI {
                         "NUT_FREE,\n" +
                         "VEGETARIAN,\n" +
                         "DAIRY_FREE");
-                String tags = scanner.nextLine();
+                Set<Ingredient.dietary_tags> tags = new HashSet<>();
+                String tag = scanner.nextLine();
+                String count = "yes";
+                while(count == "yes") {
+                    if (tag.equals("VEGAN")) {
+                        tags.add(Ingredient.dietary_tags.VEGAN);
+                    } else if (tag.equals("KOSHER")) {
+                        tags.add(Ingredient.dietary_tags.KOSHER);
+                    } else if (tag.equals("GLUTEN_FREE")) {
+                        tags.add(Ingredient.dietary_tags.GLUTEN_FREE);
+                    } else if (tag.equals("HALAL")) {
+                        tags.add(Ingredient.dietary_tags.HALAL);
+                    } else if (tag.equals("NUT_FREE")) {
+                        tags.add(Ingredient.dietary_tags.NUT_FREE);
+                    } else if (tag.equals("VEGETARIAN")) {
+                        tags.add(Ingredient.dietary_tags.VEGETARIAN);
+                    } else if (tag.equals("DAIRY_FREE")) {
+                        tags.add(Ingredient.dietary_tags.DAIRY_FREE);
+                    }
+                    System.out.println("Do you want to add more tags?");
+                    if (scanner.nextLine().equals("yes")) {
+                        count = scanner.nextLine();
+                    }
+                    else{
+                        count = "no";
+                    }
+                }
                 controller.add_ingredient(name, quantity, unit, tags);
                 controller.viewPantry();
 
