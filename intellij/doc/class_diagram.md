@@ -15,12 +15,14 @@ class Ingredient{
  public Ingredient(String name, int quantity, String unit, Set<dietary_tags> tags)
  public void updateQuantity(int newQuantity)
  public String getName()
+ public double getQuantity()
+ public String getUnit()
  public String toString()
 }
 
 class Pantry{
  Map<String, Ingredient> ingredientList
- Map<Ingredient, Integer> groceryList
+ Map<Ingredient, Double> groceryList
  --
  public void add_ingredient(Ingredient ingredient)
  public void add_ingredient(String name, int quantity, String unit, Set<Ingredient.dietary_tags> tags)
@@ -28,7 +30,7 @@ class Pantry{
  public void edit_ingredient(String name, int newQuantity)
  public List<Ingredient> filter_ingredients_by_tag(Ingredient.dietary_tags tag)
  public void searchIngredient(String name)
- public void addToGroceryList(String name, int quantity)
+ public void addToGroceryList(String name, double quantity)
  public void printGroceryList()
  public String toString()
 }
@@ -39,8 +41,9 @@ class Recipe{
  String instructions
  Set<Ingredient.dietary_tags> recipeTags
  String recipeDescription
- LocalTime cookTime
+ Duration cookTime
  int servingSize
+ String url
  --
  public Set<Ingredient> getIngredients()
  public void printRecipeDetails()
@@ -78,6 +81,7 @@ class Generate_Recipe{
  public void generateMatchingRecipes()
  private void printMatchedRecipes(Set<Recipe> matchedRecipes)
  private boolean canMakeRecipe(Recipe recipe)
+ public void generateGroceryList (Set<Recipe> matchedRecipes)
 }
 
 ' associations

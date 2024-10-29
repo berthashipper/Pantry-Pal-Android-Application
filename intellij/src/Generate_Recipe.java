@@ -53,6 +53,7 @@ public class Generate_Recipe {
         return true; // All ingredients are available in sufficient quantity
     }
 
+    /* Drafting for next iteration
     public void generateGroceryList (Set<Recipe> matchedRecipes) {
         Map<String, Ingredient> pantryIngredients = userPantry.ingredientList; //ingredients in pantry
         Map<Ingredient, Double> inList =  userPantry.groceryList; //all the ingredients in groceryList
@@ -73,5 +74,5 @@ public class Generate_Recipe {
         }
 
 
-    }
+    }*/
 }

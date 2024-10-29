@@ -101,5 +101,6 @@ public class Main {
 
         // Print matched recipes
         recipeGenerator.generateMatchingRecipes();
+
     }
 }
