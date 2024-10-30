@@ -18,7 +18,7 @@
 
 ## 4. Postconditions
 
-* The recipe management system has filtered the recipes based on additional filters supplied by user.
+* The recipe management system has filtered the recipes and presented them to user.
 
 
 ## 5. Workflow
@@ -38,32 +38,25 @@ title Search recipe (fully-dressed level)
 
 |User|
 start
-: Input search parameters;
+: Select "Search Recipe by Name";
 
-:Search recipe;
-
+: Enter recipe name;
 |Recipe Management System|
-:Checks if there are recipes
-that match keywords;
+: Receive recipe name input;
 
-while (Matches found?) is (no)
-:Lets user input new parameters;
-|User|
-:Inputs new parameters;
-endwhile(yes)
+: Search for recipes that match input;
 
-|Recipe Management System|
+if (Match found?)
+    : Return list of matching recipes;
+    : Display recipe details to User;
+    |User|
+    : View search results or retry;
+    stop
+else (No match)
+    |Recipe Management System|
+    : Notify User "Recipe not found";
+end
 
-:Pulls matching recipes held in database;
-
-:Gathers a list of recipes from API
-and internal list;
-:Execute __Filter Recipe__ use case;
-
-
-:Present list of recipes to user;
-:Execute __Manage Cookbook__;
-stop
 @enduml
 ```
 
