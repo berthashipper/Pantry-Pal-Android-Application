@@ -1,7 +1,7 @@
 # Generate Recipe Suggestions
 
 ## 1. Primary actor and goals
-* __User__: wants to receive accurate and appealing recipe suggestions that align with their specifications (e.g., type of dish, dietary preferences) and the ingredients available.
+* __User__: wants to receive accurate and appealing recipe suggestions that align with the ingredients available.
 * __Recipe Management System__:  filters through the recipe database based on the ingredients stored and user specifications, presenting fitting recipes to the user.
 
 
@@ -19,7 +19,7 @@
 ## 4. Postconditions
 
 * Ingredients are identified and matched to all recipes in the database.
-* The recipe management system has filtered recipes based on additional filters supplied by the user (e.g., recipe type, dietary preferences).
+* The recipe management system has filtered recipes.
 
 
 
@@ -40,19 +40,16 @@ title Generate & filter recipe (fully-dressed level)
 
 |User|
 start
-:Request recipe suggestions;
-:Provide specifications (e.g., type of dish, dietary tags);
+:Request recipe suggestions
+based on ingredients in pantry;
 
 |Recipe Management System|
 :Evaluates ingredients in pantry;
-:Pulls recipes from database;
+:Pulls recipes;
 
 |Recipe Management System|
-:Evaluate specifications against each recipe;
-:Filter recipes based on user specifications;
-:Produce a final compilation of recipes
-that satisfy the given ingredients and preferences;
-:Present list of recipes to user;
+:Evaluate ingredients in pantry against ingredient in all recipes;
+:Present list of matching recipes to user;
 
 stop
 @enduml
@@ -70,22 +67,12 @@ participant ": UI" as ui
 participant ": Controller" as cont
 participant ": RecipeDatabase" as recd
 
-ui -> user : Display generate recipe button
-user -> ui : Click "get recipe suggestions"
-ui -> user : Prompt for recipe type and dietary preferences
-user -> ui : Provide preferences
-ui -> cont : getRecipes(preferences)
-[o-> cont : getPantry()
-[o-> cont : getListofAllRecipes()
-
-participant "getRecipeList[i] : RecipeList" as rec
-cont -> recd : getRecipeList(preferences)
-loop i in 0..recipeList.size-1
-recd -> rec : recipe = getRecipeList[i].getRecipeInfo()
-end
-
-rec -> cont : recipeList.list()
-cont -> ui : displayRecipes()
+ui -> user : Display main menu
+user -> ui : Select "Generate Recipe Suggestions"
+ui -> cont : generateRecipeSuggestions()
+cont -> recd : recipeGenerator.generateMatchingRecipes();
+recd -> cont : Gather (matchingRecipes)
+cont -> ui : displayRecipes(matchingRecipes)
 ui -> user : Present list of recipes
 
 @enduml
