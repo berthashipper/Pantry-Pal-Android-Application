@@ -67,4 +67,36 @@ stop
 @enduml
 ```
 
+## 6. Sequence Diagram
 
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller" as cont
+participant ": Recipe Database" as db
+
+user -> ui : select "Search Recipe by Name"
+ui -> user : prompt "Enter recipe name"
+user -> ui : enter recipe name
+ui -> cont : searchRecipeByName(name)
+
+cont -> db : fetch all recipes
+alt matching recipes found
+    db -> cont : return list of matched recipes
+    cont -> ui : display matched recipes
+    ui -> user : show recipe details of all matched recipes
+else no match
+    db -> cont : return empty list
+    cont -> ui : display "Recipe not found"
+    ui -> user : tell user "Recipe not found"
+end
+
+
+
+@enduml
+```

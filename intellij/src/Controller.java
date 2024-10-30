@@ -87,39 +87,37 @@ public class Controller {
             System.out.println("Recipe " + name + " not found in the list.");
         } else {
             for (Recipe recipe : foundRecipe) {
-                System.out.println(recipe.toString());
+                recipe.printRecipeDetails();
             }
         }
     }
 
 
+    /* Drafting for next iteration: using the Cookbook class
+    public void viewCookbook() {
+        if (cookbook.savedRecipes.isEmpty()) {
+            System.out.println("Your cookbook is empty.");
+        } else {
+            System.out.println("--- Your Cookbook ---");
+            for (Recipe recipe : cookbook.savedRecipes) {
+                System.out.println(recipe.recipeName);
+            }
+        }
+    }
 
+    public void clearCookbook() {
+        cookbook.deleteAllSavedRecipes();
+        System.out.println("Your Cookbook is cleared.");
+    }
 
-    //using the Cookbook class
-//    public void viewCookbook() {
-//        if (cookbook.savedRecipes.isEmpty()) {
-//            System.out.println("Your cookbook is empty.");
-//        } else {
-//            System.out.println("--- Your Cookbook ---");
-//            for (Recipe recipe : cookbook.savedRecipes) {
-//                System.out.println(recipe.recipeName);
-//            }
-//        }
-//    }
+    public void saveRecipetoCookbook(Recipe recipe) {
+        cookbook.addSavedRecipe(recipe);
+    }
 
-//    public void clearCookbook() {
-//        cookbook.deleteAllSavedRecipes();
-//        System.out.println("Your Cookbook is cleared.");
-//    }
-//
-//    public void saveRecipetoCookbook(Recipe recipe) {
-//        cookbook.addSavedRecipe(recipe);
-//    }
-//
-//    public void deleteRecipefromCookbook(Recipe recipe) {
-//        cookbook.deleteSavedRecipe(recipe);
-//    }
-//
-//
+    public void deleteRecipefromCookbook(Recipe recipe) {
+        cookbook.deleteSavedRecipe(recipe);
+    }
+     */
+
 
 }

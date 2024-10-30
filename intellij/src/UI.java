@@ -19,7 +19,7 @@ public class UI {
             System.out.println("1. Manage Pantry");
             System.out.println("2. Generate Recipe Suggestions");
             System.out.println("3. Upload a Recipe");
-            System.out.println("4. View Cookbook");// New option for viewing cookbook
+            System.out.println("4. View Cookbook");
             System.out.println("5. Search Recipe by Name");
             System.out.println("0. Exit");
 

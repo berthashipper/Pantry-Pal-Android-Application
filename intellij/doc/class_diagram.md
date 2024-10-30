@@ -102,6 +102,7 @@ class UI {
  public void filterByDietaryTagUI()
  public void uploadRecipeUI()
  public int getPositiveInteger(String prompt, String errorMessage)
+ public void searchRecipeUI()
 }
 
 class Controller {
@@ -118,6 +119,7 @@ class Controller {
  public void uploadRecipe(String name, String description, Duration cookTime, int servingSize,
                              Set<Ingredient> ingredients, Set<String> instructions)             
  public void viewCookbook()
+ public void searchRecipeByName(String name)
  
 }
 
