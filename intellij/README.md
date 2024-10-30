@@ -22,15 +22,15 @@ Implemented functionalities of prototype:
 
 
 ### Recipe Management
-- **View Cookbook**: Users can view a list of all the recipes (and their details) that have been pre-loaded by us and any ones they upload.
-- **Search Recipe**: Similarly to searching for an ingredient, users can search for a recipe in their Cookbook by full name or substring.
+- **View Cookbook**: Users can view a list of all the recipes that have been pre-loaded by us and any ones they upload.
+- **Search Recipe**: Similarly to searching for an ingredient, users can search for a recipe in their Cookbook by full name or substring. This will show them the recipe name and details.
 - **Generate Recipe Suggestions**: Users can generate recipe suggestions based on the ingredients (and quantities of them) currently available in their pantry. This feature allows users to make the most of what they have.
 - **Create Recipe**: Users can upload their own personal recipes to their Cookbook by providing required information.
 
 ## Limitations and Simplifying Assumptions
 - **Input Validation**: The application assumes that user inputs (especially for ingredient names and units) are valid and does not check against a pre-validated list of ingredients or units.
 - **Grocery List Functionality**: This functionality only exists in teh Main class testing as of now, not implemented in tthe prototype.
-- **Viewing Recipes**: When users view their cookbook they see the recipe details, but we haven't implemented the methods yet for users to be able to select a recipe to view the details of upon search.
+- **Viewing Recipes**: When users view their cookbook they see the recipe details, but we haven't implemented the methods yet for users to be able to select a recipe once inside the Cookbook to view the details of.
 - **Recipe Volume**: Currently we just have 2 recipes uploaded for the purpose of testing and prototype functionality. Working on getting a database to parse from.
 
 
