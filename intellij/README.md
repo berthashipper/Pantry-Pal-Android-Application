@@ -30,8 +30,9 @@ Implemented functionalities of prototype:
 ## Limitations and Simplifying Assumptions
 - **Input Validation**: The application assumes that user inputs (especially for ingredient names and units) are valid and does not check against a pre-validated list of ingredients or units.
 - **Grocery List Functionality**: This functionality only exists in teh Main class testing as of now, not implemented in tthe prototype.
-- **Viewing Recipes**: When users view their cookbook they see the recipe details, but we haven't implemented the methods yet for users to be able to select a recipe once inside the Cookbook to view the details of.
+- **Viewing Recipes**: When users search for a recipe in their cookbook they see the recipe details, but we haven't implemented the methods yet for users to be able to select a recipe from the list that View Cookbook provides to view.
 - **Recipe Volume**: Currently we just have 2 recipes uploaded for the purpose of testing and prototype functionality. Working on getting a database to parse from.
+- **Cookbook**: The full Cookbook functionality hasn't been fully designed, so in a few places we use ``allRecipes`` as a stand-in for it's functional equivalent of a Cookbook which will be fully implemented soon.
 
 
 ## How to Run the Prototype
