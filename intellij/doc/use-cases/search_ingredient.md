@@ -69,10 +69,25 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
+participant ": Pantry" as pantry
 
-user-> ui : 
+user -> ui : Enter ingredient name to search
+ui -> cont : searchIngredientByName(name)
+cont -> pantry : searchIngredient(name)
+pantry -> cont : return matching ingredients
+cont -> ui : display matching ingredients
 
+alt No matches found
+    ui -> user : Notify no ingredients found
+    user -> ui : Enter new search parameters
+    ui -> cont : searchIngredientByName(newName)
+    cont -> pantry : searchIngredient(newName)
+    pantry -> cont : return matching ingredients
+    cont -> ui : display matching ingredients
+end
+
+user -> ui : See list of matching ingredients
 
 
 @enduml
-````
+```

@@ -72,3 +72,47 @@ stop
 
 @enduml
 ```
+
+## 6. Sequence Diagram
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller" as cont
+participant ": Recipe Database" as db
+
+ui -> user : Display main menu
+user -> ui : Select "Upload a Recipe"
+user -> ui : Enter recipe name
+user -> ui : Enter description
+user -> ui : Enter cook time
+user -> ui : Enter serving size
+
+ui -> user : Add ingredients (enter 'done' to finish)
+loop Add ingredients
+    user -> ui : Enter ingredient name
+    user -> ui : Enter quantity
+    user -> ui : Enter unit
+    user -> ui : Enter dietary tags
+    ui -> cont : Add ingredient(ingredient)
+end
+
+user -> ui : Add cooking instructions
+loop Add instructions
+    user -> ui : Enter instruction
+end
+
+ui -> cont : uploadRecipe(name, description, cookTime, servingSize, ingredients, instructions)
+cont -> db : uploadRecipe(recipe)
+db -> cont : confirmation
+cont -> ui : Recipe uploaded successfully!
+
+
+
+@enduml
+```

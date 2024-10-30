@@ -163,15 +163,17 @@ participant ": Controller"  as cont
 participant ": curPantry : Pantry" as pantry
 participant ": Ingredient" as ingr
 
-ui -> user : Display add/delete buttons
+ui -> user : Display add ingredient option
 user -> ui : Input ingredient name
-user -> ui : Click "add ingredient"
-ui -> cont : addItem(name,quantity,unit,tags)
-cont -> pantry : addItem(name,quantity,unit,tags)
+user -> ui : Input ingredient quantity
+user -> ui : Input ingredient unit
+user -> ui : Input dietary tags
+ui -> cont : addIngredient(name, quantity, unit, tags)
+cont -> pantry : add_ingredient(name, quantity, unit, tags)
 pantry -> ingr **: ingr = create(name,quantity,unit,tags)
-pantry -> cont : curPantry.list()
+pantry -> cont : curPantry.display()
 cont -> ui : updateDisplay(pantry)
-ui -> user : show current pantry list
+ui -> user : Show updated pantry list
 
 @enduml
 ````
@@ -187,14 +189,13 @@ participant ": UI" as ui
 participant ": Controller"  as cont
 participant ": curPantry : Pantry" as pantry
 
-ui -> user : Display add/delete buttons
-user -> ui : Select existing ingredient name
-user -> ui : Click "delete ingredient"
-ui -> cont : deleteItem(name)
-cont -> pantry : deleteItem(name)
+ui -> user : Display delete ingredient option
+user -> ui : Input ingredient name to delete
+ui -> cont : deleteIngredient(name)
+cont -> pantry : delete_ingredient(name)
 pantry -> cont : curPantry.list()
 cont -> ui : updateDisplay(pantry)
-ui -> user : show current pantry list
+ui -> user : Show updated pantry list
 
 @enduml
 ````
@@ -234,15 +235,14 @@ participant ": Controller" as cont
 participant ": curPantry : Pantry" as pantry
 participant ": Grocery List" as grocery
 
-ui -> user : Display pantry items
-user -> ui : Select ingredient to add
-ui -> cont : addToGroceryList(name, quantity)
-cont -> pantry : getIngredientDetails(name, quantity)
-pantry -> cont : ingredientDetails
-cont -> grocery : addItem(ingredientDetails)
-grocery -> cont : confirmation
-cont -> ui : updateDisplay(groceryList)
-ui -> user : Show updated grocery list
+ui -> user : Display edit ingredient option
+user -> ui : Input ingredient name to edit
+user -> ui : Input new quantity
+ui -> cont : editIngredient(name, newQuantity)
+cont -> pantry : edit_ingredient(name, newQuantity)
+pantry -> cont : curPantry.ingredient()
+cont -> ui : updateDisplay(pantry)
+ui -> user : Show updated ingredient information
 
 @enduml
 ````
