@@ -69,11 +69,13 @@ public class Controller {
         if (allRecipes.isEmpty()) {
             System.out.println("Your cookbook is empty.");
         } else {
+            System.out.println("\n______________________________________________________________________\n");
             System.out.println("--- Your Cookbook ---");
             for (Recipe recipe : allRecipes) {
                 System.out.println(recipe.recipeName);
             }
         }
+        System.out.println("\n______________________________________________________________________\n");
     }
 
     public void searchRecipeByName(String name) {

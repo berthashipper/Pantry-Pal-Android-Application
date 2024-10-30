@@ -15,6 +15,7 @@ public class UI {
         boolean running = true;
 
         while (running) {
+            System.out.println("\n______________________________________________________________________\n");
             System.out.println("\n--- Main Menu ---");
             System.out.println("1. Manage Pantry");
             System.out.println("2. Generate Recipe Suggestions");
@@ -22,6 +23,7 @@ public class UI {
             System.out.println("4. View Cookbook");
             System.out.println("5. Search Recipe by Name");
             System.out.println("0. Exit");
+            System.out.println("\n______________________________________________________________________\n");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -58,8 +60,9 @@ public class UI {
         boolean managingPantry = true;
 
         while (managingPantry) {
-            System.out.println("\n--- Pantry Management ---");
-            controller.viewPantryContents();
+            System.out.println("\n______________________________________________________________________\n");
+            System.out.println("\n--- Pantry Management ---\n");
+            controller.viewPantryContents();System.out.println("\n______________________________________________________________________\n");
 
             System.out.println("1. Add Ingredient");
             System.out.println("2. Edit Ingredient Quantity");
@@ -67,6 +70,7 @@ public class UI {
             System.out.println("4. Search for Ingredient by Name");
             System.out.println("5. Filter Ingredients by Dietary Tag");
             System.out.println("6. Back to Main Menu");
+            System.out.println("\n______________________________________________________________________\n");
 
             String choiceStr = scanner.nextLine().trim();  // Read input as String
 
