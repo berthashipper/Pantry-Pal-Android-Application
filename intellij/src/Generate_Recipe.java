@@ -32,7 +32,7 @@ public class Generate_Recipe {
             System.out.println("No matching recipes found.");
         } else {
             int index = 1;
-            System.out.println("Matched Recipes:");
+            System.out.println("Matched Recipes to your Pantry:");
             for (Recipe recipe : matchedRecipes) {
                 System.out.println(index + ". " + recipe.recipeName);
                 index++;

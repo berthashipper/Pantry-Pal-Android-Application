@@ -63,7 +63,7 @@ public class Pantry {
         } else {
             System.out.println(tag + " Ingredients in Pantry:");
             for (Ingredient ingredient : filteredIngredients) {
-                System.out.println(ingredient);
+                System.out.println(ingredient.name);
             }
         }
     }

@@ -81,6 +81,7 @@ public class Controller {
         for (Recipe recipe: allRecipes) {
             if (recipe.recipeName.toLowerCase().contains(name.toLowerCase())) {
                 foundRecipe.add(recipe);
+                System.out.println("\n______________________________________________________________________\n");
             }
         }
         if (foundRecipe.isEmpty()) {
@@ -90,6 +91,7 @@ public class Controller {
                 recipe.printRecipeDetails();
             }
         }
+        System.out.println("\n______________________________________________________________________\n");
     }
 
 

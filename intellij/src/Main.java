@@ -107,6 +107,10 @@ public class Main {
         Set<Recipe> savedRecipes = new HashSet<>();
         Cookbook cookbook = new Cookbook(savedRecipes);
 
+        System.out.println("\n");
+        //______________________________________________________________________
+
+        System.out.println("\n______________________________________________________________________\n");
         Controller controller = new Controller(pantry, allRecipes,cookbook);
         UI ui = new UI(controller);
         ui.start();
