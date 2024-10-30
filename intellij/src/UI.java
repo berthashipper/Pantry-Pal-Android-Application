@@ -50,7 +50,7 @@ public class UI {
         scanner.close();
     }
 
-    private void managePantry() {
+    public void managePantry() {
         boolean managingPantry = true;
 
         while (managingPantry) {
@@ -99,7 +99,7 @@ public class UI {
         }
     }
 
-    private void addIngredientUI() {
+    public void addIngredientUI() {
         String name = getIngredientName();
         int quantity = getIngredientQuantity();
         String unit = getIngredientUnit();
@@ -108,12 +108,12 @@ public class UI {
         controller.addIngredient(name, quantity, unit, tags);
     }
 
-    private String getIngredientName() {
+    public String getIngredientName() {
         System.out.print("Enter ingredient name: ");
         return scanner.nextLine();
     }
 
-    private int getIngredientQuantity() {
+    public int getIngredientQuantity() {
         int quantity = 0;
         boolean validInput = false;
         while (!validInput) {
@@ -134,12 +134,12 @@ public class UI {
         return quantity;
     }
 
-    private String getIngredientUnit() {
+    public String getIngredientUnit() {
         System.out.print("Enter unit: ");
         return scanner.nextLine();
     }
 
-    private Set<Ingredient.dietary_tags> getIngredientTags() {
+    public Set<Ingredient.dietary_tags> getIngredientTags() {
         Set<Ingredient.dietary_tags> tags = new HashSet<>();
         System.out.println("Available tags: [VEGAN, KOSHER, GLUTEN_FREE, HALAL, NUT_FREE, VEGETARIAN, DAIRY_FREE]");
         System.out.println("Add dietary tags (comma-separated, e.g., VEGAN,KOSHER) or leave blank:");
@@ -158,7 +158,7 @@ public class UI {
     }
 
 
-    private void editIngredientUI() {
+    public void editIngredientUI() {
         System.out.print("Enter ingredient name to edit: ");
         String name = scanner.nextLine();
 
@@ -169,20 +169,20 @@ public class UI {
         controller.editIngredient(name, newQuantity);
     }
 
-    private void deleteIngredientUI() {
+    public void deleteIngredientUI() {
         System.out.print("Enter ingredient name to delete: ");
         String name = scanner.nextLine();
 
         controller.deleteIngredient(name);
     }
 
-    private void searchIngredientUI() {
+    public void searchIngredientUI() {
         System.out.print("Enter ingredient name to search: ");
         String name = scanner.nextLine();
         controller.searchIngredientByName(name);
     }
 
-    private void filterByDietaryTagUI() {
+    public void filterByDietaryTagUI() {
         boolean validTag = false;
 
         while (!validTag) {
@@ -205,7 +205,7 @@ public class UI {
         }
     }
 
-    private void uploadRecipeUI() {
+    public void uploadRecipeUI() {
         System.out.print("Enter recipe name: ");
         String name = scanner.nextLine();
 
@@ -242,7 +242,7 @@ public class UI {
         controller.uploadRecipe(name, description, Duration.ofMinutes(cookTimeMinutes), servingSize, ingredients, new HashSet<>(instructions));
     }
 
-    private int getPositiveInteger(String prompt, String errorMessage) {
+    public int getPositiveInteger(String prompt, String errorMessage) {
         int value = 0;
         boolean validInput = false;
         while (!validInput) {

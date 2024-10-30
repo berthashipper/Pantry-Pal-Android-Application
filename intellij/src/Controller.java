@@ -72,7 +72,7 @@ public class Controller {
         } else {
             System.out.println("--- Your Cookbook ---");
             for (Recipe recipe : allRecipes) {
-                System.out.println(recipe.recipeName);  // Ensure to have a proper toString() method in Recipe class
+                System.out.println(recipe.recipeName);
             }
         }
     }

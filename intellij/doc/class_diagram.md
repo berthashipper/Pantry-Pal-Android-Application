@@ -84,12 +84,54 @@ class Generate_Recipe{
  public void generateGroceryList (Set<Recipe> matchedRecipes)
 }
 
+class UI {
+ Controller controller
+ Scanner scanner
+ --
+ public UI(Controller controller)
+ public void start()
+ public void managePantry()
+ public void addIngredientUI()
+ public String getIngredientName()
+ public int getIngredientQuantity()
+ public String getIngredientUnit()
+ public Set<Ingredient.dietary_tags> getIngredientTags()
+ public void editIngredientUI()
+ public void deleteIngredientUI()
+ public void searchIngredientUI()
+ public void filterByDietaryTagUI()
+ public void uploadRecipeUI()
+ public int getPositiveInteger(String prompt, String errorMessage)
+}
+
+class Controller {
+  Pantry pantry
+  Set<Recipe> allRecipes
+ --
+ public void addIngredient(String name, int quantity, String unit, Set<Ingredient.dietary_tags> tags)
+ public void editIngredient(String name, int newQuantity)
+ public void deleteIngredient(String name)
+ public void viewPantryContents()
+ public void generateRecipeSuggestions()
+ public void searchIngredientByName(String name)
+ public void printIngredientsByTag(Ingredient.dietary_tags tag)
+ public void uploadRecipe(String name, String description, Duration cookTime, int servingSize,
+                             Set<Ingredient> ingredients, Set<String> instructions)             
+ public void viewCookbook()
+ 
+}
+
+
 ' associations
-User "1" -up- "1" Pantry : \tIs-managed-by\t\t
-Pantry "1" -left- "*" Ingredient : \tContained-in\t\t
-User "1" -down- "1..*" Recipe : \tIs-shown\t\t
-RecipeBuilder "1..*" -down "1..*" Recipe : \tConstructs\t\t
-Generate_Recipe "1" -left "*" Recipe : \tIs-suggested-by\t\t
+User "1" -right- "1" UI : \tInteracts-with\t\t
+UI "1" -down- "1" Controller : \tSends-calls-to\t\t
+
+Controller "1" -right- "1" Generate_Recipe : \tUses\t\t
+Controller "1" -down- "1" Pantry : \tManages\t\t
+
+Pantry "1" -up- "*" Ingredient : \tContained-in\t\t
+RecipeBuilder "1..*" -down- "1..*" Recipe : \tConstructs\t\t
+Generate_Recipe "1" -down "*" Recipe : \tSuggests\t\t
 
 @enduml
 
