@@ -67,3 +67,48 @@ else
 stop
 @enduml
 ```
+
+## 6. Sequence Diagram
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller"  as cont
+participant ": Cookbook" as cb
+participant ": Recipe" as rec
+
+
+user -> ui : Selects "View Cookbook"
+ui -> cont : viewCookbook()
+cont -> cb : Retrieve all recipes
+cb --> cont : Return list of recipes
+cont --> ui : Display list of recipes
+
+user -> ui : Selects "Upload Recipe"
+ui -> cont : uploadRecipe(name, description, cookTime, servingSize, ingredients, instructions)
+cont -> cb : Add new recipe to database
+cb -> rec **: rec = create(name,quantity,unit,tags)
+cb --> cont : Confirmation
+cont --> ui : "Recipe uploaded successfully"
+
+user -> ui : Selects "Search Recipe by Name"
+ui -> cont : searchRecipeByName(name)
+cont -> cb : Search recipes by name
+cb --> cont : Return matched recipes
+cont --> ui : Display matched recipes
+
+user -> ui : Selects "Generate Recipe Suggestions"
+ui -> cont : generateRecipeSuggestions()
+cont -> genRecipe : Instantiate Generate_Recipe(pantry, allRecipes)
+genRecipe -> cb : Fetch recipes and pantry items
+genRecipe --> cont : Return suggested recipes
+cont --> ui : Display suggested recipes
+
+
+@enduml
+````
