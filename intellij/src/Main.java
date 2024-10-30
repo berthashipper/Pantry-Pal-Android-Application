@@ -1,5 +1,6 @@
 import java.time.Duration;
 import java.util.EnumSet;
+import java.util.HashSet;
 import java.util.Set;
 
 public class Main {
@@ -94,7 +95,9 @@ public class Main {
         System.out.println("\n");
 
         // Set to hold all recipes
-        Set<Recipe> allRecipes = Set.of(grilledCheese, vegetableStirFry);
+        Set<Recipe> allRecipes = new HashSet<>();
+        allRecipes.add(grilledCheese);
+        allRecipes.add(vegetableStirFry);
 
         // Generate recipes based on the pantry
         Generate_Recipe recipeGenerator = new Generate_Recipe(pantry, allRecipes);
@@ -102,5 +105,8 @@ public class Main {
         // Print matched recipes
         recipeGenerator.generateMatchingRecipes();
 
+        Controller controller = new Controller(pantry, allRecipes);
+        UI ui = new UI(controller);
+        ui.start();
     }
 }
