@@ -73,14 +73,14 @@ public class UI {
             System.out.println("6. Back to Main Menu");
             System.out.println("\n______________________________________________________________________\n");
 
-            String choiceStr = scanner.nextLine().trim();  // Read input as String
+            String choiceStr = scanner.nextLine().trim();
 
             if (!choiceStr.matches("[1-6]")) {  // Check if input is a valid option
                 System.out.println("Invalid option. Please enter a number between 1 and 6.");
                 continue;  // Loop again until a valid option is entered
             }
 
-            int choice = Integer.parseInt(choiceStr);  // Parse valid input as integer
+            int choice = Integer.parseInt(choiceStr);
 
             switch (choice) {
                 case 1:
@@ -264,7 +264,7 @@ public class UI {
             System.out.print(prompt);
             try {
                 value = scanner.nextInt();
-                scanner.nextLine(); // Consume newline
+                scanner.nextLine();
                 if (value < 0) {
                     System.out.println(errorMessage);
                 } else {
@@ -288,26 +288,6 @@ public class UI {
         String name = scanner.nextLine();
         String output = controller.searchRecipeByName(name);
         System.out.println(output);
-    }
-
-    private void printMainMenu() {
-        System.out.println("\n--- Main Menu ---");
-        // Continue with other options...
-    }
-
-    private void printPantryMenu() {
-        System.out.println("\n--- Pantry Management ---\n");
-        // Continue with other options...
-    }
-
-    private void print(String message) {
-        System.out.println(message);
-    }
-
-    private void print(List<String> messages) {
-        for (String message : messages) {
-            System.out.println(message);
-        }
     }
 
 }
