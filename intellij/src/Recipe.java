@@ -53,23 +53,30 @@ public class Recipe {
     public Set<Ingredient> getIngredients() {
         return ingredientsInRecipe;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder = stringBuilder.append("Recipe: " + recipeName + "\n"+ "Description: " + recipeDescription + "\nCook Time: " + (cookTime != null ? cookTime.toMinutes() : 0) + " minutes" +
-                "\nServes: " + servingSize + "\nIngredients:");
+        stringBuilder.append("Recipe: ").append(recipeName).append("\n")
+                .append("Description: ").append(recipeDescription).append("\n")
+                .append("Cook Time: ").append(cookTime != null ? cookTime.toMinutes() : 0).append(" minutes\n")
+                .append("Serves: ").append(servingSize).append("\n\n")
+                .append("Ingredients:\n");
 
         // Print each ingredient with its details
         for (Ingredient ingredient : ingredientsInRecipe) {
-            stringBuilder.append("- " + ingredient.getQuantity() + " " + ingredient.getUnit() + " of " + ingredient.getName());
+            stringBuilder.append("- ").append(ingredient.getQuantity()).append(" ")
+                    .append(ingredient.getUnit()).append(" of ")
+                    .append(ingredient.getName()).append("\n");
         }
-        
+
+        // Print the instructions
+        stringBuilder.append("\nInstructions:\n");
         String[] steps = instructions.split("\n");
         for (int i = 0; i < steps.length; i++) {
-            stringBuilder.append((i + 1) + ". " + steps[i].trim());
+            stringBuilder.append((i + 1)).append(". ").append(steps[i].trim()).append("\n");
         }
-        String finalString = stringBuilder.toString();
-        return  finalString;
+
+        return stringBuilder.toString();
     }
 }

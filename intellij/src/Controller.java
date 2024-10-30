@@ -25,8 +25,8 @@ public class Controller {
         pantry.delete_ingredient(name);
     }
 
-    public void viewPantryContents() {
-        System.out.println(pantry.toString());
+    public String viewPantryContents() {
+        return pantry.toString();
     }
 
     public void generateRecipeSuggestions() {
@@ -62,38 +62,40 @@ public class Controller {
 
         Recipe newRecipe = recipeBuilder.build();
         allRecipes.add(newRecipe);
-        System.out.println("Recipe uploaded successfully!");
     }
 
-    public void viewCookbook() {
+    public String viewCookbook() {
         if (allRecipes.isEmpty()) {
-            System.out.println("Your cookbook is empty.");
+            return "Your cookbook is empty.";
         } else {
-            System.out.println("\n______________________________________________________________________\n");
-            System.out.println("--- Your Cookbook ---");
+            StringBuilder result = new StringBuilder();
+            result.append("\n______________________________________________________________________\n")
+                    .append("--- Your Cookbook ---\n");
             for (Recipe recipe : allRecipes) {
-                System.out.println(recipe.recipeName);
+                result.append(recipe.recipeName).append("\n");
             }
+            result.append("\n______________________________________________________________________\n");
+            return result.toString();
         }
-        System.out.println("\n______________________________________________________________________\n");
     }
 
-    public void searchRecipeByName(String name) {
-        List<Recipe> foundRecipe = new ArrayList<>();
-        for (Recipe recipe: allRecipes) {
+    public String searchRecipeByName(String name) {
+        List<Recipe> foundRecipes = new ArrayList<>();
+        StringBuilder result = new StringBuilder();
+
+        for (Recipe recipe : allRecipes) {
             if (recipe.recipeName.toLowerCase().contains(name.toLowerCase())) {
-                foundRecipe.add(recipe);
-                System.out.println("\n______________________________________________________________________\n");
+                foundRecipes.add(recipe);
+                result.append("\n______________________________________________________________________\n");
+                result.append(recipe.toString());
             }
         }
-        if (foundRecipe.isEmpty()) {
-            System.out.println("Recipe " + name + " not found in the list.");
+
+        if (foundRecipes.isEmpty()) {
+            return "Recipe " + name + " not found in the list.";
         } else {
-            for (Recipe recipe : foundRecipe) {
-                recipe.printRecipeDetails();
-            }
+            return result.toString();
         }
-        System.out.println("\n______________________________________________________________________\n");
     }
 
 

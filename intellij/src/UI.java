@@ -39,7 +39,7 @@ public class UI {
                     uploadRecipeUI();
                     break;
                 case 4:
-                    controller.viewCookbook();
+                    viewCookbookUI();
                     break;
                 case 5:
                     searchRecipeUI();
@@ -62,7 +62,8 @@ public class UI {
         while (managingPantry) {
             System.out.println("\n______________________________________________________________________\n");
             System.out.println("\n--- Pantry Management ---\n");
-            controller.viewPantryContents();System.out.println("\n______________________________________________________________________\n");
+            viewPantryContentsUI();
+            System.out.println("\n______________________________________________________________________\n");
 
             System.out.println("1. Add Ingredient");
             System.out.println("2. Edit Ingredient Quantity");
@@ -105,6 +106,11 @@ public class UI {
                     break;
             }
         }
+    }
+
+    public void viewPantryContentsUI() {
+        String pantryContents = controller.viewPantryContents();
+        System.out.println(pantryContents);
     }
 
     public void addIngredientUI() {
@@ -248,6 +254,7 @@ public class UI {
         }
 
         controller.uploadRecipe(name, description, Duration.ofMinutes(cookTimeMinutes), servingSize, ingredients, new HashSet<>(instructions));
+        System.out.println("Recipe uploaded successfully!");
     }
 
     public int getPositiveInteger(String prompt, String errorMessage) {
@@ -271,10 +278,36 @@ public class UI {
         return value;
     }
 
+    public void viewCookbookUI() {
+        String output = controller.viewCookbook();
+        System.out.println(output);
+    }
+
     public void searchRecipeUI() {
         System.out.print("Enter recipe name to search: ");
         String name = scanner.nextLine();
-        controller.searchRecipeByName(name);
+        String output = controller.searchRecipeByName(name);
+        System.out.println(output);
+    }
+
+    private void printMainMenu() {
+        System.out.println("\n--- Main Menu ---");
+        // Continue with other options...
+    }
+
+    private void printPantryMenu() {
+        System.out.println("\n--- Pantry Management ---\n");
+        // Continue with other options...
+    }
+
+    private void print(String message) {
+        System.out.println(message);
+    }
+
+    private void print(List<String> messages) {
+        for (String message : messages) {
+            System.out.println(message);
+        }
     }
 
 }

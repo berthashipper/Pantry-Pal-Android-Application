@@ -5,6 +5,11 @@ import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {
+
+        /*
+        START OF TESTING
+         */
+
         Pantry pantry = new Pantry();
 
         // Creating ingredient objects
@@ -109,6 +114,10 @@ public class Main {
 
         System.out.println("\n");
         //______________________________________________________________________
+
+        /*
+        END OF TESTING
+         */
 
         System.out.println("\n______________________________________________________________________\n");
         Controller controller = new Controller(pantry, allRecipes,cookbook);
