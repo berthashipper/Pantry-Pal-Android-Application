@@ -54,6 +54,7 @@ public class Recipe {
         return ingredientsInRecipe;
     }
 
+    // toString method to print a recipe
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();

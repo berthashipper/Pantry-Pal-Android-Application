@@ -28,6 +28,9 @@ ___
 
 ___
 ## Next Iteration (10/30)
+- The prototype functionality we implemented here includes Managing Pantry, Generating Recipie Suggestions (based on pantry, not filters), Uploading personal Recipes, Viewing recipes in Cookbook, and Searching Recipes (in Cookbook) by name.
+
+For the next iteration:
 - Incorporating more recipes (thinking about parsing a database) so we can implement **filtering recipe** functionality.
 - On that note, it would be good to flesh out what we can do with more recipes, including the whole **manage cookbook** (includes saving and viewing saved recipes), and **scaling ingredients** in recipes.
 - Also would be good to populate pantry with more ingredients (possibly from API database).

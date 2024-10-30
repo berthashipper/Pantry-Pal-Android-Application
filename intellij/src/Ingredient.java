@@ -42,7 +42,7 @@ public class Ingredient {
         return unit;
     }
 
-    // toString method to view ingredient
+    // toString method to print ingredient
     @Override
     public String toString() {
         return "Ingredient: " + name + ", Quantity: " + quantity + " " + unit + ", Tags: " + tags;

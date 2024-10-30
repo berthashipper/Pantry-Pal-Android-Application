@@ -110,11 +110,6 @@ public class Pantry {
         }
     }
 
-    public Set<String> getIngredientsAsStrings() {
-        return ingredientList.values().stream()
-                .map(Ingredient::getName)
-                .collect(Collectors.toSet());
-    }
 
     // toString method to print pantry contents
     @Override
