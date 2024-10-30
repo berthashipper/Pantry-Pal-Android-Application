@@ -104,8 +104,10 @@ public class Main {
 
         // Print matched recipes
         recipeGenerator.generateMatchingRecipes();
+        Set<Recipe> savedRecipes = new HashSet<>();
+        Cookbook cookbook = new Cookbook(savedRecipes);
 
-        Controller controller = new Controller(pantry, allRecipes);
+        Controller controller = new Controller(pantry, allRecipes,cookbook);
         UI ui = new UI(controller);
         ui.start();
     }

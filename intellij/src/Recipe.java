@@ -1,5 +1,5 @@
-import org.json.JSONArray;
-import org.json.JSONObject;
+//import org.json.JSONArray;
+//import org.json.JSONObject;
 
 import java.time.Duration;
 import java.util.Set;
@@ -52,5 +52,24 @@ public class Recipe {
     // Getter for ingredients
     public Set<Ingredient> getIngredients() {
         return ingredientsInRecipe;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder = stringBuilder.append("Recipe: " + recipeName + "\n"+ "Description: " + recipeDescription + "\nCook Time: " + (cookTime != null ? cookTime.toMinutes() : 0) + " minutes" +
+                "\nServes: " + servingSize + "\nIngredients:");
+
+        // Print each ingredient with its details
+        for (Ingredient ingredient : ingredientsInRecipe) {
+            stringBuilder.append("- " + ingredient.getQuantity() + " " + ingredient.getUnit() + " of " + ingredient.getName());
+        }
+        
+        String[] steps = instructions.split("\n");
+        for (int i = 0; i < steps.length; i++) {
+            stringBuilder.append((i + 1) + ". " + steps[i].trim());
+        }
+        String finalString = stringBuilder.toString();
+        return  finalString;
     }
 }

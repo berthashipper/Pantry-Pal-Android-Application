@@ -1,16 +1,15 @@
 import java.time.Duration;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Controller {
     private Pantry pantry;
     private Set<Recipe> allRecipes = new HashSet<>();
+    private Cookbook cookbook;
 
-
-    public Controller(Pantry pantry, Set<Recipe> allRecipes) {
+    public Controller(Pantry pantry, Set<Recipe> allRecipes, Cookbook cookbook) {
         this.pantry = pantry;
         this.allRecipes = allRecipes;;
+        this.cookbook = cookbook;
     }
 
 
@@ -76,4 +75,51 @@ public class Controller {
             }
         }
     }
+
+    public void searchRecipeByName(String name) {
+        List<Recipe> foundRecipe = new ArrayList<>();
+        for (Recipe recipe: allRecipes) {
+            if (recipe.recipeName.toLowerCase().contains(name.toLowerCase())) {
+                foundRecipe.add(recipe);
+            }
+        }
+        if (foundRecipe.isEmpty()) {
+            System.out.println("Recipe " + name + " not found in the list.");
+        } else {
+            for (Recipe recipe : foundRecipe) {
+                System.out.println(recipe.toString());
+            }
+        }
+    }
+
+
+
+
+    //using the Cookbook class
+//    public void viewCookbook() {
+//        if (cookbook.savedRecipes.isEmpty()) {
+//            System.out.println("Your cookbook is empty.");
+//        } else {
+//            System.out.println("--- Your Cookbook ---");
+//            for (Recipe recipe : cookbook.savedRecipes) {
+//                System.out.println(recipe.recipeName);
+//            }
+//        }
+//    }
+
+//    public void clearCookbook() {
+//        cookbook.deleteAllSavedRecipes();
+//        System.out.println("Your Cookbook is cleared.");
+//    }
+//
+//    public void saveRecipetoCookbook(Recipe recipe) {
+//        cookbook.addSavedRecipe(recipe);
+//    }
+//
+//    public void deleteRecipefromCookbook(Recipe recipe) {
+//        cookbook.deleteSavedRecipe(recipe);
+//    }
+//
+//
+
 }

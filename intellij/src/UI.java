@@ -19,7 +19,8 @@ public class UI {
             System.out.println("1. Manage Pantry");
             System.out.println("2. Generate Recipe Suggestions");
             System.out.println("3. Upload a Recipe");
-            System.out.println("4. View Cookbook");  // New option for viewing cookbook
+            System.out.println("4. View Cookbook");// New option for viewing cookbook
+            System.out.println("5. Search Recipe by Name");
             System.out.println("0. Exit");
 
             int choice = scanner.nextInt();
@@ -37,6 +38,9 @@ public class UI {
                     break;
                 case 4:
                     controller.viewCookbook();
+                    break;
+                case 5:
+                    searchRecipeUI();
                     break;
                 case 0:
                     running = false;
@@ -261,6 +265,12 @@ public class UI {
             }
         }
         return value;
+    }
+
+    public void searchRecipeUI() {
+        System.out.print("Enter recipe name to search: ");
+        String name = scanner.nextLine();
+        controller.searchRecipeByName(name);
     }
 
 }

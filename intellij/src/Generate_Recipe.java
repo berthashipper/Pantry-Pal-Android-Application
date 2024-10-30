@@ -54,10 +54,9 @@ public class Generate_Recipe {
     }
 
     /* Drafting for next iteration
-    public void generateGroceryList (Set<Recipe> matchedRecipes) {
+    public void generateGroceryList (Recipe recipe) {
         Map<String, Ingredient> pantryIngredients = userPantry.ingredientList; //ingredients in pantry
-        Map<Ingredient, Double> inList =  userPantry.groceryList; //all the ingredients in groceryList
-        for (Recipe recipe : matchedRecipes) {
+
             if (!canMakeRecipe(recipe)) {
                 Set<Ingredient> inRecipe = recipe.ingredientsInRecipe;
                 for (Ingredient ingredient : inRecipe) {
@@ -69,7 +68,7 @@ public class Generate_Recipe {
                             userPantry.addToGroceryList(ingredient.name.toLowerCase(), count);
                             System.out.println("Added " + ingredient.name.toLowerCase() + " to grocery list.");
                         }
-                }
+
             }
         }
 
