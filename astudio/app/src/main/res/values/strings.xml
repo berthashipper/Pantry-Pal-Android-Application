@@ -1,3 +1,27 @@
 <resources>
-    <string name="app_name">Pantry Pal Android Prototype</string>
+    <string name="app_name">NextGen POS</string>
+    <string name="line_items_label">Line items:</string>
+    <string name="line_items_text_def">No items yet!</string>
+    <string name="add_ingredient_button">Add</string>
+    <string name="item_name_label">Ingredient name:</string>
+    <string name="item_name_hint">Enter ingredient name here</string>
+    <string name="item_qty_label">Quantity:</string>
+    <string name="item_qty_hint">Enter ingredient quantity here</string>
+    <string name="item_unit_label">Unit:</string>
+    <string name="item_unit_hint">Enter ingredient unit here</string>
+    <string name="item_tags_label">Tags:</string>
+    <string name="item_tags_hint">Enter ingredient tags here</string>
+    <string name="missing_item_fields_error">Please provide a name and a quantity!</string>
+    <string name="done_button_label">Done</string>
+    <string-array name="dietary_tags_array">
+        <item>Vegan</item>
+        <item>Kosher</item>
+        <item>Gluten Free</item>
+        <item>Halal</item>
+        <item>Nut Free</item>
+        <item>Vegetarian</item>
+        <item>Dairy Free</item>
+    </string-array>
+    <string name="select_tags_prompt">Please select a tag</string>
+
 </resources>

@@ -1,7 +1,6 @@
 package com.example.pantrypalandroidprototype.model;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Pantry {
     public Map<String, Ingredient> ingredientList = new HashMap<>();
@@ -10,16 +9,21 @@ public class Pantry {
 
     // Method to add an existing Ingredient object to the pantry
     public void add_ingredient(Ingredient ingredient) {
-        ingredientList.put(ingredient.name.toLowerCase(), ingredient);
-        System.out.println("Added " + ingredient.name + " to pantry.");
+        ingredientList.put(ingredient.getName().toLowerCase(), ingredient);
+        System.out.println("Added " + ingredient.getName() + " to pantry.");
     }
 
     // Overloaded method to create AND add an Ingredient
-    public void add_ingredient(String name, int quantity, String unit, Set<Ingredient.dietary_tags> tags) {
+    public void add_ingredient(String name, double quantity, String unit, Set<Ingredient.dietary_tags> tags) {
         if (tags == null) {
             tags = new HashSet<>();  // Initialize an empty set if no tags are provided
         }
-        Ingredient ingredient = new Ingredient(name, quantity, unit, tags);
+        // Convert DietaryTags enum to strings if needed
+        Set<String> tagStrings = new HashSet<>();
+        for (Ingredient.dietary_tags tag : tags) {
+            tagStrings.add(tag.name());
+        }
+        Ingredient ingredient = new Ingredient(name, quantity, unit, tagStrings);
         ingredientList.put(name.toLowerCase(), ingredient);
         System.out.println("Added " + name + " to pantry.");
     }
@@ -29,18 +33,18 @@ public class Pantry {
         Ingredient ing = ingredientList.get(name.toLowerCase());  // Use lowercase for consistency
         if (ing != null) {
             ingredientList.remove(name.toLowerCase());  // Also remove by lowercase name
-            System.out.println("Deleted " + ing.name + " from pantry.");
+            System.out.println("Deleted " + ing.getName() + " from pantry.");
         } else {
             System.out.println("Ingredient " + name + " not found in pantry.");
         }
     }
 
     // Method to edit quantity of ingredient in pantry
-    public void edit_ingredient(String name, int newQuantity) {
+    public void edit_ingredient(String name, double newQuantity) {
         Ingredient ingredient = ingredientList.get(name.toLowerCase());  // Use lowercase for consistency
         if (ingredient != null) {
             ingredient.updateQuantity(newQuantity);
-            System.out.println("Updated " + name + " to " + newQuantity + " " + ingredient.unit);
+            System.out.println("Updated " + name + " to " + newQuantity + " " + ingredient.getUnit());
         } else {
             System.out.println("Ingredient " + name + " not found in pantry.");
         }
@@ -50,7 +54,7 @@ public class Pantry {
     public List<Ingredient> filter_ingredients_by_tag(Ingredient.dietary_tags tag) {
         List<Ingredient> filteredList = new ArrayList<>();
         for (Ingredient ingredient : ingredientList.values()) {
-            if (ingredient.tags.contains(tag)) {
+            if (ingredient.getTags().contains(tag.name())) {
                 filteredList.add(ingredient);
             }
         }
@@ -65,7 +69,7 @@ public class Pantry {
         } else {
             System.out.println(tag + " Ingredients in Pantry:");
             for (Ingredient ingredient : filteredIngredients) {
-                System.out.println(ingredient.name);
+                System.out.println(ingredient.getName());
             }
         }
     }
@@ -92,7 +96,7 @@ public class Pantry {
         Ingredient ingredient = ingredientList.get(name.toLowerCase()); // Use lowercase for consistency
         if (ingredient != null) {
             groceryList.put(ingredient, quantity);
-            System.out.println("Added " + quantity + " " + ingredient.unit + " of " + ingredient.name + " to the grocery list.");
+            System.out.println("Added " + quantity + " " + ingredient.getUnit() + " of " + ingredient.getName() + " to the grocery list.");
         } else {
             System.out.println("Ingredient " + name + " not found in pantry.");
         }
@@ -107,11 +111,12 @@ public class Pantry {
             for (Map.Entry<Ingredient, Double> entry : groceryList.entrySet()) {
                 Ingredient ing = entry.getKey();
                 Double qty = entry.getValue();
-                System.out.println(ing.name + ": " + qty + " " + ing.unit);
+                System.out.println(ing.getName() + ": " + qty + " " + ing.getUnit());
             }
         }
     }
 
+    public int getNPantryItems() { return this.ingredientList.size(); }
 
     // toString method to print pantry contents
     @Override
@@ -119,7 +124,7 @@ public class Pantry {
         StringBuilder pantryContents = new StringBuilder("Pantry contents:\n");
         for (Map.Entry<String, Ingredient> entry : ingredientList.entrySet()) {
             Ingredient ing = entry.getValue();
-            pantryContents.append(ing.name).append(": ").append(ing.quantity).append(" ").append(ing.unit).append(", Tags: ").append(ing.tags).append("\n");
+            pantryContents.append(ing.getName()).append(": ").append(ing.getQuantity()).append(" ").append(ing.getUnit()).append(", Tags: ").append(ing.getTags()).append("\n");
         }
         return pantryContents.toString();
     }

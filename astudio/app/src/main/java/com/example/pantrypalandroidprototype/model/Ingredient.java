@@ -1,12 +1,13 @@
 package com.example.pantrypalandroidprototype.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Ingredient {
-    String name;
-    double quantity;
-    String unit;
-    Set<dietary_tags> tags;
+    private final String name;
+    private double quantity;
+    private final String unit;
+    private final Set<String> tags;
 
     // Enum for dietary tags
     public enum dietary_tags {
@@ -17,18 +18,22 @@ public class Ingredient {
         NUT_FREE,
         VEGETARIAN,
         DAIRY_FREE
-
     }
 
-    // Constructor
-    public Ingredient(String name, double quantity, String unit, Set<dietary_tags> tags) {
+    // Constructor with default tags as empty
+    public Ingredient(String name, double quantity, String unit, Set<String> tags) {
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
-        this.tags = tags;
+        this.tags = (tags == null) ? new HashSet<>() : tags;  // Ensure non-null tags
     }
 
-    public void updateQuantity(int newQuantity) {
+    // Constructor for name only (default values for quantity, unit, and tags)
+    public Ingredient(String name) {
+        this(name, 0.0, "unit", new HashSet<>());  // Default values for quantity and unit
+    }
+
+    public void updateQuantity(double newQuantity) {
         this.quantity = newQuantity;
     }
 
@@ -42,6 +47,18 @@ public class Ingredient {
 
     public String getUnit() {
         return unit;
+    }
+
+    public Set<String> getTags() {
+        return tags;
+    }
+
+    public void addDietaryTag(String tag) {
+        tags.add(tag);
+    }
+
+    public void removeDietaryTag(String tag) {
+        tags.remove(tag);
     }
 
     // toString method to print ingredient
