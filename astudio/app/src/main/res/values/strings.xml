@@ -9,7 +9,6 @@
     <string name="item_qty_hint">Enter ingredient quantity here</string>
     <string name="item_unit_label">Unit:</string>
     <string name="item_unit_hint">Enter ingredient unit here</string>
-    <string name="item_tags_label">Tags:</string>
     <string name="item_tags_hint">Enter ingredient tags here</string>
     <string name="missing_item_fields_error">Please provide a name and a quantity!</string>
     <string name="done_button_label">Done</string>
