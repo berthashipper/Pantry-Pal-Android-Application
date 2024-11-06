@@ -28,6 +28,7 @@ public class Recipe {
         this.url = url; // Initialize URL
     }
 
+    /*
     // Method to print recipe details
     public void printRecipeDetails() {
         System.out.println("Recipe: " + recipeName);
@@ -48,6 +49,7 @@ public class Recipe {
             System.out.println((i + 1) + ". " + steps[i].trim());
         }
     }
+     */
 
     // Getter for ingredients
     public Set<Ingredient> getIngredients() {

@@ -95,7 +95,7 @@ public class Main {
                 .build();
 
         // Display the recipe
-        grilledCheese.printRecipeDetails();
+        System.out.println(grilledCheese);
 
         System.out.println("\n");
 
