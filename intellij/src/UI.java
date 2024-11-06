@@ -336,6 +336,8 @@ public class UI {
 
     public void deleteAllfromCookbookUI() {
         controller.clearCookbook();
+        String output = controller.clearCookbook();
+        System.out.println(output);
     }
 
     public void deleteRecipeFromCookbookUI(){
@@ -343,6 +345,6 @@ public class UI {
         String name = scanner.nextLine();
         controller.deleteRecipefromCookbook(name);
         System.out.println("Recipe deleted successfully!");
-    };
+    }
 }
 
