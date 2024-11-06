@@ -38,7 +38,7 @@ title Manage Grocery List (casual level)
 
 |User|
 start
-:Select option (Add, Delete, View Grocery List);
+:Select option (Add, Delete, View Grocery List, Edit);
 
 |Recipe Management System|
 :Receive user action;
@@ -66,7 +66,119 @@ elseif (View List)
 :Display list of items in the grocery list;
 stop
 
+
+elseif (Edit Ingredient)
+:Show list of existing grocery items;
+|User|
+:Select item to edit;
+:updated quantity of ingredient;
+|Recipe Management System|
+:Stores new ingredient quantity to pantry;
+|User|
+:See the changes in pantry;
+stop
+
 else
 stop
 @enduml
 ```
+
+
+## 6. Sequence Diagram
+
+
+```plantuml
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller"  as cont
+participant ": curGroceryList : GroceryList" as grocery
+participant ": Ingredient" as ingr
+
+ui -> user : Display add ingredient option
+user -> ui : Input ingredient name
+user -> ui : Input ingredient quantity
+user -> ui : Input ingredient unit
+user -> ui : Input dietary tags
+ui -> cont : addIngredient(name, quantity, unit, tags)
+cont -> grocery : add_ingredient(name, quantity, unit, tags)
+grocery -> ingr **: ingr = create(name,quantity,unit,tags)
+grocery -> cont : curGroceryList.display()
+cont -> ui : updateDisplay(grocery)
+ui -> user : Show updated Grocery list
+
+@enduml
+````
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller"  as cont
+participant ": curGroceryList : GroceryList" as grocery
+
+ui -> user : Display delete ingredient option
+user -> ui : Input ingredient name to delete
+ui -> cont : deleteIngredient(name)
+cont -> grocery : delete_ingredient(name)
+grocery -> cont : curGroceryList.list()
+cont -> ui : updateDisplay(grocery)
+ui -> user : Show updated Grocery list
+
+@enduml
+````
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller"  as cont
+participant ": curGroceryList : GroceryList" as grocery
+
+ui -> user : Display edit buttons
+user -> ui : Select existing ingredient name
+user -> ui : Click edit button to change quantity
+ui -> cont : editItem(name, quantity)
+cont -> grocery : editItem(name, quantity)
+grocery -> cont : curGrocery.ingredient()
+cont -> ui : updateDisplay(grocery)
+ui -> user : show updated ingredient information
+
+@enduml
+
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller"  as cont
+participant ": curGroceryList : GroceryList" as grocery
+
+ui -> user : Display view Grocery List buttons
+user -> ui : Click view Grocery List buttons to view the full Grocery List
+ui -> cont : viewGroceryList()
+cont -> grocery :  viewGroceryList()
+pantry -> grocery :  viewGroceryList()
+cont -> ui : Display(grocery)
+ui -> user : show full Grocery List
+
+@enduml
+
+````
