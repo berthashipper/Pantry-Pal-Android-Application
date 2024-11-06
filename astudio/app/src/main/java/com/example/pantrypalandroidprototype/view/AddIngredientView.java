@@ -12,14 +12,11 @@ import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.ActivityMainBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
-import androidx.recyclerview.widget.RecyclerView;
 
 
 import java.util.HashSet;
 import java.util.Set;
 
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 public class AddIngredientView implements IAddIngredientView {
 
@@ -32,7 +29,7 @@ public class AddIngredientView implements IAddIngredientView {
         this.binding = ActivityMainBinding.inflate(LayoutInflater.from(context));
 
         this.binding.addIngredientButton.setOnClickListener(v -> onAddButtonClicked());
-        setupTagDropdown(context);
+//        setupTagDropdown(context);
     }
 
     @Override
@@ -43,31 +40,6 @@ public class AddIngredientView implements IAddIngredientView {
     @Override
     public void updatePantryDisplay(@NonNull final Pantry pantry) {
         Toast.makeText(binding.getRoot().getContext(), "Pantry updated with " + pantry.getNPantryItems() + " items.", Toast.LENGTH_SHORT).show();
-    }
-
-    private void setupTagDropdown(Context context) {
-        Spinner tagsSpinner = binding.itemTagsSpinner;
-
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context,
-                R.array.dietary_tags_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        tagsSpinner.setAdapter(adapter);
-
-        tagsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedTag = (String) parent.getItemAtPosition(position);
-                Ingredient.dietary_tags tag = Ingredient.dietary_tags.valueOf(selectedTag.toUpperCase().replace(" ", "_"));
-                if (selectedTags.contains(tag)) {
-                    selectedTags.remove(tag);
-                } else {
-                    selectedTags.add(tag);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
     }
 
     private void onAddButtonClicked() {
@@ -90,6 +62,8 @@ public class AddIngredientView implements IAddIngredientView {
 
         listener.onAddIngredient(name, qty, unit, new HashSet<>(selectedTags));
     }
+
+
 
 
 }

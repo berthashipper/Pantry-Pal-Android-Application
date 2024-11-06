@@ -89,33 +89,6 @@
                 android:inputType="text" />
         </LinearLayout>
 
-        <!-- Item Tags Dropdown (Spinner) -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/itemTagsLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/item_tags_label" />
-
-            <Spinner
-                android:id="@+id/itemTagsSpinner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <!-- Pantry Display -->
-        <TextView
-            android:id="@+id/pantryDisplayTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Pantry items will appear here"
-            android:padding="16dp" />
 
         <!-- Add Ingredient Button -->
         <LinearLayout
@@ -131,8 +104,15 @@
                 android:text="@string/add_ingredient_button" />
         </LinearLayout>
 
-        <!-- RecyclerView for Ingredients -->
+        <!-- Pantry Display -->
+        <TextView
+            android:id="@+id/pantryDisplayTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Added pantry items:"
+            android:padding="16dp" />
 
+        <!-- RecyclerView for Ingredients -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/ingredient_recycler_view"
             android:layout_width="match_parent"
