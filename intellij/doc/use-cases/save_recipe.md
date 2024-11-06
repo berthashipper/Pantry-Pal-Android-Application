@@ -49,3 +49,26 @@ start
 stop
 @enduml
 ```
+
+
+## 6. Sequence Diagram
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller"  as cont
+participant ": Cookbook" as cb
+
+user -> ui : Selects "Save Recipe"
+ui -> cont : saveRecipe(name, description, cookTime, servingSize, ingredients, instructions)
+cont -> cb : addRecipe(name, description, cookTime, servingSize, ingredients, instructions)
+cont --> ui : updateDisplay(cb)
+ui --> user: "Recipe uploaded successfully"
+
+@enduml
+````
