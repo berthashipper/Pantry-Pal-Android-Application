@@ -63,3 +63,34 @@ stop
 ```
 
 
+## 6. Sequence Diagram
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller"  as cont
+participant ": Cookbook" as cb
+participant ": Weekly Meals" as wm
+
+
+user -> ui : Selects "plan weekly meals"
+ui -> cont : viewCookbook()
+cont -> cb : Retrieve all recipes
+cb --> cont : Return list of recipes
+cont --> ui : Display list of recipes
+
+user -> ui : Selects Recipe 
+ui -> cont : saveRecipeToPlan(name, description, cookTime, servingSize, ingredients, instructions)
+cont -> wm : Add new recipe to Weekly Meals
+cont --> ui : updateDisplay(wm)
+ui --> user : present new Weekly Plan
+
+@enduml
+````
+
+
