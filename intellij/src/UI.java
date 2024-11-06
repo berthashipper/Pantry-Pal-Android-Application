@@ -20,7 +20,7 @@ public class UI {
             System.out.println("1. Manage Pantry");
             System.out.println("2. Generate Recipe Suggestions");
             System.out.println("3. Upload a Recipe");
-            System.out.println("4. View Cookbook");
+            System.out.println("4. Manage Cookbook");
             System.out.println("5. Search Recipe by Name");
             System.out.println("0. Exit");
             System.out.println("\n______________________________________________________________________\n");
@@ -39,7 +39,7 @@ public class UI {
                     uploadRecipeUI();
                     break;
                 case 4:
-                    viewCookbookUI();
+                    manageCookbookUI();
                     break;
                 case 5:
                     searchRecipeUI();
@@ -278,11 +278,6 @@ public class UI {
         return value;
     }
 
-    public void viewCookbookUI() {
-        String output = controller.viewCookbook();
-        System.out.println(output);
-    }
-
     public void searchRecipeUI() {
         System.out.print("Enter recipe name to search: ");
         String name = scanner.nextLine();
@@ -290,5 +285,64 @@ public class UI {
         System.out.println(output);
     }
 
+    public void manageCookbookUI() {
+        boolean managingCookbook = true;
+
+        while (managingCookbook) {
+            System.out.println("\n______________________________________________________________________\n");
+            System.out.println("\n--- Cookbook Management ---\n");
+            viewCookbookUI();
+            System.out.println("\n______________________________________________________________________\n");
+
+            System.out.println("1. Add new Recipe");
+            System.out.println("2. Delete Recipe");
+            System.out.println("3. Delete All Recipes");
+            System.out.println("4. Back to Main Menu");
+            System.out.println("\n______________________________________________________________________\n");
+
+            String choiceStr = scanner.nextLine().trim();
+
+            if (!choiceStr.matches("[1-4]")) {  // Check if input is a valid option
+                System.out.println("Invalid option. Please enter a number between 1 and 4.");
+                continue;  // Loop again until a valid option is entered
+            }
+
+            int choice = Integer.parseInt(choiceStr);
+
+            switch (choice) {
+                case 1:
+                    uploadRecipeUI();
+                    break;
+                case 2:
+                    deleteRecipeFromCookbookUI();
+                    break;
+                case 3:
+                    deleteAllfromCookbookUI();
+                    break;
+                case 4:
+                    managingCookbook = false;
+                    break;
+                default:
+                    System.out.println("Invalid option. Please try again.");
+                    break;
+            }
+        }
+    }
+
+    public void viewCookbookUI() {
+        String output = controller.viewCookbook();
+        System.out.println(output);
+    }
+
+    public void deleteAllfromCookbookUI() {
+        controller.clearCookbook();
+    }
+
+    public void deleteRecipeFromCookbookUI(){
+        System.out.println("Enter the Recipe name you want to delete: ");
+        String name = scanner.nextLine();
+        controller.deleteRecipefromCookbook(name);
+        System.out.println("Recipe deleted successfully!");
+    };
 }
 

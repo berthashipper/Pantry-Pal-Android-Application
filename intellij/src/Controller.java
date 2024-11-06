@@ -62,9 +62,10 @@ public class Controller {
 
         Recipe newRecipe = recipeBuilder.build();
         allRecipes.add(newRecipe);
+        cookbook.savedRecipes.add(newRecipe);
     }
 
-    public String viewCookbook() {
+    public String viewCookbook1() {
         if (allRecipes.isEmpty()) {
             return "Your cookbook is empty.";
         } else {
@@ -99,31 +100,40 @@ public class Controller {
     }
 
 
-    /* Drafting for next iteration: using the Cookbook class
-    public void viewCookbook() {
-        if (cookbook.savedRecipes.isEmpty()) {
-            System.out.println("Your cookbook is empty.");
-        } else {
-            System.out.println("--- Your Cookbook ---");
-            for (Recipe recipe : cookbook.savedRecipes) {
-                System.out.println(recipe.recipeName);
-            }
-        }
-    }
+      public String viewCookbook() {
+          if (cookbook.savedRecipes.isEmpty()) {
+              return "Your cookbook is empty.";
+          } else {
+              StringBuilder result = new StringBuilder();
+              result.append("\n______________________________________________________________________\n")
+                      .append("--- Your Cookbook ---\n");
+              for (Recipe recipe : cookbook.savedRecipes) {
+                  result.append(recipe.recipeName).append("\n");
+              }
+              result.append("\n______________________________________________________________________\n");
+              return result.toString();
+          }
+      }
 
-    public void clearCookbook() {
+
+    public String clearCookbook() {
         cookbook.deleteAllSavedRecipes();
-        System.out.println("Your Cookbook is cleared.");
+        return "Your Cookbook is cleared.";
     }
 
-    public void saveRecipetoCookbook(Recipe recipe) {
+    public String saveRecipetoCookbook(Recipe recipe) {
         cookbook.addSavedRecipe(recipe);
+        return "New recipe successfully saved to Cookbook.";
     }
 
-    public void deleteRecipefromCookbook(Recipe recipe) {
-        cookbook.deleteSavedRecipe(recipe);
+    public void deleteRecipefromCookbook(String name) {
+            for (Recipe recipe : cookbook.savedRecipes) {
+                if (recipe.recipeName.toLowerCase().contains(name.toLowerCase())) {
+                    cookbook.deleteSavedRecipe(recipe);
+                }
+            }
     }
-     */
+    }
 
 
-}
+
