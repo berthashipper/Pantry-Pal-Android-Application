@@ -13,18 +13,19 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.HashSet;
 import java.util.Set;
 
-public class EditIgredientFragment extends Fragment implements IEditingredientView {
+
+public class DeleteIgredientFragment extends Fragment implements IDeletetingredientView {
     // Listener interface for button interactions
     public interface Listener {
-        void onEditIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags);
+        void onDeleteIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags);
     }
 
     private FragmentAddItemsBinding binding;
     private Listener listener;
     private Set<Ingredient.dietary_tags> selectedTags = new HashSet<>();
 
-    public static EditIngredientFragment newInstance(Listener listener) {
-        EditIngredientFragment fragment = new EditIngredientFragment();
+    public static DeleteIngredientFragment newInstance(Listener listener) {
+        DeleteIngredientFragment fragment = new DeleteIngredientFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);  // Add other arguments here if needed
         fragment.listener = listener; // Set listener
@@ -47,22 +48,7 @@ public class EditIgredientFragment extends Fragment implements IEditingredientVi
     }
 
     private void onAddButtonClicked() {
-
-        double qty;
-        try {
-            qty = Double.parseDouble(qtyString);
-        } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), "Quantity must be a number", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Notify listener with the data
-        listener.onAddIngredient(name, qty, unit, selectedTags);
         clearInputs();
-    }
-
-    private void clearInputs() {
-        binding.itemQtyText.getText().clear();
     }
 
     public void updatePantryDisplay(@NonNull final Pantry pantry) {
