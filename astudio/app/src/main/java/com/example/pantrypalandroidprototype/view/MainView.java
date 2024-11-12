@@ -13,13 +13,19 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantrypalandroidprototype.databinding.MainBinding;
+import com.example.pantrypalandroidprototype.model.Ingredient;
+import com.example.pantrypalandroidprototype.model.PantryAdapter;
+
+import java.util.List;
 
 public class MainView implements IMainView {
 
     final private MainBinding binding;
     final private FragmentManager fmanager;
+    private PantryAdapter pantryAdapter;
 
     /**
      * Constructor method.
@@ -28,9 +34,14 @@ public class MainView implements IMainView {
      * @param factivity The android activity the screen is associated with.
      */
     public MainView(final Context context, final FragmentActivity factivity) {
+        // Initialize the binding and pantry adapter
         this.binding = MainBinding.inflate(LayoutInflater.from(context));
+        this.pantryAdapter = new PantryAdapter();  // Initialize pantryAdapter
 
-        // configure app to maximize space usage by drawing of top of system bars
+        // Set the RecyclerView adapter from the binding
+        this.binding.recyclerView.setAdapter(pantryAdapter);
+
+        // Configure app to maximize space usage by drawing on top of system bars
         EdgeToEdge.enable(factivity);
         ViewCompat.setOnApplyWindowInsetsListener(this.binding.getRoot(), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -41,12 +52,18 @@ public class MainView implements IMainView {
         this.fmanager = factivity.getSupportFragmentManager();
     }
 
+    public PantryAdapter getPantryAdapter() {
+        return pantryAdapter;
+    }
+
     /**
-     * Retrieve the graphical widget (android view) at the root of the screen hierarchy/
+     * Retrieve the graphical widget (android view) at the root of the screen hierarchy.
      * @return the screen's root android view (widget)
      */
     @Override
-    public View getRootView() { return this.binding.getRoot(); }
+    public View getRootView() {
+        return this.binding.getRoot();
+    }
 
     /**
      * Replaces the contents of the screen's fragment container with the one passed in as an argument.
@@ -60,7 +77,7 @@ public class MainView implements IMainView {
 
     /**
      * Replaces the contents of the screen's fragment container with the one passed in as an argument,
-     * and adds the transaction to the back stack, under the name specified as an argument (iff non-null).
+     * and adds the transaction to the back stack, under the name specified as an argument (if non-null).
      *
      * @param fragment The fragment to be displayed.
      * @param transName the name this transaction can be referred by.
@@ -72,5 +89,15 @@ public class MainView implements IMainView {
         if (transName != null) ft.addToBackStack(transName);
         ft.commit();
     }
-}
 
+    /**
+     * Displays pantry items by updating the RecyclerView with the pantry items list.
+     *
+     * @param pantryItems the list of pantry ingredients to be displayed.
+     */
+    public void displayPantry(@NonNull List<Ingredient> pantryItems) {
+        // Update the pantryAdapter with new pantry items
+        pantryAdapter.updatePantryItems(pantryItems);
+        // No need to set the adapter again as it's already done in the constructor
+    }
+}

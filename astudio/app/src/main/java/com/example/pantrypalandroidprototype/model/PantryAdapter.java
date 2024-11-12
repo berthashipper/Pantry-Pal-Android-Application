@@ -35,7 +35,11 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         return pantryItems.size();
     }
 
-    public void setPantryItems(List<Ingredient> items) {
+    /**
+     * Updates the pantry items in the adapter.
+     * @param items the list of new pantry items to display.
+     */
+    public void updatePantryItems(List<Ingredient> items) {
         this.pantryItems = items;
         notifyDataSetChanged();
     }

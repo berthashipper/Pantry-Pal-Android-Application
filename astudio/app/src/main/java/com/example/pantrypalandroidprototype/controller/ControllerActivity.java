@@ -1,76 +1,83 @@
 package com.example.pantrypalandroidprototype.controller;
 
-
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.pantrypalandroidprototype.model.Ingredient;
+import com.example.pantrypalandroidprototype.model.Pantry;
+import com.example.pantrypalandroidprototype.view.AddIngredientFragment;
+import com.example.pantrypalandroidprototype.view.IAddIngredientView;
+import com.example.pantrypalandroidprototype.view.IMainView;
+import com.example.pantrypalandroidprototype.view.IPantryView;
+import com.example.pantrypalandroidprototype.view.MainView;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The controller class for our application.
  */
-public class ControllerActivity extends AppCompatActivity implements IAddItemsView.Listener, ICashPaymentView.Listener  {
+public class ControllerActivity extends AppCompatActivity implements IAddIngredientView.Listener, IPantryView.Listener {
 
-    IMainView mainView; // keep track of the UI object
-    Sale curSale; // keep track of current sale
+    private IMainView mainView; // Keep track of the main UI object
+    private Pantry pantry;
 
     /**
      * This method is called by the Android framework whenever the activity is created or recreated.
-     *
-     * @param savedInstanceState If the activity is being re-initialized after
-     *     previously being shut down then this Bundle contains the data it most
-     *     recently supplied in {@link #onSaveInstanceState}.  <b><i>Note: Otherwise it is null.</i></b>
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // create main screen template
+        // Create main screen template
         this.mainView = new MainView(this, this);
-        setContentView(this.mainView.getRootView()); // must be called from controller
+        setContentView(this.mainView.getRootView()); // Must be called from controller
 
-        this.mainView.displayFragment(new AddItemsFragment(this)); // display first screen
+        // Initialize the pantry
+        pantry = new Pantry();
 
-        this.curSale = new Sale(); // start out with an empty sale
+        // Display the AddIngredientFragment for the user to add items
+        AddIngredientFragment addIngredientFragment = AddIngredientFragment.newInstance((AddIngredientFragment.Listener) this);
+        this.mainView.displayFragment(addIngredientFragment); // Display the AddIngredientFragment
+
     }
 
-    /* IAddItemsView.Listener implementation start */
+    /* IAddIngredientView.Listener implementation start */
     /**
-     * Called when an item is to be added onto the sale.
+     * Called when an ingredient is added to the pantry.
      *
-     * @param name name of product to add
-     * @param qty number of units to add
+     * @param name name of the ingredient to add
+     * @param qty  quantity of the ingredient
+     * @param unit unit of the ingredient
+     * @param tags dietary tags associated with the ingredient
      */
     @Override
-    public void onAddItem(final String name, final int qty, @NonNull final IAddItemsView view) {
-        this.curSale.addLineItem(name, qty);
-        view.updateSaleDisplay(this.curSale);
+    public void onAddIngredient(final String name, final double qty, final String unit, @NonNull final Set<Ingredient.dietary_tags> tags) {
+        // Create new Ingredient object and add it to the pantry
+        Ingredient newIngredient = new Ingredient(name, qty, unit, tags);
+        pantry.add_ingredient(newIngredient);
+
+        // Update the pantry display (show how many items are in the pantry)
+        updatePantryDisplay(pantry);
     }
 
+    /* IPantryView.Listener implementation start */
     /**
-     * Called when the user is done adding items.
-     */
-    @Override
-    public void onItemsDone() {
-        final double total = this.curSale.getTotal();
-        this.mainView.displayFragment(new CashPaymentFragment(total, this));
-    }
-    /* IAddItemsView.Listener implementation end */
-
-    /* ICashPaymentView.Listener implementation start */
-
-    /**
-     * Called when the user has provided an amount of cash to pay for the sale.
+     * Updates the pantry display with the current pantry data.
      *
-     * @param amount the amount of cash provided
-     * @param view the view the event originated from
+     * @param pantry the updated pantry
      */
     @Override
-    public void onCashTendered(final double amount, @NonNull final ICashPaymentView view) {
-        final double change = this.curSale.makeCashPayment(amount);
-        view.updateDisplayOnPaid(change);
+    public void updatePantryDisplay(@NonNull final Pantry pantry) {
+        // Get the list of ingredients from the pantry
+        List<Ingredient> ingredients = new ArrayList<>(pantry.ingredientList.values());
 
+        // Update the RecyclerView adapter with the list of pantry items
+        this.mainView.getPantryAdapter().updatePantryItems(ingredients);
     }
-    /* ICashPaymentView.Listener implementation end */
+    /* IPantryView.Listener implementation end */
 }
