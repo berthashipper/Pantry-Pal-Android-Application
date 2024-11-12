@@ -1,5 +1,6 @@
 package com.example.pantrypalandroidprototype;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private List<Ingredient> ingredientList;
     private EditText ingredientNameInput, ingredientQtyInput, ingredientUnitInput;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

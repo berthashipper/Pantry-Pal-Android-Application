@@ -15,7 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pantrypalandroidprototype.databinding.MainBinding;
+import com.example.pantrypalandroidprototype.databinding.MainBinding;  // Ensure this import matches your actual generated ViewBinding
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.PantryAdapter;
 
@@ -23,9 +23,9 @@ import java.util.List;
 
 public class MainView implements IMainView {
 
-    final private MainBinding binding;
-    final private FragmentManager fmanager;
-    private PantryAdapter pantryAdapter;
+    final private MainBinding binding;  // Binding object to access layout elements
+    final private FragmentManager fmanager;  // Fragment manager to handle fragments
+    private PantryAdapter pantryAdapter;  // Adapter for the pantry RecyclerView
 
     /**
      * Constructor method.
@@ -35,11 +35,11 @@ public class MainView implements IMainView {
      */
     public MainView(final Context context, final FragmentActivity factivity) {
         // Initialize the binding and pantry adapter
-        this.binding = MainBinding.inflate(LayoutInflater.from(context));
-        this.pantryAdapter = new PantryAdapter();  // Initialize pantryAdapter
+        this.binding = MainBinding.inflate(LayoutInflater.from(context));  // Inflate the binding object
+        this.pantryAdapter = new PantryAdapter();
 
         // Set the RecyclerView adapter from the binding
-        this.binding.recyclerView.setAdapter(pantryAdapter);
+        this.binding.ingredientRecyclerView.setAdapter(pantryAdapter);  // Ensure ingredientRecyclerView ID exists in the layout XML
 
         // Configure app to maximize space usage by drawing on top of system bars
         EdgeToEdge.enable(factivity);
@@ -85,7 +85,7 @@ public class MainView implements IMainView {
     @Override
     public void displayFragment(@NonNull final Fragment fragment, final String transName) {
         final FragmentTransaction ft = this.fmanager.beginTransaction();
-        ft.replace(this.binding.fragmentContainerView.getId(), fragment);
+        ft.replace(this.binding.fragmentContainerView.getId(), fragment);  // Ensure fragmentContainerView ID exists in your layout XML
         if (transName != null) ft.addToBackStack(transName);
         ft.commit();
     }
@@ -98,6 +98,5 @@ public class MainView implements IMainView {
     public void displayPantry(@NonNull List<Ingredient> pantryItems) {
         // Update the pantryAdapter with new pantry items
         pantryAdapter.updatePantryItems(pantryItems);
-        // No need to set the adapter again as it's already done in the constructor
     }
 }

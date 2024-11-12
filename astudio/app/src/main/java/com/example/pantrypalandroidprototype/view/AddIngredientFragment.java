@@ -5,9 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import com.example.pantrypalandroidprototype.databinding.FragmentAddItemsBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
@@ -19,7 +21,7 @@ public class AddIngredientFragment extends Fragment {
 
     // Listener interface for button interactions
     public interface Listener {
-        void onAddIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags);
+        void onAddIngredient(String name, double qty, String unit, Set<String> tags);
     }
 
     private FragmentAddItemsBinding binding;
@@ -28,8 +30,6 @@ public class AddIngredientFragment extends Fragment {
 
     public static AddIngredientFragment newInstance(Listener listener) {
         AddIngredientFragment fragment = new AddIngredientFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);  // Add other arguments here if needed
         fragment.listener = listener; // Set listener
         return fragment;
     }
@@ -67,8 +67,14 @@ public class AddIngredientFragment extends Fragment {
             return;
         }
 
+        // Convert dietary_tags to a Set<String> if needed
+        Set<String> dietaryTags = new HashSet<>();
+        for (Ingredient.dietary_tags tag : selectedTags) {
+            dietaryTags.add(tag.toString());
+        }
+
         // Notify listener with the data
-        listener.onAddIngredient(name, qty, unit, selectedTags);
+        listener.onAddIngredient(name, qty, unit, dietaryTags);
         clearInputs();
     }
 
