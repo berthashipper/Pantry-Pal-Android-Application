@@ -4,21 +4,17 @@ import java.util.*;
 
 public class Pantry {
     public Map<String, Ingredient> ingredientList = new HashMap<>();
-    // Temporary grocery list since that use case hasn't been implemented yet
     Map<Ingredient, Double> groceryList = new HashMap<>();
 
-    // Method to add an existing Ingredient object to the pantry
     public void add_ingredient(Ingredient ingredient) {
         ingredientList.put(ingredient.getName().toLowerCase(), ingredient);
         System.out.println("Added " + ingredient.getName() + " to pantry.");
     }
 
-    // Overloaded method to create AND add an Ingredient
     public void add_ingredient(String name, double quantity, String unit, Set<Ingredient.dietary_tags> tags) {
         if (tags == null) {
-            tags = new HashSet<>();  // Initialize an empty set if no tags are provided
+            tags = new HashSet<>();
         }
-        // Convert DietaryTags enum to strings if needed
         Set<String> tagStrings = new HashSet<>();
         for (Ingredient.dietary_tags tag : tags) {
             tagStrings.add(tag.name());
@@ -28,20 +24,18 @@ public class Pantry {
         System.out.println("Added " + name + " to pantry.");
     }
 
-    // Method to delete ingredient from pantry
     public void delete_ingredient(String name) {
-        Ingredient ing = ingredientList.get(name.toLowerCase());  // Use lowercase for consistency
+        Ingredient ing = ingredientList.get(name.toLowerCase());
         if (ing != null) {
-            ingredientList.remove(name.toLowerCase());  // Also remove by lowercase name
+            ingredientList.remove(name.toLowerCase());
             System.out.println("Deleted " + ing.getName() + " from pantry.");
         } else {
             System.out.println("Ingredient " + name + " not found in pantry.");
         }
     }
 
-    // Method to edit quantity of ingredient in pantry
     public void edit_ingredient(String name, double newQuantity) {
-        Ingredient ingredient = ingredientList.get(name.toLowerCase());  // Use lowercase for consistency
+        Ingredient ingredient = ingredientList.get(name.toLowerCase());
         if (ingredient != null) {
             ingredient.updateQuantity(newQuantity);
             System.out.println("Updated " + name + " to " + newQuantity + " " + ingredient.getUnit());
@@ -50,7 +44,6 @@ public class Pantry {
         }
     }
 
-    // Method to filter ingredients by dietary tag
     public List<Ingredient> filter_ingredients_by_tag(Ingredient.dietary_tags tag) {
         List<Ingredient> filteredList = new ArrayList<>();
         for (Ingredient ingredient : ingredientList.values()) {
@@ -61,7 +54,6 @@ public class Pantry {
         return filteredList;
     }
 
-    // Method to print ingredients filtered by dietary tag
     public void printIngredientsByTag(Ingredient.dietary_tags tag) {
         List<Ingredient> filteredIngredients = filter_ingredients_by_tag(tag);
         if (filteredIngredients.isEmpty()) {
@@ -74,7 +66,6 @@ public class Pantry {
         }
     }
 
-    // Method to search for ingredients by name substring
     public void searchIngredient(String name) {
         List<Ingredient> foundIngredients = new ArrayList<>();
         for (String key : ingredientList.keySet()) {
@@ -91,9 +82,8 @@ public class Pantry {
         }
     }
 
-    // Method to add ingredient to grocery list
     public void addToGroceryList(String name, double quantity) {
-        Ingredient ingredient = ingredientList.get(name.toLowerCase()); // Use lowercase for consistency
+        Ingredient ingredient = ingredientList.get(name.toLowerCase());
         if (ingredient != null) {
             groceryList.put(ingredient, quantity);
             System.out.println("Added " + quantity + " " + ingredient.getUnit() + " of " + ingredient.getName() + " to the grocery list.");
@@ -102,7 +92,6 @@ public class Pantry {
         }
     }
 
-    // Method to print grocery list
     public void printGroceryList() {
         if (groceryList.isEmpty()) {
             System.out.println("Grocery list is empty.");
@@ -116,9 +105,10 @@ public class Pantry {
         }
     }
 
-    public int getNPantryItems() { return this.ingredientList.size(); }
+    public int getNPantryItems() {
+        return this.ingredientList.size();
+    }
 
-    // toString method to print pantry contents
     @Override
     public String toString() {
         StringBuilder pantryContents = new StringBuilder("Pantry contents:\n");
