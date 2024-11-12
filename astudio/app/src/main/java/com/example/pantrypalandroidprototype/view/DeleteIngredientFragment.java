@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.HashSet;
 import java.util.Set;
 
-public class EditIgredientFragment extends Fragment implements IEditingredientView {
+
+public class DeleteIgredientFragment extends Fragment implements IDeletetingredientView {
 
 }
