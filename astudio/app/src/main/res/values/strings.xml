@@ -3,6 +3,8 @@
     <string name="line_items_label">Line items:</string>
     <string name="line_items_text_def">No items yet!</string>
     <string name="add_ingredient_button">Add</string>
+    <string name="done_button">Done</string>
+    <string name="welcome_msg">Welcome</string>
     <string name="item_name_label">Ingredient name:</string>
     <string name="item_name_hint">Enter ingredient name here</string>
     <string name="item_qty_label">Quantity:</string>

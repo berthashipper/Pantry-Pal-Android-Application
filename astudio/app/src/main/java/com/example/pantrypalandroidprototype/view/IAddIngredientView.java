@@ -23,6 +23,7 @@ public interface IAddIngredientView {
          * Called when an ingredient is to be added to the pantry.
          */
         void onAddIngredient(final String name, final double qty, final String unit, final Set<Ingredient.dietary_tags> dietary_tags);
+        void onItemsDone();
     }
 
     void updatePantryDisplay(@NonNull final Pantry pantry);
