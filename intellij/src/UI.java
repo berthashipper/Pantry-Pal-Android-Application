@@ -311,7 +311,7 @@ public class UI {
 
             switch (choice) {
                 case 1:
-                    uploadRecipeUI();
+                    uploadRecipeUI(); //create new recipe, add to the database as well as the cookbook
                     break;
                 case 2:
                     deleteRecipeFromCookbookUI();
