@@ -1,6 +1,8 @@
 package com.example.pantrypalandroidprototype.controller;
 
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,17 +20,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * The controller class for our application.
- */
-public class ControllerActivity extends AppCompatActivity implements IAddIngredientView.Listener, IPantryView.Listener {
+public class ControllerActivity extends AppCompatActivity
+        implements IAddIngredientView.Listener, IAddIngredientView {
 
     private IMainView mainView; // Keep track of the main UI object
     private Pantry pantry;
 
-    /**
-     * This method is called by the Android framework whenever the activity is created or recreated.
-     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,34 +40,29 @@ public class ControllerActivity extends AppCompatActivity implements IAddIngredi
         // Display the AddIngredientFragment for the user to add items
         AddIngredientFragment addIngredientFragment = AddIngredientFragment.newInstance((AddIngredientFragment.Listener) this);
         this.mainView.displayFragment(addIngredientFragment); // Display the AddIngredientFragment
-
     }
 
-    /* IAddIngredientView.Listener implementation start */
-    /**
-     * Called when an ingredient is added to the pantry.
-     *
-     * @param name name of the ingredient to add
-     * @param qty  quantity of the ingredient
-     * @param unit unit of the ingredient
-     * @param tags dietary tags associated with the ingredient
-     */
     @Override
     public void onAddIngredient(final String name, final double qty, final String unit, @NonNull final Set<Ingredient.dietary_tags> tags) {
+        Set<String> tagStrings = new HashSet<>();
+        for (Ingredient.dietary_tags tag : tags) {
+            tagStrings.add(tag.toString()); // Converts each dietary_tag to its string representation
+        }
+
         // Create new Ingredient object and add it to the pantry
-        Ingredient newIngredient = new Ingredient(name, qty, unit, tags);
+        Ingredient newIngredient = new Ingredient(name, qty, unit, tagStrings);
         pantry.add_ingredient(newIngredient);
 
         // Update the pantry display (show how many items are in the pantry)
         updatePantryDisplay(pantry);
     }
 
-    /* IPantryView.Listener implementation start */
-    /**
-     * Updates the pantry display with the current pantry data.
-     *
-     * @param pantry the updated pantry
-     */
+    @Override
+    public void onItemsDone() {
+        // Add logic here for handling "items done" event
+        Toast.makeText(this, "Items Done", Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     public void updatePantryDisplay(@NonNull final Pantry pantry) {
         // Get the list of ingredients from the pantry
@@ -79,5 +71,10 @@ public class ControllerActivity extends AppCompatActivity implements IAddIngredi
         // Update the RecyclerView adapter with the list of pantry items
         this.mainView.getPantryAdapter().updatePantryItems(ingredients);
     }
-    /* IPantryView.Listener implementation end */
+
+    @Override
+    public View getRootView() {
+        // You can return the root view of your activity here if needed.
+        return this.mainView.getRootView();
+    }
 }
