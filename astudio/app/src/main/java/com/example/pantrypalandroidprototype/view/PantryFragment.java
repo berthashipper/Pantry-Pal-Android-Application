@@ -29,6 +29,7 @@ public class PantryFragment extends Fragment implements IPantryView {
 
     public interface Listener {
         void onAddIngredient(Ingredient ingredient);
+        void onNavigateBackToPantry();
     }
 
     public void setListener(Listener listener) {
@@ -40,6 +41,7 @@ public class PantryFragment extends Fragment implements IPantryView {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pantry, container, false);
+        pantryContentsTextView = view.findViewById(R.id.pantryContentsTextView);
 
         // Initialize the pantry model
         pantry = new Pantry();

@@ -37,7 +37,13 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     public void onBindViewHolder(@NonNull IngredientViewHolder holder, int position) {
         Ingredient ingredient = ingredientList.get(position);
         holder.nameTextView.setText(ingredient.getName());
-        holder.dietaryTagsTextView.setText(TextUtils.join(", ", ingredient.getTags())); // Display multiple tags
+
+        // Display multiple tags or default message if no tags
+        if (ingredient.getTags().isEmpty()) {
+            holder.dietaryTagsTextView.setText("No tags selected");
+        } else {
+            holder.dietaryTagsTextView.setText(TextUtils.join(", ", ingredient.getTags()));
+        }
 
         holder.dietaryTagsLayout.setOnClickListener(v -> {
             // Open dialog or new screen to select/deselect dietary tags
@@ -69,15 +75,17 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
 
         final String[] tags = {"Vegetarian", "Vegan", "Gluten-Free", "Dairy-Free", "Nut-Free"};
         boolean[] checkedItems = new boolean[tags.length];
+
+        // Set the checked state based on the current tags for this ingredient
         for (int i = 0; i < tags.length; i++) {
             checkedItems[i] = ingredient.getTags().contains(tags[i]);
         }
 
         builder.setMultiChoiceItems(tags, checkedItems, (dialog, which, isChecked) -> {
             if (isChecked) {
-                ingredient.addDietaryTag(tags[which]);
+                ingredient.addDietaryTag(tags[which]);  // Ensure this method exists in the Ingredient class
             } else {
-                ingredient.removeDietaryTag(tags[which]);
+                ingredient.removeDietaryTag(tags[which]);  // Ensure this method exists in the Ingredient class
             }
         });
 

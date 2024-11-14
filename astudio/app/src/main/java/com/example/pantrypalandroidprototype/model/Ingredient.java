@@ -54,7 +54,9 @@ public class Ingredient {
     }
 
     public void addDietaryTag(String tag) {
-        tags.add(tag);
+        if (!tags.contains(tag)) {
+            tags.add(tag);
+        }
     }
 
     public void removeDietaryTag(String tag) {

@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.MainBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.PantryAdapter;
@@ -37,6 +38,7 @@ public class MainView implements IMainView {
         // Initialize the binding and pantry adapter
         this.binding = MainBinding.inflate(LayoutInflater.from(context));
         this.pantryAdapter = new PantryAdapter();
+        this.fmanager = factivity.getSupportFragmentManager();
 
         // Set the RecyclerView adapter from the binding
         this.binding.ingredientRecyclerView.setAdapter(pantryAdapter); // Ensure the ID matches the XML
@@ -98,5 +100,13 @@ public class MainView implements IMainView {
     public void displayPantry(@NonNull List<Ingredient> pantryItems) {
         // Update the pantryAdapter with new pantry items
         pantryAdapter.updatePantryItems(pantryItems);
+    }
+
+    // This method will be used to navigate back to the pantry
+    public void onNavigateBackToPantry() {
+        PantryFragment pantryFragment = new PantryFragment();
+        fmanager.beginTransaction()
+                .replace(R.id.fragmentContainerView, pantryFragment)
+                .commit();
     }
 }
