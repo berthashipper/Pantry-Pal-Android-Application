@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ingredientRecyclerView = findViewById(R.id.ingredient_recycler_view);
+        ingredientRecyclerView = findViewById(R.id.ingredientRecyclerView);
         ingredientList = new ArrayList<>();
         ingredientAdapter = new IngredientAdapter(ingredientList, this);
 

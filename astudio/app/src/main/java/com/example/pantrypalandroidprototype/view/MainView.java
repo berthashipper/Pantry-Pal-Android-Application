@@ -15,7 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pantrypalandroidprototype.databinding.MainBinding;  // Ensure this import matches your actual generated ViewBinding
+import com.example.pantrypalandroidprototype.databinding.MainBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.PantryAdapter;
 
@@ -23,9 +23,9 @@ import java.util.List;
 
 public class MainView implements IMainView {
 
-    final private MainBinding binding;  // Binding object to access layout elements
-    final private FragmentManager fmanager;  // Fragment manager to handle fragments
-    private PantryAdapter pantryAdapter;  // Adapter for the pantry RecyclerView
+    MainBinding binding; // Binding object to access layout elements
+    FragmentManager fmanager; // Fragment manager to handle fragments
+    PantryAdapter pantryAdapter; // Adapter for the pantry RecyclerView
 
     /**
      * Constructor method.
@@ -35,11 +35,11 @@ public class MainView implements IMainView {
      */
     public MainView(final Context context, final FragmentActivity factivity) {
         // Initialize the binding and pantry adapter
-        this.binding = MainBinding.inflate(LayoutInflater.from(context));  // Inflate the binding object
+        this.binding = MainBinding.inflate(LayoutInflater.from(context));
         this.pantryAdapter = new PantryAdapter();
 
         // Set the RecyclerView adapter from the binding
-        this.binding.ingredientRecyclerView.setAdapter(pantryAdapter);  // Ensure ingredientRecyclerView ID exists in the layout XML
+        this.binding.ingredientRecyclerView.setAdapter(pantryAdapter); // Ensure the ID matches the XML
 
         // Configure app to maximize space usage by drawing on top of system bars
         EdgeToEdge.enable(factivity);

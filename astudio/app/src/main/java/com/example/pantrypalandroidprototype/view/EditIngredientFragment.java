@@ -1,19 +1,23 @@
 package com.example.pantrypalandroidprototype.view;
 
-import android.content.Context;
-import android.text.Editable;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.pantrypalandroidprototype.databinding.FragmentAddItemsBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
-import com.google.android.material.snackbar.Snackbar;
+
 import java.util.HashSet;
 import java.util.Set;
 
-public class EditIgredientFragment extends Fragment implements IEditingredientView {
+public class EditIngredientFragment extends Fragment implements IEditIngredientView {
+
     // Listener interface for button interactions
     public interface Listener {
         void onEditIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags);
@@ -25,8 +29,6 @@ public class EditIgredientFragment extends Fragment implements IEditingredientVi
 
     public static EditIngredientFragment newInstance(Listener listener) {
         EditIngredientFragment fragment = new EditIngredientFragment();
-        Bundle args = new Bundle();
-        fragment.setArguments(args);  // Add other arguments here if needed
         fragment.listener = listener; // Set listener
         return fragment;
     }
@@ -47,6 +49,20 @@ public class EditIgredientFragment extends Fragment implements IEditingredientVi
     }
 
     private void onAddButtonClicked() {
+        String name = binding.itemNameText.getText().toString().trim();
+        String unit = binding.itemUnitText.getText().toString().trim();
+        String qtyString = binding.itemQtyText.getText().toString().trim();
+
+        // Validate input fields
+        if (name.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter an ingredient name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (unit.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter a unit", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         double qty;
         try {
@@ -57,15 +73,26 @@ public class EditIgredientFragment extends Fragment implements IEditingredientVi
         }
 
         // Notify listener with the data
-        listener.onAddIngredient(name, qty, unit, selectedTags);
+        if (listener != null) {
+            listener.onEditIngredient(name, qty, unit, selectedTags);
+        }
         clearInputs();
     }
 
     private void clearInputs() {
+        binding.itemNameText.getText().clear();
         binding.itemQtyText.getText().clear();
+        binding.itemUnitText.getText().clear();
+        selectedTags.clear(); // Clear dietary tags selection
     }
 
-    public void updatePantryDisplay(@NonNull final Pantry pantry) {
+    @Override
+    public void updatePantryDisplay(@NonNull Pantry pantry) {
         Toast.makeText(getContext(), "Pantry updated with " + pantry.getNPantryItems() + " items.", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public View getRootView() {
+        return binding.getRoot();
     }
 }

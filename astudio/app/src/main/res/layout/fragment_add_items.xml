@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Label -->
     <TextView
         android:id="@+id/lineItemsLabel"
         android:layout_width="wrap_content"
@@ -16,6 +17,7 @@
 
     <!-- Name Input -->
     <LinearLayout
+        android:id="@+id/nameLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -27,14 +29,22 @@
             android:layout_height="wrap_content"
             android:text="Name:" />
 
+        <EditText
+            android:id="@+id/itemNameText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Ingredient Name"
+            android:inputType="text" />
     </LinearLayout>
 
     <!-- Quantity Input -->
     <LinearLayout
+        android:id="@+id/quantityLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/itemNameText">
+        app:layout_constraintTop_toBottomOf="@id/nameLayout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,10 +62,16 @@
 
     <!-- Unit Input -->
     <LinearLayout
+        android:id="@+id/unitLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/itemQtyText">
+        app:layout_constraintTop_toBottomOf="@id/quantityLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Unit:" />
 
         <EditText
             android:id="@+id/itemUnitText"
@@ -65,31 +81,34 @@
             android:hint="e.g., grams, liters" />
     </LinearLayout>
 
+    <!-- Dietary Tags Checkboxes -->
+    <LinearLayout
+        android:id="@+id/checkboxLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/unitLayout">
+
+        <CheckBox
+            android:id="@+id/veganCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vegan" />
+
+        <CheckBox
+            android:id="@+id/glutenFreeCheckbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gluten-Free" />
+    </LinearLayout>
+
     <!-- Add Ingredient Button -->
     <Button
         android:id="@+id/addIngredientButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Ingredient"
-        app:layout_constraintTop_toBottomOf="@id/itemUnitText"
+        app:layout_constraintTop_toBottomOf="@id/checkboxLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <EditText
-        android:id="@+id/itemNameText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="Ingredient Name"
-        android:inputType="text"
-        tools:layout_editor_absoluteX="41dp"
-        tools:layout_editor_absoluteY="112dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Unit:"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="104dp" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

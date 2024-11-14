@@ -1,16 +1,13 @@
 package com.example.pantrypalandroidprototype.view;
 
 import android.view.View;
-
 import androidx.annotation.NonNull;
-
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
-
 import java.util.Set;
 
 /**
- * Interface that defines the methods for a view that allows a user to add items to a sale.
+ * Interface that defines the methods for a view that allows a user to delete items from the pantry.
  */
 public interface IDeleteIngredientView {
 
@@ -20,18 +17,27 @@ public interface IDeleteIngredientView {
      */
     interface Listener {
         /**
-         * Called when an ingredient is to be added to the pantry.
+         * Called when an ingredient is to be deleted from the pantry.
          */
-        void onDeletengredient(final String name, final double qty, final String unit, final Set<Ingredient.dietary_tags> dietary_tags);
+        void onDeleteIngredient(final String name, final double qty, final String unit, final Set<Ingredient.dietary_tags> dietaryTags);
+
+        /**
+         * Called when deletion or other operations are done.
+         */
         void onItemsDone();
     }
 
+    /**
+     * Updates the pantry display with the current pantry contents.
+     *
+     * @param pantry The pantry object containing the ingredients.
+     */
     void updatePantryDisplay(@NonNull final Pantry pantry);
 
     /**
-     * Returns top-level graphical element.
-     * @return top-level graphical element
+     * Returns the top-level graphical element.
+     *
+     * @return The root view.
      */
     View getRootView();
-
 }
