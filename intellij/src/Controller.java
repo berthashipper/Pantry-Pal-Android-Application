@@ -62,23 +62,25 @@ public class Controller {
 
         Recipe newRecipe = recipeBuilder.build();
         allRecipes.add(newRecipe);
-        cookbook.savedRecipes.add(newRecipe);
+        cookbook.savedRecipes.add(newRecipe); //automatically add the new recipe user uploaded to the cookbook
     }
 
-    public String viewCookbook1() {
-        if (allRecipes.isEmpty()) {
-            return "Your cookbook is empty.";
-        } else {
-            StringBuilder result = new StringBuilder();
-            result.append("\n______________________________________________________________________\n")
-                    .append("--- Your Cookbook ---\n");
-            for (Recipe recipe : allRecipes) {
-                result.append(recipe.recipeName).append("\n");
-            }
-            result.append("\n______________________________________________________________________\n");
-            return result.toString();
-        }
-    }
+//
+//    public String viewCookbook1() {
+//        if (allRecipes.isEmpty()) {
+//            return "Your cookbook is empty.";
+//        } else {
+//            StringBuilder result = new StringBuilder();
+//            result.append("\n______________________________________________________________________\n")
+//                    .append("--- Your Cookbook ---\n");
+//            for (Recipe recipe : allRecipes) {
+//                result.append(recipe.recipeName).append("\n");
+//            }
+//            result.append("\n______________________________________________________________________\n");
+//            return result.toString();
+//        }
+//    }
+
 
     public String searchRecipeByName(String name) {
         List<Recipe> foundRecipes = new ArrayList<>();
@@ -99,7 +101,7 @@ public class Controller {
         }
     }
 
-
+//Cookbook manage
       public String viewCookbook() {
           if (cookbook.savedRecipes.isEmpty()) {
               return "Your cookbook is empty.";
@@ -121,10 +123,10 @@ public class Controller {
         return "Your Cookbook is cleared.";
     }
 
-    public String saveRecipetoCookbook(Recipe recipe) {
-        cookbook.addSavedRecipe(recipe);
-        return "New recipe successfully saved to Cookbook.";
-    }
+//    public String saveRecipetoCookbook(Recipe recipe) {
+//        cookbook.addSavedRecipe(recipe);
+//        return "New recipe successfully saved to Cookbook.";
+//    }
 
     public void deleteRecipefromCookbook(String name) {
             for (Recipe recipe : cookbook.savedRecipes) {

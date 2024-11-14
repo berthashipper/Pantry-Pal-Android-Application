@@ -110,7 +110,6 @@ public class Pantry {
         }
     }
 
-
     // toString method to print pantry contents
     @Override
     public String toString() {
