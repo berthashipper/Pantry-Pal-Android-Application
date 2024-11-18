@@ -71,4 +71,10 @@ public class ControllerActivity extends AppCompatActivity
         this.mainView.displayFragment(addIngredientFragment);
 
     }
+
+    @Override
+    public void onViewPantryMenu(){
+        PantryFragment pantryFragment = PantryFragment.newInstance(this, this.pantry);
+        this.mainView.displayFragment(pantryFragment);
+    }
 }

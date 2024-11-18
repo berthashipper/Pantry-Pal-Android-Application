@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -10,10 +9,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <!-- Add Ingredients Button -->
     <Button
-        android:id="@+id/addIngredientsMenuButton"
-        android:layout_width="wrap_content"
+        android:id="@+id/addIngredientsButton"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Add Ingredients" />
+        android:text="Add Ingredients"
+        android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/viewPantryButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="View Pantry"
+        android:layout_marginEnd="16dp"/>
 
 </LinearLayout>

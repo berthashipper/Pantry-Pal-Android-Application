@@ -27,6 +27,7 @@ public class MainView implements IMainView {
     MainBinding binding;
     FragmentManager fmanager;
     Context context;
+    IPantryView.Listener listener;
 
     /**
      * Constructor method.
@@ -39,6 +40,12 @@ public class MainView implements IMainView {
         this.binding = MainBinding.inflate(LayoutInflater.from(context));
         this.fmanager = ((FragmentActivity) context).getSupportFragmentManager();
 
+        // Set up listener for the View Pantry button
+        binding.viewPantryButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onViewPantryMenu();
+            }
+        });
 
         // Configure app to maximize space usage by drawing on top of system bars
         EdgeToEdge.enable((FragmentActivity) context);
@@ -48,6 +55,7 @@ public class MainView implements IMainView {
             return insets;
         });
     }
+
 
     /**
      * Retrieve the graphical widget (android view) at the root of the screen hierarchy.

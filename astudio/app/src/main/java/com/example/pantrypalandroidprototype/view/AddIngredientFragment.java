@@ -37,7 +37,7 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAddItemsBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 
