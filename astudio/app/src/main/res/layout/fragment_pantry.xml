@@ -18,61 +18,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- EditText for Ingredient Name -->
-    <EditText
-        android:id="@+id/ingredientNameEditText"
+    <!-- TextView to show the actual list of ingredients in the pantry -->
+    <TextView
+        android:id="@+id/pantryListTextView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Ingredient Name"
+        android:layout_height="0dp"
+        android:padding="16dp"
+        android:text="List of ingredients will appear here."
         app:layout_constraintTop_toBottomOf="@id/pantryContentsTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        android:layout_margin="16dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="16dp"
+        android:scrollbars="vertical" />
 
-    <!-- EditText for Ingredient Quantity -->
-    <EditText
-        android:id="@+id/ingredientQuantityEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:hint="Quantity"
-        app:layout_constraintTop_toBottomOf="@id/ingredientNameEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp" />
-
-    <!-- EditText for Ingredient Unit -->
-    <EditText
-        android:id="@+id/ingredientUnitEditText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="Unit (e.g., grams)"
-        app:layout_constraintTop_toBottomOf="@id/ingredientQuantityEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp" />
-
-    <!-- Button to Add Ingredient -->
     <Button
-        android:id="@+id/addButton"
-        android:layout_width="0dp"
+        android:id="@+id/viewPantryButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Ingredient"
-        app:layout_constraintTop_toBottomOf="@id/ingredientUnitEditText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp" />
+        android:text="View Pantry" />
 
-    <!-- Button to Show Pantry Contents -->
-    <Button
-        android:id="@+id/showPantryButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Show Pantry"
-        app:layout_constraintTop_toBottomOf="@id/addButton"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,10 +11,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.FragmentAddItemsBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.IngredientAdapter;
-import com.example.pantrypalandroidprototype.model.Pantry;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -25,8 +25,10 @@ public class AddIngredientFragment extends Fragment {
 
     // Listener interface for button interactions
     public interface Listener {
-        void onAddIngredient(String name, double qty, String unit, Set<String> tags);
-        void onNavigateBackToPantry();
+        void onAddIngredients(List<Ingredient> ingredients);
+
+        void onAddIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags);  // Pass added ingredients back
+        void onItemsDone(); // To notify when user is done adding items
     }
 
     private FragmentAddItemsBinding binding;
@@ -42,9 +44,12 @@ public class AddIngredientFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAddItemsBinding.inflate(inflater, container, false);
+
+        binding.addIngredientButton.setOnClickListener(v -> onAddButtonClicked());
+        binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
+
         return binding.getRoot();
     }
 
@@ -56,15 +61,9 @@ public class AddIngredientFragment extends Fragment {
         ingredientAdapter = new IngredientAdapter(addedIngredients, getContext());
         binding.ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.ingredientsRecyclerView.setAdapter(ingredientAdapter);
-
-        // Set up button click listener for adding ingredients
-        binding.addIngredientButton.setOnClickListener(v -> onAddButtonClicked());
-
-        // Set up "Done" button click listener to return to pantry
-        binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
     }
 
-    private void onAddButtonClicked() {
+    public void onAddButtonClicked() {
         String name = binding.itemNameText.getText().toString().trim();
         String qtyString = binding.itemQtyText.getText().toString().trim();
         String unit = binding.itemUnitText.getText().toString().trim();
@@ -97,14 +96,20 @@ public class AddIngredientFragment extends Fragment {
         clearInputs();
     }
 
-    private void clearInputs() {
+    public void clearInputs() {
         binding.itemNameText.getText().clear();
         binding.itemQtyText.getText().clear();
         binding.itemUnitText.getText().clear();
     }
 
-    private void onDoneButtonClicked() {
-        // Notify listener to navigate back to pantry
-        listener.onNavigateBackToPantry();
+    public void onDoneButtonClicked() {
+        if (listener != null) {
+            listener.onItemsDone(); // Notify that the user is done adding ingredients
+        }
+
+        // Replace AddIngredientFragment with PantryFragment
+        requireActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainerView, new PantryFragment()) // Ensure this references the container correctly
+                .commit();
     }
 }

@@ -1,73 +1,70 @@
 package com.example.pantrypalandroidprototype;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantrypalandroidprototype.model.Ingredient;
-import com.example.pantrypalandroidprototype.model.IngredientAdapter;
+import com.example.pantrypalandroidprototype.view.AddIngredientFragment;
+import com.example.pantrypalandroidprototype.view.PantryFragment;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-public class MainActivity extends AppCompatActivity {
-    private RecyclerView ingredientRecyclerView;
-    private IngredientAdapter ingredientAdapter;
-    private List<Ingredient> ingredientList;
-    private EditText ingredientNameInput, ingredientQtyInput, ingredientUnitInput;
+public class MainActivity extends AppCompatActivity implements AddIngredientFragment.Listener {
 
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ingredientRecyclerView = findViewById(R.id.ingredientRecyclerView);
-        ingredientList = new ArrayList<>();
-        ingredientAdapter = new IngredientAdapter(ingredientList, this);
-
-        ingredientRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        ingredientRecyclerView.setAdapter(ingredientAdapter);
-
-        ingredientNameInput = findViewById(R.id.itemNameText);
-        ingredientQtyInput = findViewById(R.id.itemQtyText);
-        ingredientUnitInput = findViewById(R.id.itemUnitText);
-
-        Button addIngredientButton = findViewById(R.id.addIngredientButton);
-        addIngredientButton.setOnClickListener(v -> addIngredient());
+        if (savedInstanceState == null) {
+            PantryFragment pantryFragment = new PantryFragment();
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainerView, pantryFragment)
+                    .commit();
+        }
     }
 
-    private void addIngredient() {
-        String name = ingredientNameInput.getText().toString().trim();
-        String qtyString = ingredientQtyInput.getText().toString().trim();
-        String unit = ingredientUnitInput.getText().toString().trim();
+    @Override
+    public void onAddIngredients(List<Ingredient> ingredients) {
+        // Get the PantryFragment and update its pantry with the new ingredients
+        PantryFragment pantryFragment = (PantryFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.fragmentContainerView);
+        if (pantryFragment != null) {
+            pantryFragment.updatePantry(ingredients);
+        }
+    }
 
-        if (name.isEmpty() || qtyString.isEmpty()) {
-            Toast.makeText(this, "Please enter both name and quantity", Toast.LENGTH_SHORT).show();
-            return;
+    // Implement the onAddIngredient method from the Listener interface
+    @Override
+    public void onAddIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags) {
+        if (tags == null) {
+            tags = new HashSet<>();
+        }
+        Set<String> tagStrings = new HashSet<>();
+        for (Ingredient.dietary_tags tag : tags) {
+            tagStrings.add(tag.toString());
         }
 
-        double quantity;
-        try {
-            quantity = Double.parseDouble(qtyString);
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "Invalid quantity", Toast.LENGTH_SHORT).show();
-            return;
+        Ingredient newIngredient = new Ingredient(name, qty, unit, tagStrings);
+
+        PantryFragment pantryFragment = (PantryFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.fragmentContainerView);
+
+        if (pantryFragment != null) {
+            pantryFragment.addIngredientToPantry(newIngredient);
         }
+    }
 
-        Ingredient newIngredient = new Ingredient(name, quantity, unit, new HashSet<>());
-        ingredientList.add(newIngredient);
-        ingredientAdapter.notifyItemInserted(ingredientList.size() - 1);
-
-        ingredientNameInput.setText("");
-        ingredientQtyInput.setText("");
-        ingredientUnitInput.setText("");
+    // Implement the onItemsDone method from the Listener interface
+    @Override
+    public void onItemsDone() {
+        // Handle when items are done (for example, return to the pantry view)
+        PantryFragment pantryFragment = (PantryFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.fragmentContainerView);
+        if (pantryFragment != null) {
+        }
     }
 }

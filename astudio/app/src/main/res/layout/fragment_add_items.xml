@@ -58,6 +58,11 @@
             android:layout_weight="1"
             android:hint="Quantity"
             android:inputType="numberDecimal" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/ingredientsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <!-- Unit Input -->
@@ -122,9 +127,4 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- RecyclerView for ingredients -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ingredientsRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

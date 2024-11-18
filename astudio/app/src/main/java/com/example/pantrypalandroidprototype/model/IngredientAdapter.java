@@ -13,13 +13,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantrypalandroidprototype.R;
-import com.example.pantrypalandroidprototype.model.Ingredient;
 
 import java.util.List;
 
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
-    private List<Ingredient> ingredientList;
-    private Context context;
+    private final List<Ingredient> ingredientList;
+    private final Context context;
 
     public IngredientAdapter(List<Ingredient> ingredientList, Context context) {
         this.ingredientList = ingredientList;
@@ -29,7 +28,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     @NonNull
     @Override
     public IngredientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_ingredient, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ingredient, parent, false);
         return new IngredientViewHolder(view);
     }
 
@@ -38,25 +37,19 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         Ingredient ingredient = ingredientList.get(position);
         holder.nameTextView.setText(ingredient.getName());
 
-        // Display multiple tags or default message if no tags
-        if (ingredient.getTags().isEmpty()) {
-            holder.dietaryTagsTextView.setText("No tags selected");
-        } else {
-            holder.dietaryTagsTextView.setText(TextUtils.join(", ", ingredient.getTags()));
-        }
+        // Display multiple tags or a default message if no tags
+        String tagsText = ingredient.getTags().isEmpty() ? "No tags selected" : TextUtils.join(", ", ingredient.getTags());
+        holder.dietaryTagsTextView.setText(tagsText);
 
-        holder.dietaryTagsLayout.setOnClickListener(v -> {
-            // Open dialog or new screen to select/deselect dietary tags
-            showDietaryTagsDialog(ingredient, position);
-        });
+        holder.dietaryTagsLayout.setOnClickListener(v -> showDietaryTagsDialog(ingredient, position));
     }
 
     @Override
     public int getItemCount() {
-        return ingredientList.size();
+        return ingredientList != null ? ingredientList.size() : 0;
     }
 
-    public class IngredientViewHolder extends RecyclerView.ViewHolder {
+    public static class IngredientViewHolder extends RecyclerView.ViewHolder {
         TextView nameTextView, dietaryTagsTextView;
         LinearLayout dietaryTagsLayout;
 
@@ -69,7 +62,6 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     }
 
     private void showDietaryTagsDialog(Ingredient ingredient, int position) {
-        // Display a dialog to allow multiple dietary tag selections (e.g., using a MultiChoice dialog)
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Select Dietary Tags");
 
@@ -83,16 +75,13 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
 
         builder.setMultiChoiceItems(tags, checkedItems, (dialog, which, isChecked) -> {
             if (isChecked) {
-                ingredient.addDietaryTag(tags[which]);  // Ensure this method exists in the Ingredient class
+                ingredient.addDietaryTag(tags[which]);
             } else {
-                ingredient.removeDietaryTag(tags[which]);  // Ensure this method exists in the Ingredient class
+                ingredient.removeDietaryTag(tags[which]);
             }
         });
 
-        builder.setPositiveButton("OK", (dialog, which) -> {
-            notifyItemChanged(position); // Refresh the list to show updated tags
-        });
-
+        builder.setPositiveButton("OK", (dialog, which) -> notifyItemChanged(position));
         builder.setNegativeButton("Cancel", null);
         builder.show();
     }

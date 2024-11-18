@@ -20,7 +20,7 @@
         android:text="Dietary Tags"
         android:textSize="14sp"
         android:paddingTop="8dp"
-        android:textColor="@android:color/black"/>
+        android:textColor="@android:color/black" />
 
     <!-- Layout for Dietary Tags -->
     <LinearLayout
@@ -29,13 +29,5 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="8dp">
-
-        <!-- Placeholder Text for Selecting Tags -->
-        <TextView
-            android:text="Select Tags"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/holo_blue_dark"
-            android:padding="8dp"/>
     </LinearLayout>
 </LinearLayout>

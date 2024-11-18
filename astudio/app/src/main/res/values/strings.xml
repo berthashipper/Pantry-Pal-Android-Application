@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NextGen POS</string>
+    <string name="app_name">Pantry Pal</string>
     <string name="line_items_label">Line items:</string>
     <string name="line_items_text_def">No items yet!</string>
     <string name="add_ingredient_button">Add</string>

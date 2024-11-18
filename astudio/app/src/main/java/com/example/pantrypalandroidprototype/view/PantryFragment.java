@@ -1,6 +1,7 @@
 package com.example.pantrypalandroidprototype.view;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +17,19 @@ import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 public class PantryFragment extends Fragment implements IPantryView {
 
-    private Pantry pantry;
-    private TextView pantryContentsTextView;
-    private EditText ingredientNameEditText, ingredientQuantityEditText, ingredientUnitEditText;
-    private Button addButton, showPantryButton;
+    Pantry pantry;
+    List<Ingredient> pantryIngredients = new ArrayList<>();
+    TextView pantryContentsTextView;
+    EditText ingredientNameEditText, ingredientQuantityEditText, ingredientUnitEditText;
+    Button viewPantryButton;
 
-    private Listener listener;
+    Listener listener;
 
     public interface Listener {
         void onAddIngredient(Ingredient ingredient);
@@ -38,37 +42,36 @@ public class PantryFragment extends Fragment implements IPantryView {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_pantry, container, false);
-        pantryContentsTextView = view.findViewById(R.id.pantryContentsTextView);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_pantry, container, false);
 
-        // Initialize the pantry model
-        pantry = new Pantry();
+        // Initialize the TextView
+        TextView pantryTextView = rootView.findViewById(R.id.pantryContentsTextView);
 
-        // Initialize UI elements
-        pantryContentsTextView = view.findViewById(R.id.pantryContentsTextView);
-        ingredientNameEditText = view.findViewById(R.id.ingredientNameEditText);
-        ingredientQuantityEditText = view.findViewById(R.id.ingredientQuantityEditText);
-        ingredientUnitEditText = view.findViewById(R.id.ingredientUnitEditText);
-        addButton = view.findViewById(R.id.addButton);
-        showPantryButton = view.findViewById(R.id.showPantryButton);
+        viewPantryButton = rootView.findViewById(R.id.viewPantryButton);
+        viewPantryButton.setOnClickListener(v -> showPantryContents());
 
-        // Set up button listeners
-        addButton.setOnClickListener(v -> addIngredientToPantry());
-        showPantryButton.setOnClickListener(v -> showPantryContents());
+        if (pantryIngredients == null) {
+            pantryIngredients = new ArrayList<>();
+        }
 
-        return view;
+        // Display pantry ingredients
+        StringBuilder pantryString = new StringBuilder();
+        for (Ingredient ingredient : pantryIngredients) {
+            pantryString.append(ingredient.getName()).append("\n");
+        }
+        pantryTextView.setText(pantryString.toString());
+
+        return rootView;
     }
 
-    private void addIngredientToPantry() {
+    public void addIngredientToPantry(Ingredient ingredient) {
         String name = ingredientNameEditText.getText().toString().trim();
         String quantityStr = ingredientQuantityEditText.getText().toString().trim();
         String unit = ingredientUnitEditText.getText().toString().trim();
 
         if (!name.isEmpty() && !quantityStr.isEmpty() && !unit.isEmpty()) {
             double quantity = Double.parseDouble(quantityStr);
-            Ingredient ingredient = new Ingredient(name, quantity, unit, new HashSet<>());
             pantry.add_ingredient(ingredient);
 
             if (listener != null) {
@@ -93,5 +96,13 @@ public class PantryFragment extends Fragment implements IPantryView {
     @Override
     public void updateDisplayOnDone(double change) {
         pantryContentsTextView.setText("Pantry now has " + (int) change + " items.");
+    }
+
+    // Method to update the pantry with added ingredients
+    public void updatePantry(List<Ingredient> addedIngredients) {
+        for (Ingredient ingredient : addedIngredients) {
+            pantry.add_ingredient(ingredient);
+        }
+        pantryContentsTextView.setText(pantry.toString());
     }
 }

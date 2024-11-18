@@ -3,6 +3,7 @@ package com.example.pantrypalandroidprototype.model;
 import java.util.HashSet;
 import java.util.Set;
 
+
 public class Ingredient {
     private final String name;
     private double quantity;
@@ -25,7 +26,7 @@ public class Ingredient {
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
-        this.tags = (tags == null) ? new HashSet<>() : tags;  // Ensure non-null tags
+        this.tags = (tags == null) ? new HashSet<>() : new HashSet<>(tags);
     }
 
     // Constructor for name only (default values for quantity, unit, and tags)
@@ -50,13 +51,11 @@ public class Ingredient {
     }
 
     public Set<String> getTags() {
-        return tags;
+        return new HashSet<>(tags);
     }
 
     public void addDietaryTag(String tag) {
-        if (!tags.contains(tag)) {
-            tags.add(tag);
-        }
+        tags.add(tag);
     }
 
     public void removeDietaryTag(String tag) {

@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Pantry Pal Android Prototype"
+rootProject.name = "PantryPal"
 include(":app")
