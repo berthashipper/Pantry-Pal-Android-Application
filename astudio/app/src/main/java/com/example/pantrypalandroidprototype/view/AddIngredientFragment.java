@@ -56,7 +56,7 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         binding.ingredientsRecyclerView.setAdapter(ingredientAdapter);
     }
 
-    private void onAddButtonClicked() {
+    public void onAddButtonClicked() {
         String name = binding.itemNameText.getText().toString().trim();
         String qtyString = binding.itemQtyText.getText().toString().trim();
         String unit = binding.itemUnitText.getText().toString().trim();
@@ -73,8 +73,23 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         if (binding.veganCheckbox.isChecked()) {
             tags.add(Ingredient.dietary_tags.VEGAN);
         }
+        if (binding.kosherCheckbox.isChecked()) {
+            tags.add(Ingredient.dietary_tags.KOSHER);
+        }
         if (binding.glutenFreeCheckbox.isChecked()) {
             tags.add(Ingredient.dietary_tags.GLUTEN_FREE);
+        }
+        if (binding.halalCheckbox.isChecked()) {
+            tags.add(Ingredient.dietary_tags.HALAL);
+        }
+        if (binding.nutFreeCheckbox.isChecked()) {
+            tags.add(Ingredient.dietary_tags.NUT_FREE);
+        }
+        if (binding.vegetarianCheckbox.isChecked()) {
+            tags.add(Ingredient.dietary_tags.VEGETARIAN);
+        }
+        if (binding.dairyFreeCheckbox.isChecked()) {
+            tags.add(Ingredient.dietary_tags.DAIRY_FREE);
         }
 
         if (listener != null) listener.onAddIngredient(name, qty, unit, tags);
@@ -91,7 +106,13 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         binding.itemQtyText.setText("");
         binding.itemUnitText.setText("");
         binding.veganCheckbox.setChecked(false);
+        binding.kosherCheckbox.setChecked(false);
         binding.glutenFreeCheckbox.setChecked(false);
+        binding.halalCheckbox.setChecked(false);
+        binding.nutFreeCheckbox.setChecked(false);
+        binding.vegetarianCheckbox.setChecked(false);
+        binding.dairyFreeCheckbox.setChecked(false);
+
     }
 
     private void onDoneButtonClicked() {

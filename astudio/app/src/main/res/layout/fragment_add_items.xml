@@ -31,21 +31,53 @@
         android:text="Vegan" />
 
     <CheckBox
+        android:id="@+id/kosherCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kosher" />
+
+    <CheckBox
         android:id="@+id/glutenFreeCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Gluten Free" />
 
+    <CheckBox
+        android:id="@+id/halalCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Halal" />
+
+    <CheckBox
+        android:id="@+id/nutFreeCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nut Free" />
+
+    <CheckBox
+        android:id="@+id/vegetarianCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vegetarian" />
+
+    <CheckBox
+        android:id="@+id/dairyFreeCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dairy Free" />
+
     <Button
         android:id="@+id/addIngredientButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Add Ingredient" />
 
     <Button
         android:id="@+id/doneButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Done" />
 
     <androidx.recyclerview.widget.RecyclerView

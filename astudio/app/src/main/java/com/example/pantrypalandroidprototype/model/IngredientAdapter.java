@@ -36,12 +36,6 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     public void onBindViewHolder(@NonNull IngredientViewHolder holder, int position) {
         Ingredient ingredient = ingredientList.get(position);
         holder.nameTextView.setText(ingredient.getName());
-
-        // Display multiple tags or a default message if no tags
-        String tagsText = ingredient.getTags().isEmpty() ? "No tags selected" : TextUtils.join(", ", ingredient.getTags());
-        holder.dietaryTagsTextView.setText(tagsText);
-
-        holder.dietaryTagsLayout.setOnClickListener(v -> showDietaryTagsDialog(ingredient, position));
     }
 
     @Override

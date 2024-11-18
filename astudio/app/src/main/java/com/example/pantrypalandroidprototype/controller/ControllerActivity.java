@@ -35,7 +35,11 @@ public class ControllerActivity extends AppCompatActivity
 
         pantry = new Pantry();
 
-       this.mainView.displayFragment(AddIngredientFragment.newInstance(this));
+        // Pass the add ingredient data to the fragment
+        this.mainView.displayFragment(AddIngredientFragment.newInstance(this));
+
+        // Pass the pantry data to the fragment
+        this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
     }
 
     @Override
@@ -61,11 +65,10 @@ public class ControllerActivity extends AppCompatActivity
         Toast.makeText(this, "Items Done, returning to Pantry", Toast.LENGTH_SHORT).show();
     }
 
-   // @Override
-    //public void updatePantryDisplay() {
-        // Ensure the pantry view gets updated
-     //   mainView.updatePantryDisplay(new ArrayList<>(pantry.ingredientList.values()));
-    //}
+    @Override
+    public void onAddIngredientsMenu(){
+        AddIngredientFragment addIngredientFragment = AddIngredientFragment.newInstance(this);
+        this.mainView.displayFragment(addIngredientFragment);
 
-    // IAddIngredientView.Listener implementation
+    }
 }

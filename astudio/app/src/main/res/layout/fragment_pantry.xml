@@ -11,9 +11,9 @@
         android:layout_height="wrap_content" />
 
     <Button
-        android:id="@+id/viewPantryButton"
+        android:id="@+id/addIngredientsMenuButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Pantry" />
+        android:text="Add Ingredients" />
 
 </LinearLayout>

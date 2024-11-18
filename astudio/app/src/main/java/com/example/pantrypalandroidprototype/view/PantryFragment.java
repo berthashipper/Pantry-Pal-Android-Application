@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,12 +18,13 @@ import com.example.pantrypalandroidprototype.model.Pantry;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class PantryFragment extends Fragment implements IPantryView {
 
     FragmentPantryBinding binding;
-
     Listener listener;
     Pantry pantry;
 
@@ -47,6 +50,11 @@ public class PantryFragment extends Fragment implements IPantryView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         this.binding.pantryContentsTextView.setText(this.pantry.toString());
+
+        binding.addIngredientsMenuButton.setOnClickListener(v -> onAddIngredientButtonClicked());
     }
 
+    public void onAddIngredientButtonClicked() {
+        if (listener != null) listener.onAddIngredientsMenu();
+    }
 }
