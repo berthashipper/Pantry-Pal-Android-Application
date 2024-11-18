@@ -1,36 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.PantryFragment">
+    android:padding="16dp">
 
-    <!-- TextView to display pantry contents -->
     <TextView
         android:id="@+id/pantryContentsTextView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Pantry Contents:"
-        android:layout_marginTop="16dp"
-        android:padding="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- TextView to show the actual list of ingredients in the pantry -->
-    <TextView
-        android:id="@+id/pantryListTextView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="16dp"
-        android:text="List of ingredients will appear here."
-        app:layout_constraintTop_toBottomOf="@id/pantryContentsTextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_margin="16dp"
-        android:scrollbars="vertical" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/viewPantryButton"
@@ -38,6 +16,4 @@
         android:layout_height="wrap_content"
         android:text="View Pantry" />
 
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

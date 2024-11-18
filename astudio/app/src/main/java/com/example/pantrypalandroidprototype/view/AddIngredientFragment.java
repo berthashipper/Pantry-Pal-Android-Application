@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
-
+import android.widget.Button;
+import android.widget.CheckBox;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -15,7 +17,6 @@ import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.FragmentAddItemsBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.IngredientAdapter;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,47 +24,45 @@ import java.util.Set;
 
 public class AddIngredientFragment extends Fragment {
 
-    // Listener interface for button interactions
     public interface Listener {
         void onAddIngredients(List<Ingredient> ingredients);
-
-        void onAddIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags);  // Pass added ingredients back
-        void onItemsDone(); // To notify when user is done adding items
+        void onAddIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags);
+        void onItemsDone();
     }
 
     private FragmentAddItemsBinding binding;
     private Listener listener;
-    private Set<Ingredient.dietary_tags> selectedTags = new HashSet<>();
     private List<Ingredient> addedIngredients = new ArrayList<>();
     private IngredientAdapter ingredientAdapter;
 
     public static AddIngredientFragment newInstance(Listener listener) {
         AddIngredientFragment fragment = new AddIngredientFragment();
-        fragment.listener = listener; // Set listener
+        fragment.listener = listener;
         return fragment;
     }
 
+    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAddItemsBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
         binding.addIngredientButton.setOnClickListener(v -> onAddButtonClicked());
         binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
 
-        return binding.getRoot();
+        return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Set up RecyclerView for displaying added ingredients
         ingredientAdapter = new IngredientAdapter(addedIngredients, getContext());
         binding.ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.ingredientsRecyclerView.setAdapter(ingredientAdapter);
     }
 
-    public void onAddButtonClicked() {
+    private void onAddButtonClicked() {
         String name = binding.itemNameText.getText().toString().trim();
         String qtyString = binding.itemQtyText.getText().toString().trim();
         String unit = binding.itemUnitText.getText().toString().trim();
@@ -73,43 +72,34 @@ public class AddIngredientFragment extends Fragment {
             return;
         }
 
-        double qty;
-        try {
-            qty = Double.parseDouble(qtyString);
-        } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), "Quantity must be a number", Toast.LENGTH_SHORT).show();
-            return;
+        double qty = Double.parseDouble(qtyString);
+        Set<Ingredient.dietary_tags> tags = new HashSet<>();
+
+        // Check dietary tags (checkboxes) and add corresponding tags
+        if (binding.veganCheckbox.isChecked()) {
+            tags.add(Ingredient.dietary_tags.VEGAN);
+        }
+        if (binding.glutenFreeCheckbox.isChecked()) {
+            tags.add(Ingredient.dietary_tags.GLUTEN_FREE);
         }
 
-        // Convert dietary_tags to a Set<String> if needed
-        Set<String> dietaryTags = new HashSet<>();
-        for (Ingredient.dietary_tags tag : selectedTags) {
-            dietaryTags.add(tag.toString());
-        }
-
-        // Create a new Ingredient object
-        Ingredient newIngredient = new Ingredient(name, qty, unit, dietaryTags);
+        Ingredient newIngredient = new Ingredient(name, qty, unit, new HashSet<>());
         addedIngredients.add(newIngredient);
         ingredientAdapter.notifyItemInserted(addedIngredients.size() - 1);
-
-        // Clear the input fields
         clearInputs();
     }
 
-    public void clearInputs() {
-        binding.itemNameText.getText().clear();
-        binding.itemQtyText.getText().clear();
-        binding.itemUnitText.getText().clear();
+    private void clearInputs() {
+        binding.itemNameText.setText("");
+        binding.itemQtyText.setText("");
+        binding.itemUnitText.setText("");
+        binding.veganCheckbox.setChecked(false);
+        binding.glutenFreeCheckbox.setChecked(false);
     }
 
-    public void onDoneButtonClicked() {
+    private void onDoneButtonClicked() {
         if (listener != null) {
-            listener.onItemsDone(); // Notify that the user is done adding ingredients
+            listener.onAddIngredients(addedIngredients);
         }
-
-        // Replace AddIngredientFragment with PantryFragment
-        requireActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainerView, new PantryFragment()) // Ensure this references the container correctly
-                .commit();
     }
 }

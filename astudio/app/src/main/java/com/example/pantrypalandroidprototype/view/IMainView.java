@@ -41,4 +41,7 @@ public interface IMainView {
      * Displays the pantry items in the RecyclerView.
      */
     void displayPantry(@NonNull List<Ingredient> pantryItems);
+
+    void updatePantryDisplay(List<Ingredient> pantryItems);
+
 }

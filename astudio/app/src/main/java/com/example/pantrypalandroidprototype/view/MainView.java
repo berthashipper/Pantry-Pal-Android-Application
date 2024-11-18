@@ -24,34 +24,33 @@ import java.util.List;
 
 public class MainView implements IMainView {
 
-    MainBinding binding; // Binding object to access layout elements
-    FragmentManager fmanager; // Fragment manager to handle fragments
-    PantryAdapter pantryAdapter; // Adapter for the pantry RecyclerView
+    MainBinding binding;
+    FragmentManager fmanager;
+    PantryAdapter pantryAdapter;
+    Context context;
 
     /**
      * Constructor method.
      *
      * @param context the context in which the UI is to operate - influences look & feel.
-     * @param factivity The android activity the screen is associated with.
      */
-    public MainView(final Context context, final FragmentActivity factivity) {
+    public MainView(final Context context) {
         // Initialize the binding and pantry adapter
+        this.context = context;
         this.binding = MainBinding.inflate(LayoutInflater.from(context));
         this.pantryAdapter = new PantryAdapter();
-        this.fmanager = factivity.getSupportFragmentManager();
+        this.fmanager = ((FragmentActivity) context).getSupportFragmentManager();
 
         // Set the RecyclerView adapter from the binding
         this.binding.ingredientRecyclerView.setAdapter(pantryAdapter); // Ensure the ID matches the XML
 
         // Configure app to maximize space usage by drawing on top of system bars
-        EdgeToEdge.enable(factivity);
+        EdgeToEdge.enable((FragmentActivity) context);
         ViewCompat.setOnApplyWindowInsetsListener(this.binding.getRoot(), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        this.fmanager = factivity.getSupportFragmentManager();
     }
 
     public PantryAdapter getPantryAdapter() {
@@ -73,8 +72,10 @@ public class MainView implements IMainView {
      * @param fragment The fragment to be displayed.
      */
     @Override
-    public void displayFragment(@NonNull final Fragment fragment) {
-        this.displayFragment(fragment, null);
+    public void displayFragment(@NonNull Fragment fragment) {
+        FragmentTransaction ft = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+        ft.replace(binding.fragmentContainerView.getId(), fragment);
+        ft.commit();
     }
 
     /**
@@ -97,16 +98,20 @@ public class MainView implements IMainView {
      *
      * @param pantryItems the list of pantry ingredients to be displayed.
      */
-    public void displayPantry(@NonNull List<Ingredient> pantryItems) {
+    @Override
+    public void updatePantryDisplay(List<Ingredient> pantryItems) {
         // Update the pantryAdapter with new pantry items
         pantryAdapter.updatePantryItems(pantryItems);
     }
 
-    // This method will be used to navigate back to the pantry
     public void onNavigateBackToPantry() {
         PantryFragment pantryFragment = new PantryFragment();
         fmanager.beginTransaction()
                 .replace(R.id.fragmentContainerView, pantryFragment)
                 .commit();
+    }
+
+    public void displayPantry(@NonNull List<Ingredient> pantryItems) {
+        pantryAdapter.updatePantryItems(pantryItems);
     }
 }

@@ -12,10 +12,17 @@ public interface IAddIngredientView {
 
     interface Listener {
         void onAddIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags);
+
         void onItemsDone();
+
+        void updatePantryDisplay();
+
+        View getRootView();
+
+        void onAddIngredientClicked(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags);
+        void onDoneButtonClicked();
     }
 
-    void updatePantryDisplay(@NonNull final Pantry pantry);
-
+    void updatePantryDisplay();
     View getRootView();
 }

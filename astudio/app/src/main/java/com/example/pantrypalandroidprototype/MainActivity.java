@@ -1,70 +1,63 @@
 package com.example.pantrypalandroidprototype;
 
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
-
+import androidx.fragment.app.Fragment;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.view.AddIngredientFragment;
 import com.example.pantrypalandroidprototype.view.PantryFragment;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements AddIngredientFragment.Listener {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState == null) {
-            PantryFragment pantryFragment = new PantryFragment();
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainerView, pantryFragment)
-                    .commit();
-        }
+        // Prepare a list of ingredients to pass to the fragment
+        List<Ingredient> ingredients = new ArrayList<>();
+        ingredients.add(new Ingredient("Tomato", 3, "pcs", null));
+        ingredients.add(new Ingredient("Flour", 500, "g", null));
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("addedIngredients", (ArrayList<Ingredient>) ingredients);
+
+        PantryFragment pantryFragment = new PantryFragment();
+        pantryFragment.setArguments(bundle);
+
+        // Replace the container with the pantry fragment
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView, pantryFragment)
+                .commit();
+    }
+
+    private void displayFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainerView, fragment)
+                .commit();
     }
 
     @Override
     public void onAddIngredients(List<Ingredient> ingredients) {
-        // Get the PantryFragment and update its pantry with the new ingredients
-        PantryFragment pantryFragment = (PantryFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.fragmentContainerView);
-        if (pantryFragment != null) {
-            pantryFragment.updatePantry(ingredients);
-        }
+        PantryFragment pantryFragment = new PantryFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("addedIngredients", new ArrayList<>(ingredients));
+        pantryFragment.setArguments(bundle);
+        displayFragment(pantryFragment);
     }
 
-    // Implement the onAddIngredient method from the Listener interface
     @Override
     public void onAddIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags) {
-        if (tags == null) {
-            tags = new HashSet<>();
-        }
-        Set<String> tagStrings = new HashSet<>();
-        for (Ingredient.dietary_tags tag : tags) {
-            tagStrings.add(tag.toString());
-        }
 
-        Ingredient newIngredient = new Ingredient(name, qty, unit, tagStrings);
-
-        PantryFragment pantryFragment = (PantryFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.fragmentContainerView);
-
-        if (pantryFragment != null) {
-            pantryFragment.addIngredientToPantry(newIngredient);
-        }
     }
 
-    // Implement the onItemsDone method from the Listener interface
     @Override
     public void onItemsDone() {
-        // Handle when items are done (for example, return to the pantry view)
-        PantryFragment pantryFragment = (PantryFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.fragmentContainerView);
-        if (pantryFragment != null) {
-        }
+        displayFragment(new PantryFragment());
     }
 }

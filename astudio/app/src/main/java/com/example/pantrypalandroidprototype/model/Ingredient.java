@@ -1,10 +1,11 @@
 package com.example.pantrypalandroidprototype.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
 
-public class Ingredient {
+public class Ingredient implements Serializable {
     private final String name;
     private double quantity;
     private final String unit;
