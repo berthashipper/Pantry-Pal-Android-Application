@@ -10,5 +10,6 @@
     <orderEntry type="library" name="jackson-annotations-2.17.2" level="project" />
     <orderEntry type="library" name="jackson-databind-2.17.2" level="project" />
     <orderEntry type="library" name="jackson-core-2.17.2" level="project" />
+    <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
   </component>
 </module>

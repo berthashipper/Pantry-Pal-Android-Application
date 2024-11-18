@@ -10,7 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Edamam {
     private static final String APP_ID = "f44b99f5";
     private static final String APP_KEY = "92573b2fde792e7e2025da84549c0b95";
-    private static final String API_URL = "https://api.edamam.com/search";
+    private static final String API_URL = "https://api.edamam.com/search"; //not accessible for now
 
     public static void main(String[] args) {
         try {
