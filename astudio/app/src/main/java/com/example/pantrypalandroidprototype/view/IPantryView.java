@@ -7,11 +7,8 @@ import java.util.List;
 
 public interface IPantryView {
 
-    void updatePantry(List<Ingredient> ingredients);
-
     interface Listener {
-        void onAddIngredient(Ingredient ingredient, @NonNull final IPantryView view);
+
     }
 
-    void updateDisplayOnDone(final double change);
 }

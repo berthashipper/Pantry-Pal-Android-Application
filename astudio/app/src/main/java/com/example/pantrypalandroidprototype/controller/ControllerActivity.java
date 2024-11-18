@@ -12,6 +12,7 @@ import com.example.pantrypalandroidprototype.model.Pantry;
 import com.example.pantrypalandroidprototype.view.AddIngredientFragment;
 import com.example.pantrypalandroidprototype.view.IAddIngredientView;
 import com.example.pantrypalandroidprototype.view.IMainView;
+import com.example.pantrypalandroidprototype.view.IPantryView;
 import com.example.pantrypalandroidprototype.view.MainView;
 import com.example.pantrypalandroidprototype.view.PantryFragment;
 
@@ -20,27 +21,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ControllerActivity extends AppCompatActivity
-        implements IAddIngredientView.Listener {
+        implements IAddIngredientView.Listener, IPantryView.Listener {
 
-    private IMainView mainView;  // Interface for main UI interactions
+    private IMainView mainView;
     private Pantry pantry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        this.mainView = new MainView(this); // Fix context passing
+        this.mainView = new MainView(this);
         setContentView(this.mainView.getRootView());
 
         pantry = new Pantry();
 
-        // Initial fragment setup for adding ingredients
-        if (getSupportFragmentManager().findFragmentByTag(AddIngredientFragment.class.getSimpleName()) == null) {
-            AddIngredientFragment addIngredientFragment = AddIngredientFragment.newInstance((AddIngredientFragment.Listener) this);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainerView, addIngredientFragment, AddIngredientFragment.class.getSimpleName())
-                    .commit();
-        }
+       this.mainView.displayFragment(AddIngredientFragment.newInstance(this));
     }
 
     @Override
@@ -55,42 +50,22 @@ public class ControllerActivity extends AppCompatActivity
         pantry.add_ingredient(newIngredient);
 
         // Update pantry view
-        updatePantryDisplay();
+       // updatePantryDisplay();
     }
 
     @Override
     public void onItemsDone() {
-        // When done adding ingredients, show the pantry fragment
-        PantryFragment pantryFragment = new PantryFragment();
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainerView, pantryFragment, PantryFragment.class.getSimpleName())
-                .commit();
+        PantryFragment pantryFragment = PantryFragment.newInstance(this, this.pantry);
+        this.mainView.displayFragment(pantryFragment);
 
         Toast.makeText(this, "Items Done, returning to Pantry", Toast.LENGTH_SHORT).show();
-        updatePantryDisplay();
     }
 
-    @Override
-    public void updatePantryDisplay() {
+   // @Override
+    //public void updatePantryDisplay() {
         // Ensure the pantry view gets updated
-        mainView.updatePantryDisplay(new ArrayList<>(pantry.ingredientList.values()));
-    }
-
-    @Override
-    public View getRootView() {
-        return mainView.getRootView();
-    }
+     //   mainView.updatePantryDisplay(new ArrayList<>(pantry.ingredientList.values()));
+    //}
 
     // IAddIngredientView.Listener implementation
-    @Override
-    public void onAddIngredientClicked(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags) {
-        // Handle button click to add ingredient
-        onAddIngredient(name, qty, unit, tags);
-    }
-
-    @Override
-    public void onDoneButtonClicked() {
-        // Handle button click to navigate to pantry fragment
-        onItemsDone();
-    }
 }

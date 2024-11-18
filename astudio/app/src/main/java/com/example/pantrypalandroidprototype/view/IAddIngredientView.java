@@ -14,15 +14,5 @@ public interface IAddIngredientView {
         void onAddIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags);
 
         void onItemsDone();
-
-        void updatePantryDisplay();
-
-        View getRootView();
-
-        void onAddIngredientClicked(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags);
-        void onDoneButtonClicked();
     }
-
-    void updatePantryDisplay();
-    View getRootView();
 }

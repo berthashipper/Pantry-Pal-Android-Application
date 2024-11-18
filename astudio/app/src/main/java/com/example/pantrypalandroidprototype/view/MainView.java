@@ -26,7 +26,6 @@ public class MainView implements IMainView {
 
     MainBinding binding;
     FragmentManager fmanager;
-    PantryAdapter pantryAdapter;
     Context context;
 
     /**
@@ -38,11 +37,8 @@ public class MainView implements IMainView {
         // Initialize the binding and pantry adapter
         this.context = context;
         this.binding = MainBinding.inflate(LayoutInflater.from(context));
-        this.pantryAdapter = new PantryAdapter();
         this.fmanager = ((FragmentActivity) context).getSupportFragmentManager();
 
-        // Set the RecyclerView adapter from the binding
-        this.binding.ingredientRecyclerView.setAdapter(pantryAdapter); // Ensure the ID matches the XML
 
         // Configure app to maximize space usage by drawing on top of system bars
         EdgeToEdge.enable((FragmentActivity) context);
@@ -53,12 +49,9 @@ public class MainView implements IMainView {
         });
     }
 
-    public PantryAdapter getPantryAdapter() {
-        return pantryAdapter;
-    }
-
     /**
      * Retrieve the graphical widget (android view) at the root of the screen hierarchy.
+     *
      * @return the screen's root android view (widget)
      */
     @Override
@@ -82,7 +75,7 @@ public class MainView implements IMainView {
      * Replaces the contents of the screen's fragment container with the one passed in as an argument,
      * and adds the transaction to the back stack, under the name specified as an argument (if non-null).
      *
-     * @param fragment The fragment to be displayed.
+     * @param fragment  The fragment to be displayed.
      * @param transName the name this transaction can be referred by.
      */
     @Override
@@ -93,25 +86,11 @@ public class MainView implements IMainView {
         ft.commit();
     }
 
-    /**
-     * Displays pantry items by updating the RecyclerView with the pantry items list.
-     *
-     * @param pantryItems the list of pantry ingredients to be displayed.
-     */
-    @Override
-    public void updatePantryDisplay(List<Ingredient> pantryItems) {
-        // Update the pantryAdapter with new pantry items
-        pantryAdapter.updatePantryItems(pantryItems);
-    }
 
     public void onNavigateBackToPantry() {
         PantryFragment pantryFragment = new PantryFragment();
         fmanager.beginTransaction()
                 .replace(R.id.fragmentContainerView, pantryFragment)
                 .commit();
-    }
-
-    public void displayPantry(@NonNull List<Ingredient> pantryItems) {
-        pantryAdapter.updatePantryItems(pantryItems);
     }
 }

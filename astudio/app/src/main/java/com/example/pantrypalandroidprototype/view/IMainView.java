@@ -36,12 +36,12 @@ public interface IMainView {
      */
     void displayFragment(@NonNull final Fragment fragment, final String transName);
 
-    PantryAdapter getPantryAdapter();
+  //  PantryAdapter getPantryAdapter();
     /**
      * Displays the pantry items in the RecyclerView.
      */
-    void displayPantry(@NonNull List<Ingredient> pantryItems);
+    //void displayPantry(@NonNull List<Ingredient> pantryItems);
 
-    void updatePantryDisplay(List<Ingredient> pantryItems);
+    //void updatePantryDisplay(List<Ingredient> pantryItems);
 
 }

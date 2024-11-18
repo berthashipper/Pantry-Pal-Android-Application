@@ -9,7 +9,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.example.pantrypalandroidprototype.R;
+import com.example.pantrypalandroidprototype.databinding.FragmentAddItemsBinding;
+import com.example.pantrypalandroidprototype.databinding.FragmentPantryBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
+import com.example.pantrypalandroidprototype.model.Pantry;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -17,49 +20,33 @@ import java.util.List;
 
 public class PantryFragment extends Fragment implements IPantryView {
 
-    List<Ingredient> pantryIngredients = new ArrayList<>();
-    TextView pantryContentsTextView;
+    FragmentPantryBinding binding;
+
+    Listener listener;
+    Pantry pantry;
+
+
+    public static PantryFragment newInstance(IPantryView.Listener listener, Pantry pantry) {
+        PantryFragment fragment = new PantryFragment();
+        fragment.listener = listener;
+        fragment.pantry = pantry;
+        return fragment;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_pantry, container, false);
-        pantryContentsTextView = rootView.findViewById(R.id.pantryContentsTextView);
 
-        // Handle the arguments passed to the fragment
-        Bundle bundle = getArguments();
-        if (bundle != null && bundle.containsKey("addedIngredients")) {
-            Serializable serializableIngredients = bundle.getSerializable("addedIngredients");
-            if (serializableIngredients instanceof List<?>) {
-                List<Ingredient> newIngredients = (List<Ingredient>) serializableIngredients;
-                if (newIngredients != null) {
-                    pantryIngredients.addAll(newIngredients);
-                }
-            }
-        }
+        binding = FragmentPantryBinding.inflate(inflater, container, false);
+        View rootView = binding.getRoot();
 
-        displayPantryContents();
         return rootView;
     }
 
-    public void displayPantryContents() {
-        StringBuilder pantryString = new StringBuilder();
-        for (Ingredient ingredient : pantryIngredients) {
-            pantryString.append(ingredient.getName()).append(" - ")
-                    .append(ingredient.getQuantity()).append(" ")
-                    .append(ingredient.getUnit()).append("\n");
-        }
-        pantryContentsTextView.setText(pantryString.toString());
-    }
-
     @Override
-    public void updatePantry(List<Ingredient> ingredients) {
-        pantryIngredients.addAll(ingredients);
-        displayPantryContents();
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        this.binding.pantryContentsTextView.setText(this.pantry.toString());
     }
 
-    @Override
-    public void updateDisplayOnDone(double change) {
-
-    }
 }

@@ -22,18 +22,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class AddIngredientFragment extends Fragment {
+public class AddIngredientFragment extends Fragment implements IAddIngredientView {
 
-    public interface Listener {
-        void onAddIngredients(List<Ingredient> ingredients);
-        void onAddIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags);
-        void onItemsDone();
-    }
-
-    private FragmentAddItemsBinding binding;
-    private Listener listener;
-    private List<Ingredient> addedIngredients = new ArrayList<>();
-    private IngredientAdapter ingredientAdapter;
+    FragmentAddItemsBinding binding;
+    Listener listener;
+    List<Ingredient> addedIngredients = new ArrayList<>();
+    IngredientAdapter ingredientAdapter;
 
     public static AddIngredientFragment newInstance(Listener listener) {
         AddIngredientFragment fragment = new AddIngredientFragment();
@@ -47,15 +41,15 @@ public class AddIngredientFragment extends Fragment {
         binding = FragmentAddItemsBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 
-        binding.addIngredientButton.setOnClickListener(v -> onAddButtonClicked());
-        binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
-
         return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        binding.addIngredientButton.setOnClickListener(v -> onAddButtonClicked());
+        binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
 
         ingredientAdapter = new IngredientAdapter(addedIngredients, getContext());
         binding.ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -83,6 +77,9 @@ public class AddIngredientFragment extends Fragment {
             tags.add(Ingredient.dietary_tags.GLUTEN_FREE);
         }
 
+        if (listener != null) listener.onAddIngredient(name, qty, unit, tags);
+
+        // adapter update
         Ingredient newIngredient = new Ingredient(name, qty, unit, new HashSet<>());
         addedIngredients.add(newIngredient);
         ingredientAdapter.notifyItemInserted(addedIngredients.size() - 1);
@@ -99,7 +96,7 @@ public class AddIngredientFragment extends Fragment {
 
     private void onDoneButtonClicked() {
         if (listener != null) {
-            listener.onAddIngredients(addedIngredients);
+            listener.onItemsDone();
         }
     }
 }
