@@ -3,18 +3,19 @@ package com.example.pantrypalandroidprototype.model;
 //import org.json.JSONArray;
 //import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.util.Set;
 
-public class Recipe {
-    String recipeName;
-    Set<Ingredient> ingredientsInRecipe;
-    String instructions;
-    Set<Ingredient.dietary_tags> recipeTags;
-    String recipeDescription;
-    Duration cookTime;
-    int servingSize;
-    String url;
+public class Recipe implements Serializable {
+    public String recipeName;
+    public Set<Ingredient> ingredientsInRecipe;
+    public String instructions;
+    public Set<Ingredient.dietary_tags> recipeTags;
+    public String recipeDescription;
+    public Duration cookTime;
+    public int servingSize;
+    public String url;
 
     // Constructor method for Recipe
     public Recipe(String recipeName, Set<Ingredient> ingredientsInRecipe,

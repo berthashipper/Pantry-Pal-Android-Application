@@ -3,8 +3,6 @@ package com.example.pantrypalandroidprototype.controller;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,8 +24,8 @@ import com.example.pantrypalandroidprototype.view.IMainView;
 import com.example.pantrypalandroidprototype.view.IPantryView;
 import com.example.pantrypalandroidprototype.view.MainView;
 import com.example.pantrypalandroidprototype.view.PantryFragment;
+import com.example.pantrypalandroidprototype.view.RecipeDetailFragment;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -161,10 +159,15 @@ public class ControllerActivity extends AppCompatActivity
         this.mainView.displayFragment(CookbookFragment.newInstance((CookbookFragment.Listener) this));
     }
 
+    @Override
+    public void onRecipeClick(Recipe recipe) {
+        RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(recipe);
+        this.mainView.displayFragment(recipeDetailFragment);
+    }
+
     private Set<Recipe> getAllRecipes() {
         // Fetch or define a set of all recipes
         Set<Recipe> recipes = new HashSet<>();
-
 
         return recipes;
     }

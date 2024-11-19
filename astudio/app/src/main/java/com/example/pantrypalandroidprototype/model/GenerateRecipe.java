@@ -1,10 +1,11 @@
 package com.example.pantrypalandroidprototype.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class GenerateRecipe {
+public class GenerateRecipe implements Serializable {
     Pantry userPantry;
     Set<Recipe> allRecipes;
 

@@ -23,12 +23,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-public class CookbookFragment extends Fragment implements ICookbookView{
+public class CookbookFragment extends Fragment implements ICookbookView, RecipeAdapter.OnRecipeClickListener {
 
     FragmentCookbookBinding binding;
-    private RecyclerView recyclerView;
-    private RecipeAdapter recipeAdapter;
-    private Set<Recipe> recipes;
+    RecyclerView recyclerView;
+    RecipeAdapter recipeAdapter;
+    Set<Recipe> recipes;
     Listener listener;
 
     public static CookbookFragment newInstance(CookbookFragment.Listener listener) {
@@ -50,17 +50,14 @@ public class CookbookFragment extends Fragment implements ICookbookView{
         super.onViewCreated(view, savedInstanceState);
         recipes = getAllRecipes();
 
-        binding.viewCookbookButton.setOnClickListener(v -> onViewCookbookMenu());
-
         recyclerView = view.findViewById(R.id.recycler_view_recipes);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Initialize the adapter and set it to the RecyclerView
-        recipeAdapter = new RecipeAdapter(new ArrayList<>(recipes));
+        recipeAdapter = new RecipeAdapter(new ArrayList<>(recipes), getContext(), this);
         recyclerView.setAdapter(recipeAdapter);
     }
 
-    // Hardcoded recipes
     private Set<Recipe> getAllRecipes() {
         Set<Recipe> recipes = new HashSet<>();
 
@@ -215,6 +212,13 @@ public class CookbookFragment extends Fragment implements ICookbookView{
     public void onViewCookbookMenu(){
         if (listener != null) {
             listener.onViewCookbookMenu();
+        }
+    }
+
+    @Override
+    public void onRecipeClick(Recipe recipe) {
+        if (listener != null) {
+            listener.onRecipeClick(recipe);
         }
     }
 }

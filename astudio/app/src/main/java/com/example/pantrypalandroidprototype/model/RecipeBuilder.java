@@ -1,5 +1,6 @@
 package com.example.pantrypalandroidprototype.model;
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -7,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class RecipeBuilder {
+public class RecipeBuilder implements Serializable {
     private String recipeName;
     private Set<Ingredient> ingredients = new HashSet<>();
     private List<String> instructions = new ArrayList<>();  // Store instructions in a list
