@@ -46,6 +46,12 @@ public class MainView implements IMainView {
             }
         });
 
+        // Set up listener for the View Cookbook button
+        binding.viewCookbookButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onViewCookbookMenu();
+            }
+        });
 
         // Configure app to maximize space usage by drawing on top of system bars
         EdgeToEdge.enable((FragmentActivity) context);

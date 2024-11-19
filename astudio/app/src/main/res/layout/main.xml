@@ -62,6 +62,14 @@
                 android:text="View Pantry"
                 android:layout_marginEnd="8dp"/>
 
+            <Button
+                android:id="@+id/viewCookbookButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="View Cookbook"
+                android:layout_marginEnd="8dp"/>
+
         </LinearLayout>
 
         <!-- Second Row of Buttons -->
