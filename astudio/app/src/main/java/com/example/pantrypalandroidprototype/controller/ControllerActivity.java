@@ -63,7 +63,7 @@ public class ControllerActivity extends AppCompatActivity
         // Pass the pantry data to the fragment
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
 
-        Toast.makeText(this, "Items Done, returning to Pantry", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Done adding ingredients, returning to Pantry", Toast.LENGTH_SHORT).show();
     }
 
     @Override

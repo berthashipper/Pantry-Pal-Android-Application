@@ -4,11 +4,6 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <TextView
-        android:id="@+id/pantryContentsTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <!-- Add Ingredients Button -->
     <Button
         android:id="@+id/addIngredientsButton"
@@ -17,11 +12,18 @@
         android:text="Add Ingredients"
         android:layout_marginTop="16dp" />
 
+    <!-- Pantry Contents TextView with marginTop to add space between button and text -->
+    <TextView
+        android:id="@+id/pantryContentsTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp" />
+
     <Button
         android:id="@+id/viewPantryButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="View Pantry"
-        android:layout_marginEnd="16dp"/>
-
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"/>
 </LinearLayout>

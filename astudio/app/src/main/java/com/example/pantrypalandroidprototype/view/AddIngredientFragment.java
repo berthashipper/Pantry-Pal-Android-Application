@@ -52,8 +52,8 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
 
         ingredientAdapter = new IngredientAdapter(addedIngredients, getContext());
-        binding.ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.ingredientsRecyclerView.setAdapter(ingredientAdapter);
+        //binding.ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        //binding.ingredientsRecyclerView.setAdapter(ingredientAdapter);
     }
 
     public void onAddButtonClicked() {
