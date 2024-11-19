@@ -29,16 +29,17 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.main);
 
-        this.mainView = new MainView(this);
+        this.mainView = new MainView(this, this);
+
         setContentView(this.mainView.getRootView());
 
         pantry = new Pantry();
 
-        // Pass the add ingredient data to the fragment
-        this.mainView.displayFragment(AddIngredientFragment.newInstance(this));
+        mainView.setListener(this);
 
-        // Pass the pantry data to the fragment
+        this.mainView.displayFragment(AddIngredientFragment.newInstance(this));
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
     }
 
@@ -59,8 +60,8 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onItemsDone() {
-        PantryFragment pantryFragment = PantryFragment.newInstance(this, this.pantry);
-        this.mainView.displayFragment(pantryFragment);
+        // Pass the pantry data to the fragment
+        this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
 
         Toast.makeText(this, "Items Done, returning to Pantry", Toast.LENGTH_SHORT).show();
     }
@@ -74,7 +75,7 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onViewPantryMenu(){
-        PantryFragment pantryFragment = PantryFragment.newInstance(this, this.pantry);
-        this.mainView.displayFragment(pantryFragment);
+        mainView.setListener(this);
+        this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
     }
 }

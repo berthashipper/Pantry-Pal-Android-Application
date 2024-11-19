@@ -1,6 +1,7 @@
 package com.example.pantrypalandroidprototype.view;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -16,6 +17,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantrypalandroidprototype.R;
+import com.example.pantrypalandroidprototype.controller.ControllerActivity;
+import com.example.pantrypalandroidprototype.databinding.FragmentPantryBinding;
 import com.example.pantrypalandroidprototype.databinding.MainBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.PantryAdapter;
@@ -29,14 +32,10 @@ public class MainView implements IMainView {
     Context context;
     IPantryView.Listener listener;
 
-    /**
-     * Constructor method.
-     *
-     * @param context the context in which the UI is to operate - influences look & feel.
-     */
-    public MainView(final Context context) {
+    public MainView(final Context context,  IPantryView.Listener listener) {
         // Initialize the binding and pantry adapter
         this.context = context;
+        this.listener = listener;  // Set the listener to the passed controller
         this.binding = MainBinding.inflate(LayoutInflater.from(context));
         this.fmanager = ((FragmentActivity) context).getSupportFragmentManager();
 
@@ -56,40 +55,28 @@ public class MainView implements IMainView {
         });
     }
 
+    @Override
+    public void setListener(IPantryView.Listener listener) {
+        this.listener = listener;
+    }
 
-    /**
-     * Retrieve the graphical widget (android view) at the root of the screen hierarchy.
-     *
-     * @return the screen's root android view (widget)
-     */
     @Override
     public View getRootView() {
         return this.binding.getRoot();
     }
 
-    /**
-     * Replaces the contents of the screen's fragment container with the one passed in as an argument.
-     *
-     * @param fragment The fragment to be displayed.
-     */
     @Override
     public void displayFragment(@NonNull Fragment fragment) {
-        FragmentTransaction ft = ((FragmentActivity) context).getSupportFragmentManager().beginTransaction();
+        FragmentTransaction ft = fmanager.beginTransaction();
         ft.replace(binding.fragmentContainerView.getId(), fragment);
+        ft.addToBackStack(null);
         ft.commit();
     }
 
-    /**
-     * Replaces the contents of the screen's fragment container with the one passed in as an argument,
-     * and adds the transaction to the back stack, under the name specified as an argument (if non-null).
-     *
-     * @param fragment  The fragment to be displayed.
-     * @param transName the name this transaction can be referred by.
-     */
     @Override
     public void displayFragment(@NonNull final Fragment fragment, final String transName) {
         final FragmentTransaction ft = this.fmanager.beginTransaction();
-        ft.replace(this.binding.fragmentContainerView.getId(), fragment);  // Ensure fragmentContainerView ID exists in your layout XML
+        ft.replace(this.binding.fragmentContainerView.getId(), fragment);
         if (transName != null) ft.addToBackStack(transName);
         ft.commit();
     }

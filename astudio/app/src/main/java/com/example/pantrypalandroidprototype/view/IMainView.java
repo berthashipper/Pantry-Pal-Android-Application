@@ -5,6 +5,7 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.PantryAdapter;
 
@@ -14,6 +15,8 @@ import java.util.List;
  * An interface for the application screen template.
  */
 public interface IMainView {
+
+
     /**
      * Retrieve the graphical widget (android view) at the root of the screen hierarchy/
      * @return the screen's root android view (widget)
@@ -36,7 +39,9 @@ public interface IMainView {
      */
     void displayFragment(@NonNull final Fragment fragment, final String transName);
 
-  //  PantryAdapter getPantryAdapter();
+    void setListener(IPantryView.Listener listener);
+
+    //  PantryAdapter getPantryAdapter();
     /**
      * Displays the pantry items in the RecyclerView.
      */
