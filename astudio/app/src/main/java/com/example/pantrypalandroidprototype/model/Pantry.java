@@ -24,14 +24,16 @@ public class Pantry {
         System.out.println("Added " + name + " to pantry.");
     }
 
-    public void delete_ingredient(String name) {
+    public boolean delete_ingredient(String name) {
         Ingredient ing = ingredientList.get(name.toLowerCase());
         if (ing != null) {
             ingredientList.remove(name.toLowerCase());
             System.out.println("Deleted " + ing.getName() + " from pantry.");
+            return true;
         } else {
             System.out.println("Ingredient " + name + " not found in pantry.");
         }
+        return false;
     }
 
     public void edit_ingredient(String name, double newQuantity) {

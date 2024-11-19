@@ -91,9 +91,13 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onDeleteIngredient(String name) {
-        pantry.delete_ingredient(name);
-        Toast.makeText(this, "Deleted ingredient: " + name, Toast.LENGTH_SHORT).show();
-        onViewPantryMenu();  // Return to the pantry view
+        boolean isDeleted = pantry.delete_ingredient(name);
+        if (isDeleted) {
+            Toast.makeText(this, "Deleted ingredient: " + name, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "No ingredient found with name: " + name, Toast.LENGTH_SHORT).show();
+        }
+        onViewPantryMenu(); // Return to the pantry view
     }
 
     @Override
