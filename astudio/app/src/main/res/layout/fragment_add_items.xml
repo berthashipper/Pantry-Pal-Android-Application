@@ -1,88 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/itemNameText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ingredient Name" />
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/itemQtyText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Quantity" />
+        <EditText
+            android:id="@+id/itemNameText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ingredient Name"
+            android:layout_marginBottom="8dp" />
 
-    <EditText
-        android:id="@+id/itemUnitText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Unit" />
+        <EditText
+            android:id="@+id/itemQtyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Quantity"
+            android:layout_marginBottom="8dp" />
 
-    <!-- Add checkboxes for dietary tags -->
-    <CheckBox
-        android:id="@+id/veganCheckbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vegan" />
+        <EditText
+            android:id="@+id/itemUnitText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Unit"
+            android:layout_marginBottom="16dp" />
 
-    <CheckBox
-        android:id="@+id/kosherCheckbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Kosher" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Dietary Tags:"
+            android:layout_marginBottom="8dp"
+            android:textStyle="bold" />
 
-    <CheckBox
-        android:id="@+id/glutenFreeCheckbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gluten Free" />
+        <!-- Group CheckBoxes in a vertical layout -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="16dp">
 
-    <CheckBox
-        android:id="@+id/halalCheckbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Halal" />
+            <CheckBox
+                android:id="@+id/veganCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vegan" />
 
-    <CheckBox
-        android:id="@+id/nutFreeCheckbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nut Free" />
+            <CheckBox
+                android:id="@+id/kosherCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kosher" />
 
-    <CheckBox
-        android:id="@+id/vegetarianCheckbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Vegetarian" />
+            <CheckBox
+                android:id="@+id/glutenFreeCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gluten Free" />
 
-    <CheckBox
-        android:id="@+id/dairyFreeCheckbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dairy Free" />
+            <CheckBox
+                android:id="@+id/halalCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Halal" />
 
-    <Button
-        android:id="@+id/addIngredientButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Add Ingredient" />
+            <CheckBox
+                android:id="@+id/nutFreeCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nut Free" />
 
-    <Button
-        android:id="@+id/doneButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Done" />
+            <CheckBox
+                android:id="@+id/vegetarianCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vegetarian" />
 
-    <!--<androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/ingredientsRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />-->
+            <CheckBox
+                android:id="@+id/dairyFreeCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dairy Free" />
+        </LinearLayout>
 
-</LinearLayout>
+        <Button
+            android:id="@+id/addIngredientButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="8dp"
+            android:text="Add Ingredient" />
+
+        <Button
+            android:id="@+id/doneButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="Done" />
+
+    </LinearLayout>
+</ScrollView>

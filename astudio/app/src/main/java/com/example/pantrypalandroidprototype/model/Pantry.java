@@ -115,11 +115,19 @@ public class Pantry {
 
     @Override
     public String toString() {
-        StringBuilder pantryContents = new StringBuilder("Pantry contents:\n");
-        for (Map.Entry<String, Ingredient> entry : ingredientList.entrySet()) {
-            Ingredient ing = entry.getValue();
-            pantryContents.append(ing.getName()).append(": ").append(ing.getQuantity()).append(" ").append(ing.getUnit()).append(", Tags: ").append(ing.getTags()).append("\n");
+        StringBuilder pantryContents = new StringBuilder("🛒 Pantry Contents:\n\n");
+
+        if (ingredientList.isEmpty()) {
+            pantryContents.append("Your pantry is currently empty. Add some ingredients to get started!\n");
+        } else {
+            for (Map.Entry<String, Ingredient> entry : ingredientList.entrySet()) {
+                Ingredient ing = entry.getValue();
+                pantryContents.append("• ").append(ing.getName()).append("\n")
+                        .append("   Quantity: ").append(ing.getQuantity()).append(" ").append(ing.getUnit()).append("\n")
+                        .append("   Tags: ").append(ing.getTags().isEmpty() ? "None" : String.join(", ", ing.getTags())).append("\n\n");
+            }
         }
+
         return pantryContents.toString();
     }
 }
