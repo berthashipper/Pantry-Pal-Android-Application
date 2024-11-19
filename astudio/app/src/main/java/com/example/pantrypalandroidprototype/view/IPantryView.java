@@ -12,6 +12,7 @@ public interface IPantryView {
         void onAddIngredientsMenu();
         void onDeleteIngredientsMenu();
         void onViewPantryMenu();
+        void onEditIngredientsMenu();
     }
 
 }

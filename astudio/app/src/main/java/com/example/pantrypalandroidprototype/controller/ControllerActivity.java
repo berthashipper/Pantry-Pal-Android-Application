@@ -13,8 +13,10 @@ import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
 import com.example.pantrypalandroidprototype.view.AddIngredientFragment;
 import com.example.pantrypalandroidprototype.view.DeleteIngredientFragment;
+import com.example.pantrypalandroidprototype.view.EditIngredientFragment;
 import com.example.pantrypalandroidprototype.view.IAddIngredientView;
 import com.example.pantrypalandroidprototype.view.IDeleteIngredientView;
+import com.example.pantrypalandroidprototype.view.IEditIngredientView;
 import com.example.pantrypalandroidprototype.view.IMainView;
 import com.example.pantrypalandroidprototype.view.IPantryView;
 import com.example.pantrypalandroidprototype.view.MainView;
@@ -25,7 +27,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ControllerActivity extends AppCompatActivity
-        implements IAddIngredientView.Listener, IPantryView.Listener, IDeleteIngredientView.Listener {
+        implements IAddIngredientView.Listener, IPantryView.Listener,
+        IDeleteIngredientView.Listener, IEditIngredientView.Listener {
 
     private IMainView mainView;
     private Pantry pantry;
@@ -112,5 +115,28 @@ public class ControllerActivity extends AppCompatActivity
     public void onDeleteIngredientsMenu() {
         DeleteIngredientFragment deleteIngredientFragment = DeleteIngredientFragment.newInstance(this);
         this.mainView.displayFragment(deleteIngredientFragment);
+    }
+
+    @Override
+    public void onEditIngredient(String name, double newQty) {
+        boolean isUpdated = pantry.edit_ingredient(name, newQty); // Assume `editIngredient` exists in `Pantry`
+        if (isUpdated) {
+            Toast.makeText(this, "Updated ingredient: " + name, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "No ingredient found with name: " + name, Toast.LENGTH_SHORT).show();
+        }
+        onViewPantryMenu(); // Return to pantry view
+    }
+
+    @Override
+    public void onEditDone() {
+        mainView.displayFragment(PantryFragment.newInstance(this, pantry));
+        Toast.makeText(this, "Done editing ingredients, returning to Pantry", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onEditIngredientsMenu() {
+        EditIngredientFragment editIngredientFragment = EditIngredientFragment.newInstance(this);
+        mainView.displayFragment(editIngredientFragment);
     }
 }

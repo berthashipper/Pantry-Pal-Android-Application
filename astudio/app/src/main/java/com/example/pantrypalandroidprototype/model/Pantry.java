@@ -36,14 +36,16 @@ public class Pantry {
         return false;
     }
 
-    public void edit_ingredient(String name, double newQuantity) {
+    public boolean edit_ingredient(String name, double newQuantity) {
         Ingredient ingredient = ingredientList.get(name.toLowerCase());
         if (ingredient != null) {
             ingredient.updateQuantity(newQuantity);
             System.out.println("Updated " + name + " to " + newQuantity + " " + ingredient.getUnit());
+            return true;
         } else {
             System.out.println("Ingredient " + name + " not found in pantry.");
         }
+        return false;
     }
 
     public List<Ingredient> filter_ingredients_by_tag(Ingredient.dietary_tags tag) {
