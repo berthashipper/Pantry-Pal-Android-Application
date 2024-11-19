@@ -1,4 +1,4 @@
 package com.example.pantrypalandroidprototype;
 
-public class VewCookbookTest {
+public class ViewCookbookTest {
 }
