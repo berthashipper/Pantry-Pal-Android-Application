@@ -3,18 +3,23 @@ package com.example.pantrypalandroidprototype.controller;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.pantrypalandroidprototype.R;
+import com.example.pantrypalandroidprototype.model.GenerateRecipe;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
+import com.example.pantrypalandroidprototype.model.Recipe;
 import com.example.pantrypalandroidprototype.view.AddIngredientFragment;
+import com.example.pantrypalandroidprototype.view.CookbookFragment;
 import com.example.pantrypalandroidprototype.view.DeleteIngredientFragment;
 import com.example.pantrypalandroidprototype.view.EditIngredientFragment;
 import com.example.pantrypalandroidprototype.view.IAddIngredientView;
+import com.example.pantrypalandroidprototype.view.ICookbookView;
 import com.example.pantrypalandroidprototype.view.IDeleteIngredientView;
 import com.example.pantrypalandroidprototype.view.IEditIngredientView;
 import com.example.pantrypalandroidprototype.view.IMainView;
@@ -28,10 +33,10 @@ import java.util.Set;
 
 public class ControllerActivity extends AppCompatActivity
         implements IAddIngredientView.Listener, IPantryView.Listener,
-        IDeleteIngredientView.Listener, IEditIngredientView.Listener {
+        IDeleteIngredientView.Listener, IEditIngredientView.Listener, ICookbookView.Listener {
 
-    private IMainView mainView;
-    private Pantry pantry;
+    IMainView mainView;
+    Pantry pantry;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -47,13 +52,12 @@ public class ControllerActivity extends AppCompatActivity
 
         mainView.setListener(this);
 
+
         this.mainView.displayFragment(AddIngredientFragment.newInstance(this));
         this.mainView.displayFragment(DeleteIngredientFragment.newInstance(this));
+        this.mainView.displayFragment(CookbookFragment.newInstance(this));
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
 
-
-        //findViewById(R.id.addIngredientsButton).setOnClickListener(v -> onAddIngredientsMenu());
-        //findViewById(R.id.deleteIngredientsButton).setOnClickListener(v -> {
     }
 
     @Override
@@ -139,4 +143,30 @@ public class ControllerActivity extends AppCompatActivity
         EditIngredientFragment editIngredientFragment = EditIngredientFragment.newInstance(this);
         mainView.displayFragment(editIngredientFragment);
     }
+
+    public void onGenerateRecipeClicked(View view) {
+        // Assuming the user has a list of recipes to check against the pantry
+        Set<Recipe> allRecipes = getAllRecipes();
+
+        // Create the GenerateRecipe instance
+        GenerateRecipe generateRecipe = new GenerateRecipe(pantry, allRecipes);
+
+        // Call the method to generate matching recipes
+        generateRecipe.generateMatchingRecipes();
+    }
+
+    @Override
+    public void onViewCookbookMenu() {
+        mainView.setListener(this);
+        this.mainView.displayFragment(CookbookFragment.newInstance((CookbookFragment.Listener) this));
+    }
+
+    private Set<Recipe> getAllRecipes() {
+        // Fetch or define a set of all recipes
+        Set<Recipe> recipes = new HashSet<>();
+
+
+        return recipes;
+    }
 }
+
