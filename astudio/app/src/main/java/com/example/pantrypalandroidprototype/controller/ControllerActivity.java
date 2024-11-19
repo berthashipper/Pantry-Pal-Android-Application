@@ -1,7 +1,9 @@
 package com.example.pantrypalandroidprototype.controller;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +12,11 @@ import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
 import com.example.pantrypalandroidprototype.view.AddIngredientFragment;
+import com.example.pantrypalandroidprototype.view.DeleteIngredientFragment;
+import com.example.pantrypalandroidprototype.view.EditIngredientFragment;
 import com.example.pantrypalandroidprototype.view.IAddIngredientView;
+import com.example.pantrypalandroidprototype.view.IDeleteIngredientView;
+import com.example.pantrypalandroidprototype.view.IEditIngredientView;
 import com.example.pantrypalandroidprototype.view.IMainView;
 import com.example.pantrypalandroidprototype.view.IPantryView;
 import com.example.pantrypalandroidprototype.view.MainView;
@@ -21,13 +27,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ControllerActivity extends AppCompatActivity
-        implements IAddIngredientView.Listener, IPantryView.Listener {
+        implements IAddIngredientView.Listener, IPantryView.Listener,
+        IDeleteIngredientView.Listener, IEditIngredientView.Listener {
 
     private IMainView mainView;
     private Pantry pantry;
 
+    @SuppressLint("MissingInflatedId")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
@@ -40,7 +48,12 @@ public class ControllerActivity extends AppCompatActivity
         mainView.setListener(this);
 
         this.mainView.displayFragment(AddIngredientFragment.newInstance(this));
+        this.mainView.displayFragment(DeleteIngredientFragment.newInstance(this));
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
+
+
+        //findViewById(R.id.addIngredientsButton).setOnClickListener(v -> onAddIngredientsMenu());
+        //findViewById(R.id.deleteIngredientsButton).setOnClickListener(v -> {
     }
 
     @Override
@@ -77,5 +90,53 @@ public class ControllerActivity extends AppCompatActivity
     public void onViewPantryMenu(){
         mainView.setListener(this);
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
+    }
+
+    @Override
+    public void onDeleteIngredient(String name) {
+        boolean isDeleted = pantry.delete_ingredient(name);
+        if (isDeleted) {
+            Toast.makeText(this, "Deleted ingredient: " + name, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "No ingredient found with name: " + name, Toast.LENGTH_SHORT).show();
+        }
+        onViewPantryMenu(); // Return to the pantry view
+    }
+
+    @Override
+    public void onDeletionDone() {
+        // Pass the pantry data to the fragment
+        this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
+
+        Toast.makeText(this, "Done deleting ingredients, returning to Pantry", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDeleteIngredientsMenu() {
+        DeleteIngredientFragment deleteIngredientFragment = DeleteIngredientFragment.newInstance(this);
+        this.mainView.displayFragment(deleteIngredientFragment);
+    }
+
+    @Override
+    public void onEditIngredient(String name, double newQty) {
+        boolean isUpdated = pantry.edit_ingredient(name, newQty); // Assume `editIngredient` exists in `Pantry`
+        if (isUpdated) {
+            Toast.makeText(this, "Updated ingredient: " + name, Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "No ingredient found with name: " + name, Toast.LENGTH_SHORT).show();
+        }
+        onViewPantryMenu(); // Return to pantry view
+    }
+
+    @Override
+    public void onEditDone() {
+        mainView.displayFragment(PantryFragment.newInstance(this, pantry));
+        Toast.makeText(this, "Done editing ingredients, returning to Pantry", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onEditIngredientsMenu() {
+        EditIngredientFragment editIngredientFragment = EditIngredientFragment.newInstance(this);
+        mainView.displayFragment(editIngredientFragment);
     }
 }

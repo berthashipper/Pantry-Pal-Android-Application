@@ -16,15 +16,8 @@ public interface IDeleteIngredientView {
      * to the view should implement.
      */
     interface Listener {
-        /**
-         * Called when an ingredient is to be deleted from the pantry.
-         */
-        void onDeleteIngredient(final String name, final double qty, final String unit, final Set<Ingredient.dietary_tags> dietaryTags);
-
-        /**
-         * Called when deletion or other operations are done.
-         */
-        void onItemsDone();
+        void onDeleteIngredient(String name);
+        void onDeletionDone();
     }
 
     /**
@@ -39,5 +32,4 @@ public interface IDeleteIngredientView {
      *
      * @return The root view.
      */
-    View getRootView();
 }

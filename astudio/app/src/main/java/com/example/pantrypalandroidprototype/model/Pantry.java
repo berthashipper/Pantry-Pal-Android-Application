@@ -24,24 +24,28 @@ public class Pantry {
         System.out.println("Added " + name + " to pantry.");
     }
 
-    public void delete_ingredient(String name) {
+    public boolean delete_ingredient(String name) {
         Ingredient ing = ingredientList.get(name.toLowerCase());
         if (ing != null) {
             ingredientList.remove(name.toLowerCase());
             System.out.println("Deleted " + ing.getName() + " from pantry.");
+            return true;
         } else {
             System.out.println("Ingredient " + name + " not found in pantry.");
         }
+        return false;
     }
 
-    public void edit_ingredient(String name, double newQuantity) {
+    public boolean edit_ingredient(String name, double newQuantity) {
         Ingredient ingredient = ingredientList.get(name.toLowerCase());
         if (ingredient != null) {
             ingredient.updateQuantity(newQuantity);
             System.out.println("Updated " + name + " to " + newQuantity + " " + ingredient.getUnit());
+            return true;
         } else {
             System.out.println("Ingredient " + name + " not found in pantry.");
         }
+        return false;
     }
 
     public List<Ingredient> filter_ingredients_by_tag(Ingredient.dietary_tags tag) {
@@ -111,11 +115,19 @@ public class Pantry {
 
     @Override
     public String toString() {
-        StringBuilder pantryContents = new StringBuilder("Pantry contents:\n");
-        for (Map.Entry<String, Ingredient> entry : ingredientList.entrySet()) {
-            Ingredient ing = entry.getValue();
-            pantryContents.append(ing.getName()).append(": ").append(ing.getQuantity()).append(" ").append(ing.getUnit()).append(", Tags: ").append(ing.getTags()).append("\n");
+        StringBuilder pantryContents = new StringBuilder("🛒 Pantry Contents:\n\n");
+
+        if (ingredientList.isEmpty()) {
+            pantryContents.append("Your pantry is currently empty. Add some ingredients to get started!\n");
+        } else {
+            for (Map.Entry<String, Ingredient> entry : ingredientList.entrySet()) {
+                Ingredient ing = entry.getValue();
+                pantryContents.append("• ").append(ing.getName()).append("\n")
+                        .append("   Quantity: ").append(ing.getQuantity()).append(" ").append(ing.getUnit()).append("\n")
+                        .append("   Tags: ").append(ing.getTags().isEmpty() ? "None" : String.join(", ", ing.getTags())).append("\n\n");
+            }
         }
+
         return pantryContents.toString();
     }
 }

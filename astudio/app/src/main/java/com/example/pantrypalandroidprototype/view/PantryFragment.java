@@ -48,6 +48,8 @@ public class PantryFragment extends Fragment implements IPantryView {
 
         binding.addIngredientsButton.setOnClickListener(v -> onAddIngredientButtonClicked());
         binding.viewPantryButton.setOnClickListener(v -> onViewPantryMenu());
+        binding.deleteIngredientsButton.setOnClickListener(v -> onDeleteButtonClicked());
+        binding.editIngredientsButton.setOnClickListener(v -> onEditButtonClicked());
 
 
         this.binding.pantryContentsTextView.setText(this.pantry.toString());
@@ -62,6 +64,18 @@ public class PantryFragment extends Fragment implements IPantryView {
     public void onViewPantryMenu() {
         if (listener != null) {
             listener.onViewPantryMenu();
+        }
+    }
+
+    public void onDeleteButtonClicked(){
+        if (listener != null) {
+            listener.onDeleteIngredientsMenu();
+        }
+    }
+
+    public void onEditButtonClicked(){
+        if (listener != null) {
+            listener.onEditIngredientsMenu();
         }
     }
 }
