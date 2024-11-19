@@ -10,30 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.pantrypalandroidprototype.databinding.FragmentAddItemsBinding;
-import com.example.pantrypalandroidprototype.model.Ingredient;
+import com.example.pantrypalandroidprototype.databinding.FragmentDeleteItemsBinding; // Correct binding import
 import com.example.pantrypalandroidprototype.model.Pantry;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class DeleteIngredientFragment extends Fragment implements IDeleteIngredientView {
 
-    private FragmentAddItemsBinding binding;
-    private Listener listener;
-    private Set<Ingredient.dietary_tags> selectedTags = new HashSet<>();
+    // Use the correct binding class for the Delete Ingredient Fragment
+    FragmentDeleteItemsBinding binding;
+    IDeleteIngredientView.Listener listener;
 
-    /**
-     * Listener interface for button interactions.
-     */
-    public interface Listener {
-        void onDeleteIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags);
-    }
+    Pantry pantry;
 
-    /**
-     * Static factory method to create a new instance of this fragment.
-     */
-    public static DeleteIngredientFragment newInstance(Listener listener) {
+    public static DeleteIngredientFragment newInstance(IDeleteIngredientView.Listener listener) {
         DeleteIngredientFragment fragment = new DeleteIngredientFragment();
         fragment.listener = listener;
         return fragment;
@@ -43,54 +31,30 @@ public class DeleteIngredientFragment extends Fragment implements IDeleteIngredi
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = FragmentAddItemsBinding.inflate(inflater, container, false);
-        return binding.getRoot();
+        binding = FragmentDeleteItemsBinding.inflate(inflater, container, false); // Inflate the correct layout binding
+        View rootView = binding.getRoot();
+        return rootView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Set up button click listener
-        binding.addIngredientButton.setOnClickListener(v -> onAddButtonClicked());
+        // Set up the delete button click listener
+        binding.deleteIngredientButton.setOnClickListener(v -> onDeleteButtonClicked());
+        binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
     }
 
     /**
-     * Handle the add button click to delete an ingredient.
+     * Handle the delete button click to delete an ingredient.
      */
-    private void onAddButtonClicked() {
+    public void onDeleteButtonClicked() {
         String name = binding.itemNameText.getText().toString().trim();
-        double qty = parseQuantity(binding.itemQtyText.getText().toString().trim());
-        String unit = binding.itemUnitText.getText().toString().trim();
 
-        gatherSelectedDietaryTags();
-
-        if (listener != null && !name.isEmpty() && qty > 0) {
-            listener.onDeleteIngredient(name, qty, unit, selectedTags);
+        if (listener != null && !name.isEmpty()) {
+            listener.onDeleteIngredient(name);
         }
         clearInputs();
-    }
-
-    /**
-     * Gathers selected dietary tags from the UI.
-     */
-    private void gatherSelectedDietaryTags() {
-        selectedTags.clear();
-
-        if (binding.veganCheckbox.isChecked()) {
-            selectedTags.add(Ingredient.dietary_tags.VEGAN);
-        }
-        if (binding.glutenFreeCheckbox.isChecked()) {
-            selectedTags.add(Ingredient.dietary_tags.GLUTEN_FREE);
-        }
-    }
-
-    private double parseQuantity(String qtyStr) {
-        try {
-            return Double.parseDouble(qtyStr);
-        } catch (NumberFormatException e) {
-            return 0; // Default to 0 if parsing fails
-        }
     }
 
     @Override
@@ -98,16 +62,13 @@ public class DeleteIngredientFragment extends Fragment implements IDeleteIngredi
         Toast.makeText(getContext(), "Pantry updated with " + pantry.getNPantryItems() + " items.", Toast.LENGTH_SHORT).show();
     }
 
-    @Override
-    public View getRootView() {
-        return binding.getRoot();
+    public void clearInputs() {
+        binding.itemNameText.setText("");
     }
 
-    private void clearInputs() {
-        binding.itemNameText.setText("");
-        binding.itemQtyText.setText("");
-        binding.itemUnitText.setText("");
-        binding.veganCheckbox.setChecked(false);
-        binding.glutenFreeCheckbox.setChecked(false);
+    public void onDoneButtonClicked() {
+        if (listener != null) {
+            listener.onDeletionDone();
+        }
     }
 }

@@ -10,6 +10,7 @@ public interface IPantryView {
 
     interface Listener {
         void onAddIngredientsMenu();
+        void onDeleteIngredientsMenu();
         void onViewPantryMenu();
     }
 

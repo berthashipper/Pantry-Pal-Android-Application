@@ -12,7 +12,15 @@
         android:text="Add Ingredients"
         android:layout_marginTop="16dp" />
 
-    <!-- Pantry Contents TextView with marginTop to add space between button and text -->
+    <!-- Delete Ingredients Button -->
+    <Button
+        android:id="@+id/deleteIngredientsButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Delete Ingredients"
+        android:layout_marginTop="8dp" />
+
+    <!-- Pantry Contents TextView -->
     <TextView
         android:id="@+id/pantryContentsTextView"
         android:layout_width="match_parent"

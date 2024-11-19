@@ -40,7 +40,6 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAddItemsBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
-
         return rootView;
     }
 
@@ -115,7 +114,7 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
 
     }
 
-    private void onDoneButtonClicked() {
+    public void onDoneButtonClicked() {
         if (listener != null) {
             listener.onItemsDone();
         }
