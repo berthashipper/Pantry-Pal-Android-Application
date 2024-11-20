@@ -233,4 +233,3 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(CookbookFragment.newInstance(this, new HashSet<>(recipes)));
     }
 }
-

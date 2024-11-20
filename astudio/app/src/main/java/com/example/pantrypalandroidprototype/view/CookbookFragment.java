@@ -250,12 +250,4 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
             recipeAdapter.notifyDataSetChanged(); // Notify changes
         }
     }
-
-    public void refreshRecipes(Set<Recipe> updatedRecipes) {
-        this.recipes = updatedRecipes;
-        if (recipeAdapter != null) {
-            recipeAdapter.updateRecipes(new ArrayList<>(recipes));
-            recipeAdapter.notifyDataSetChanged();
-        }
-    }
 }
