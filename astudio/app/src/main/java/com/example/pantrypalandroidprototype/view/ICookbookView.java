@@ -10,5 +10,6 @@ public interface ICookbookView {
     interface Listener {
         void onViewCookbookMenu();
         void onRecipeClick(Recipe recipe);
+        void onCookbookRecipesLoaded(Set<Recipe> recipes);
     }
 }

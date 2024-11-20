@@ -50,12 +50,17 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
         super.onViewCreated(view, savedInstanceState);
         recipes = getAllRecipes();
 
-        recyclerView = view.findViewById(R.id.recycler_view_recipes);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        // Notify the listener (ControllerActivity) of the recipes
+        if (listener != null) {
+            listener.onCookbookRecipesLoaded(recipes);
 
-        // Initialize the adapter and set it to the RecyclerView
-        recipeAdapter = new RecipeAdapter(new ArrayList<>(recipes), getContext(), this);
-        recyclerView.setAdapter(recipeAdapter);
+            recyclerView = view.findViewById(R.id.recycler_view_recipes);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+            // Initialize the adapter and set it to the RecyclerView
+            recipeAdapter = new RecipeAdapter(new ArrayList<>(recipes), getContext(), this);
+            recyclerView.setAdapter(recipeAdapter);
+        }
     }
 
     private Set<Recipe> getAllRecipes() {

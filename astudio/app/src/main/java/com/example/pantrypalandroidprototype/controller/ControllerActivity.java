@@ -2,10 +2,12 @@ package com.example.pantrypalandroidprototype.controller;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.model.GenerateRecipe;
@@ -25,7 +27,9 @@ import com.example.pantrypalandroidprototype.view.IPantryView;
 import com.example.pantrypalandroidprototype.view.MainView;
 import com.example.pantrypalandroidprototype.view.PantryFragment;
 import com.example.pantrypalandroidprototype.view.RecipeDetailFragment;
+import com.example.pantrypalandroidprototype.view.RecipeFragment;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,6 +39,7 @@ public class ControllerActivity extends AppCompatActivity
 
     IMainView mainView;
     Pantry pantry;
+    Set<Recipe> recipes = new HashSet<>();
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -156,7 +161,7 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onViewCookbookMenu() {
         mainView.setListener(this);
-        this.mainView.displayFragment(CookbookFragment.newInstance((CookbookFragment.Listener) this));
+        this.mainView.displayFragment(CookbookFragment.newInstance(this));
     }
 
     @Override
@@ -166,10 +171,31 @@ public class ControllerActivity extends AppCompatActivity
     }
 
     private Set<Recipe> getAllRecipes() {
-        // Fetch or define a set of all recipes
-        Set<Recipe> recipes = new HashSet<>();
-
         return recipes;
+    }
+
+    @Override
+    public void onGenerateRecipes() {
+        Set<Recipe> matchedRecipes = generateMatchingRecipes();
+        if (!matchedRecipes.isEmpty()) {
+            // Pass matched recipes to a new fragment or adapter
+            RecipeFragment recipeFragment = RecipeFragment.newInstance(new ArrayList<>(matchedRecipes));
+            mainView.displayFragment(recipeFragment);
+        } else {
+            Toast.makeText(this, "No matching recipes found.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Method to get matched recipes
+    public Set<Recipe> generateMatchingRecipes() {
+        Log.d("ControllerActivity", "Recipes available: " + recipes.size());
+        GenerateRecipe recipeGenerator = new GenerateRecipe(pantry, recipes);
+        return recipeGenerator.generateMatchingRecipes();
+    }
+
+    @Override
+    public void onCookbookRecipesLoaded(Set<Recipe> recipes) {
+        this.recipes = recipes; // Store the loaded recipes
     }
 }
 
