@@ -1,10 +1,13 @@
 package com.example.pantrypalandroidprototype.model;
 
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class GenerateRecipe {
+public class GenerateRecipe implements Serializable {
     Pantry userPantry;
     Set<Recipe> allRecipes;
 
@@ -42,17 +45,43 @@ public class GenerateRecipe {
     }
 
     // Helper method to check if the pantry has enough of all ingredients to make the recipe
-    private boolean canMakeRecipe(Recipe recipe) {
+    public boolean canMakeRecipe(Recipe recipe) {
         for (Ingredient recipeIngredient : recipe.getIngredients()) {
-            Ingredient pantryIngredient = userPantry.ingredientList.get(recipeIngredient.getName().toLowerCase());
+            Ingredient pantryIngredient = findMatchingPantryIngredient(recipeIngredient.getName().toLowerCase());
 
-            // Check if the pantry has the ingredient and enough quantity
+            // If no matching ingredient is found or the quantity is insufficient, return false
             if (pantryIngredient == null || pantryIngredient.getQuantity() < recipeIngredient.getQuantity()) {
                 return false; // Missing ingredient or not enough quantity
             }
         }
         return true; // All ingredients are available in sufficient quantity
     }
+
+    public Ingredient findMatchingPantryIngredient(String ingredientName) {
+        // First, check if an exact match exists
+        Ingredient exactMatch = userPantry.ingredientList.get(ingredientName.toLowerCase());
+        if (exactMatch != null) {
+            return exactMatch;
+        }
+
+        // If no exact match, try to match partial or synonymous names (e.g., "peppers" and "bell peppers")
+        for (Map.Entry<String, Ingredient> entry : userPantry.ingredientList.entrySet()) {
+            String pantryIngredientName = entry.getKey();
+            // Simple partial match (could be enhanced with more sophisticated matching logic)
+            if (pantryIngredientName.contains(ingredientName)) {
+                return entry.getValue();
+            }
+        }
+
+        // Return null if no matching ingredient is found
+        return null;
+    }
+
+    private Map<String, Set<String>> ingredientSynonyms = new HashMap<String, Set<String>>() {{
+        put("peppers", new HashSet<>(Arrays.asList("bell peppers", "chili peppers", "sweet peppers")));
+        put("tomatoes", new HashSet<>(Arrays.asList("cherry tomatoes", "roma tomatoes", "tomato")));
+        // Add more mappings as needed
+    }};
 
     /* Drafting for next iteration
     public void generateGroceryList (Recipe recipe) {

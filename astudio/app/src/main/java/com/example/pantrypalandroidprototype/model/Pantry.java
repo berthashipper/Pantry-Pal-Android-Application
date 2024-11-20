@@ -1,8 +1,9 @@
 package com.example.pantrypalandroidprototype.model;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Pantry {
+public class Pantry implements Serializable {
     public Map<String, Ingredient> ingredientList = new HashMap<>();
     Map<Ingredient, Double> groceryList = new HashMap<>();
 

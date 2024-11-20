@@ -53,6 +53,13 @@ public class MainView implements IMainView {
             }
         });
 
+        // Set up listener for the Generate Recipes button
+        binding.generateRecipesMenuButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onGenerateRecipes();
+            }
+        });
+
         // Configure app to maximize space usage by drawing on top of system bars
         EdgeToEdge.enable((FragmentActivity) context);
         ViewCompat.setOnApplyWindowInsetsListener(this.binding.getRoot(), (v, insets) -> {
