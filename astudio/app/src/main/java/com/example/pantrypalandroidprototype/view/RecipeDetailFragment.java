@@ -1,9 +1,11 @@
 package com.example.pantrypalandroidprototype.view;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,10 +19,12 @@ import com.example.pantrypalandroidprototype.model.Recipe;
 
 import java.time.Duration;
 
-public class RecipeDetailFragment extends Fragment {
+public class RecipeDetailFragment extends Fragment implements IRecipeDetailView {
 
-    private static final String ARG_RECIPE = "recipe";
-    private Recipe recipe;
+    static final String ARG_RECIPE = "recipe";
+    Recipe recipe;
+
+    Listener listener;
 
     public static RecipeDetailFragment newInstance(Recipe recipe) {
         RecipeDetailFragment fragment = new RecipeDetailFragment();
@@ -28,6 +32,16 @@ public class RecipeDetailFragment extends Fragment {
         args.putSerializable(ARG_RECIPE, recipe);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        if (context instanceof Listener) {
+            listener = (Listener) context; // Ensure this is properly set
+        } else {
+            throw new RuntimeException(context.toString() + " must implement Listener");
+        }
     }
 
     @Override
@@ -51,6 +65,9 @@ public class RecipeDetailFragment extends Fragment {
         LinearLayout ingredientsLayout = view.findViewById(R.id.ingredients_layout);
         TextView recipeInstructions = view.findViewById(R.id.recipe_instructions);
 
+        // Reference the Done button
+        Button doneButton = view.findViewById(R.id.done_button);
+
         // Set the recipe details in the corresponding views
         recipeName.setText(recipe.recipeName);
         recipeDescription.setText(recipe.recipeDescription);
@@ -67,6 +84,13 @@ public class RecipeDetailFragment extends Fragment {
         // Set the recipe instructions
         recipeInstructions.setText(recipe.instructions);
 
+        // Set up the "Done" button to navigate back to CookbookFragment
+        doneButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onDoneViewingRecipe();  // Notify listener when Done is pressed
+            }
+        });
+
         return view;
     }
 
@@ -77,5 +101,7 @@ public class RecipeDetailFragment extends Fragment {
         }
         return "Not specified";
     }
+
+
 }
 

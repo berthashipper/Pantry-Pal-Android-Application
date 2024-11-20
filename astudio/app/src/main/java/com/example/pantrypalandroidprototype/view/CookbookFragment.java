@@ -55,7 +55,9 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recipes = getAllRecipes();
+        if (getArguments() != null) {
+            recipes = (Set<Recipe>) getArguments().getSerializable("recipes");
+        }
 
         // Notify the listener (ControllerActivity) of the recipes
         if (listener != null) {
@@ -257,5 +259,3 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
         }
     }
 }
-
-

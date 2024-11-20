@@ -59,7 +59,17 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
             return;
         }
 
-        double quantity = Double.parseDouble(quantityString);
+        // Validate quantity input
+        double quantity = -1;
+        while (quantity == -1) {
+            try {
+                quantity = Double.parseDouble(quantityString);
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), "Please enter a valid quantity (number)", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
         Set<Ingredient.dietary_tags> dietaryTags = new HashSet<>();
         // Check if dietary tags are selected and add to set
         if (binding.veganCheckbox.isChecked()) dietaryTags.add(Ingredient.dietary_tags.VEGAN);
@@ -109,7 +119,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
                 cookTime = Duration.ofMinutes(cookTimeInMinutes);
             } catch (NumberFormatException e) {
                 Toast.makeText(getContext(), "Please enter a valid cook time", Toast.LENGTH_SHORT).show();
-                return;
+                return; // Return if invalid cook time entered
             }
         }
 
@@ -120,7 +130,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
                 servingSize = Integer.parseInt(servingSizeString);
             } catch (NumberFormatException e) {
                 Toast.makeText(getContext(), "Please enter a valid serving size", Toast.LENGTH_SHORT).show();
-                return;
+                return; // Return if invalid serving size entered
             }
         }
 

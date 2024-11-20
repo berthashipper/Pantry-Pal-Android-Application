@@ -28,6 +28,7 @@ import com.example.pantrypalandroidprototype.view.IDeleteIngredientView;
 import com.example.pantrypalandroidprototype.view.IEditIngredientView;
 import com.example.pantrypalandroidprototype.view.IMainView;
 import com.example.pantrypalandroidprototype.view.IPantryView;
+import com.example.pantrypalandroidprototype.view.IRecipeDetailView;
 import com.example.pantrypalandroidprototype.view.MainView;
 import com.example.pantrypalandroidprototype.view.PantryFragment;
 import com.example.pantrypalandroidprototype.view.RecipeDetailFragment;
@@ -40,7 +41,7 @@ import java.util.Set;
 public class ControllerActivity extends AppCompatActivity
         implements IAddIngredientView.Listener, IPantryView.Listener,
         IDeleteIngredientView.Listener, IEditIngredientView.Listener,
-        ICookbookView.Listener, IAddRecipeView.Listener {
+        ICookbookView.Listener, IAddRecipeView.Listener, IRecipeDetailView.Listener {
 
     IMainView mainView;
     Pantry pantry;
@@ -198,8 +199,21 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onRecipeCreated(Recipe recipe) {
+        // Add the recipe to the set of recipes
+        recipes.add(recipe);
+
+        // Display the recipe in the RecipeDetailFragment
         RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(recipe);
         mainView.displayFragment(recipeDetailFragment);
+
+        // Update the CookbookFragment to include the new recipe
+        updateCookbookFragment();
+    }
+
+
+    public void updateCookbookFragment() {
+        // Update CookbookFragment with the new list of recipes
+        this.mainView.displayFragment(CookbookFragment.newInstance(this, new HashSet<>(recipes)));
     }
 
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -211,6 +225,12 @@ public class ControllerActivity extends AppCompatActivity
                 onRecipeCreated(recipe);
             }
         }
+    }
+
+    @Override
+    public void onDoneViewingRecipe() {
+        // After viewing the recipe details, return to the CookbookFragment
+        mainView.displayFragment(CookbookFragment.newInstance(this, new HashSet<>(recipes)));
     }
 }
 
