@@ -15,10 +15,12 @@ import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
 import com.example.pantrypalandroidprototype.model.Recipe;
 import com.example.pantrypalandroidprototype.view.AddIngredientFragment;
+import com.example.pantrypalandroidprototype.view.AddRecipeFragment;
 import com.example.pantrypalandroidprototype.view.CookbookFragment;
 import com.example.pantrypalandroidprototype.view.DeleteIngredientFragment;
 import com.example.pantrypalandroidprototype.view.EditIngredientFragment;
 import com.example.pantrypalandroidprototype.view.IAddIngredientView;
+import com.example.pantrypalandroidprototype.view.IAddRecipeView;
 import com.example.pantrypalandroidprototype.view.ICookbookView;
 import com.example.pantrypalandroidprototype.view.IDeleteIngredientView;
 import com.example.pantrypalandroidprototype.view.IEditIngredientView;
@@ -35,7 +37,8 @@ import java.util.Set;
 
 public class ControllerActivity extends AppCompatActivity
         implements IAddIngredientView.Listener, IPantryView.Listener,
-        IDeleteIngredientView.Listener, IEditIngredientView.Listener, ICookbookView.Listener {
+        IDeleteIngredientView.Listener, IEditIngredientView.Listener,
+        ICookbookView.Listener, IAddRecipeView.Listener {
 
     IMainView mainView;
     Pantry pantry;
@@ -55,10 +58,9 @@ public class ControllerActivity extends AppCompatActivity
 
         mainView.setListener(this);
 
-
         this.mainView.displayFragment(AddIngredientFragment.newInstance(this));
         this.mainView.displayFragment(DeleteIngredientFragment.newInstance(this));
-        this.mainView.displayFragment(CookbookFragment.newInstance(this));
+        this.mainView.displayFragment(CookbookFragment.newInstance(this, CookbookFragment.getAllRecipes()));
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
 
     }
@@ -150,7 +152,7 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onViewCookbookMenu() {
         mainView.setListener(this);
-        this.mainView.displayFragment(CookbookFragment.newInstance(this));
+        this.mainView.displayFragment(CookbookFragment.newInstance(this, CookbookFragment.getAllRecipes()));
     }
 
     @Override
@@ -181,6 +183,23 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onCookbookRecipesLoaded(Set<Recipe> recipes) {
         this.recipes = recipes; // Store the loaded recipes
+    }
+
+    @Override
+    public void onNavigateToAddRecipe() {
+        // Navigate to AddRecipeFragment
+        AddRecipeFragment addRecipeFragment = AddRecipeFragment.newInstance((AddRecipeFragment.Listener) this);
+        mainView.displayFragment(addRecipeFragment);
+    }
+
+    @Override
+    public void onRecipeCreated(Recipe recipe) {
+        // Handle the created recipe, e.g., add it to the list of recipes or display it
+        recipes.add(recipe); // Add the recipe to the collection of recipes
+        Toast.makeText(this, "Recipe created: " + recipe.recipeName, Toast.LENGTH_SHORT).show();
+
+        // Tell CookbookFragment to update its display
+        mainView.displayFragment(CookbookFragment.newInstance(this, recipes));
     }
 }
 

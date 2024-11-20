@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.pantrypalandroidprototype.R;
-import com.example.pantrypalandroidprototype.databinding.FragmentAddItemsBinding;
 import com.example.pantrypalandroidprototype.databinding.FragmentCookbookBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
@@ -31,9 +30,10 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
     Set<Recipe> recipes;
     Listener listener;
 
-    public static CookbookFragment newInstance(CookbookFragment.Listener listener) {
+    public static CookbookFragment newInstance(Listener listener, Set<Recipe> recipes) {
         CookbookFragment fragment = new CookbookFragment();
         fragment.listener = listener;
+        fragment.recipes = recipes;  // Set the passed recipes
         return fragment;
     }
 
@@ -42,6 +42,13 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCookbookBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
+
+        // Set up Add Recipe button
+        binding.addRecipeButton.setOnClickListener(v -> {
+            // Navigate to AddRecipeFragment
+            navigateToAddRecipe();
+        });
+
         return rootView;
     }
 
@@ -63,7 +70,7 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
         }
     }
 
-    private Set<Recipe> getAllRecipes() {
+    public static Set<Recipe> getAllRecipes() {
         Set<Recipe> recipes = new HashSet<>();
 
         // Recipe 1: Spaghetti Bolognese
@@ -224,6 +231,21 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
     public void onRecipeClick(Recipe recipe) {
         if (listener != null) {
             listener.onRecipeClick(recipe);
+        }
+    }
+
+    public void navigateToAddRecipe() {
+        if (listener != null) {
+            listener.onNavigateToAddRecipe();
+        }
+    }
+
+    @Override
+    public void onCookbookRecipesLoaded(Set<Recipe> recipes) {
+        this.recipes = recipes;
+        // Refresh the adapter when new recipes are loaded
+        if (recipeAdapter != null) {
+            recipeAdapter.updateRecipes(new ArrayList<>(recipes)); // Update the adapter with new recipes
         }
     }
 }

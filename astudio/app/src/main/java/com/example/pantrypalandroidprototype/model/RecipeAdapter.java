@@ -46,6 +46,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return recipes.size();
     }
 
+    public void updateRecipes(List<Recipe> newRecipes) {
+        this.recipes = newRecipes;
+        notifyDataSetChanged();
+    }
+
     public interface OnRecipeClickListener {
         void onRecipeClick(Recipe recipe);
     }
@@ -58,4 +63,5 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             recipeName = itemView.findViewById(R.id.recipe_name);
         }
     }
+
 }
