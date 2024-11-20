@@ -147,17 +147,6 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(editIngredientFragment);
     }
 
-    public void onGenerateRecipeClicked(View view) {
-        // Assuming the user has a list of recipes to check against the pantry
-        Set<Recipe> allRecipes = getAllRecipes();
-
-        // Create the GenerateRecipe instance
-        GenerateRecipe generateRecipe = new GenerateRecipe(pantry, allRecipes);
-
-        // Call the method to generate matching recipes
-        generateRecipe.generateMatchingRecipes();
-    }
-
     @Override
     public void onViewCookbookMenu() {
         mainView.setListener(this);
@@ -168,10 +157,6 @@ public class ControllerActivity extends AppCompatActivity
     public void onRecipeClick(Recipe recipe) {
         RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(recipe);
         this.mainView.displayFragment(recipeDetailFragment);
-    }
-
-    private Set<Recipe> getAllRecipes() {
-        return recipes;
     }
 
     @Override
