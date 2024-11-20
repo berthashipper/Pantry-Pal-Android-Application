@@ -2,15 +2,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#f9f9f9">
 
     <!-- Recipe Name -->
     <TextView
         android:id="@+id/recipe_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_marginBottom="8dp" />
 
     <!-- Recipe Description -->
     <TextView
@@ -18,7 +21,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:layout_marginTop="8dp"/>
+        android:textColor="#666666"
+        android:layout_marginTop="4dp"
+        android:lineSpacingExtra="4dp" />
 
     <!-- Cook Time -->
     <TextView
@@ -26,7 +31,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:layout_marginTop="8dp"/>
+        android:textColor="#888888"
+        android:layout_marginTop="12dp" />
 
     <!-- Serving Size -->
     <TextView
@@ -34,27 +40,50 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:layout_marginTop="8dp"/>
+        android:textColor="#888888"
+        android:layout_marginTop="8dp" />
 
     <!-- Ingredients Section -->
+    <TextView
+        android:id="@+id/ingredients_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ingredients"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_marginTop="16dp" />
+
     <LinearLayout
         android:id="@+id/ingredients_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="8dp" />
 
     <!-- Instructions Section -->
+    <TextView
+        android:id="@+id/instructions_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Instructions"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_marginTop="16dp" />
+
     <LinearLayout
         android:id="@+id/instructions_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="8dp">
         <TextView
             android:id="@+id/recipe_instructions"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            android:textColor="#666666"
+            android:lineSpacingExtra="6dp"/>
     </LinearLayout>
 </LinearLayout>
