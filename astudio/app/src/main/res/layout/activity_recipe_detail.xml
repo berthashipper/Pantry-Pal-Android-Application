@@ -40,4 +40,10 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/add_to_cookbook_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add to Cookbook" />
 </LinearLayout>

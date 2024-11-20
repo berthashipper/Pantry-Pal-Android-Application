@@ -243,9 +243,17 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
     @Override
     public void onCookbookRecipesLoaded(Set<Recipe> recipes) {
         this.recipes = recipes;
-        // Refresh the adapter when new recipes are loaded
         if (recipeAdapter != null) {
-            recipeAdapter.updateRecipes(new ArrayList<>(recipes)); // Update the adapter with new recipes
+            recipeAdapter.updateRecipes(new ArrayList<>(recipes)); // Refresh the data in the adapter
+            recipeAdapter.notifyDataSetChanged(); // Notify changes
+        }
+    }
+
+    public void refreshRecipes(Set<Recipe> updatedRecipes) {
+        this.recipes = updatedRecipes;
+        if (recipeAdapter != null) {
+            recipeAdapter.updateRecipes(new ArrayList<>(recipes));
+            recipeAdapter.notifyDataSetChanged();
         }
     }
 }

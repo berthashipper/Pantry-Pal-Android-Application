@@ -1,11 +1,13 @@
 package com.example.pantrypalandroidprototype.controller;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
@@ -43,6 +45,8 @@ public class ControllerActivity extends AppCompatActivity
     IMainView mainView;
     Pantry pantry;
     Set<Recipe> recipes = new HashSet<>();
+
+    public static final int REQUEST_CODE_ADD_TO_COOKBOOK = 1;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -194,12 +198,19 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onRecipeCreated(Recipe recipe) {
-        // Handle the created recipe, e.g., add it to the list of recipes or display it
-        recipes.add(recipe); // Add the recipe to the collection of recipes
-        Toast.makeText(this, "Recipe created: " + recipe.recipeName, Toast.LENGTH_SHORT).show();
+        RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(recipe);
+        mainView.displayFragment(recipeDetailFragment);
+    }
 
-        // Tell CookbookFragment to update its display
-        mainView.displayFragment(CookbookFragment.newInstance(this, recipes));
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_ADD_TO_COOKBOOK && resultCode == RESULT_OK && data != null) {
+            Recipe recipe = (Recipe) data.getSerializableExtra("recipe");
+            if (recipe != null) {
+                onRecipeCreated(recipe);
+            }
+        }
     }
 }
 
