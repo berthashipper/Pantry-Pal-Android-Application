@@ -3,6 +3,8 @@ package com.example.pantrypalandroidprototype.model;
 //import org.json.JSONArray;
 //import org.json.JSONObject;
 
+import androidx.core.graphics.BitmapKt;
+
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.Set;
@@ -59,6 +61,13 @@ public class Recipe implements Serializable {
         return ingredientsInRecipe;
     }
 
+    // Getter for instructions
+    public String getInstructions() {
+        return instructions;
+    }
+
+
+
     // toString method to print a recipe
     @Override
     public String toString() {
@@ -84,5 +93,30 @@ public class Recipe implements Serializable {
         }
 
         return stringBuilder.toString();
+    }
+
+    // Getter for tags
+    public Set<Ingredient.dietary_tags>  getTags() {
+        return recipeTags;
+    }
+
+    // Getter for recipe name
+    public String getRecipeName(){
+        return recipeName;
+    }
+
+    // Getter for recipe url
+    public String getUrl(){
+        return url;
+    }
+
+    // Getter for cook time
+    public Duration getCookTime(){
+        return cookTime;
+    }
+
+    // Getter for serving size
+    public int getServingSize(){
+        return servingSize;
     }
 }
