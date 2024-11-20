@@ -7,6 +7,9 @@ import androidx.core.graphics.BitmapKt;
 
 import java.io.Serializable;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Recipe implements Serializable {
@@ -66,7 +69,22 @@ public class Recipe implements Serializable {
         return instructions;
     }
 
+    // Search method to filter recipes by name
+    public static Set<Recipe> filterByName(List<Recipe> recipes, String query) {
+        Set<Recipe> filteredRecipes = new HashSet<>();
 
+        if (query == null || query.isEmpty()) {
+            return new HashSet<>(recipes);  // If the query is empty, return all recipes
+        }
+
+        for (Recipe recipe : recipes) {
+            if (recipe.recipeName.toLowerCase().contains(query.toLowerCase())) {
+                filteredRecipes.add(recipe);
+            }
+        }
+
+        return filteredRecipes;
+    }
 
     // toString method to print a recipe
     @Override

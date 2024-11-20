@@ -82,7 +82,7 @@ public class ControllerActivity extends AppCompatActivity
         pantry.add_ingredient(newIngredient);
 
         // Update pantry view
-       // updatePantryDisplay();
+        // updatePantryDisplay();
     }
 
     @Override

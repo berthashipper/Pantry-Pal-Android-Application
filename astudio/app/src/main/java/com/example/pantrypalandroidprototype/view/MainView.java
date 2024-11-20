@@ -1,7 +1,6 @@
 package com.example.pantrypalandroidprototype.view;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -14,16 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.pantrypalandroidprototype.R;
-import com.example.pantrypalandroidprototype.controller.ControllerActivity;
-import com.example.pantrypalandroidprototype.databinding.FragmentPantryBinding;
 import com.example.pantrypalandroidprototype.databinding.MainBinding;
-import com.example.pantrypalandroidprototype.model.Ingredient;
-import com.example.pantrypalandroidprototype.model.PantryAdapter;
-
-import java.util.List;
 
 public class MainView implements IMainView {
 
@@ -93,13 +83,5 @@ public class MainView implements IMainView {
         ft.replace(this.binding.fragmentContainerView.getId(), fragment);
         if (transName != null) ft.addToBackStack(transName);
         ft.commit();
-    }
-
-
-    public void onNavigateBackToPantry() {
-        PantryFragment pantryFragment = new PantryFragment();
-        fmanager.beginTransaction()
-                .replace(R.id.fragmentContainerView, pantryFragment)
-                .commit();
     }
 }
