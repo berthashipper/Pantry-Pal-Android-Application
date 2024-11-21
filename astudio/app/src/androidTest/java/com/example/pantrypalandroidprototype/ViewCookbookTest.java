@@ -39,7 +39,7 @@ public class ViewCookbookTest {
     /**
      * Tests whether clicking "Add Recipe" functionality add to Cookbook and get updated.
      */
-    @Test
+    @org.junit.Test // passed
     public void testAddRecipe() {
         // Navigate to cookbook screen
         Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
@@ -103,13 +103,17 @@ public class ViewCookbookTest {
         // Wait for UI updates
         SystemClock.sleep(1000);
 
-// Verify that the added recipe is displayed in the RecyclerView
-        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
-                .perform(RecyclerViewActions.scrollTo(hasDescendant(withText(testName))));
+        // Verify that the added recipe is displayed in the RecyclerView
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes)) // Target RecyclerView
+                .perform(RecyclerViewActions.scrollTo( // Scroll to the item
+                        ViewMatchers.hasDescendant(ViewMatchers.withText(testName)) // Match child view
+                ));
 
 // Check if the RecyclerView item with the expected recipe name is displayed
-        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
-                .check(ViewAssertions.matches(hasDescendant(withText(testName))));
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes)) // Target RecyclerView again
+                .check(ViewAssertions.matches( // Verify condition
+                        ViewMatchers.hasDescendant(ViewMatchers.withText(testName)) // Ensure the text exists
+                ));
 
 
     }
