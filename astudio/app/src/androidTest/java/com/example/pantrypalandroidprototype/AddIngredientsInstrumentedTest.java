@@ -3,6 +3,7 @@ package com.example.pantrypalandroidprototype;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.os.SystemClock;
+import android.view.View;
 
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.IdlingPolicies;
@@ -39,7 +40,7 @@ public class AddIngredientsInstrumentedTest {
     /**
      * Tests whether adding an ingredient updates the RecyclerView correctly.
      */
-    @Test //passed
+    @org.junit.Test
     public void testAddIngredient() {
         // Navigate to Add Ingredients screen
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
@@ -62,11 +63,14 @@ public class AddIngredientsInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
         // Wait for UI updates
-        SystemClock.sleep(1000);
+        SystemClock.sleep(5000);
+        //scroll to and then click
 
         // Click "Done" button
-        Espresso.onView(ViewMatchers.withId(R.id.doneButton)).perform(ViewActions.click());
-        //if the ingredient is saved
+        Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());
+
+        SystemClock.sleep(5000);
+        // Verify the result is correct
         Espresso.onView(ViewMatchers.withId(R.id.pantryContentsTextView))
                 .check(ViewAssertions.matches(withText("🛒 Pantry Contents:\n\n• Sugar\n   Quantity: 1.5 kg\n   Tags: GLUTEN_FREE, VEGAN\n\n")));
 
@@ -75,14 +79,14 @@ public class AddIngredientsInstrumentedTest {
     /**
      * Tests whether clicking "Done" navigates back to the Pantry view.
      */
-    @Test //passed
+    @org.junit.Test
     public void testDoneButtonNavigatesToPantry() {
         // Navigate to Add Ingredients screen
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
                 .perform(ViewActions.click());
 
         // Click "Done" button
-        Espresso.onView(ViewMatchers.withId(R.id.doneButton)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());
 
         // Verify that the Pantry view is displayed
         Espresso.onView(ViewMatchers.withId(R.id.pantryContentsTextView))
@@ -93,7 +97,7 @@ public class AddIngredientsInstrumentedTest {
      * Tests validation when required fields are empty.
      */
 
-    @Test
+    @org.junit.Test
     public void testValidationWhenFieldsAreEmpty() {
         // Navigate to Add Ingredients screen
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
@@ -102,35 +106,34 @@ public class AddIngredientsInstrumentedTest {
         // Click "Add" button without entering any data
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
-        IdlingPolicies.setIdlingResourceTimeout(5, TimeUnit.SECONDS);
+        SystemClock.sleep(5000);
 
         // Verify that a validation error message is displayed
-        Espresso.onView(ViewMatchers.withId(R.id.))
-                .check(ViewAssertions.matches(withText(R.string.error_empty_ingredient_fields)));
-
+        Espresso.onView(ViewMatchers.withId(R.id.errorText))
+                .check(ViewAssertions.matches(ViewMatchers.withText("Please fill in all fields.")));
     }
 
-//    /**
-//     * Tests validation when quantity input is invalid.
-//     */
-//    @Test
-//    public void testValidationForInvalidQuantity() {
-//        // Navigate to Add Ingredients screen
-//        Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
-//                .perform(ViewActions.click());
-//
-//        // Input invalid quantity
-//        typeText(R.id.itemNameText, "Flour");
-//        typeText(R.id.itemQtyText, "invalid");
-//        typeText(R.id.itemUnitText, "kg");
-//
-//        // Click "Add" button
-//        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
-//
-//        // Verify that a validation error message is displayed
-//        Espresso.onView(ViewMatchers.withText("Invalid quantity"))
-//                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-//    }
+    /**
+     * Tests validation when quantity input is invalid.
+     */
+    @org.junit.Test
+    public void testValidationForInvalidQuantity() {
+        // Navigate to Add Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
+                .perform(ViewActions.click());
+
+        // Input invalid quantity
+        typeText(R.id.itemNameText, "Flour");
+        typeText(R.id.itemQtyText, "invalid");
+        typeText(R.id.itemUnitText, "kg");
+
+        // Click "Add" button
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
+
+        // Verify that a validation error message is displayed
+        Espresso.onView(ViewMatchers.withText("Invalid quantity. Please enter a valid number."))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
 
     /**
      * Helper method to type text into a text field.

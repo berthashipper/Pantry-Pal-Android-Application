@@ -21,7 +21,7 @@ import java.util.List;
 public class RecipeFragment extends Fragment {
 
     private static final String ARG_RECIPES = "recipes";
-    private List<Recipe> recipes;
+    List<Recipe> recipes;
 
     public static RecipeFragment newInstance(List<Recipe> recipes) {
         RecipeFragment fragment = new RecipeFragment();

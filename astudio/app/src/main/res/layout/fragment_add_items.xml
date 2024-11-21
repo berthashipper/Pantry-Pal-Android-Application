@@ -94,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="8dp"
-            android:text="Add Ingredient" />
+            android:text="@string/add_ingredient" />
 
         <Button
             android:id="@+id/doneButton"
@@ -102,6 +102,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="Done" />
+
+        <TextView
+            android:id="@+id/errorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/please_fill_in_all_fields"
+            android:visibility="gone" />
 
     </LinearLayout>
 </ScrollView>

@@ -33,6 +33,7 @@ import com.example.pantrypalandroidprototype.view.PantryFragment;
 import com.example.pantrypalandroidprototype.view.RecipeDetailFragment;
 import com.example.pantrypalandroidprototype.view.RecipeFragment;
 import com.example.pantrypalandroidprototype.view.SearchRecipeFragment;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -246,7 +247,8 @@ public class ControllerActivity extends AppCompatActivity
             RecipeFragment recipeFragment = RecipeFragment.newInstance(new ArrayList<>(filteredRecipes));
             mainView.displayFragment(recipeFragment);
         } else {
-            Toast.makeText(this, "No recipes found matching: " + query, Toast.LENGTH_SHORT).show();
+            // use snackbar?
+            Snackbar.make(mainView.getRootView(), "No recipes found", Snackbar.LENGTH_LONG).show();
         }
     }
 

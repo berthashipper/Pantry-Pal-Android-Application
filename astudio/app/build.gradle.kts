@@ -27,6 +27,10 @@ android {
         }
     }
 
+    testOptions {
+        animationsDisabled = true
+    }
+
     buildFeatures {
         viewBinding = true
     }

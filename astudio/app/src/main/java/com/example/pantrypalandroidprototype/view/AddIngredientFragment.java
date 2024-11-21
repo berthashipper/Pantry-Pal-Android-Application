@@ -17,6 +17,8 @@ import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.FragmentAddItemsBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.IngredientAdapter;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -61,11 +63,22 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         String unit = binding.itemUnitText.getText().toString().trim();
 
         if (name.isEmpty() || qtyString.isEmpty()) {
-            Toast.makeText(getContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            Snackbar.make(getView(), "Please fill in all fields.", Snackbar.LENGTH_LONG).show();
             return;
         }
 
-        double qty = Double.parseDouble(qtyString);
+        // Check if the quantity is a valid number
+        double qty;
+        try {
+            qty = Double.parseDouble(qtyString);
+            if (qty <= 0) {
+                throw new NumberFormatException();
+            }
+        } catch (NumberFormatException e) {
+            Snackbar.make(getView(), "Invalid quantity. Please enter a valid number.", Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
         Set<Ingredient.dietary_tags> tags = new HashSet<>();
 
         // Check dietary tags (checkboxes) and add corresponding tags

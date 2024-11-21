@@ -58,6 +58,8 @@
     <string name="label_ingredient_name">Ingredient Name</string>
     <string name="label_ingredient_quantity">Quantity</string>
     <string name="label_ingredient_unit">Unit of Measure</string>
+    <string name="please_fill_in_all_fields">Please fill in all fields.</string>
+    <string name="add_ingredient">Add Ingredient</string>
 
 
 </resources>
