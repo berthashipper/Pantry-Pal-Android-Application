@@ -1,51 +1,91 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
+    <!-- Header Section: Pantry Title -->
+    <TextView
+        android:id="@+id/headerText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pantry"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Add, Delete, and Edit Buttons in a Single Row -->
     <LinearLayout
-        android:orientation="vertical"
+        android:id="@+id/buttonsRow"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:layout_marginHorizontal="16dp"
+        app:layout_constraintTop_toBottomOf="@id/headerText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Add Ingredients Button -->
         <Button
             android:id="@+id/addIngredientsButton"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Add Ingredients"
-            android:layout_marginTop="16dp" />
+            android:text="Add"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp" />
 
-        <!-- Delete Ingredients Button -->
         <Button
             android:id="@+id/deleteIngredientsButton"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Delete Ingredients"
-            android:layout_marginTop="8dp" />
+            android:text="Delete"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp" />
 
-        <!-- Edit Ingredients Button -->
         <Button
             android:id="@+id/editIngredientsButton"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Edit Ingredients"
-            android:layout_marginTop="8dp" />
-
-        <!-- Pantry Contents TextView -->
-        <TextView
-            android:id="@+id/pantryContentsTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp" />
-
-        <Button
-            android:id="@+id/viewPantryButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="View Pantry"
-            android:layout_marginEnd="16dp"
-            android:visibility="gone"/>
-
+            android:text="Edit"
+            android:layout_weight="1" />
     </LinearLayout>
-</ScrollView>
+
+    <!-- Scrollable Content Section -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/buttonsRow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Pantry Contents TextView -->
+            <TextView
+                android:id="@+id/pantryContentsTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"/>
+
+            <!-- View Pantry Button (hidden initially) -->
+            <Button
+                android:id="@+id/viewPantryButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="View Pantry"
+                android:layout_marginTop="8dp"
+                android:visibility="gone" />
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

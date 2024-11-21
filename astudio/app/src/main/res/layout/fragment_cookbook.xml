@@ -1,4 +1,5 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,45 +16,52 @@
         android:layout_marginTop="32dp"
         android:layout_marginStart="16dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <!-- Add Recipe Button (Top right corner, aligned with the header) -->
+    <!-- Add Recipe and Search Recipes Buttons -->
     <Button
         android:id="@+id/addRecipeButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Add Recipe"
-        app:layout_constraintTop_toTopOf="@id/headerText"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="-9dp"
-        android:layout_marginEnd="16dp" />
+        android:text="Upload Recipe"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintTop_toBottomOf="@id/headerText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/searchRecipesButton" />
 
     <Button
         android:id="@+id/searchRecipesButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="Search Recipes"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/addRecipeButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="16dp" />
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toBottomOf="@id/headerText"
+        app:layout_constraintStart_toEndOf="@id/addRecipeButton"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- SearchView for searching recipes -->
+    <!-- Search View Edit Text (unused right now) -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchRecipesEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/addRecipeButton"
+        app:layout_constraintTop_toBottomOf="@id/searchRecipesButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- RecyclerView for displaying the list of recipes -->
+    <!-- Recipes RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_recipes"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintTop_toBottomOf="@id/searchRecipesEditText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
