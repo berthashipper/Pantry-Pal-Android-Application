@@ -1,5 +1,6 @@
 package com.example.pantrypalandroidprototype.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +9,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 import com.example.pantrypalandroidprototype.databinding.FragmentAddRecipeBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
 import com.example.pantrypalandroidprototype.model.RecipeBuilder;
+
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -54,7 +59,17 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
             return;
         }
 
-        double quantity = Double.parseDouble(quantityString);
+        // Validate quantity input
+        double quantity = -1;
+        while (quantity == -1) {
+            try {
+                quantity = Double.parseDouble(quantityString);
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), "Please enter a valid quantity (number)", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
         Set<Ingredient.dietary_tags> dietaryTags = new HashSet<>();
         // Check if dietary tags are selected and add to set
         if (binding.veganCheckbox.isChecked()) dietaryTags.add(Ingredient.dietary_tags.VEGAN);
@@ -85,22 +100,52 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         clearInstructionField();
     }
 
-    private void onDoneButtonClicked() {
+    public void onDoneButtonClicked() {
         String recipeName = binding.recipeNameEditText.getText().toString().trim();
         String description = binding.descriptionEditText.getText().toString().trim();
+        String cookTimeString = binding.cookTimeEditText.getText().toString().trim();
+        String servingSizeString = binding.servingSizeEditText.getText().toString().trim();
 
         if (recipeName.isEmpty()) {
             Toast.makeText(getContext(), "Please provide a recipe name", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Validate and set cook time
+        Duration cookTime = Duration.ofMinutes(0);  // Default to 0 minutes if not provided
+        if (!cookTimeString.isEmpty()) {
+            try {
+                long cookTimeInMinutes = Long.parseLong(cookTimeString);
+                cookTime = Duration.ofMinutes(cookTimeInMinutes);
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), "Please enter a valid cook time", Toast.LENGTH_SHORT).show();
+                return; // Return if invalid cook time entered
+            }
+        }
+
+        // Validate and set serving size
+        int servingSize = 0;  // Default to 0 servings if not provided
+        if (!servingSizeString.isEmpty()) {
+            try {
+                servingSize = Integer.parseInt(servingSizeString);
+            } catch (NumberFormatException e) {
+                Toast.makeText(getContext(), "Please enter a valid serving size", Toast.LENGTH_SHORT).show();
+                return; // Return if invalid serving size entered
+            }
+        }
+
         // Save recipe using the RecipeBuilder
         recipeBuilder.setName(recipeName);
         recipeBuilder.setDescription(description);
-        listener.onRecipeCreated(recipeBuilder.build());
+        recipeBuilder.setCookTime(cookTime);
+        recipeBuilder.setServingSize(servingSize);
 
-        // Notify user
-        Toast.makeText(getContext(), "Recipe saved successfully", Toast.LENGTH_SHORT).show();
+        Recipe recipe = recipeBuilder.build();
+
+        // Notify the listener to display RecipeDetailFragment
+        if (listener != null) {
+            listener.onRecipeCreated(recipe);
+        }
     }
 
     private void clearIngredientFields() {
@@ -109,8 +154,15 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         binding.ingredientUnitEditText.setText("");
     }
 
-    private void clearInstructionField() {
+    public void clearInstructionField() {
         binding.instructionEditText.setText("");
     }
 
+    @Override
+    public void onSaveRecipe() {
+        Recipe newRecipe = recipeBuilder.build(); // Assume recipeBuilder holds the current recipe data
+        if (listener != null) {
+            listener.onRecipeCreated(newRecipe); // Notify the listener (ControllerActivity)
+        }
+    }
 }

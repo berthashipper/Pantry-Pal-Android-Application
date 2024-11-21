@@ -71,20 +71,14 @@ public class Pantry implements Serializable {
         }
     }
 
-    public void searchIngredient(String name) {
+    public List<Ingredient> searchIngredient(String name) {
         List<Ingredient> foundIngredients = new ArrayList<>();
         for (String key : ingredientList.keySet()) {
             if (key.toLowerCase().contains(name.toLowerCase())) {
                 foundIngredients.add(ingredientList.get(key));
             }
         }
-        if (foundIngredients.isEmpty()) {
-            System.out.println("Ingredient " + name + " not found in the pantry.");
-        } else {
-            for (Ingredient ingredient : foundIngredients) {
-                System.out.println(ingredient);
-            }
-        }
+        return foundIngredients; // Return the list of found ingredients
     }
 
     public void addToGroceryList(String name, double quantity) {
@@ -131,4 +125,9 @@ public class Pantry implements Serializable {
 
         return pantryContents.toString();
     }
+
+    public List<Ingredient> getAllIngredients() {
+        return new ArrayList<>(ingredientList.values());
+    }
+
 }

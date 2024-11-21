@@ -47,8 +47,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     }
 
     public void updateRecipes(List<Recipe> newRecipes) {
-        this.recipes = newRecipes;
-        notifyDataSetChanged();
+        this.recipes.clear();
+        this.recipes.addAll(newRecipes);
     }
 
     public interface OnRecipeClickListener {
