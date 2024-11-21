@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.model.GenerateRecipe;
@@ -66,6 +67,7 @@ public class ControllerActivity extends AppCompatActivity
         mainView.setListener(this);
 
         this.mainView.displayFragment(AddIngredientFragment.newInstance(this));
+        this.mainView.displayFragment(EditIngredientFragment.newInstance(this));
         this.mainView.displayFragment(DeleteIngredientFragment.newInstance(this));
         this.mainView.displayFragment(CookbookFragment.newInstance(this, CookbookFragment.getAllRecipes()));
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
@@ -135,19 +137,24 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onEditIngredient(String name, double newQty) {
-        boolean isUpdated = pantry.edit_ingredient(name, newQty);
-        if (isUpdated) {
-            Snackbar.make(mainView.getRootView(), "Updated ingredient: " + name , Snackbar.LENGTH_LONG).show();
-        } else {
-            Snackbar.make(mainView.getRootView(), "No ingredient found with name: " + name, Snackbar.LENGTH_LONG).show();
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        if (currentFragment instanceof EditIngredientFragment) {
+            EditIngredientFragment editIngredientFragment = (EditIngredientFragment) currentFragment;
+            boolean isUpdated = pantry.edit_ingredient(name, newQty);
+
+            if (isUpdated) {
+                editIngredientFragment.showIngredientUpdateMessage(name);
+            } else {
+                editIngredientFragment.showIngredientNotFoundError(name);
+            }
         }
         onViewPantryMenu(); // Return to pantry view
     }
 
+
     @Override
     public void onEditDone() {
         mainView.displayFragment(PantryFragment.newInstance(this, pantry));
-        Toast.makeText(this, "Returning to Pantry", Toast.LENGTH_SHORT).show();
     }
 
     @Override

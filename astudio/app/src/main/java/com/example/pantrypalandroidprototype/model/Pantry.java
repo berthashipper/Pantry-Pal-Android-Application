@@ -126,6 +126,10 @@ public class Pantry implements Serializable {
         return pantryContents.toString();
     }
 
+    public boolean has_ingredient(String name) {
+        return ingredientList.containsKey(name.toLowerCase());
+    }
+
     public List<Ingredient> getAllIngredients() {
         return new ArrayList<>(ingredientList.values());
     }

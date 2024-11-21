@@ -116,6 +116,28 @@ public class EditIngredientInstrumentedTest {
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
+    @org.junit.Test
+    public void testNonexistentIngredientError() {
+        // Navigate to Edit Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.editIngredientsButton))
+                .perform(ViewActions.click());
+
+        // Enter a nonexistent ingredient to edit
+        String nonexistentIngredient = "Nonexistent Ingredient";
+        String newQty = "2.0";
+
+        typeText(R.id.itemNameText, nonexistentIngredient);
+        typeText(R.id.itemQuantityText, newQty);
+
+        // Click the Edit button to confirm
+        Espresso.onView(ViewMatchers.withId(R.id.editButton))
+                .perform(ViewActions.click());
+
+        // Verify the error message for nonexistent ingredient is displayed
+        Espresso.onView(ViewMatchers.withText("Nonexistent Ingredient does not exist in your pantry"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
     /**
      * Helper method to type text into a text field.
      *
