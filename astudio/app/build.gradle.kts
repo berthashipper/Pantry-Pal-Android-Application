@@ -51,6 +51,8 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation("org.apache.commons:commons-text:1.10.0")
 

@@ -49,6 +49,14 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
             navigateToAddRecipe();
         });
 
+        setupRecyclerView();
+        // Add click listener for the Search Recipes button
+        binding.searchRecipesButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onSearchRecipesMenu(); // Navigate to fragment
+            }
+        });
+
         return rootView;
     }
 
@@ -279,5 +287,13 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
             recipeAdapter.updateRecipes(new ArrayList<>(recipes)); // Refresh the data in the adapter
             recipeAdapter.notifyDataSetChanged(); // Notify changes
         }
+    }
+
+    public void setupRecyclerView() {
+        recyclerView = binding.recyclerViewRecipes;
+        recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+
+        recipeAdapter = new RecipeAdapter(new ArrayList<>(recipes), getContext(), this);
+        recyclerView.setAdapter(recipeAdapter);
     }
 }

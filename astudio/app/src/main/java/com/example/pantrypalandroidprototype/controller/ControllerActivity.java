@@ -4,12 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.model.GenerateRecipe;
@@ -29,19 +27,22 @@ import com.example.pantrypalandroidprototype.view.IEditIngredientView;
 import com.example.pantrypalandroidprototype.view.IMainView;
 import com.example.pantrypalandroidprototype.view.IPantryView;
 import com.example.pantrypalandroidprototype.view.IRecipeDetailView;
+import com.example.pantrypalandroidprototype.view.ISearchRecipeView;
 import com.example.pantrypalandroidprototype.view.MainView;
 import com.example.pantrypalandroidprototype.view.PantryFragment;
 import com.example.pantrypalandroidprototype.view.RecipeDetailFragment;
 import com.example.pantrypalandroidprototype.view.RecipeFragment;
+import com.example.pantrypalandroidprototype.view.SearchRecipeFragment;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class ControllerActivity extends AppCompatActivity
         implements IAddIngredientView.Listener, IPantryView.Listener,
         IDeleteIngredientView.Listener, IEditIngredientView.Listener,
-        ICookbookView.Listener, IAddRecipeView.Listener, IRecipeDetailView.Listener {
+        ICookbookView.Listener, IAddRecipeView.Listener, IRecipeDetailView.Listener, ISearchRecipeView.Listener {
 
     IMainView mainView;
     Pantry pantry;
@@ -231,5 +232,33 @@ public class ControllerActivity extends AppCompatActivity
     public void onDoneViewingRecipe() {
         // After viewing the recipe details, return to the CookbookFragment
         mainView.displayFragment(CookbookFragment.newInstance(this, new HashSet<>(recipes)));
+    }
+
+    @Override
+    public void onSearchRecipe(String query) {
+        // Filter recipes based on the query
+        Set<Recipe> filteredRecipes = recipes.stream()
+                .filter(recipe -> recipe.getRecipeName().toLowerCase().contains(query.toLowerCase()))
+                .collect(Collectors.toSet());
+
+        if (!filteredRecipes.isEmpty()) {
+            // Display filtered recipes
+            RecipeFragment recipeFragment = RecipeFragment.newInstance(new ArrayList<>(filteredRecipes));
+            mainView.displayFragment(recipeFragment);
+        } else {
+            Toast.makeText(this, "No recipes found matching: " + query, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onSearchDone() {
+        // Navigate back to the Cookbook view or another fragment
+        mainView.displayFragment(CookbookFragment.newInstance(this, new HashSet<>(recipes)));
+    }
+
+    @Override
+    public void onSearchRecipesMenu() {
+        SearchRecipeFragment searchRecipeFragment = SearchRecipeFragment.newInstance(this);
+        mainView.displayFragment(searchRecipeFragment);
     }
 }

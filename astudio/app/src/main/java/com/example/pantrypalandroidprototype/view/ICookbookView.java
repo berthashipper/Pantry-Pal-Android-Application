@@ -14,5 +14,7 @@ public interface ICookbookView {
         void onRecipeClick(Recipe recipe);
         void onCookbookRecipesLoaded(Set<Recipe> recipes);
         void onNavigateToAddRecipe();
+
+        void onSearchRecipesMenu();
     }
 }
