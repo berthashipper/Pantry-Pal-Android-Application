@@ -1,20 +1,27 @@
 package com.example.pantrypalandroidprototype;
 
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+
 import android.os.SystemClock;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.IdlingPolicies;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 
+import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Instrumented test class for verifying the "Add Ingredients" functionality.
@@ -32,7 +39,7 @@ public class AddIngredientsInstrumentedTest {
     /**
      * Tests whether adding an ingredient updates the RecyclerView correctly.
      */
-    @Test
+    @Test //passed
     public void testAddIngredient() {
         // Navigate to Add Ingredients screen
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
@@ -57,14 +64,12 @@ public class AddIngredientsInstrumentedTest {
         // Wait for UI updates
         SystemClock.sleep(1000);
 
-        // Verify that the Pantry view is displayed // error
+        // Click "Done" button
+        Espresso.onView(ViewMatchers.withId(R.id.doneButton)).perform(ViewActions.click());
+        //if the ingredient is saved
         Espresso.onView(ViewMatchers.withId(R.id.pantryContentsTextView))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+                .check(ViewAssertions.matches(withText("🛒 Pantry Contents:\n\n• Sugar\n   Quantity: 1.5 kg\n   Tags: GLUTEN_FREE, VEGAN\n\n")));
 
-        Espresso.onView(ViewMatchers.withText(testName))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-        Espresso.onView(ViewMatchers.withText(testQty + " " + testUnit))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
     /**
@@ -88,22 +93,25 @@ public class AddIngredientsInstrumentedTest {
      * Tests validation when required fields are empty.
      */
 
-//    @Test
-//    public void testValidationWhenFieldsAreEmpty() {
-//        // Navigate to Add Ingredients screen
-//        Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
-//                .perform(ViewActions.click());
-//
-//        // Click "Add" button without entering any data
-//        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
-//
-//        // Verify that a validation error message is displayed
-//        Espresso.onView(ViewMatchers.withText(R.string.error_empty_ingredient_fields))
-//                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-//    }
+    @Test
+    public void testValidationWhenFieldsAreEmpty() {
+        // Navigate to Add Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
+                .perform(ViewActions.click());
 
-    /**
-     * Tests validation when quantity input is invalid.
+        // Click "Add" button without entering any data
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
+
+        IdlingPolicies.setIdlingResourceTimeout(5, TimeUnit.SECONDS);
+
+        // Verify that a validation error message is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.))
+                .check(ViewAssertions.matches(withText(R.string.error_empty_ingredient_fields)));
+
+    }
+
+//    /**
+//     * Tests validation when quantity input is invalid.
 //     */
 //    @Test
 //    public void testValidationForInvalidQuantity() {
