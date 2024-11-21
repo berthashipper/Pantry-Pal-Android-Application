@@ -114,7 +114,7 @@ public class ControllerActivity extends AppCompatActivity
         if (isDeleted) {
             Toast.makeText(this, "Deleted ingredient: " + name, Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "No ingredient found with name: " + name, Toast.LENGTH_SHORT).show();
+            Snackbar.make(mainView.getRootView(), "No ingredient found with name: " + name, Snackbar.LENGTH_LONG).show();
         }
         onViewPantryMenu(); // Return to the pantry view
     }
@@ -124,7 +124,7 @@ public class ControllerActivity extends AppCompatActivity
         // Pass the pantry data to the fragment
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
 
-        Toast.makeText(this, "Done deleting ingredients, returning to Pantry", Toast.LENGTH_SHORT).show();
+        Snackbar.make(mainView.getRootView(), "Done deleting ingredients, returning to Pantry" , Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -135,11 +135,11 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onEditIngredient(String name, double newQty) {
-        boolean isUpdated = pantry.edit_ingredient(name, newQty); // Assume `editIngredient` exists in `Pantry`
+        boolean isUpdated = pantry.edit_ingredient(name, newQty);
         if (isUpdated) {
-            Toast.makeText(this, "Updated ingredient: " + name, Toast.LENGTH_SHORT).show();
+            Snackbar.make(mainView.getRootView(), "Updated ingredient: " + name , Snackbar.LENGTH_LONG).show();
         } else {
-            Toast.makeText(this, "No ingredient found with name: " + name, Toast.LENGTH_SHORT).show();
+            Snackbar.make(mainView.getRootView(), "No ingredient found with name: " + name, Snackbar.LENGTH_LONG).show();
         }
         onViewPantryMenu(); // Return to pantry view
     }

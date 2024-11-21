@@ -34,7 +34,7 @@ public class DeleteIngredientsInstrumentedTest {
     /**
      * Tests whether deleting an ingredient updates the RecyclerView correctly.
      */
-    @Test//passed
+    @org.junit.Test
     public void testDeleteIngredientUpdatesRecyclerView() {
         // Navigate to Add Ingredients screen
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
@@ -53,10 +53,8 @@ public class DeleteIngredientsInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
 
-        // Navigate to the pantry
-        Espresso.onView(ViewMatchers.withId(R.id.doneButton))
-                .perform(ViewActions.click());
-
+        // Navigate back to the pantry
+        Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());
 
         // Navigate to the delete ingredient
         Espresso.onView(ViewMatchers.withId(R.id.deleteIngredientsButton))
@@ -84,7 +82,7 @@ public class DeleteIngredientsInstrumentedTest {
     /**
      * Tests whether clicking "Done" navigates back to the Pantry view.
      */
-    @Test //passed
+    @org.junit.Test
     public void testDoneButtonNavigatesToPantry() {
         // Navigate to Delete Ingredients screen
         Espresso.onView(ViewMatchers.withId(R.id.deleteIngredientsButton))
@@ -98,6 +96,42 @@ public class DeleteIngredientsInstrumentedTest {
 
         // Verify the Pantry fragment is displayed
         Espresso.onView(ViewMatchers.withId(R.id.pantryContentsTextView))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    @org.junit.Test
+    public void testDeleteIngredientNotInPantry() {
+        // Navigate to Add Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
+                .perform(ViewActions.click());
+
+        // Input test data for adding an ingredient
+        String testName = "Sugar";
+        String testQty = "1.5";
+        String testUnit = "kg";
+
+        // Add ingredient to pantry
+        typeText(R.id.itemNameText, testName);
+        typeText(R.id.itemQtyText, testQty);
+        typeText(R.id.itemUnitText, testUnit);
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
+
+        // Navigate back to the pantry
+        Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());
+
+        // Now navigate to the delete ingredient screen
+        Espresso.onView(ViewMatchers.withId(R.id.deleteIngredientsButton))
+                .perform(ViewActions.click());
+
+        // Try deleting an ingredient that does not exist in the pantry
+        String nonExistingIngredient = "Salt";
+        typeText(R.id.itemNameText, nonExistingIngredient);
+        Espresso.onView(ViewMatchers.withId(R.id.deleteIngredientButton)).perform(ViewActions.click());
+
+        SystemClock.sleep(1000);
+
+        // Verify that a message or error is shown indicating that the ingredient is not in the pantry
+        Espresso.onView(ViewMatchers.withText("No ingredient found with name: Salt"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
