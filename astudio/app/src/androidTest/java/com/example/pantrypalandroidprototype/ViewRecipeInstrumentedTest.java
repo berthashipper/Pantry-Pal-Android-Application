@@ -1,5 +1,11 @@
 package com.example.pantrypalandroidprototype;
 
+import android.os.SystemClock;
+
+import androidx.test.espresso.Espresso;
+import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -11,10 +17,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Instrumented test class for verifying the "View Cookbook" functionality.
+ * Instrumented test class for verifying the "ViewRecipe" functionality.
  */
-@RunWith(AndroidJUnit4.class)
-public class ViewCookbookTest {
+public class ViewRecipeInstrumentedTest {
+
 
     /**
      * Specifies the activity to launch before each test.
@@ -22,6 +28,5 @@ public class ViewCookbookTest {
     @Rule
     public ActivityScenarioRule<ControllerActivity> activityRule =
             new ActivityScenarioRule<>(ControllerActivity.class);
-
 
 }
