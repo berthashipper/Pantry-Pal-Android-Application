@@ -109,13 +109,11 @@ public class ViewCookbookTest {
                         ViewMatchers.hasDescendant(ViewMatchers.withText(testName)) // Match child view
                 ));
 
-// Check if the RecyclerView item with the expected recipe name is displayed
+        // Check if the RecyclerView item with the expected recipe name is displayed
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes)) // Target RecyclerView again
                 .check(ViewAssertions.matches( // Verify condition
                         ViewMatchers.hasDescendant(ViewMatchers.withText(testName)) // Ensure the text exists
                 ));
-
-
     }
 
     /**
@@ -141,11 +139,47 @@ public class ViewCookbookTest {
     /**
      * Tests "BackToCookbook" functionality.
      */
-    @Test
+    @org.junit.Test //passed
     public void testBackToCookbook() {
         // Navigate to cookbook screen
         Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
                 .perform(ViewActions.click());
+
+        // Scroll to the item and perform a click on it
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Grilled Cheese Sandwich")),
+                        ViewActions.click()
+                ));
+
+        // Verify that the correct recipe details screen is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.recipe_name)) // ID of TextView on the details screen
+                .check(ViewAssertions.matches(ViewMatchers.withText("Grilled Cheese Sandwich"))); // Ensure the name matches
+
+        Espresso.onView(ViewMatchers.withId(R.id.recipe_description)) // ID of description TextView
+                .check(ViewAssertions.matches(ViewMatchers.withText("A simple and comforting grilled cheese sandwich."))); // Ensure the description matches
+
+        Espresso.onView(ViewMatchers.withId(R.id.recipe_cook_time)) // ID of cook time TextView
+                .check(ViewAssertions.matches(ViewMatchers.withText("Cook Time: 10 minutes"))); // Ensure the description matches
+
+        Espresso.onView(ViewMatchers.withId(R.id.recipe_serving_size)) // ID of serving size TextView
+                .check(ViewAssertions.matches(ViewMatchers.withText("Serves: 1"))); // Ensure the description matches
+
+        Espresso.onView(ViewMatchers.withId(R.id.recipe_instructions)) // ID of ingredients
+                .check(ViewAssertions.matches(ViewMatchers.withText("Butter the bread and place cheese between slices." + "\n" + "Grill the sandwich until golden brown on both sides."))); // Ensure the description matches
+
+        // Navigate to cookbook screen
+        Espresso.onView(ViewMatchers.withId(R.id.done_button))
+                .perform(ViewActions.click());
+
+
+        // Verify that is back to the viewCookbook fragment
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.scrollTo(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Grilled Cheese Sandwich"))
+                ));
+
+
     }
 
     /**
