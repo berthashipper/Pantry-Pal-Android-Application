@@ -114,6 +114,30 @@ public class ViewCookbookTest {
                 .check(ViewAssertions.matches( // Verify condition
                         ViewMatchers.hasDescendant(ViewMatchers.withText(testName)) // Ensure the text exists
                 ));
+
+        // Scroll to the item and perform a click on it
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText(testName)),
+                        ViewActions.click()
+                ));
+
+        // Verify that the correct recipe details screen is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.recipe_name)) // ID of TextView on the details screen
+                .check(ViewAssertions.matches(ViewMatchers.withText(testName))); // Ensure the name matches
+
+        Espresso.onView(ViewMatchers.withId(R.id.recipe_description)) // ID of description TextView
+                .check(ViewAssertions.matches(ViewMatchers.withText(testDescipt))); // Ensure the description matches
+
+        Espresso.onView(ViewMatchers.withId(R.id.recipe_cook_time)) // ID of cook time TextView
+                .check(ViewAssertions.matches(ViewMatchers.withText("Cook Time: 3 minutes"))); // Ensure the description matches
+
+        Espresso.onView(ViewMatchers.withId(R.id.recipe_serving_size)) // ID of serving size TextView
+                .check(ViewAssertions.matches(ViewMatchers.withText("Serves: 1"))); // Ensure the description matches
+
+        Espresso.onView(ViewMatchers.withId(R.id.recipe_instructions)) // ID of ingredients
+                .check(ViewAssertions.matches(ViewMatchers.withText("Use Toaster for 3 mins."))); // Ensure the description matches
+
     }
 
     /**
