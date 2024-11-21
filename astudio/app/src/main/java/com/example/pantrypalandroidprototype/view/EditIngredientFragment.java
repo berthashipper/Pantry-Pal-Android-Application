@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.pantrypalandroidprototype.databinding.FragmentEditItemsBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 public class EditIngredientFragment extends Fragment implements IEditIngredientView {
     FragmentEditItemsBinding binding;
@@ -36,14 +37,14 @@ public class EditIngredientFragment extends Fragment implements IEditIngredientV
         binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
     }
 
-    private void onEditButtonClicked() {
+    public void onEditButtonClicked() {
         String name = binding.itemNameText.getText().toString().trim();
         double newQty;
 
         try {
             newQty = Double.parseDouble(binding.itemQuantityText.getText().toString().trim());
         } catch (NumberFormatException e) {
-            binding.errorText.setText("Invalid quantity.");
+            Snackbar.make(binding.getRoot(), "Invalid quantity.", Snackbar.LENGTH_LONG).show();
             return;
         }
 
@@ -53,7 +54,7 @@ public class EditIngredientFragment extends Fragment implements IEditIngredientV
         clearInputs();
     }
 
-    private void onDoneButtonClicked() {
+    public void onDoneButtonClicked() {
         if (listener != null) {
             listener.onEditDone();
         }

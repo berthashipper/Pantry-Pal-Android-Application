@@ -25,7 +25,7 @@ public class EditIngredientInstrumentedTest {
     /**
      * Tests editing an ingredient's details and verifying updates.
      */
-    @Test //passed
+    @org.junit.Test
     public void testEditIngredientUpdatesRecyclerView() {
         // Navigate to Add Ingredients screen
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
@@ -45,70 +45,70 @@ public class EditIngredientInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.veganCheckbox)).perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.glutenFreeCheckbox)).perform(ViewActions.click());
 
-
         // Click "Add" button
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
-        // Wait for UI updates
-        SystemClock.sleep(1000);
+        SystemClock.sleep(3000);
 
-        // Click "Done" button
-        Espresso.onView(ViewMatchers.withId(R.id.doneButton)).perform(ViewActions.click());
-        //if the ingredient is saved
+        // Navigate back to the pantry
+        Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());
+
+        SystemClock.sleep(3000);
+
+        // Verify the ingredient has been added
         Espresso.onView(ViewMatchers.withId(R.id.pantryContentsTextView))
                 .check(ViewAssertions.matches(withText("🛒 Pantry Contents:\n\n• Sugar\n   Quantity: 1.5 kg\n   Tags: GLUTEN_FREE, VEGAN\n\n")));
+
+        SystemClock.sleep(3000);
 
         // Navigate to Edit Ingredients screen
         Espresso.onView(ViewMatchers.withId(R.id.editIngredientsButton))
                 .perform(ViewActions.click());
 
-        //Enter the ingredient to Edit
+        // Enter the ingredient to Edit
         typeText(R.id.itemNameText, initialName);
         typeText(R.id.itemQuantityText, newQty);
 
-        //Click the edit to confirm
+        // Click the Edit button to confirm
         Espresso.onView(ViewMatchers.withId(R.id.editButton))
                 .perform(ViewActions.click());
 
-        // Wait for UI updates
-        SystemClock.sleep(1000);
+        SystemClock.sleep(5000);
 
-//        // Click the "Done" button
-//        Espresso.onView(ViewMatchers.withId(R.id.doneButton)).perform(ViewActions.click());
-
-        //Check the ingredient is updated
+        // Verify the ingredient is updated in the pantry
         Espresso.onView(ViewMatchers.withId(R.id.pantryContentsTextView))
                 .check(ViewAssertions.matches(withText("🛒 Pantry Contents:\n\n• Sugar\n   Quantity: 3.5 kg\n   Tags: GLUTEN_FREE, VEGAN\n\n")));
-
     }
 
-//    /**
-//     * Tests validation error when editing an ingredient with empty fields.
-//     */
-//    @Test
-//    public void testValidationWhenFieldsAreEmpty() {
-//        // Attempt to edit with empty fields
-//        Espresso.onView(ViewMatchers.withId(R.id.editButton)).perform(ViewActions.click());
-//
-//        // Verify validation error message is displayed
-//        Espresso.onView(ViewMatchers.withText("Invalid quantity."))
-//                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-//    }
+    /**
+     * Tests validation error when editing an ingredient with empty fields.
+     */
+    @org.junit.Test
+    public void testValidationWhenFieldsAreEmpty() {
+        // Navigate to Edit Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.editIngredientsButton))
+                .perform(ViewActions.click());
+
+        // Attempt to edit with empty fields
+        Espresso.onView(ViewMatchers.withId(R.id.editButton)).perform(ViewActions.click());
+
+        // Verify validation error message is displayed
+        Espresso.onView(ViewMatchers.withText("Invalid quantity."))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
 
     /**
      * Tests that clicking "Done" navigates back to the pantry view.
      */
-    @Test //passed
+    @org.junit.Test
     public void testDoneButtonNavigatesToPantry() {
-
-        // Navigate to edit Ingredients screen
+        // Navigate to Edit Ingredients screen
         Espresso.onView(ViewMatchers.withId(R.id.editIngredientsButton))
                 .perform(ViewActions.click());
 
         // Click the "Done" button
         Espresso.onView(ViewMatchers.withId(R.id.doneButton)).perform(ViewActions.click());
 
-        // Wait for UI updates
         SystemClock.sleep(1000);
 
         // Verify that the pantry view is displayed

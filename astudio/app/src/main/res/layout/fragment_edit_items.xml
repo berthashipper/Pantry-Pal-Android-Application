@@ -6,27 +6,27 @@
 
     <EditText
         android:id="@+id/itemNameText"
-        android:hint="Ingredient Name"
+        android:hint="@string/ingredient_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/itemQuantityText"
-        android:hint="New Quantity"
+        android:hint="@string/new_quantity"
         android:inputType="numberDecimal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/editButton"
-        android:text="Edit Ingredient"
+        android:text="@string/edit_ingredient"
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/doneButton"
-        android:text="Done"
+        android:text="@string/done"
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_height="wrap_content" />

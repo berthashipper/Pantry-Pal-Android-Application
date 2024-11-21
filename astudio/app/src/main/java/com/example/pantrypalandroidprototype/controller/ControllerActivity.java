@@ -147,7 +147,7 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onEditDone() {
         mainView.displayFragment(PantryFragment.newInstance(this, pantry));
-        Toast.makeText(this, "Done editing ingredients, returning to Pantry", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Returning to Pantry", Toast.LENGTH_SHORT).show();
     }
 
     @Override
