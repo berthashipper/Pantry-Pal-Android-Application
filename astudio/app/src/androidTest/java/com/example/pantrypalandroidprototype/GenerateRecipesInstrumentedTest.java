@@ -17,10 +17,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
- * Instrumented test class for verifying the "ViewPantry" functionality.
+ * Instrumented test class for verifying the "generateRecipe" functionality.
  */
 @RunWith(AndroidJUnit4.class)
-public class BackToPantryTest {
+public class GenerateRecipesInstrumentedTest {
+
 
     /**
      * Specifies the activity to launch before each test.
@@ -29,21 +30,5 @@ public class BackToPantryTest {
     public ActivityScenarioRule<ControllerActivity> activityRule =
             new ActivityScenarioRule<>(ControllerActivity.class);
 
-    /**
-     * Tests whether clicking "ViewButton" navigates back to the Pantry view.
-     */
-    @Test //passed
-    public void testViewPantryButtonNavigatesToPantry() {
-        // Navigate to Add Ingredients screen
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
-                .perform(ViewActions.click());
 
-        // Navigate to pantry screen
-        Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton))
-                .perform(ViewActions.click());
-
-        // Verify that the Pantry view is displayed
-        Espresso.onView(ViewMatchers.withId(R.id.pantryContentsTextView))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-    }
 }

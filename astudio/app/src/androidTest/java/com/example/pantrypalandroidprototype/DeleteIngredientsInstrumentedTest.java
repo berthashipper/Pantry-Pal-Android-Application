@@ -34,14 +34,33 @@ public class DeleteIngredientsInstrumentedTest {
     /**
      * Tests whether deleting an ingredient updates the RecyclerView correctly.
      */
-    @Test
+    @Test//passed
     public void testDeleteIngredientUpdatesRecyclerView() {
-        // Precondition: Add a test ingredient ("Sugar") to the pantry.
-        addTestIngredient("Sugar", "1.0", "kg");
+        // Navigate to Add Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
+                .perform(ViewActions.click());
+
+        // Input test data
+        String testName = "Sugar";
+        String testQty = "1.5";
+        String testUnit = "kg";
+
+        typeText(R.id.itemNameText, testName);
+        typeText(R.id.itemQtyText, testQty);
+        typeText(R.id.itemUnitText, testUnit);
+
+        // Click "Add" button
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
+
+
+        // Navigate to the pantry
+        Espresso.onView(ViewMatchers.withId(R.id.doneButton))
+                .perform(ViewActions.click());
+
 
         // Navigate to the delete ingredient
-//        Espresso.onView(ViewMatchers.withId(R.id.))
-//                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.deleteIngredientsButton))
+                .perform(ViewActions.click());
 
         // Enter the ingredient name to delete
         ViewInteraction nameInput = Espresso.onView(ViewMatchers.withId(R.id.itemNameText));
@@ -53,6 +72,10 @@ public class DeleteIngredientsInstrumentedTest {
         // Wait for UI updates
         SystemClock.sleep(1000);
 
+        // Verify that the Pantry view is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.pantryContentsTextView))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
         // Verify the ingredient is no longer displayed in the RecyclerView
         Espresso.onView(ViewMatchers.withText("Sugar"))
                 .check(ViewAssertions.doesNotExist());
@@ -61,9 +84,11 @@ public class DeleteIngredientsInstrumentedTest {
     /**
      * Tests whether clicking "Done" navigates back to the Pantry view.
      */
-    @Test
+    @Test //passed
     public void testDoneButtonNavigatesToPantry() {
-
+        // Navigate to Add Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.deleteIngredientsButton))
+                .perform(ViewActions.click());
 
         // Click the "Done" button
         Espresso.onView(ViewMatchers.withId(R.id.doneButton)).perform(ViewActions.click());
@@ -77,33 +102,13 @@ public class DeleteIngredientsInstrumentedTest {
     }
 
     /**
-     * Helper method to add a test ingredient to the pantry.
+     * Helper method to type text into a text field.
      *
-     * @param name  The name of the ingredient.
-     * @param qty   The quantity of the ingredient.
-     * @param unit  The unit of measurement for the ingredient.
+     * @param viewId the id of the text field to type into.
+     * @param text   the text to be typed.
      */
-    private void addTestIngredient(String name, String qty, String unit) {
-        // Navigate to the add ingredient menu
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
-                .perform(ViewActions.click());
-
-        // Enter the ingredient name
-        Espresso.onView(ViewMatchers.withId(R.id.itemNameText))
-                .perform(ViewActions.typeText(name), ViewActions.closeSoftKeyboard());
-
-        // Enter the ingredient quantity
-        Espresso.onView(ViewMatchers.withId(R.id.itemQtyText))
-                .perform(ViewActions.typeText(qty), ViewActions.closeSoftKeyboard());
-
-        // Enter the ingredient unit
-        Espresso.onView(ViewMatchers.withId(R.id.itemUnitText))
-                .perform(ViewActions.typeText(unit), ViewActions.closeSoftKeyboard());
-
-        // Click the "Add" button
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
-
-        // Wait for UI updates
-        SystemClock.sleep(1000);
+    private void typeText(final int viewId, final String text) {
+        Espresso.onView(ViewMatchers.withId(viewId))
+                .perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard());
     }
 }

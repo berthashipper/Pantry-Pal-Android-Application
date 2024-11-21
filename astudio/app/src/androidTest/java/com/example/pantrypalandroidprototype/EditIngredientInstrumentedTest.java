@@ -76,8 +76,13 @@ public class EditIngredientInstrumentedTest {
     /**
      * Tests that clicking "Done" navigates back to the pantry view.
      */
-    @Test
+    @Test //passed
     public void testDoneButtonNavigatesToPantry() {
+
+        // Navigate to edit Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.editIngredientsButton))
+                .perform(ViewActions.click());
+
         // Click the "Done" button
         Espresso.onView(ViewMatchers.withId(R.id.doneButton)).perform(ViewActions.click());
 
