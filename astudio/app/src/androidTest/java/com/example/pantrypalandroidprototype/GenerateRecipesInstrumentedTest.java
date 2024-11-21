@@ -30,4 +30,5 @@ public class GenerateRecipesInstrumentedTest {
     public ActivityScenarioRule<ControllerActivity> activityRule =
             new ActivityScenarioRule<>(ControllerActivity.class);
 
+
 }
