@@ -86,7 +86,7 @@ public class DeleteIngredientsInstrumentedTest {
      */
     @Test //passed
     public void testDoneButtonNavigatesToPantry() {
-        // Navigate to Add Ingredients screen
+        // Navigate to Delete Ingredients screen
         Espresso.onView(ViewMatchers.withId(R.id.deleteIngredientsButton))
                 .perform(ViewActions.click());
 
