@@ -26,10 +26,9 @@ Workflow for _manage_pantry_items_:
 
 ```plantuml
 @startuml
-
 skin rose
 
-title  Manage Pantry Items: UPLOAD (fully-dressed level)
+title  Manage Pantry Items: ADD (fully-dressed level)
 
 'define the lanes
 |#application|User|
@@ -41,35 +40,21 @@ start
 |User|
 :Select "add ingredient";
 |Recipe Management System|
-:Prompts user to search for ingredient in preloaded list;
+:Prompts user to input ingredient details (name, quantity, unit, dietary tags);
 |User|
-:Searches for ingredient;
+:Enters name, quantity, unit, and dietary tags;
 |Recipe Management System|
-
-while (There are ingredients match user's search) is (no) 
+:Validates inputs (checks for empty fields, valid quantity);
+:Stores new ingredient to pantry;
 |User|
-:Searches again;
-endwhile (yes);
-
-|Recipe Management System|
-:Shows ingredients that match search;
-
-|User|
-:Selects one ingredient to add to pantry;
-|Recipe Management System|
-
-:Store ingredient to pantry;
-
-|User|
-:Sees updated pantry;
-
+:Sees confirmation and updated pantry;
 stop
 @enduml
+
 ```
 
 ```plantuml
 @startuml
-
 skin rose
 
 title  Manage Pantry Items: DELETE (fully-dressed level)
@@ -82,21 +67,19 @@ title  Manage Pantry Items: DELETE (fully-dressed level)
 start
 :Displays pantry;
 |User|
-:Select ingredient from pantry;
+:Enters ingredient name from pantry;
 |Recipe Management System|
-
+:Confirms ingredient for removal;
 :Remove ingredient from pantry;
-
 |User|
 :See the changes in pantry;
-
 stop
 @enduml
+
 ```
 
 ```plantuml
 @startuml
-
 skin rose
 
 title  Manage Pantry Items: EDIT (fully-dressed level)
@@ -109,23 +92,20 @@ title  Manage Pantry Items: EDIT (fully-dressed level)
 start
 :Displays pantry;
 |User|
-:Selects ingredient from pantry to edit;
-:Updates quantity of ingredient;
-
+:Enters ingredient name from pantry to edit;
+:Enters new quantity for ingredient;
 |Recipe Management System|
-
-:Stores new ingredient quantity to pantry;
-
+:Validates name exists and new quantity;
+:Stores updated ingredient quantity to pantry;
 |User|
 :See the changes in pantry;
-
 stop
 @enduml
+
 ```
 
 ```plantuml
 @startuml
-
 skin rose
 
 title Manage Pantry Items: ADD TO GROCERY LIST (fully-dressed level)
@@ -140,11 +120,9 @@ start
 |User|
 :Selects ingredient from pantry to add to grocery list;
 |Recipe Management System|
-:Stores selected ingredient in grocery list;
-
+:Store selected ingredient in grocery list;
 |User|
 :Sees confirmation that ingredient is added to grocery list;
-
 stop
 @enduml
 ```
@@ -159,68 +137,22 @@ hide footbox
 
 actor User as user
 participant ": UI" as ui
-participant ": Controller"  as cont
+participant ": Controller" as cont
 participant ": curPantry : Pantry" as pantry
-participant ": Ingredient" as ingr
 
 ui -> user : Display add ingredient option
 user -> ui : Input ingredient name
 user -> ui : Input ingredient quantity
 user -> ui : Input ingredient unit
 user -> ui : Input dietary tags
-ui -> cont : addIngredient(name, quantity, unit, tags)
-cont -> pantry : add_ingredient(name, quantity, unit, tags)
-pantry -> ingr **: ingr = create(name,quantity,unit,tags)
-pantry -> cont : curPantry.display()
-cont -> ui : updateDisplay(pantry)
-ui -> user : Show updated pantry list
+ui -> cont : onAddIngredient(name, qty, unit, tags)
+cont -> pantry : add_ingredient(newIngredient)
+pantry -> cont : curPantry.updatePantry()
+cont -> ui : onItemsDone()
+ui -> user : Show updated pantry display
 
 @enduml
-````
 
-```plantuml
-@startuml
-skin rose
-
-hide footbox
-
-actor User as user
-participant ": UI" as ui
-participant ": Controller"  as cont
-participant ": curPantry : Pantry" as pantry
-
-ui -> user : Display delete ingredient option
-user -> ui : Input ingredient name to delete
-ui -> cont : deleteIngredient(name)
-cont -> pantry : delete_ingredient(name)
-pantry -> cont : curPantry.list()
-cont -> ui : updateDisplay(pantry)
-ui -> user : Show updated pantry list
-
-@enduml
-````
-
-```plantuml
-@startuml
-skin rose
-
-hide footbox
-
-actor User as user
-participant ": UI" as ui
-participant ": Controller"  as cont
-participant ": curPantry : Pantry" as pantry
-
-ui -> user : Display edit buttons
-user -> ui : Select existing ingredient name
-user -> ui : Click edit button to change quantity
-ui -> cont : editItem(name, quantity)
-cont -> pantry : editItem(name, quantity)
-pantry -> cont : curPantry.ingredient()
-cont -> ui : updateDisplay(pantry)
-ui -> user : show updated ingredient information
-
-@enduml
 ````
 
 ```plantuml
@@ -233,16 +165,63 @@ actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
 participant ": curPantry : Pantry" as pantry
-participant ": Grocery List" as grocery
+
+ui -> user : Display delete ingredient option
+user -> ui : Input ingredient name to delete
+ui -> cont : onDeleteIngredient(name)
+cont -> pantry : delete_ingredient(name)
+pantry -> cont : curPantry.updatePantry()
+cont -> ui : onDeletionDone()
+ui -> user : Show updated pantry display
+
+@enduml
+
+````
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller" as cont
+participant ": curPantry : Pantry" as pantry
 
 ui -> user : Display edit ingredient option
 user -> ui : Input ingredient name to edit
 user -> ui : Input new quantity
-ui -> cont : editIngredient(name, newQuantity)
+ui -> cont : onEditIngredient(name, newQuantity)
 cont -> pantry : edit_ingredient(name, newQuantity)
-pantry -> cont : curPantry.ingredient()
-cont -> ui : updateDisplay(pantry)
-ui -> user : Show updated ingredient information
+pantry -> cont : curPantry.updatePantry()
+cont -> ui : onEditDone()
+ui -> user : Show updated pantry display
 
 @enduml
+
+````
+
+```plantuml
+@startuml
+skin rose
+
+hide footbox
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller" as cont
+participant ": curPantry : Pantry"
+participant ": RecipeFragment" as recipeFragment
+
+ui -> user : Display generate recipes option
+user -> ui : Select to generate recipes
+ui -> cont : onGenerateRecipes()
+cont -> pantry : generateMatchingRecipes()
+pantry -> cont : matchingRecipesFound()
+cont -> recipeFragment : showMatchingRecipes(recipes)
+recipeFragment -> ui : displayRecipes()
+
+@enduml
+
 ````

@@ -32,7 +32,7 @@ Fully-dressed workflow for _generate_recipe_:
 
 skin rose
 
-title Generate & filter recipe (fully-dressed level)
+title Generate & Filter Recipe (fully-dressed level)
 
 'define the lanes
 |#application|User|
@@ -40,19 +40,24 @@ title Generate & filter recipe (fully-dressed level)
 
 |User|
 start
-:Request recipe suggestions
-based on ingredients in pantry;
+:Request recipe suggestions based on ingredients in pantry;
 
 |Recipe Management System|
-:Evaluates ingredients in pantry;
-:Pulls recipes;
+:Evaluate ingredients in pantry;
+:Generate list of matching recipes;
 
 |Recipe Management System|
-:Evaluate ingredients in pantry against ingredient in all recipes;
+:Check pantry ingredients against recipes;
 :Present list of matching recipes to user;
 
-stop
+if (No matching recipes)
+    :Show "No matching recipes found" message;
+    stop
+   else
+   stop
 @enduml
+
+
 ```
 ## 6. Sequence Diagram
 
@@ -65,16 +70,34 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
+participant ": RecipeFragment" as rf
+participant ": RecipeAdapter" as ra
 participant ": RecipeDatabase" as recd
+participant ": GenerateRecipe" as gr
 
-ui -> user : Display main menu
-user -> ui : Select "Generate Recipe Suggestions"
-ui -> cont : generateRecipeSuggestions()
-cont -> recd : recipeGenerator.generateMatchingRecipes();
-recd -> cont : Gather (matchingRecipes)
-cont -> ui : displayRecipes(matchingRecipes)
-ui -> user : Present list of recipes
+user -> ui: Display main menu
+user -> ui: Select "Generate Recipe Suggestions"
+ui -> cont: onGenerateRecipes()
+
+cont -> gr: generateMatchingRecipes()
+gr -> recd: Generate matching recipes using pantry and recipes
+recd -> gr: Return matched recipes
+gr -> cont: Return matched recipes
+cont -> rf: Create RecipeFragment with matched recipes
+cont -> ui: displayFragment(RecipeFragment)
+
+ui -> rf: Show recipe list (via RecyclerView)
+rf -> ra: Set up RecyclerView with recipes
+ra -> ui: Display list of recipes
+ui -> user: Present list of recipes
+
+alt No matching recipes
+    cont -> rf: Show no recipes message
+    rf -> ui: Display "No matching recipes found" message
+end
 
 @enduml
+
+
 ```
 

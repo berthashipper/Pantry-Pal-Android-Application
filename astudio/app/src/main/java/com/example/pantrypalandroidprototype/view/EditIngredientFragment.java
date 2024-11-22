@@ -17,7 +17,6 @@ import com.google.android.material.snackbar.Snackbar;
 public class EditIngredientFragment extends Fragment implements IEditIngredientView {
     FragmentEditItemsBinding binding;
     Listener listener;
-
     Pantry pantry;
 
     public static EditIngredientFragment newInstance(Listener listener) {

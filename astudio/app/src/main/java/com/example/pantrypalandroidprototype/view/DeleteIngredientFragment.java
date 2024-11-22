@@ -15,8 +15,6 @@ import com.example.pantrypalandroidprototype.model.Pantry;
 import com.google.android.material.snackbar.Snackbar;
 
 public class DeleteIngredientFragment extends Fragment implements IDeleteIngredientView {
-
-    // Use the correct binding class for the Delete Ingredient Fragment
     FragmentDeleteItemsBinding binding;
     IDeleteIngredientView.Listener listener;
 

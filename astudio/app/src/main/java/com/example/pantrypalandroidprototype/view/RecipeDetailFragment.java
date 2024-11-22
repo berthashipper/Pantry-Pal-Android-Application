@@ -94,14 +94,12 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
         return view;
     }
 
-    private String formatCookTime(Duration cookTime) {
+    public String formatCookTime(Duration cookTime) {
         if (cookTime != null) {
             long minutes = cookTime.toMinutes();
             return minutes + " minutes";
         }
         return "Not specified";
     }
-
-
 }
 

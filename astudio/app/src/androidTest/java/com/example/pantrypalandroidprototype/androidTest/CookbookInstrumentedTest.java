@@ -146,6 +146,8 @@ public class CookbookInstrumentedTest {
                         ViewMatchers.hasDescendant(ViewMatchers.withText(testName)) // Ensure the text exists
                 ));
 
+        SystemClock.sleep(4000);
+
         // Scroll to the item and perform a click on it
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .perform(RecyclerViewActions.actionOnItem(

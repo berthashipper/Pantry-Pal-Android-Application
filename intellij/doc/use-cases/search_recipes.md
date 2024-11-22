@@ -30,7 +30,7 @@ Fully-dressed workflow for _search recipe_:
 
 skin rose
 
-title Search recipe (fully-dressed level)
+title Search Recipe (fully-dressed level)
 
 'define the lanes
 |#application|User|
@@ -38,26 +38,29 @@ title Search recipe (fully-dressed level)
 
 |User|
 start
-: Select "Search Recipe by Name";
-
-: Enter recipe name;
+:Select "Search Recipe by Name";
+:Enter recipe name;
 |Recipe Management System|
-: Receive recipe name input;
+:Receive recipe name input;
 
-: Search for recipes that match input;
+:Search for recipes that match input;
 
-if (Match found?)
-    : Return list of matching recipes;
-    : Display recipe details to User;
+if (Match found?) then
+    :Return list of matching recipes;
+    :Display recipe details to User;
     |User|
-    : View search results or retry;
+    :View search results or retry;
     stop
 else (No match)
-    |Recipe Management System|
-    : Notify User "Recipe not found";
+    :Notify User "Recipe not found";
+    |User|
+    :Retry search or exit;
+    stop
 end
 
 @enduml
+
+
 ```
 
 ## 6. Sequence Diagram
@@ -78,18 +81,12 @@ ui -> user : prompt "Enter recipe name"
 user -> ui : enter recipe name
 ui -> cont : searchRecipeByName(name)
 
-cont -> db : fetch all recipes
-alt matching recipes found
-    db -> cont : return list of matched recipes
-    cont -> ui : display matched recipes
-    ui -> user : show recipe details of all matched recipes
-else no match
-    db -> cont : return empty list
-    cont -> ui : display "Recipe not found"
-    ui -> user : tell user "Recipe not found"
-end
 
-
-
+user -> ui : Selects "Search Recipe"
+ui -> cont : onSearchRecipe(query)
+cont -> cookbook : Search for recipe by name
+cookbook -> cont : Return filtered recipes
+cont -> ui : Display search results
+ui -> user : View search results or retry
 @enduml
 ```

@@ -24,14 +24,14 @@
 
 ## 5. Workflow
 
-Casual workflow for _manage_recipes_:
+Fully dressed workflow for _manage_recipes_:
 
 ```plantuml
 @startuml
 
 skin rose
 
-title Manage Recipes (casual level)
+title Manage Recipes (fully dressed level)
 
 'define the lanes
 |#application|User|
@@ -66,6 +66,7 @@ stop
 else
 stop
 @enduml
+
 ```
 
 ## 6. Sequence Diagram
@@ -74,41 +75,38 @@ stop
 @startuml
 skin rose
 
-hide footbox
-
 actor User as user
 participant ": UI" as ui
-participant ": Controller"  as cont
-participant ": Cookbook" as cb
-participant ": Recipe" as rec
-
+participant ": Controller" as cont
+participant ": Pantry" as pantry
+participant ": Recipe" as recipe
+participant ": Cookbook" as cookbook
+participant ": GenerateRecipe" as genRecipe
+participant ": RecipeFragment" as recipeFragment
+participant ": AddRecipeFragment" as addRecipeFragment
 
 user -> ui : Selects "View Cookbook"
-ui -> cont : viewCookbook()
-cont -> cb : Retrieve all recipes
-cb --> cont : Return list of recipes
-cont --> ui : Display list of recipes
+ui -> cont : onViewCookbookMenu()
+cont -> cookbook : CookbookFragment.newInstance()
+cookbook --> ui : Display recipes
 
 user -> ui : Selects "Upload Recipe"
-ui -> cont : uploadRecipe(name, description, cookTime, servingSize, ingredients, instructions)
-cont -> cb : Add new recipe to database
-cb -> rec **: rec = create(name,quantity,unit,tags)
-cb --> cont : Confirmation
-cont --> ui : "Recipe uploaded successfully"
+ui -> cont : onNavigateToAddRecipe()
+cont -> addRecipeFragment : AddRecipeFragment.newInstance()
+addRecipeFragment --> ui : Show Add Recipe Form
 
-user -> ui : Selects "Search Recipe by Name"
-ui -> cont : searchRecipeByName(name)
-cont -> cb : Search recipes by name
-cb --> cont : Return matched recipes
-cont --> ui : Display matched recipes
+user -> ui : Inputs recipe details
+ui -> cont : onRecipeCreated(name, ingredients, instructions)
+cont -> recipe : Create new Recipe object
+recipe -> cookbook : Add recipe to cookbook
+cookbook --> cont : Confirmation
+cont --> ui : Show "Recipe uploaded successfully"
 
-user -> ui : Selects "Generate Recipe Suggestions"
-ui -> cont : generateRecipeSuggestions()
-cont -> genRecipe : Instantiate Generate_Recipe(pantry, allRecipes)
-genRecipe -> cb : Fetch recipes and pantry items
-genRecipe --> cont : Return suggested recipes
-cont --> ui : Display suggested recipes
-
+user -> ui : Selects "Search Recipe"
+ui -> cont : onSearchRecipe(query)
+cont -> cookbook : Filter recipes by query
+cookbook --> cont : Return filtered recipes
+cont --> ui : Display filtered recipes
 
 @enduml
 ````

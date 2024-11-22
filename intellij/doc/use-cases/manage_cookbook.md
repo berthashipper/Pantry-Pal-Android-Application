@@ -47,18 +47,18 @@ start
 :Receive user action;
 
 if (View saved recipes) then
-    :Retrieve and display list of saved recipes;
+    :Call controller to fetch and display list of saved recipes;
     |User|
     :Select a recipe to view details;
     |Recipe Management System|
-    :Retrieve recipe details;
+    :Call controller to retrieve recipe details;
     :Display recipe details (name, ingredients, instructions);
 else (Upload new recipe)
-    :Present option to upload new recipe;
+    :Call controller to present option to upload new recipe;
     |User|
     :Upload new recipe details (name, ingredients, instructions);
     |Recipe Management System|
-    :Save recipe to cookbook;
+    :Call controller to save recipe to cookbook;
     :Display confirmation of save action;
 endif
 
@@ -67,6 +67,7 @@ endif
 
 stop
 @enduml
+
 ```
 
 ## 6. Sequence Diagram
@@ -80,35 +81,36 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": Recipe" as rec
+participant ": CookbookFragment" as cf
+participant ": RecipeAdapter" as ra
+participant ": RecipeDetailFragment" as rdf
+participant ": AddRecipeFragment" as arf
 
 user -> ui: Open cookbook
-ui -> user: Display cookbook menu options ("View Saved Recipes" or "Upload New Recipe")
-user -> ui: Choose an action
+ui -> cf: Display CookbookFragment
+cf -> cont: onViewCookbookMenu()
+cont -> cf: CookbookFragment.newInstance()
+cf -> ui: Display recipe list
+cf -> ra: Set up RecyclerView with recipes
+ra -> ui: Display list of saved recipes
+ui -> user: Show saved recipes
 
-alt View Saved Recipes
-    ui -> cont: Request saved recipes list
-    cont -> rec: Retrieve saved recipes
-    rec -> cont: Return list of saved recipes
-    cont -> ui: Display list of saved recipes
-    ui -> user: Show saved recipes
+user -> ui: Select recipe to view details
+ui -> cont: onRecipeClick(recipe)
+cont -> rdf: Display RecipeDetailFragment
+rdf -> ui: Show recipe details (name, ingredients, instructions)
+ui -> user: Show recipe details
 
-    user -> ui: Select recipe to view details
-    ui -> cont: Request recipe details
-    cont -> rec: Fetch recipe details (name, ingredients, instructions)
-    rec -> cont: Return recipe details
-    cont -> ui: Display recipe details
-    ui -> user: Show recipe details
+user -> ui: Add new recipe
+ui -> cont: onNavigateToAddRecipe()
+cont -> arf: Display AddRecipeFragment
 
-else Upload New Recipe
-    ui -> user: Prompt user to enter new recipe details
-    user -> ui: Enter new recipe details (name, ingredients, instructions)
-    ui -> cont: Send new recipe data
-    cont -> rec: Save new recipe to cookbook
-    rec -> cont: Confirm save action
-    cont -> ui: Display confirmation message
-    ui -> user: Show confirmation of saved recipe
-end
+user -> ui: Enter new recipe details
+ui -> cont: onRecipeCreated(newRecipe)
+cont -> cf: Update recipes list with new recipe
+cf -> ui: Display updated CookbookFragment with new recipe
+ui -> user: Show confirmation of saved recipe
 
 @enduml
+
 ```

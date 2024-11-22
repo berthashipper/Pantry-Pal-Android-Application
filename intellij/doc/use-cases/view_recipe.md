@@ -37,26 +37,22 @@ title View Recipe (fully-dressed level)
 
 |User|
 start
-:Execute __search_recipes__;
+:Select option (View Cookbook);
 |Recipe Management System|
-:Retrieve list of matching recipes;
-:Display search results to user;
+:Display list of recipes;
 
 |User|
 :Select a recipe to view;
 |Recipe Management System|
-:Retrieve recipe details;
+:Navigate to RecipeDetailFragment;
 :Display recipe details (name, ingredients, instructions);
 
 |User|
-:Decide whether to use or save the recipe;
-if (save) is (yes) then
-:Execute __save_recipe__;
-stop
-else (no)
-:Can search again or stop;
+:Decide whether to go back to Cookbook;
+:Navigate back to CookbookFragment;
 stop
 @enduml
+
 ```
 
 ## 6. Sequence Diagram
@@ -70,28 +66,24 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": Recipe" as rec
+participant ": Cookbook" as cookbook
+participant ": Recipe" as recipe
+participant ": RecipeDetailFragment" as recipeDetailFragment
 
-ui -> user: Present list of relevant recipes
-user -> ui: Select a recipe to view details of
-ui -> cont: Communicate recipe choice
-cont -> rec: recipe.printRecipeDetails()
-rec -> cont: Return recipe details (name, ingredients, instructions)
-cont -> ui: Display recipe details
-ui -> user: Present recipe details
+user -> ui : Selects "View Cookbook"
+ui -> cont : onViewCookbookMenu()
+cont -> cookbook : CookbookFragment.newInstance()
+cookbook --> ui : Display list of recipes
 
-loop User decides to save or not
-    ui -> user: Give user option to save recipe to cookbook
-    user -> ui: Choose to save recipe
-    alt User chooses to save
-        ui -> cont: recipe.save()
-        cont -> rec: recipe.save()
-        rec -> cont: Recipe saved to cookbook
-        cont -> ui: Recipe has been saved
-        ui -> user: Tell user recipe has been saved
-    else User does not save
-        ui -> user: Recipe not saved, user can search again or exit
-    end
+user -> ui : Selects a recipe to view
+ui -> cont : onRecipeClick(recipe)
+cont -> recipeDetailFragment : RecipeDetailFragment.newInstance(recipe)
+recipeDetailFragment --> ui : Display recipe details
+
+user -> ui : Selects "Done" to return to Cookbook
+ui -> cont : onDoneViewingRecipe()
+cont -> cookbook : CookbookFragment.newInstance()
+cookbook --> ui : Display list of recipes
 
 @enduml
 ```
