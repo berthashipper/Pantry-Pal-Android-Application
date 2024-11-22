@@ -6,6 +6,7 @@ import androidx.test.espresso.Espresso;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -60,6 +61,42 @@ public class GenerateRecipesInstrumentedTest {
     }
 
     /**
+     * Tests whether generating recipes works after adding the ingredients
+     * that are slightly different from the ones in the recipe.
+     */
+    @org.junit.Test
+    public void testGenerateRecipesForComplexIngredients() {
+        // Navigate to Add Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
+                .perform(ViewActions.click());
+
+        addIngredient("garlic", "3", "cloves");
+        addIngredient("beef", "400", "grams");
+        addIngredient("spaghetti", "300", "grams");
+        addIngredient("oil", "2", "bottles");
+        addIngredient("onion", "3", "heads");
+        addIngredient("sauce", "400", "ml");
+
+        // Navigate back to the Pantry view
+        Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(3000);
+
+        // Navigate to Generate Recipes
+        Espresso.onView(ViewMatchers.withId(R.id.generateRecipesMenuButton))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(5000);
+
+        // Verify that the Spaghetti Bolognese recipe is displayed even
+        // though ingredients don't match exactly — this is good!
+        Espresso.onView(ViewMatchers.withText("Spaghetti Bolognese"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+    }
+
+    /**
      * Tests whether the app correctly shows a no recipes message
      * when there are no matching recipes.
      */
@@ -84,16 +121,18 @@ public class GenerateRecipesInstrumentedTest {
      * @param unit  the unit of the ingredient.
      */
     private void addIngredient(String name, String qty, String unit) {
+        // Wait until the "Add Ingredient" form is visible
+        Espresso.onView(ViewMatchers.withId(R.id.itemNameText))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
         typeText(R.id.itemNameText, name);
         typeText(R.id.itemQtyText, qty);
         typeText(R.id.itemUnitText, unit);
 
         // Click "Add" button
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton))
-                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
-        // Wait for UI updates
-        SystemClock.sleep(500);
+        SystemClock.sleep(2000);
     }
 
     /**

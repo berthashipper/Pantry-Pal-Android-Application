@@ -64,7 +64,6 @@ public class AddIngredientsInstrumentedTest {
 
         // Wait for UI updates
         SystemClock.sleep(5000);
-        //scroll to and then click
 
         // Click "Done" button
         Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());

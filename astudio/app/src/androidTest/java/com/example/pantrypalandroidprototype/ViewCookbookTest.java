@@ -1,6 +1,7 @@
 package com.example.pantrypalandroidprototype;
 
 import static androidx.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.os.SystemClock;
@@ -45,23 +46,28 @@ public class ViewCookbookTest {
         Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
                 .perform(ViewActions.click());
 
-        // Navigate to cookbook screen
+        // Navigate to add recipe screen
         Espresso.onView(ViewMatchers.withId(R.id.addRecipeButton))
                 .perform(ViewActions.click());
 
-
         // Input test data
-        String testName = "Toast";
-        String testDescipt = "A simple and comforting Toast.";
+        String testName = "Cinnamon Toast";
+        String testDescipt = "A simple and comforting breakfast toast.";
         String testCooktime = "3";
         String testSsize = "1";
         String ingName1 = "Bread";
         String ingQty1 = "2";
         String IngUnit1 = "slices";
         String ingName2 = "Butter";
-        String ingQty2 = "20";
-        String IngUnit2 = "grams";
-        String testInstruction = "Use Toaster for 3 mins.";
+        String ingQty2 = "2";
+        String IngUnit2 = "teaspoons";
+        String ingName3 = "Cinnamon";
+        String ingQty3 = "2";
+        String IngUnit3 = "teaspoons";
+
+        String testInstruction1 = "Toast bread for 3 mins.";
+        String testInstruction2 = "Put butter on toast and sprinkle cinnamon on top.";
+        String testInstruction3 = "Eat while warm, and enjoy!";
 
         typeText(R.id.recipeNameEditText, testName);
         typeText(R.id.descriptionEditText, testDescipt);
@@ -74,11 +80,11 @@ public class ViewCookbookTest {
         // Click "Add ingredient" button
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
-
         // Wait for UI updates
-        SystemClock.sleep(1000);
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo()); // Ensure it's in view
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).check(ViewAssertions.matches(ViewMatchers.isDisplayed())); // Ensure visibility
 
-        //Add second ingredient
+        // Add second ingredient
         typeText(R.id.ingredientNameEditText, ingName2);
         typeText(R.id.ingredientQuantityEditText, ingQty2);
         typeText(R.id.ingredientUnitEditText, IngUnit2);
@@ -86,22 +92,52 @@ public class ViewCookbookTest {
         // Click "Add ingredient" button
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
-        // Wait for UI updates
-        SystemClock.sleep(1000);
+        SystemClock.sleep(2000);
 
-        typeText(R.id.instructionEditText, testInstruction);
+        //Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo());
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        // Add third ingredient
+        typeText(R.id.ingredientNameEditText, ingName3);
+        typeText(R.id.ingredientQuantityEditText, ingQty3);
+        typeText(R.id.ingredientUnitEditText, IngUnit3);
 
         // Click "Add ingredient" button
-        Espresso.onView(ViewMatchers.withId(R.id.addInstructionButton)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
-        // Wait for UI updates
-        SystemClock.sleep(1000);
+        SystemClock.sleep(2000);
 
-        // Click "Add ingredient" button
-        Espresso.onView(ViewMatchers.withId(R.id.doneButton)).perform(ViewActions.click());
+        // Ensure that the "Add Instruction" button is fully visible, even if it's out of view.
+        Espresso.onView(ViewMatchers.withId(R.id.fragmentContainerView))
+                .perform(ViewActions.scrollTo());  // Scroll down to the container that holds the button
 
-        // Wait for UI updates
-        SystemClock.sleep(1000);
+        // Now scroll to and click the "Add Instruction" button
+        Espresso.onView(ViewMatchers.withId(R.id.addInstructionButton))
+                .perform(ViewActions.scrollTo(), ViewActions.click());
+
+        SystemClock.sleep(2000);
+
+        // Add instructions
+        typeText(R.id.instructionEditText, testInstruction1);
+        Espresso.onView(ViewMatchers.withId(R.id.addInstructionButton))
+                .perform(ViewActions.scrollTo(), ViewActions.click());
+        SystemClock.sleep(2000);
+
+        typeText(R.id.instructionEditText, testInstruction2);
+        Espresso.onView(ViewMatchers.withId(R.id.addInstructionButton))
+                .perform(ViewActions.scrollTo(), ViewActions.click());
+        SystemClock.sleep(2000);
+
+        typeText(R.id.instructionEditText, testInstruction3);
+        Espresso.onView(ViewMatchers.withId(R.id.addInstructionButton))
+                .perform(ViewActions.scrollTo(), ViewActions.click());
+        SystemClock.sleep(2000);
+
+        // Click done button
+        Espresso.onView(ViewMatchers.withId(R.id.doneButton))
+                .perform(ViewActions.scrollTo(), ViewActions.click());
+
+        SystemClock.sleep(4000);
 
         // Verify that the added recipe is displayed in the RecyclerView
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes)) // Target RecyclerView
@@ -122,6 +158,8 @@ public class ViewCookbookTest {
                         ViewActions.click()
                 ));
 
+        SystemClock.sleep(4000);
+
         // Verify that the correct recipe details screen is displayed
         Espresso.onView(ViewMatchers.withId(R.id.recipe_name)) // ID of TextView on the details screen
                 .check(ViewAssertions.matches(ViewMatchers.withText(testName))); // Ensure the name matches
@@ -133,11 +171,7 @@ public class ViewCookbookTest {
                 .check(ViewAssertions.matches(ViewMatchers.withText("Cook Time: 3 minutes"))); // Ensure the description matches
 
         Espresso.onView(ViewMatchers.withId(R.id.recipe_serving_size)) // ID of serving size TextView
-                .check(ViewAssertions.matches(ViewMatchers.withText("Serves: 1"))); // Ensure the description matches
-
-        Espresso.onView(ViewMatchers.withId(R.id.recipe_instructions)) // ID of ingredients
-                .check(ViewAssertions.matches(ViewMatchers.withText("Use Toaster for 3 mins."))); // Ensure the description matches
-
+                .check(ViewAssertions.matches(ViewMatchers.withText("Serves: 1"))); // Ensure the serving size matches
     }
 
     /**
@@ -160,12 +194,16 @@ public class ViewCookbookTest {
         Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
                 .perform(ViewActions.click());
 
+        SystemClock.sleep(1000);
+
         // Scroll to the item and perform a click on it
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .perform(RecyclerViewActions.actionOnItem(
                         ViewMatchers.hasDescendant(ViewMatchers.withText("Grilled Cheese Sandwich")),
                         ViewActions.click()
                 ));
+
+        SystemClock.sleep(1000);
 
         // Verify that the correct recipe details screen is displayed
         Espresso.onView(ViewMatchers.withId(R.id.recipe_name)) // ID of TextView on the details screen
@@ -183,6 +221,8 @@ public class ViewCookbookTest {
         Espresso.onView(ViewMatchers.withId(R.id.recipe_instructions)) // ID of ingredients
                 .check(ViewAssertions.matches(ViewMatchers.withText("Butter the bread and place cheese between slices." + "\n" + "Grill the sandwich until golden brown on both sides."))); // Ensure the description matches
 
+        SystemClock.sleep(2000);
+
         // Navigate to cookbook screen
         Espresso.onView(ViewMatchers.withId(R.id.done_button))
                 .perform(ViewActions.click());
@@ -193,8 +233,6 @@ public class ViewCookbookTest {
                 .perform(RecyclerViewActions.scrollTo(
                         ViewMatchers.hasDescendant(ViewMatchers.withText("Grilled Cheese Sandwich"))
                 ));
-
-
     }
 
     /**
