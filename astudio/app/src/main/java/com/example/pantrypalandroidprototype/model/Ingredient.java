@@ -6,10 +6,10 @@ import java.util.Set;
 
 
 public class Ingredient implements Serializable {
-    private final String name;
-    private double quantity;
-    private final String unit;
-    private final Set<String> tags;
+    public final String name;
+    public double quantity;
+    public final String unit;
+    public final Set<String> tags;
 
     // Enum for dietary tags
     public enum dietary_tags {
@@ -66,6 +66,11 @@ public class Ingredient implements Serializable {
     // toString method to print ingredient
     @Override
     public String toString() {
-        return "Ingredient: " + name + ", Quantity: " + quantity + " " + unit + ", Tags: " + tags;
+        StringBuilder ingredientDetails = new StringBuilder();
+        ingredientDetails.append("• ").append(name).append("\n")
+                .append("   Quantity: ").append(quantity).append(" ").append(unit).append("\n")
+                .append("   Tags: ").append(tags.isEmpty() ? "None" : String.join(", ", tags)).append("\n");
+        return ingredientDetails.toString();
     }
+
 }

@@ -108,6 +108,14 @@ public class Pantry implements Serializable {
         return this.ingredientList.size();
     }
 
+    public boolean has_ingredient(String name) {
+        return ingredientList.containsKey(name.toLowerCase());
+    }
+
+    public List<Ingredient> getAllIngredients() {
+        return new ArrayList<>(ingredientList.values());
+    }
+
     @Override
     public String toString() {
         StringBuilder pantryContents = new StringBuilder("🛒 Pantry Contents:\n\n");
@@ -122,16 +130,6 @@ public class Pantry implements Serializable {
                         .append("   Tags: ").append(ing.getTags().isEmpty() ? "None" : String.join(", ", ing.getTags())).append("\n\n");
             }
         }
-
         return pantryContents.toString();
     }
-
-    public boolean has_ingredient(String name) {
-        return ingredientList.containsKey(name.toLowerCase());
-    }
-
-    public List<Ingredient> getAllIngredients() {
-        return new ArrayList<>(ingredientList.values());
-    }
-
 }
