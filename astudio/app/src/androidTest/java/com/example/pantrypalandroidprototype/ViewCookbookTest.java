@@ -175,16 +175,6 @@ public class ViewCookbookTest {
     }
 
     /**
-     * Tests "Search Recipe" functionality.
-     */
-    @Test
-    public void testSearchRecipe() {
-        // Navigate to cookbook screen
-        Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
-                .perform(ViewActions.click());
-    }
-
-    /**
      * Tests click on Recipe blocks the details of the recipe is shown correctly.
      * Tests "BackToCookbook" functionality.
      */
