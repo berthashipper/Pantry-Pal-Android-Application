@@ -162,4 +162,16 @@ public class PantryTest extends TestCase {
         // Act & Assert
         pantry.printGroceryList();
     }
+    /**
+     * Tests that the has_ingredient method returns true when an ingredient exists in the list.
+     */
+    @Test
+    public void testHasIngredientWhenExists() {
+        // The ingredient 'Butter' exists, so this should return true
+        Pantry pantry = new Pantry();
+        pantry.add_ingredient("Butter", 1, "tablespoons", Set.of(Ingredient.dietary_tags.VEGETARIAN));
+
+        assertTrue(pantry.has_ingredient("Butter"));
+        assertFalse(pantry.has_ingredient("Sugar"));
+    }
 }
