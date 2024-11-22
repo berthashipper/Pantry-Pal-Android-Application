@@ -1,4 +1,4 @@
-package com.example.pantrypalandroidprototype;
+package com.example.pantrypalandroidprototype.androidTest;
 
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -13,6 +13,7 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 
 import org.junit.Rule;

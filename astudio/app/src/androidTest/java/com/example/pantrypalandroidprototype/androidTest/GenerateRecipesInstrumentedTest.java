@@ -1,9 +1,8 @@
-package com.example.pantrypalandroidprototype;
+package com.example.pantrypalandroidprototype.androidTest;
 
 import android.os.SystemClock;
 
 import androidx.test.espresso.Espresso;
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
@@ -11,10 +10,10 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /**
