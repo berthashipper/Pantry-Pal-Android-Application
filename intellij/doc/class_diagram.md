@@ -140,11 +140,11 @@ Controller "1" -right- "1" Generate_Recipe : \tUses\t\t
 Controller "1" -down- "1" Pantry : \tManages\t\t
 Controller "1" -down- "1" Cookbook : \tManages\t\t
 
-Pantry "1" -up- "*" Ingredient : \tContained-in\t\t
+Pantry "1" *--up- "*" Ingredient : \tContained-in\t\t
 RecipeBuilder "1..*" -down- "1..*" Recipe : \tConstructs\t\t
 Generate_Recipe "1" -down "*" Recipe : \tSuggests\t\t
 
-Cookbook "1" -down- "*" Recipe : \tAggregates\t\t
+Cookbook "1" *--down- "*" Recipe : \tAggregates\t\t
 
 @enduml
 
