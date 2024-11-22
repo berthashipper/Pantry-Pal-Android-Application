@@ -1,7 +1,6 @@
 package com.example.pantrypalandroidprototype.model;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +10,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantrypalandroidprototype.R;
-import com.example.pantrypalandroidprototype.view.RecipeDetailActivity;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
-    private List<Recipe> recipes;
-    private Context context;
-    private OnRecipeClickListener onRecipeClickListener;
+    public List<Recipe> recipes;
+    public Context context;
+    public OnRecipeClickListener onRecipeClickListener;
 
     public RecipeAdapter(List<Recipe> recipes, Context context, OnRecipeClickListener onRecipeClickListener) {
         this.recipes = recipes;

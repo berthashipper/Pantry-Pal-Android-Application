@@ -9,14 +9,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class RecipeBuilder implements Serializable {
-    private String recipeName;
-    private Set<Ingredient> ingredients = new HashSet<>();
-    private List<String> instructions = new ArrayList<>();  // Store instructions in a list
-    private Set<Ingredient.dietary_tags> tags = new HashSet<>();
-    private String description;
-    private Duration cookTime;
-    private int servingSize;
-    private String url;
+    public String recipeName;
+    public Set<Ingredient> ingredients = new HashSet<>();
+    public List<String> instructions = new ArrayList<>();  // Store instructions in a list
+    public Set<Ingredient.dietary_tags> tags = new HashSet<>();
+    public String description;
+    public Duration cookTime;
+    public int servingSize;
+    public String url;
 
     // Set the recipe name
     public RecipeBuilder setName(String name) {

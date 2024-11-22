@@ -1,10 +1,5 @@
 package com.example.pantrypalandroidprototype.model;
 
-//import org.json.JSONArray;
-//import org.json.JSONObject;
-
-import androidx.core.graphics.BitmapKt;
-
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -35,29 +30,6 @@ public class Recipe implements Serializable {
         this.servingSize = servingSize;
         this.url = url; // Initialize URL
     }
-
-    /*
-    // Method to print recipe details
-    public void printRecipeDetails() {
-        System.out.println("Recipe: " + recipeName);
-        System.out.println("Description: " + recipeDescription);
-        System.out.println("Cook Time: " + (cookTime != null ? cookTime.toMinutes() : 0) + " minutes");
-        System.out.println("Serves: " + servingSize);
-        System.out.println("\nIngredients:");
-
-        // Print each ingredient with its details
-        for (Ingredient ingredient : ingredientsInRecipe) {
-            System.out.println("- " + ingredient.getQuantity() + " " + ingredient.getUnit() + " of " + ingredient.getName());
-        }
-
-        // Print the instructions
-        System.out.println("\nInstructions:");
-        String[] steps = instructions.split("\n");
-        for (int i = 0; i < steps.length; i++) {
-            System.out.println((i + 1) + ". " + steps[i].trim());
-        }
-    }
-     */
 
     // Getter for ingredients
     public Set<Ingredient> getIngredients() {

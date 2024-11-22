@@ -2,7 +2,6 @@ package com.example.pantrypalandroidprototype.model;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +11,7 @@ import org.apache.commons.text.similarity.LevenshteinDistance;
 public class GenerateRecipe implements Serializable {
     Pantry userPantry;
     Set<Recipe> allRecipes;
-    private static final int SIMILARITY_THRESHOLD = 3; // Adjust based on desired strictness
+    static final int SIMILARITY_THRESHOLD = 3;
 
     // Constructor
     public GenerateRecipe(Pantry userPantry, Set<Recipe> allRecipes) {
