@@ -23,14 +23,14 @@
 
 ## 5. Workflow
 
-Casual workflow for _search_ingredient_:
+Fully dressed workflow for _search_ingredient_:
 
 ```plantuml
 @startuml
 
 skin rose
 
-title Search Ingredient (casual level)
+title Search Ingredient (fully dressed level)
 
 'define the lanes
 |#application|User|
@@ -38,22 +38,22 @@ title Search Ingredient (casual level)
 
 |User|
 start
-:Input search term (e.g., "cheese");
+:Input search query (e.g., "cheese");
 
 |Recipe Management System|
-:Receive search term;
-:Search ingredient list for matches;
-while (Matches found?) is (no)
+:Receive search query;
+:Search for ingredients in pantry;
+while (Ingredients found?) is (no)
 :Notify user that no ingredients were found;
-:Lets user input new parameters;
+:User inputs a new query;
 |User|
-:Inputs new parameters;
+:Input new query;
 endwhile(yes)
 
 |Recipe Management System|
-:Display matching ingredients;
+:Display found ingredients in SearchIngredientFragment;
 |User|
-:See list of matching ingredients in pantry;
+:See list of found ingredients in pantry;
 stop
 @enduml
 ```
@@ -70,24 +70,23 @@ actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
 participant ": Pantry" as pantry
+participant ": SearchIngredientFragment" as fragment
 
-user -> ui : Enter ingredient name to search
-ui -> cont : searchIngredientByName(name)
-cont -> pantry : searchIngredient(name)
-pantry -> cont : return matching ingredients
-cont -> ui : display matching ingredients
+user -> ui : Enter ingredient query
+ui -> cont : onSearchIngredient(query)
+cont -> pantry : searchIngredient(query)
+pantry -> cont : return found ingredients
+cont -> fragment : displayFoundIngredients(foundIngredients)
 
 alt No matches found
-    ui -> user : Notify no ingredients found
-    user -> ui : Enter new search parameters
-    ui -> cont : searchIngredientByName(newName)
-    cont -> pantry : searchIngredient(newName)
-    pantry -> cont : return matching ingredients
-    cont -> ui : display matching ingredients
+    fragment -> ui : showIngredientNotFoundError()
+    user -> ui : Enter new query
+    ui -> cont : onSearchIngredient(query)
+    cont -> pantry : searchIngredient(query)
+    pantry -> cont : return found ingredients
+    cont -> ui : displayFoundIngredients(foundIngredients)
 end
 
-user -> ui : See list of matching ingredients
-
-
+ui -> user : Show list of found ingredients
 @enduml
 ```

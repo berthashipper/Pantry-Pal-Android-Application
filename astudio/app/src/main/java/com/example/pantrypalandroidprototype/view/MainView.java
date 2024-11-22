@@ -50,7 +50,6 @@ public class MainView implements IMainView {
             }
         });
 
-        // Configure app to maximize space usage by drawing on top of system bars
         EdgeToEdge.enable((FragmentActivity) context);
         ViewCompat.setOnApplyWindowInsetsListener(this.binding.getRoot(), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

@@ -15,9 +15,10 @@ This project represents an extensive Java-based prototype developed into the And
 ## Features
 
 ### **Pantry Management**
-- `Add`, `edit`, and `delete` ingredients with intuitive buttons.
+- `Add`, `edit`, `delete`, and `search` ingredients with intuitive buttons.
 - The pantry stores all ingredients, allowing the app to analyze available items for recipe generation.
 - **Example**: Adding `bread` and `cheese` suggests a `Grilled Cheese Sandwich`.
+- **Example**: Searching for `bread` will display both `Whole Wheat Bread` and `White Bread` if those ingredients are added to the pantry.
 
 ### **Recipe Suggestions**
 - The `Generate Recipes` feature provides personalized recipe ideas based on pantry contents.

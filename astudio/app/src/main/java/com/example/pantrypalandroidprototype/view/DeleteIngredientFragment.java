@@ -10,7 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.pantrypalandroidprototype.databinding.FragmentDeleteItemsBinding; // Correct binding import
+import com.example.pantrypalandroidprototype.databinding.FragmentDeleteItemsBinding;
 import com.example.pantrypalandroidprototype.model.Pantry;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -18,7 +18,6 @@ public class DeleteIngredientFragment extends Fragment implements IDeleteIngredi
     FragmentDeleteItemsBinding binding;
     IDeleteIngredientView.Listener listener;
 
-    Pantry pantry;
 
     public static DeleteIngredientFragment newInstance(IDeleteIngredientView.Listener listener) {
         DeleteIngredientFragment fragment = new DeleteIngredientFragment();
@@ -39,7 +38,6 @@ public class DeleteIngredientFragment extends Fragment implements IDeleteIngredi
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Set up the delete button click listener
         binding.deleteIngredientButton.setOnClickListener(v -> onDeleteButtonClicked());
         binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
     }

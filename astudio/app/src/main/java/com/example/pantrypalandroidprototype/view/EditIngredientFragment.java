@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,7 +16,6 @@ import com.google.android.material.snackbar.Snackbar;
 public class EditIngredientFragment extends Fragment implements IEditIngredientView {
     FragmentEditItemsBinding binding;
     Listener listener;
-    Pantry pantry;
 
     public static EditIngredientFragment newInstance(Listener listener) {
         EditIngredientFragment fragment = new EditIngredientFragment();

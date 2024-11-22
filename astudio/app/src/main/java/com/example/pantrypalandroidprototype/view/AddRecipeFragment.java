@@ -1,6 +1,5 @@
 package com.example.pantrypalandroidprototype.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 import com.example.pantrypalandroidprototype.databinding.FragmentAddRecipeBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
@@ -162,7 +160,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
     public void onSaveRecipe() {
         Recipe newRecipe = recipeBuilder.build();
         if (listener != null) {
-            listener.onRecipeCreated(newRecipe); // Notify the listener (ControllerActivity)
+            listener.onRecipeCreated(newRecipe);
         }
     }
 }

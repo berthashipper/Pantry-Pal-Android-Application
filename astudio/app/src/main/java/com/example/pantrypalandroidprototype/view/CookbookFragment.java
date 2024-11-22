@@ -67,7 +67,6 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
             recipes = (Set<Recipe>) getArguments().getSerializable("recipes");
         }
 
-        // Notify the listener (ControllerActivity) of the recipes
         if (listener != null) {
             listener.onCookbookRecipesLoaded(recipes);
 
@@ -83,6 +82,7 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
 
     public static Set<Recipe> getAllRecipes() {
         Set<Recipe> recipes = new HashSet<>();
+        // Initializing pre-loaded recipes
 
         // Recipe 1: Spaghetti Bolognese
         recipes.add(new RecipeBuilder()
@@ -285,7 +285,7 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
         this.recipes = recipes;
         if (recipeAdapter != null) {
             recipeAdapter.updateRecipes(new ArrayList<>(recipes)); // Refresh the data in the adapter
-            recipeAdapter.notifyDataSetChanged(); // Notify changes
+            recipeAdapter.notifyDataSetChanged();
         }
     }
 

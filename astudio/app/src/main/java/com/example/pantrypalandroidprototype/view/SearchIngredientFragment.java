@@ -36,7 +36,6 @@ public class SearchIngredientFragment extends Fragment implements ISearchIngredi
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Set up listeners
         binding.searchButton.setOnClickListener(v -> onSearchButtonClicked());
         binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
     }
@@ -69,6 +68,4 @@ public class SearchIngredientFragment extends Fragment implements ISearchIngredi
         }
         binding.searchResultsTextView.setText(result.toString());
     }
-
-
 }

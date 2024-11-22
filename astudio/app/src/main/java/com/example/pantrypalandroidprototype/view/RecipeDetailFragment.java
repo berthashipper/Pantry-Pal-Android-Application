@@ -38,7 +38,7 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof Listener) {
-            listener = (Listener) context; // Ensure this is properly set
+            listener = (Listener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement Listener");
         }
@@ -74,7 +74,7 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
         recipeCookTime.setText("Cook Time: " + formatCookTime(recipe.cookTime));
         recipeServingSize.setText("Serves: " + recipe.servingSize);
 
-        // Dynamically add ingredients to the layout
+        // Add ingredients to the layout
         for (Ingredient ingredient : recipe.getIngredients()) {
             TextView ingredientView = new TextView(getContext());
             ingredientView.setText(ingredient.getQuantity() + " " + ingredient.getUnit() + " of " + ingredient.getName());

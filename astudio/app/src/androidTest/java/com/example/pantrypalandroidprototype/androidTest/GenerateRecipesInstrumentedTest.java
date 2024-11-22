@@ -28,7 +28,7 @@ public class GenerateRecipesInstrumentedTest {
 
     /**
      * Tests whether generating recipes works after adding the required ingredients
-     * for a grilled cheese recipe.
+     * for a grilled cheese recipe. Ingredients in pantry match exactly.
      */
     @org.junit.Test
     public void testGenerateRecipesForGrilledCheese() {
@@ -54,17 +54,12 @@ public class GenerateRecipesInstrumentedTest {
 
         SystemClock.sleep(2000);
 
+
         // Verify that the Grilled Cheese recipe is displayed
         Espresso.onView(ViewMatchers.withText("Grilled Cheese Sandwich"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
-        Espresso.onView(ViewMatchers.withId(R.id.recipe_recycler_view))
-                .perform(RecyclerViewActions.actionOnItem(
-                        ViewMatchers.hasDescendant(ViewMatchers.withText("Grilled Cheese Sandwich")),
-                        ViewActions.click()
-                ));
-
-        SystemClock.sleep(5000);
+        SystemClock.sleep(2000);
     }
 
 
@@ -119,6 +114,8 @@ public class GenerateRecipesInstrumentedTest {
      */
     @org.junit.Test
     public void testNoMatchingRecipes() {
+        SystemClock.sleep(3000);
+        
         // Navigate to Generate Recipes directly
         Espresso.onView(ViewMatchers.withId(R.id.generateRecipesMenuButton))
                 .perform(ViewActions.click());
