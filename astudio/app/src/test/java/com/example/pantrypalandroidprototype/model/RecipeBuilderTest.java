@@ -11,9 +11,15 @@ import org.junit.Test;
  * Unit tests for the {@link RecipeBuilder} class, verifying its functionality for building Recipes.
  */
 
-
 public class RecipeBuilderTest extends TestCase {
 
+    /**
+     * Tests the {@link RecipeBuilder#addIngredient(Ingredient)} method to ensure that ingredients
+     * are correctly added to the recipe.
+     *
+     * Asserts:
+     * - The ingredient should be present in the recipe's ingredients list.
+     */
     @Test
     public void testAddIngredient() {
         RecipeBuilder builder = new RecipeBuilder();
@@ -24,6 +30,14 @@ public class RecipeBuilderTest extends TestCase {
         assertTrue(recipe.getIngredients().contains(ingredient));
     }
 
+    /**
+     * Tests the {@link RecipeBuilder#addIngredient(String, int, String, Set)} method to ensure that ingredients
+     * can be added using a simplified format (ingredient name, quantity, unit, and dietary tags).
+     *
+     * Asserts:
+     * - The recipe should have exactly one ingredient (Potato).
+     * - The ingredient should have the correct name, quantity, and unit.
+     */
     @Test
     public void testTestAddIngredient() {
         RecipeBuilder builder = new RecipeBuilder();
@@ -35,6 +49,14 @@ public class RecipeBuilderTest extends TestCase {
                 .anyMatch(i -> i.getName().equals("Potato") && i.getQuantity() == 5 && i.getUnit().equals("kg")));
     }
 
+    /**
+     * Tests the {@link RecipeBuilder#addInstruction(String)} method to ensure that multiple instructions
+     * can be added to the recipe, and that the instructions are correctly formatted.
+     *
+     * Asserts:
+     * - All instructions should be present in the final recipe.
+     * - Instructions should be separated by newlines.
+     */
     @Test
     public void testAddInstruction() {
         RecipeBuilder builder = new RecipeBuilder();
@@ -50,6 +72,13 @@ public class RecipeBuilderTest extends TestCase {
         assertTrue(instructions.contains("\n")); // Check if instructions are joined by newline
     }
 
+    /**
+     * Tests the {@link RecipeBuilder#addTag(Ingredient.dietary_tags)} method to ensure that dietary tags
+     * are correctly added to the recipe.
+     *
+     * Asserts:
+     * - The recipe should contain the tags VEGAN and GLUTEN_FREE.
+     */
     public void testAddTag() {
         RecipeBuilder builder = new RecipeBuilder();
         builder.addTag(Ingredient.dietary_tags.VEGAN);
@@ -60,6 +89,14 @@ public class RecipeBuilderTest extends TestCase {
         assertTrue(recipe.getTags().contains(Ingredient.dietary_tags.GLUTEN_FREE));
     }
 
+    /**
+     * Tests the {@link RecipeBuilder#build()} method to ensure that a fully constructed recipe is correctly built
+     * with all attributes, including ingredients, instructions, tags, and other metadata.
+     *
+     * Asserts:
+     * - The recipe should have the correct name, serving size, instructions, tags, cook time, and URL.
+     * - All the added ingredients, instructions, and tags should be present.
+     */
     @Test
     public void testBuild() {
         RecipeBuilder builder = new RecipeBuilder();
