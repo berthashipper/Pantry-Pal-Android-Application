@@ -25,9 +25,9 @@ This project represents an extensive Java-based prototype developed into the And
 
 ### **Cookbook Management**
 - View a collection of 10 pre-loaded recipes (for now) with detailed instructions, ingredients, preparation steps, cook time, and serving size.
-- Upload personal favorite recipes by clicking the "Upload Recipe" button in the cookbook, and specifying ingredients, steps, cook time, serving size, and a description. Then, add the ingredients to your pantry and see your own recipe suggested to you!
+- Upload personal favorite recipes by clicking the `Upload Recipe` button in the cookbook, and specifying ingredients, steps, cook time, serving size, and a description. Then, add the ingredients to your pantry and see your own recipe suggested to you!
 - **Search Functionality**: Quickly access recipes by name or keyword, including user-added recipes.
-- **Planned Enhancements**: Filter recipes by categories like "dinner," "dessert," or "vegan."
+- **Planned Enhancements**: Filter recipes by categories like `dinner`, `dessert`, or `vegan`.
 
 ### **Navigation**
 - A consistent, accessible menu allows users to switch between features without disruption.
@@ -59,7 +59,7 @@ https://gitlab.cs.vassar.edu/cmpu203-f24-projects/team-2g.git
 ## Limitations
 
 - **Recipe Database**
-  - The recipe database currently includes only 10 pre-loaded recipes. More recipes will be added in future iterations.
+  - The recipe database currently includes only pre-loaded recipes. More recipes will be added in future iterations.
 - **Shopping List**
   - The `View Shopping List` feature is not yet functional and will be implemented in the next iteration.
 - **Ingredient Scaling**
