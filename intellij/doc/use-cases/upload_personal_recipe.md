@@ -28,7 +28,7 @@ Casual workflow for _upload personal recipe_:
 
 skin rose
 
-title Upload Personal Recipe (casual level)
+title Upload Personal Recipe (fully dressed level)
 
 'define the lanes
 |#application|User|
@@ -36,41 +36,35 @@ title Upload Personal Recipe (casual level)
 
 |User|
 start
-:Enters personal recipe name;
-:Enters ingredients for the recipe;
-
+:Select "Upload Recipe";
 |Recipe Management System|
-:Analyze ingredients in the recipe;
+:Navigate to AddRecipeFragment;
+|User|
+:Enter recipe details (name, ingredients, instructions, etc.);
 
 while (Are ingredients valid?) is (no)
   |User|
-  :Error message, prompts user to re-enter or modify
-  invalid ingredients;
-  :Modifies/re-enters ingredients;  
-endwhile(yes) 
+  :Error message for invalid ingredient(s);
+  :Modifies ingredients;
+endwhile(yes)
+
+while (Are instructions valid?) is (no)
+  |User|
+  :Error message for invalid instruction(s);
+  :Modifies instructions;
+endwhile(yes)
 
 |User|
-:Enters preparation steps;
-
+:Click "Done" to submit recipe;
 |Recipe Management System|
-:Analyze preparation steps;
-
-while (Are preparation steps valid?) is (no)
-  |User|
-  :Error message, prompts user to re-enter or modify
-  invalid preparation steps;
-  :Modifies/re-enters preparation steps;  
-endwhile(yes)
-  
-
-|Recipe Management System|
-:Approve recipe;
-:Store approved recipe;
-
+:Validate and build recipe;
+:Add recipe to cookbook;
+:Display RecipeDetailFragment;
+:Update CookbookFragment;
 stop
 
-
 @enduml
+
 ```
 
 ## 6. Sequence Diagram
@@ -84,35 +78,23 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": Recipe Database" as db
+participant ": Recipe" as recipe
+participant ": RecipeDetailFragment" as recipeDetailFragment
+participant ": CookbookFragment" as cookbookFragment
 
-ui -> user : Display main menu
-user -> ui : Select "Upload a Recipe"
-user -> ui : Enter recipe name
-user -> ui : Enter description
-user -> ui : Enter cook time
-user -> ui : Enter serving size
+user -> ui : Selects "Upload Recipe"
+ui -> cont : onNavigateToAddRecipe()
+cont -> ui : Display AddRecipeFragment
+user -> ui : Enters recipe details (name, ingredients, instructions)
+user -> ui : Clicks "Done"
 
-ui -> user : Add ingredients (enter 'done' to finish)
-loop Add ingredients
-    user -> ui : Enter ingredient name
-    user -> ui : Enter quantity
-    user -> ui : Enter unit
-    user -> ui : Enter dietary tags
-    ui -> cont : Add ingredient(ingredient)
-end
-
-user -> ui : Add cooking instructions
-loop Add instructions
-    user -> ui : Enter instruction
-end
-
-ui -> cont : uploadRecipe(name, description, cookTime, servingSize, ingredients, instructions)
-cont -> db : uploadRecipe(recipe)
-db -> cont : confirmation
-cont -> ui : Recipe uploaded successfully!
-
-
+ui -> cont : onRecipeCreated(recipe)
+cont -> recipe : Create Recipe object using RecipeBuilder
+recipe -> cookbookFragment : Add recipe to cookbook
+cookbookFragment --> cont : Recipe added to cookbook
+cont -> ui : Display RecipeDetailFragment
+ui -> recipeDetailFragment : Show Recipe details
+cont -> ui : Update CookbookFragment with new recipe
 
 @enduml
 ```
