@@ -28,23 +28,27 @@ import com.example.pantrypalandroidprototype.view.IEditIngredientView;
 import com.example.pantrypalandroidprototype.view.IMainView;
 import com.example.pantrypalandroidprototype.view.IPantryView;
 import com.example.pantrypalandroidprototype.view.IRecipeDetailView;
+import com.example.pantrypalandroidprototype.view.ISearchIngredientView;
 import com.example.pantrypalandroidprototype.view.ISearchRecipeView;
 import com.example.pantrypalandroidprototype.view.MainView;
 import com.example.pantrypalandroidprototype.view.PantryFragment;
 import com.example.pantrypalandroidprototype.view.RecipeDetailFragment;
 import com.example.pantrypalandroidprototype.view.RecipeFragment;
+import com.example.pantrypalandroidprototype.view.SearchIngredientFragment;
 import com.example.pantrypalandroidprototype.view.SearchRecipeFragment;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class ControllerActivity extends AppCompatActivity
         implements IAddIngredientView.Listener, IPantryView.Listener,
         IDeleteIngredientView.Listener, IEditIngredientView.Listener,
-        ICookbookView.Listener, IAddRecipeView.Listener, IRecipeDetailView.Listener, ISearchRecipeView.Listener {
+        ICookbookView.Listener, IAddRecipeView.Listener, IRecipeDetailView.Listener,
+        ISearchRecipeView.Listener, ISearchIngredientView.Listener {
 
     IMainView mainView;
     Pantry pantry;
@@ -289,5 +293,47 @@ public class ControllerActivity extends AppCompatActivity
     public void onSearchRecipesMenu() {
         SearchRecipeFragment searchRecipeFragment = SearchRecipeFragment.newInstance(this);
         mainView.displayFragment(searchRecipeFragment);
+    }
+
+    @Override
+    public void onSearchIngredient(String query) {
+        // Search for ingredients in the pantry
+        List<Ingredient> foundIngredients = pantry.searchIngredient(query);
+
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+
+        if (!foundIngredients.isEmpty()) {
+            if (currentFragment instanceof SearchIngredientFragment) {
+                // Update the current fragment with found ingredients
+                ((SearchIngredientFragment) currentFragment).displayFoundIngredients(foundIngredients);
+            } else {
+                // Navigate to SearchIngredientFragment and display results
+                SearchIngredientFragment searchIngredientFragment = SearchIngredientFragment.newInstance(this);
+                mainView.displayFragment(searchIngredientFragment);
+                getSupportFragmentManager().executePendingTransactions();
+                searchIngredientFragment.displayFoundIngredients(foundIngredients);
+            }
+        } else if (currentFragment instanceof SearchIngredientFragment) {
+            // Use the current fragment to show the error
+            ((SearchIngredientFragment) currentFragment).showIngredientNotFoundError();
+        } else {
+            // Navigate back to SearchIngredientFragment and show the error
+            SearchIngredientFragment searchIngredientFragment = SearchIngredientFragment.newInstance(this);
+            mainView.displayFragment(searchIngredientFragment);
+            getSupportFragmentManager().executePendingTransactions();
+            searchIngredientFragment.showIngredientNotFoundError();
+        }
+    }
+
+    @Override
+    public void onSearchIngredientDone() {
+        // Navigate back to the PantryFragment view or another fragment
+        mainView.displayFragment(PantryFragment.newInstance(this, pantry));
+    }
+
+    @Override
+    public void onSearchIngredientsMenu() {
+        SearchIngredientFragment searchIngredientFragment = SearchIngredientFragment.newInstance(this);
+        mainView.displayFragment(searchIngredientFragment);
     }
 }

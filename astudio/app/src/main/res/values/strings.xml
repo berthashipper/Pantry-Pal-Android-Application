@@ -65,6 +65,12 @@
     <string name="new_quantity">New Quantity</string>
     <string name="ingredient_name">Ingredient Name</string>
     <string name="cancel">Cancel</string>
+    <string name="pantry">Pantry</string>
+    <string name="add">Add</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="search">Search</string>
+    <string name="view_pantry">View Pantry</string>
 
 
 </resources>

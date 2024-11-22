@@ -160,7 +160,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
 
     @Override
     public void onSaveRecipe() {
-        Recipe newRecipe = recipeBuilder.build(); // Assume recipeBuilder holds the current recipe data
+        Recipe newRecipe = recipeBuilder.build();
         if (listener != null) {
             listener.onRecipeCreated(newRecipe); // Notify the listener (ControllerActivity)
         }

@@ -67,6 +67,7 @@ public class GenerateRecipesInstrumentedTest {
         SystemClock.sleep(5000);
     }
 
+
     /**
      * Tests whether generating recipes works after adding the ingredients
      * that are slightly different from the ones in the recipe.

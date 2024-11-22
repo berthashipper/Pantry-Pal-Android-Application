@@ -15,6 +15,7 @@ public interface IPantryView {
         void onEditIngredientsMenu();
         void onViewCookbookMenu();
         void onGenerateRecipes();
+        void onSearchIngredientsMenu();
     }
 
 }
