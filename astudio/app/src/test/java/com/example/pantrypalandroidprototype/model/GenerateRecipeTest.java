@@ -1,5 +1,4 @@
 package com.example.pantrypalandroidprototype.model;
-
 import junit.framework.TestCase;
 
 import org.junit.Test;
@@ -7,13 +6,24 @@ import org.junit.Test;
 import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
+
 /**
  * Unit tests for the {@link GenerateRecipe} class, verifying its functionality for managing pantry.
  */
 public class GenerateRecipeTest extends TestCase {
 
+    /**
+     * Tests the {@link GenerateRecipe#generateMatchingRecipes} method to ensure it correctly identifies
+     * recipes that can be made from the available pantry ingredients. This test verifies that the method
+     * returns the correct recipe when the pantry has all the required ingredients with enough quantities.
+     *
+     * Steps:
+     * - Create a set of ingredients for a simple recipe.
+     * - Add the ingredients to the pantry.
+     * - Create a recipe and add it to the set of all recipes.
+     * - Generate matching recipes and assert that the recipe is correctly identified.
+     */
     @Test
-    // Test the generateMatchingRecipes method
     public void testGenerateMatchingRecipes() {
         // Create Ingredients
         Ingredient flour = new Ingredient("flour", 2.0, "cups", new HashSet<>());
@@ -47,8 +57,19 @@ public class GenerateRecipeTest extends TestCase {
         // Assert that the recipe is matched
         assertTrue("The recipe should be in the matched recipes.", matchedRecipes.contains(cakeRecipe));
     }
+
+    /**
+     * Tests the {@link GenerateRecipe#canMakeRecipe} method to ensure it correctly checks whether a recipe
+     * can be made with the ingredients available in the pantry. It verifies that the method returns true
+     * when the pantry contains all the necessary ingredients with sufficient quantities.
+     *
+     * Steps:
+     * - Create a set of ingredients for a simple recipe.
+     * - Add the ingredients to the pantry.
+     * - Create the recipe and call the canMakeRecipe method to verify if the recipe can be made.
+     * - Assert that the method returns true.
+     */
     @Test
-    // Test the canMakeRecipe method
     public void testCanMakeRecipe() {
         // Create Ingredients
         Ingredient flour = new Ingredient("flour", 2.0, "cups", new HashSet<>());
@@ -78,8 +99,22 @@ public class GenerateRecipeTest extends TestCase {
         // Assert that the recipe can be made
         assertTrue("The recipe should be possible to make with the pantry ingredients.", canMake);
     }
+
+    /**
+     * Tests the {@link GenerateRecipe#findMatchingPantryIngredient} method to ensure it correctly identifies
+     * matching ingredients in the pantry. This test verifies both exact matches and cases where no match
+     * is found.
+     *
+     * Steps:
+     * - Create a set of ingredients and add them to the pantry.
+     * - Test if the method correctly finds an exact match for a pantry ingredient.
+     * - Test if the method returns null when searching for an ingredient that doesn't exist in the pantry.
+     *
+     * Asserts:
+     * - The method should find the "flour" ingredient.
+     * - The method should not find the "butter" ingredient (not present in pantry).
+     */
     @Test
-    // Test the findMatchingPantryIngredient method
     public void testFindMatchingPantryIngredient() {
         // Create Ingredients
         Ingredient flour = new Ingredient("flour", 2.0, "cups", new HashSet<>());

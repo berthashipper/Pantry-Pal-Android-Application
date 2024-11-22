@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.util.Set;
+
 /**
  * Unit tests for the {@link Ingredient} class, verifying its functionality for managing pantry.
  */
