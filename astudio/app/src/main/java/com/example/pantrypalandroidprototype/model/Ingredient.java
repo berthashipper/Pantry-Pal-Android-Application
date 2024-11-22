@@ -66,6 +66,10 @@ public class Ingredient implements Serializable {
     // toString method to print ingredient
     @Override
     public String toString() {
-        return "Ingredient: " + name + ", Quantity: " + quantity + " " + unit + ", Tags: " + tags;
+        StringBuilder ingredientDetails = new StringBuilder();
+        ingredientDetails.append("• ").append(name).append("\n")
+                .append("   Quantity: ").append(quantity).append(" ").append(unit).append("\n")
+                .append("   Tags: ").append(tags.isEmpty() ? "None" : String.join(", ", tags)).append("\n");
+        return ingredientDetails.toString();
     }
 }
