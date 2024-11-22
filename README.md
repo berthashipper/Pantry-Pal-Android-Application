@@ -21,10 +21,10 @@ This project represents a port of an extensive Java-based prototype into an Andr
 
 ### **Recipe Suggestions**
 - The "Generate Recipes" feature provides personalized recipe ideas based on pantry contents.
-- The algorithm intelligently matches ingredients to recipes, prioritizing practicality (allowing for flexibility in ingredient variations).
+- The algorithm intelligently matches ingredients to recipes, prioritizing practicality (ingredients in the pantry don't have to exactly match how they're written in the recipe, allowing for flexibility in ingredient variations and better suggesting power).
 
 ### **Cookbook Management**
-- View a collection of **10 pre-loaded recipes** (for now) with detailed instructions, ingredients, preparation steps, cook time, and serving size.
+- View a collection of 10 pre-loaded recipes (for now) with detailed instructions, ingredients, preparation steps, cook time, and serving size.
 - Upload personal recipes by specifying ingredients, steps, cook time, serving size, and a description.
 - **Search Functionality**: Quickly access recipes by name or keyword, including user-added recipes.
 - **Planned Enhancements**: Filter recipes by categories like "dinner," "dessert," or "vegan."
@@ -47,8 +47,11 @@ This project represents a port of an extensive Java-based prototype into an Andr
 
 ### Steps:
 1. Clone the repository:  
-2. https://gitlab.cs.vassar.edu/cmpu203-f24-projects/team-2g.git
-3. Open the project in **Android Studio**.
+2.
+```
+https://gitlab.cs.vassar.edu/cmpu203-f24-projects/team-2g.git
+```
+3. Open the project in Android Studio.
 4. Connect your Android device or emulator.
 5. Build and run the app.
 
@@ -56,16 +59,13 @@ This project represents a port of an extensive Java-based prototype into an Andr
 
 ## Limitations
 
-### **Recipe Database**
-- The recipe database currently includes only 10 pre-loaded recipes. More recipes will be added in future iterations.
-
-### **Shopping List**
-- The "View Shopping List" feature is not yet functional and will be implemented in the next iteration.
-
-### **Ingredient Scaling**
-- Recipes cannot currently adjust ingredient quantities for different serving sizes.
-
-### **Meal Planning**
-- While recipes can be added, there is no dedicated meal-planning feature or advanced recipe browsing beyond the pre-loaded ones.
+- **Recipe Database**
+  - The recipe database currently includes only 10 pre-loaded recipes. More recipes will be added in future iterations.
+- **Shopping List**
+  - The "View Shopping List" feature is not yet functional and will be implemented in the next iteration.
+- **Ingredient Scaling**
+  - Recipes cannot currently adjust ingredient quantities for different serving sizes.
+- **Meal Planning**
+  - While recipes can be added, there is no dedicated meal-planning feature or advanced recipe browsing beyond the pre-loaded ones.
 
 ---
