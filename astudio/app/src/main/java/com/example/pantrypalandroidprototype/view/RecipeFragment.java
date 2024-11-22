@@ -1,6 +1,7 @@
 package com.example.pantrypalandroidprototype.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.model.Recipe;
 import com.example.pantrypalandroidprototype.model.RecipeAdapter;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.Serializable;
 import java.util.List;
@@ -54,6 +56,15 @@ public class RecipeFragment extends Fragment {
         });
         recyclerView.setAdapter(adapter);
         return view;
+    }
+
+    public void showNoRecipesMessage() {
+        View rootView = getView();
+        if (rootView != null) {
+            Snackbar.make(rootView, "No matching recipes found.", Snackbar.LENGTH_LONG).show();
+        } else {
+            Log.e("RecipeFragment", "Unable to show Snackbar: View is null");
+        }
     }
 }
 

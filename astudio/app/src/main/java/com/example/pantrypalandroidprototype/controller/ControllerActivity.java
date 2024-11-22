@@ -84,19 +84,18 @@ public class ControllerActivity extends AppCompatActivity
 
         Ingredient newIngredient = new Ingredient(name, qty, unit, tagStrings);
         pantry.add_ingredient(newIngredient);
-
-        // Update pantry view
-        // updatePantryDisplay();
     }
 
     @Override
     public void onItemsDone() {
-        // Pass the pantry data to the fragment
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        if (currentFragment instanceof AddIngredientFragment) {
+            AddIngredientFragment addIngredientFragment = (AddIngredientFragment) currentFragment;
+            addIngredientFragment.showDoneMessage();
+        }
+        // Switch to the Pantry fragment
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
-
-        Snackbar.make(mainView.getRootView(), "Done adding ingredients, returning to Pantry", Snackbar.LENGTH_LONG).show();
     }
-
     @Override
     public void onAddIngredientsMenu(){
         AddIngredientFragment addIngredientFragment = AddIngredientFragment.newInstance(this);
@@ -180,12 +179,24 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onGenerateRecipes() {
         Set<Recipe> matchedRecipes = generateMatchingRecipes();
+
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+
         if (!matchedRecipes.isEmpty()) {
-            // Pass matched recipes to a new fragment or adapter
+            // Pass matched recipes to a new fragment
             RecipeFragment recipeFragment = RecipeFragment.newInstance(new ArrayList<>(matchedRecipes));
             mainView.displayFragment(recipeFragment);
         } else {
-            Toast.makeText(this, "No matching recipes found.", Toast.LENGTH_SHORT).show();
+            if (currentFragment instanceof RecipeFragment) {
+                // Notify user via the current fragment
+                ((RecipeFragment) currentFragment).showNoRecipesMessage();
+            } else {
+                // Navigate back to RecipeFragment and show the message
+                RecipeFragment recipeFragment = RecipeFragment.newInstance(new ArrayList<>());
+                mainView.displayFragment(recipeFragment);
+                getSupportFragmentManager().executePendingTransactions();
+                recipeFragment.showNoRecipesMessage();
+            }
         }
     }
 

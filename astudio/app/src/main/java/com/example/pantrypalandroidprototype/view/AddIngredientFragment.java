@@ -126,10 +126,12 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         binding.dairyFreeCheckbox.setChecked(false);
 
     }
-
     public void onDoneButtonClicked() {
         if (listener != null) {
             listener.onItemsDone();
         }
+    }
+    public void showDoneMessage() {
+        Snackbar.make(getView(), "Done adding ingredients, returning to Pantry", Snackbar.LENGTH_LONG).show();
     }
 }
