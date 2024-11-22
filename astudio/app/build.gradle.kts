@@ -1,3 +1,5 @@
+import com.android.build.api.dsl.Packaging
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -43,6 +45,19 @@ android {
     kotlinOptions {
         jvmTarget = "11"
     }
+
+
+    packagingOptions {
+        resources {
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
+            merges += "META-INF/LICENSE.md"
+            merges += "META-INF/LICENSE-notice.md"
+        }
+    }
+
+
+
+
 }
 
 dependencies {
@@ -59,6 +74,8 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation("org.apache.commons:commons-text:1.10.0")
+    androidTestImplementation(libs.junit.jupiter)
 
 
 }
+
