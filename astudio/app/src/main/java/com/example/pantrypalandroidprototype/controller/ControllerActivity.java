@@ -200,7 +200,6 @@ public class ControllerActivity extends AppCompatActivity
         }
     }
 
-    // Method to get matched recipes
     public Set<Recipe> generateMatchingRecipes() {
         Log.d("ControllerActivity", "Recipes available: " + recipes.size());
         GenerateRecipe recipeGenerator = new GenerateRecipe(pantry, recipes);

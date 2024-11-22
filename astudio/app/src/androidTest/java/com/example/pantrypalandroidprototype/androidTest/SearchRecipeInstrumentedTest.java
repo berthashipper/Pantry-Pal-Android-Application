@@ -1,16 +1,15 @@
-package com.example.pantrypalandroidprototype;
+package com.example.pantrypalandroidprototype.androidTest;
 
 import androidx.test.espresso.Espresso;
-import androidx.test.espresso.Root;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 
-import org.hamcrest.Matcher;
 import org.junit.runner.RunWith;
 
 /**

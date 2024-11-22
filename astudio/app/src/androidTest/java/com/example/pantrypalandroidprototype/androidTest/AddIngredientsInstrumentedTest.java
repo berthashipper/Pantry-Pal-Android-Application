@@ -1,28 +1,21 @@
-package com.example.pantrypalandroidprototype;
+package com.example.pantrypalandroidprototype.androidTest;
 
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.os.SystemClock;
-import android.view.View;
 
 import androidx.test.espresso.Espresso;
-import androidx.test.espresso.IdlingPolicies;
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
-import androidx.test.espresso.matcher.RootMatchers;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
+import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 
-import org.hamcrest.Matchers;
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Instrumented test class for verifying the "Add Ingredients" functionality.
@@ -64,7 +57,6 @@ public class AddIngredientsInstrumentedTest {
 
         // Wait for UI updates
         SystemClock.sleep(5000);
-        //scroll to and then click
 
         // Click "Done" button
         Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());

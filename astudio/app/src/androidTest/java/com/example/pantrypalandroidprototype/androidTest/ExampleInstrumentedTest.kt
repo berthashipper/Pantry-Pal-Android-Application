@@ -1,4 +1,4 @@
-package com.example.pantrypalandroidprototype
+package com.example.pantrypalandroidprototype.androidTest
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
