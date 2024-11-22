@@ -94,7 +94,7 @@ public class ControllerActivity extends AppCompatActivity
         // Pass the pantry data to the fragment
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
 
-        Toast.makeText(this, "Done adding ingredients, returning to Pantry", Toast.LENGTH_SHORT).show();
+        Snackbar.make(mainView.getRootView(), "Done adding ingredients, returning to Pantry", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -112,11 +112,15 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onDeleteIngredient(String name) {
-        boolean isDeleted = pantry.delete_ingredient(name);
-        if (isDeleted) {
-            Toast.makeText(this, "Deleted ingredient: " + name, Toast.LENGTH_SHORT).show();
-        } else {
-            Snackbar.make(mainView.getRootView(), "No ingredient found with name: " + name, Snackbar.LENGTH_LONG).show();
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        if (currentFragment instanceof DeleteIngredientFragment) {
+            DeleteIngredientFragment deleteIngredientFragment = (DeleteIngredientFragment) currentFragment;
+            boolean isDeleted = pantry.delete_ingredient(name);
+            if (isDeleted) {
+                deleteIngredientFragment.showIngredientDeletedMessage(name);
+            } else {
+                deleteIngredientFragment.showIngredientNotFoundError(name);
+            }
         }
         onViewPantryMenu(); // Return to the pantry view
     }
@@ -125,8 +129,6 @@ public class ControllerActivity extends AppCompatActivity
     public void onDeletionDone() {
         // Pass the pantry data to the fragment
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
-
-        Snackbar.make(mainView.getRootView(), "Done deleting ingredients, returning to Pantry" , Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -249,13 +251,21 @@ public class ControllerActivity extends AppCompatActivity
                 .filter(recipe -> recipe.getRecipeName().toLowerCase().contains(query.toLowerCase()))
                 .collect(Collectors.toSet());
 
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+
         if (!filteredRecipes.isEmpty()) {
             // Display filtered recipes
             RecipeFragment recipeFragment = RecipeFragment.newInstance(new ArrayList<>(filteredRecipes));
             mainView.displayFragment(recipeFragment);
+        } else if (currentFragment instanceof SearchRecipeFragment) {
+            // Use the current fragment to show the error
+            ((SearchRecipeFragment) currentFragment).showRecipeNotFoundError();
         } else {
-            // use snackbar?
-            Snackbar.make(mainView.getRootView(), "No recipes found", Snackbar.LENGTH_LONG).show();
+            // Navigate back to SearchRecipeFragment and show the error
+            SearchRecipeFragment searchRecipeFragment = SearchRecipeFragment.newInstance(this);
+            mainView.displayFragment(searchRecipeFragment);
+            getSupportFragmentManager().executePendingTransactions();
+            searchRecipeFragment.showRecipeNotFoundError();
         }
     }
 

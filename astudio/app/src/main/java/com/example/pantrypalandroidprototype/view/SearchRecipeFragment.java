@@ -1,6 +1,7 @@
 package com.example.pantrypalandroidprototype.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.example.pantrypalandroidprototype.databinding.FragmentSearchRecipeBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 public class SearchRecipeFragment extends Fragment implements ISearchRecipeView {
     FragmentSearchRecipeBinding binding;
@@ -35,7 +37,7 @@ public class SearchRecipeFragment extends Fragment implements ISearchRecipeView 
         binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
     }
 
-    private void onSearchButtonClicked() {
+    public void onSearchButtonClicked() {
         String query = binding.searchQueryText.getText().toString().trim();
 
         if (listener != null && !query.isEmpty()) {
@@ -45,10 +47,13 @@ public class SearchRecipeFragment extends Fragment implements ISearchRecipeView 
         }
     }
 
-    private void onDoneButtonClicked() {
+    public void onDoneButtonClicked() {
         if (listener != null) {
             listener.onSearchDone();
         }
     }
-}
 
+    public void showRecipeNotFoundError() {
+        Snackbar.make(getView(), "No recipes found", Snackbar.LENGTH_LONG).show();
+    }
+}

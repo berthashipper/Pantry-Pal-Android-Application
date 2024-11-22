@@ -131,7 +131,7 @@ public class DeleteIngredientsInstrumentedTest {
         SystemClock.sleep(1000);
 
         // Verify that a message or error is shown indicating that the ingredient is not in the pantry
-        Espresso.onView(ViewMatchers.withText("No ingredient found with name: Salt"))
+        Espresso.onView(ViewMatchers.withText("Salt does not exist in your pantry"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 

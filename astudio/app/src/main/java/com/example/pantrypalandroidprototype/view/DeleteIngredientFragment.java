@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.pantrypalandroidprototype.databinding.FragmentDeleteItemsBinding; // Correct binding import
 import com.example.pantrypalandroidprototype.model.Pantry;
+import com.google.android.material.snackbar.Snackbar;
 
 public class DeleteIngredientFragment extends Fragment implements IDeleteIngredientView {
 
@@ -57,6 +58,14 @@ public class DeleteIngredientFragment extends Fragment implements IDeleteIngredi
         clearInputs();
     }
 
+    public void showIngredientDeletedMessage(String name) {
+        Snackbar.make(getView(), "Deleted ingredient: " + name, Snackbar.LENGTH_LONG).show();
+    }
+
+    public void showIngredientNotFoundError(String name) {
+        Snackbar.make(binding.getRoot(), name + " does not exist in your pantry", Snackbar.LENGTH_LONG).show();
+    }
+
     @Override
     public void updatePantryDisplay(@NonNull final Pantry pantry) {
         Toast.makeText(getContext(), "Pantry updated with " + pantry.getNPantryItems() + " items.", Toast.LENGTH_SHORT).show();
@@ -70,5 +79,6 @@ public class DeleteIngredientFragment extends Fragment implements IDeleteIngredi
         if (listener != null) {
             listener.onDeletionDone();
         }
+        Snackbar.make(getView(), "Returning to Pantry" , Snackbar.LENGTH_LONG).show();
     }
 }
