@@ -49,7 +49,7 @@ ___
 - Throughout the app, we have maintained a consistent, clean, and aesthetically pleasing user interface. The design prioritizes ease of use while ensuring a visually appealing layout that enhances the overall user experience.
 
 For the next iteration:
-- We plan to build on this solid foundation by introducing additional functionality, including the the shopping list feature, which will allow users to create and manage shopping lists based on recipe ingredients or pantry shortages.
+- We plan to build on this solid foundation by introducing additional functionality, including the the shopping list feature, which will allow users to create and manage shopping lists based on recipe ingredients or pantry shortages. We will also implement local storage and persistence.
 - Additionally, we aim to expand the recipe database, with the goal of making the app even more dynamic and versatile.
 - A feature that excited us about this app was the ability to scale ingredients in recipes. We will prioritize the implementation of an intuitive scaling feature that makes these adjustments seamless, eliminating the need for cumbersome manual calculations.
 - Lastly, we plan to introduce a meal planning feature that will allow users to save their favorite recipes for an upcoming week. The app will automatically generate a grocery list by identifying any missing ingredients from the saved recipes, making it easier for users to stay organized and prepared for the week ahead. This combination of meal planning and grocery list generation will further elevate the app's utility.
