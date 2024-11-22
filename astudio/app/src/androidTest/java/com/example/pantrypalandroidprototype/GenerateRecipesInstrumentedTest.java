@@ -53,11 +53,19 @@ public class GenerateRecipesInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.generateRecipesMenuButton))
                 .perform(ViewActions.click());
 
-        SystemClock.sleep(5000);
+        SystemClock.sleep(2000);
 
         // Verify that the Grilled Cheese recipe is displayed
         Espresso.onView(ViewMatchers.withText("Grilled Cheese Sandwich"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        Espresso.onView(ViewMatchers.withId(R.id.recipe_recycler_view))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Grilled Cheese Sandwich")),
+                        ViewActions.click()
+                ));
+
+        SystemClock.sleep(5000);
     }
 
     /**
@@ -87,13 +95,22 @@ public class GenerateRecipesInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.generateRecipesMenuButton))
                 .perform(ViewActions.click());
 
-        SystemClock.sleep(5000);
+        SystemClock.sleep(2000);
 
         // Verify that the Spaghetti Bolognese recipe is displayed even
         // though ingredients don't match exactly — this is good!
         Espresso.onView(ViewMatchers.withText("Spaghetti Bolognese"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
+        SystemClock.sleep(2000);
+
+        Espresso.onView(ViewMatchers.withId(R.id.recipe_recycler_view))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Spaghetti Bolognese")),
+                        ViewActions.click()
+                ));
+
+        SystemClock.sleep(2000);
     }
 
     /**
