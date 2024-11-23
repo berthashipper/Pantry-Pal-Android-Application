@@ -47,13 +47,13 @@ android {
     }
 
 
-    packagingOptions {
+    /*packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
             merges += "META-INF/LICENSE.md"
             merges += "META-INF/LICENSE-notice.md"
         }
-    }
+    }*/
 
 
 
@@ -74,7 +74,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation("org.apache.commons:commons-text:1.10.0")
-    androidTestImplementation(libs.junit.jupiter)
+    //androidTestImplementation(libs.junit.jupiter)
 
 
 }

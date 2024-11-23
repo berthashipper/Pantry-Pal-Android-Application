@@ -61,8 +61,6 @@ public class SearchIngredientFragment extends Fragment implements ISearchIngredi
     }
 
     public void displayFoundIngredients(List<Ingredient> ingredients) {
-
-
         // Display the found ingredients in a list or text view
         StringBuilder result = new StringBuilder();
         for (Ingredient ingredient : ingredients) {

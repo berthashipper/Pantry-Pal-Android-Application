@@ -37,6 +37,7 @@ public class CookbookInstrumentedTest {
      */
     @org.junit.Test // passed
     public void testAddRecipe() {
+        //Make sure the recipe is still there after going to a different page and then back.
         // Navigate to cookbook screen
         Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
                 .perform(ViewActions.click());
