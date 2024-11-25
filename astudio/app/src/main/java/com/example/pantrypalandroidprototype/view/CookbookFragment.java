@@ -16,10 +16,13 @@ import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
 import com.example.pantrypalandroidprototype.model.RecipeBuilder;
 import com.example.pantrypalandroidprototype.model.RecipeAdapter;
+import com.example.pantrypalandroidprototype.model.RecipeService;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class CookbookFragment extends Fragment implements ICookbookView, RecipeAdapter.OnRecipeClickListener {
@@ -42,6 +45,9 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentCookbookBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
+
+        // Fetch recipes from EDAMAM API
+        fetchRecipesFromAPI();
 
         // Set up Add Recipe button
         binding.addRecipeButton.setOnClickListener(v -> {
@@ -74,11 +80,36 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
             recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
             // Initialize the adapter and set it to the RecyclerView
-            recipeAdapter = new RecipeAdapter(new ArrayList<>(recipes), getContext(), this);
+            recipeAdapter = new RecipeAdapter(new ArrayList<>(recipes), requireContext(), this);
             recyclerView.setAdapter(recipeAdapter);
         }
     }
 
+    public void fetchRecipesFromAPI() {
+        new Thread(() -> {
+            try {
+                // Call API Service to fetch recipes
+                RecipeService recipeService = new RecipeService();
+                List<Recipe> apiRecipes = recipeService.fetchRecipes("chicken"); // Example query
+
+                // Update UI with recipes
+                if (isAdded()) {
+                    requireActivity().runOnUiThread(() -> {
+                        recipes.addAll(apiRecipes);
+                        recipeAdapter = new RecipeAdapter(new ArrayList<>(recipes), requireContext(), this);
+                        recyclerView.setAdapter(recipeAdapter);
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                if (isAdded()) {
+                    requireActivity().runOnUiThread(() -> {
+                        Snackbar.make(binding.getRoot(), "Failed to load recipes.", Snackbar.LENGTH_LONG).show();
+                    });
+                }
+            }
+        }).start();
+    }
 
     public static Set<Recipe> getAllRecipes() {
         Set<Recipe> recipes = new HashSet<>();

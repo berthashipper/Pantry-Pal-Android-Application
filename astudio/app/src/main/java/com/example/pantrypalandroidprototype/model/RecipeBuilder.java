@@ -17,6 +17,8 @@ public class RecipeBuilder implements Serializable {
     public Duration cookTime;
     public int servingSize;
     public String url;
+    public double calories;
+    public String imageUrl;
 
     // Set the recipe name
     public RecipeBuilder setName(String name) {
@@ -73,9 +75,21 @@ public class RecipeBuilder implements Serializable {
         return this;
     }
 
-    // Add a method to set the URL
+    // Set the URL
     public RecipeBuilder setUrl(String url) {
         this.url = url;
+        return this;
+    }
+
+    // Set calories
+    public RecipeBuilder setCalories(double calories) {
+        this.calories = calories;
+        return this;
+    }
+
+    // Set the image URL
+    public RecipeBuilder setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
         return this;
     }
 
@@ -85,6 +99,17 @@ public class RecipeBuilder implements Serializable {
         String joinedInstructions = instructions.stream().collect(Collectors.joining("\n"));
 
         // Create and return the Recipe object
-        return new Recipe(recipeName, ingredients, joinedInstructions, tags, description, cookTime, servingSize, url);
+        return new Recipe(
+                recipeName,
+                ingredients,
+                joinedInstructions,
+                tags,
+                description,
+                cookTime,
+                servingSize,
+                url,
+                calories,
+                imageUrl
+        );
     }
 }
