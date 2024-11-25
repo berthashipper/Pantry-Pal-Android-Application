@@ -7,6 +7,10 @@ import java.util.Set;
 
 public interface ICookbookView {
 
+    void onRecipeCreated(Recipe recipe);
+
+    void onSearchRecipesMenu();
+
     void onCookbookRecipesLoaded(Set<Recipe> recipes);
 
     interface Listener {
@@ -14,7 +18,7 @@ public interface ICookbookView {
         void onRecipeClick(Recipe recipe);
         void onCookbookRecipesLoaded(Set<Recipe> recipes);
         void onNavigateToAddRecipe();
-
         void onSearchRecipesMenu();
+        void onRecipeCreated(Recipe recipe);
     }
 }

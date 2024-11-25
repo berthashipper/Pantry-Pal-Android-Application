@@ -1,5 +1,7 @@
 package com.example.pantrypalandroidprototype.model;
 
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -8,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 
 public class Recipe implements Serializable {
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     public String recipeName;
     public Set<Ingredient> ingredientsInRecipe;
     public String instructions;

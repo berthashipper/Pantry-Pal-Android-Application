@@ -1,9 +1,12 @@
 package com.example.pantrypalandroidprototype.view;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import androidx.room.Room;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,6 +19,7 @@ import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
 import com.example.pantrypalandroidprototype.model.RecipeBuilder;
 import com.example.pantrypalandroidprototype.model.RecipeAdapter;
+import com.example.pantrypalandroidprototype.model.RecipeDatabase;
 import com.example.pantrypalandroidprototype.model.RecipeService;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -32,6 +36,7 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
     RecipeAdapter recipeAdapter;
     Set<Recipe> recipes;
     Listener listener;
+    RecipeDatabase recipeDatabase;
 
     public static CookbookFragment newInstance(Listener listener, Set<Recipe> recipes) {
         CookbookFragment fragment = new CookbookFragment();
@@ -48,6 +53,7 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
 
         // Fetch recipes from EDAMAM API
         fetchRecipesFromAPI();
+        recipeDatabase = Room.databaseBuilder(requireContext(), RecipeDatabase.class, "recipes_db").build();
 
         // Set up Add Recipe button
         binding.addRecipeButton.setOnClickListener(v -> {
@@ -83,6 +89,62 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
             recipeAdapter = new RecipeAdapter(new ArrayList<>(recipes), requireContext(), this);
             recyclerView.setAdapter(recipeAdapter);
         }
+    }
+
+    public void fetchRecipesFromDatabase() {
+        new Thread(() -> {
+            List<Recipe> dbRecipes = recipeDatabase.recipeDao().getAllRecipes();
+
+            if (isAdded()) {
+                requireActivity().runOnUiThread(() -> {
+                    recipes.clear();
+                    recipes.addAll(dbRecipes);
+                    recipeAdapter.updateRecipes(new ArrayList<>(recipes));
+                });
+            }
+        }).start();
+    }
+    @Override
+    public void onRecipeCreated(Recipe recipe) {
+        new Thread(() -> {
+            recipeDatabase.recipeDao().insertRecipe(recipe);
+
+            if (isAdded()) {
+                requireActivity().runOnUiThread(() -> {
+                    recipes.add(recipe);
+                    recipeAdapter.updateRecipes(new ArrayList<>(recipes));
+                });
+            }
+        }).start();
+    }
+
+    @Override
+    public void onSearchRecipesMenu() {
+        // Show a dialog or navigate to a search fragment
+        showSearchDialog();
+    }
+
+    private void showSearchDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Search Recipes");
+
+        final EditText input = new EditText(requireContext());
+        builder.setView(input);
+
+        builder.setPositiveButton("Search", (dialog, which) -> {
+            String query = input.getText().toString();
+            new Thread(() -> {
+                List<Recipe> searchResults = recipeDatabase.recipeDao().searchRecipes("%" + query + "%");
+                if (isAdded()) {
+                    requireActivity().runOnUiThread(() -> {
+                        recipeAdapter.updateRecipes(searchResults);
+                    });
+                }
+            }).start();
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        builder.show();
     }
 
     public void fetchRecipesFromAPI() {
