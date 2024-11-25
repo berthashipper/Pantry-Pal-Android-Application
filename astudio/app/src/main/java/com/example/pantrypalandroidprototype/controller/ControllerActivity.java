@@ -35,6 +35,7 @@ import com.example.pantrypalandroidprototype.view.RecipeDetailFragment;
 import com.example.pantrypalandroidprototype.view.RecipeFragment;
 import com.example.pantrypalandroidprototype.view.SearchIngredientFragment;
 import com.example.pantrypalandroidprototype.view.SearchRecipeFragment;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -58,6 +59,9 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+
         setContentView(R.layout.main);
 
         this.mainView = new MainView(this, this);
