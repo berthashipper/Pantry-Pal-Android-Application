@@ -4,6 +4,10 @@
 import java.time.Duration;
 import java.util.Set;
 
+
+/**
+ * Represents a recipe, including its name, ingredients, instructions, and related metadata.
+ */
 public class Recipe {
     String recipeName;
     Set<Ingredient> ingredientsInRecipe;
@@ -14,7 +18,18 @@ public class Recipe {
     int servingSize;
     String url;
 
-    // Constructor method for Recipe
+    /**
+     * Constructs a new {@code Recipe} instance with the specified parameters.
+     *
+     * @param recipeName          The name of the recipe.
+     * @param ingredientsInRecipe The set of ingredients used in the recipe.
+     * @param instructions        The step-by-step cooking instructions.
+     * @param recipeTags          The dietary tags associated with the recipe.
+     * @param recipeDescription   A brief description of the recipe.
+     * @param cookTime            The duration required to cook the recipe.
+     * @param servingSize         The number of servings the recipe provides.
+     * @param url                 An optional URL with additional details about the recipe.
+     */
     public Recipe(String recipeName, Set<Ingredient> ingredientsInRecipe,
                   String instructions, Set<Ingredient.dietary_tags> recipeTags,
                   String recipeDescription, Duration cookTime, int servingSize, String url) {
@@ -50,13 +65,24 @@ public class Recipe {
         }
     }
      */
-
-    // Getter for ingredients
+    /**
+     * Retrieves the set of ingredients in the recipe.
+     *
+     * @return A set of {@code Ingredient} objects representing the recipe's ingredients.
+     */
     public Set<Ingredient> getIngredients() {
         return ingredientsInRecipe;
     }
 
+
+
     // toString method to print a recipe
+    /**
+     * Generates a string representation of the recipe, including its name, description, cook time,
+     * serving size, ingredients, and instructions.
+     *
+     * @return A formatted string containing the recipe details.
+     */
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();

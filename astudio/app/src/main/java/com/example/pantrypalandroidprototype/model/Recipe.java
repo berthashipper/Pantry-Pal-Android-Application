@@ -1,26 +1,84 @@
 package com.example.pantrypalandroidprototype.model;
 
+import androidx.room.PrimaryKey;
 import java.io.Serializable;
 import java.time.Duration;
-import java.util.ArrayList;
+import java.util.Set;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
+/**
+ * Represents a recipe with various attributes such as ingredients, instructions, tags, and nutritional information.
+ * Implements {@link Serializable} for object serialization.
+ */
 public class Recipe implements Serializable {
+    /** Unique identifier for the recipe. */
+    @PrimaryKey(autoGenerate = true)
+    private int id;
+
+    /** The name of the recipe. */
     public String recipeName;
+
+    /** The set of ingredients used in the recipe. */
     public Set<Ingredient> ingredientsInRecipe;
+
+    /** The cooking instructions for the recipe. */
     public String instructions;
+
+    /** The set of dietary tags associated with the recipe. */
     public Set<Ingredient.dietary_tags> recipeTags;
+
+    /** A brief description of the recipe. */
     public String recipeDescription;
+
+    /** The time required to cook the recipe. */
     public Duration cookTime;
+
+    /** The number of servings the recipe makes. */
     public int servingSize;
+
+    /** The URL for additional recipe details or reference. */
     public String url;
 
-    // Constructor method for Recipe
+    /** The total calorie content of the recipe. */
+    public double calories;
+
+    /** The URL of the image representing the recipe. */
+    public String imageUrl;
+
+    /**
+     * Constructor for creating a {@code Recipe} object with basic details from EDAMAM recipes.
+     *
+     * @param recipeName The name of the recipe.
+     * @param imageUrl   The URL of the recipe image.
+     * @param url        The URL for more details about the recipe.
+     */
+    public Recipe(String recipeName, String imageUrl, String url) {
+        this.recipeName = recipeName;
+        this.imageUrl = imageUrl;
+        this.url = url;
+        this.ingredientsInRecipe = new HashSet<>();
+        this.recipeTags = new HashSet<>();
+    }
+
+    /**
+     * General constructor for creating a {@code Recipe} object with all details.
+     *
+     * @param recipeName          The name of the recipe.
+     * @param ingredientsInRecipe The set of ingredients used in the recipe.
+     * @param instructions        The cooking instructions.
+     * @param recipeTags          The set of dietary tags.
+     * @param recipeDescription   A brief description of the recipe.
+     * @param cookTime            The cooking time.
+     * @param servingSize         The number of servings.
+     * @param url                 The URL for more details.
+     * @param calories            The total calorie content.
+     * @param imageUrl            The URL of the recipe image.
+     */
     public Recipe(String recipeName, Set<Ingredient> ingredientsInRecipe,
                   String instructions, Set<Ingredient.dietary_tags> recipeTags,
-                  String recipeDescription, Duration cookTime, int servingSize, String url) {
+                  String recipeDescription, Duration cookTime, int servingSize,
+                  String url, double calories, String imageUrl) {
         this.recipeName = recipeName;
         this.ingredientsInRecipe = ingredientsInRecipe;
         this.instructions = instructions;
@@ -28,25 +86,41 @@ public class Recipe implements Serializable {
         this.recipeDescription = recipeDescription;
         this.cookTime = cookTime;
         this.servingSize = servingSize;
-        this.url = url; // Initialize URL
+        this.url = url;
+        this.calories = calories;
+        this.imageUrl = imageUrl;
     }
 
-    // Getter for ingredients
+    /**
+     * Retrieves the set of ingredients in the recipe.
+     *
+     * @return A set of {@link Ingredient} objects.
+     */
     public Set<Ingredient> getIngredients() {
         return ingredientsInRecipe;
     }
 
-    // Getter for instructions
+    /**
+     * Retrieves the cooking instructions for the recipe.
+     *
+     * @return The instructions as a {@code String}.
+     */
     public String getInstructions() {
         return instructions;
     }
 
-    // Search method to filter recipes by name
+    /**
+     * Filters a list of recipes based on a query string contained in the recipe name.
+     *
+     * @param recipes A list of recipes to filter.
+     * @param query   The search query.
+     * @return A set of recipes whose names contain the query string.
+     */
     public static Set<Recipe> filterByName(List<Recipe> recipes, String query) {
         Set<Recipe> filteredRecipes = new HashSet<>();
 
         if (query == null || query.isEmpty()) {
-            return new HashSet<>(recipes);  // If the query is empty, return all recipes
+            return new HashSet<>(recipes);  // Return all recipes if query is empty
         }
 
         for (Recipe recipe : recipes) {
@@ -58,24 +132,110 @@ public class Recipe implements Serializable {
         return filteredRecipes;
     }
 
-    // toString method to print a recipe
+    /**
+     * Retrieves the dietary tags associated with the recipe.
+     *
+     * @return A set of dietary tags.
+     */
+    public Set<Ingredient.dietary_tags> getTags() {
+        return recipeTags;
+    }
+
+    /**
+     * Retrieves the name of the recipe.
+     *
+     * @return The recipe name.
+     */
+    public String getRecipeName() {
+        return recipeName;
+    }
+
+    /**
+     * Retrieves the URL for additional recipe details.
+     *
+     * @return The URL as a {@code String}.
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * Retrieves the cooking time for the recipe.
+     *
+     * @return The cooking time as a {@link Duration}.
+     */
+    public Duration getCookTime() {
+        return cookTime;
+    }
+
+    /**
+     * Retrieves the serving size for the recipe.
+     *
+     * @return The number of servings.
+     */
+    public int getServingSize() {
+        return servingSize;
+    }
+
+    /**
+     * Retrieves the total calorie content of the recipe.
+     *
+     * @return The calorie count.
+     */
+    public double getCalories() {
+        return calories;
+    }
+
+    /**
+     * Sets the calorie content of the recipe.
+     *
+     * @param calories The calorie count to set.
+     */
+    public void setCalories(double calories) {
+        this.calories = calories;
+    }
+
+    /**
+     * Retrieves the image URL for the recipe.
+     *
+     * @return The image URL.
+     */
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    /**
+     * Sets the image URL for the recipe.
+     *
+     * @param imageUrl The image URL to set.
+     */
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    /**
+     * Returns a string representation of the recipe, including all attributes and details.
+     *
+     * @return A formatted string containing recipe details.
+     */
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Recipe: ").append(recipeName).append("\n")
                 .append("Description: ").append(recipeDescription).append("\n")
                 .append("Cook Time: ").append(cookTime != null ? cookTime.toMinutes() : 0).append(" minutes\n")
-                .append("Serves: ").append(servingSize).append("\n\n")
+                .append("Serves: ").append(servingSize).append("\n")
+                .append("Calories: ").append(calories).append(" kcal\n")
+                .append("Image: ").append(imageUrl).append("\n")
+                .append("URL: ").append(url).append("\n\n")
                 .append("Ingredients:\n");
 
-        // Print each ingredient with its details
         for (Ingredient ingredient : ingredientsInRecipe) {
             stringBuilder.append("- ").append(ingredient.getQuantity()).append(" ")
                     .append(ingredient.getUnit()).append(" of ")
                     .append(ingredient.getName()).append("\n");
         }
 
-        // Print the instructions
         stringBuilder.append("\nInstructions:\n");
         String[] steps = instructions.split("\n");
         for (int i = 0; i < steps.length; i++) {
@@ -83,30 +243,5 @@ public class Recipe implements Serializable {
         }
 
         return stringBuilder.toString();
-    }
-
-    // Getter for tags
-    public Set<Ingredient.dietary_tags>  getTags() {
-        return recipeTags;
-    }
-
-    // Getter for recipe name
-    public String getRecipeName(){
-        return recipeName;
-    }
-
-    // Getter for recipe url
-    public String getUrl(){
-        return url;
-    }
-
-    // Getter for cook time
-    public Duration getCookTime(){
-        return cookTime;
-    }
-
-    // Getter for serving size
-    public int getServingSize(){
-        return servingSize;
     }
 }

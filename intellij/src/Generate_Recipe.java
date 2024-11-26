@@ -2,31 +2,49 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Generates and prints recipes that can be made using ingredients available in the user's pantry.
+ */
 public class Generate_Recipe {
+    /** The user's pantry containing available ingredients. */
     Pantry userPantry;
+
+    /** A set of all available recipes to compare against the pantry ingredients. */
     Set<Recipe> allRecipes;
 
-    // Constructor
+    /**
+     * Constructs a {@code Generate_Recipe} instance with the specified pantry and set of recipes.
+     *
+     * @param userPantry The user's pantry containing ingredients.
+     * @param allRecipes A set of all recipes to consider for matching.
+     */
     public Generate_Recipe(Pantry userPantry, Set<Recipe> allRecipes) {
         this.userPantry = userPantry;
         this.allRecipes = allRecipes;
     }
 
-    // Main method to generate matching recipes based on pantry ingredients
+    /**
+     * Generates and prints recipes that can be made using the ingredients available in the pantry.
+     */
     public void generateMatchingRecipes() {
         Set<Recipe> matchedRecipes = new HashSet<>();
 
+        // Check each recipe to see if it can be made with the pantry ingredients
         for (Recipe recipe : allRecipes) {
             if (canMakeRecipe(recipe)) {
                 matchedRecipes.add(recipe);
             }
         }
 
-        // Print matched recipes
+        // Print the matched recipes
         printMatchedRecipes(matchedRecipes);
     }
 
-    // Method to print matched recipes with numbering
+    /**
+     * Prints the matched recipes, if any, with a numbered list.
+     *
+     * @param matchedRecipes A set of recipes that can be made with the pantry ingredients.
+     */
     private void printMatchedRecipes(Set<Recipe> matchedRecipes) {
         if (matchedRecipes.isEmpty()) {
             System.out.println("No matching recipes found.");
@@ -40,18 +58,27 @@ public class Generate_Recipe {
         }
     }
 
-    // Helper method to check if the pantry has enough of all ingredients to make the recipe
+    /**
+     * Checks whether the specified recipe can be made with the ingredients available in the pantry.
+     *
+     * @param recipe The {@code Recipe} object to check.
+     * @return {@code true} if the pantry contains all required ingredients in sufficient quantity;
+     *         {@code false} otherwise.
+     */
     private boolean canMakeRecipe(Recipe recipe) {
+        // Check each ingredient in the recipe
         for (Ingredient recipeIngredient : recipe.getIngredients()) {
+            // Find the ingredient in the pantry
             Ingredient pantryIngredient = userPantry.ingredientList.get(recipeIngredient.name.toLowerCase());
 
-            // Check if the pantry has the ingredient and enough quantity
+            // Verify the pantry has the ingredient and the required quantity
             if (pantryIngredient == null || pantryIngredient.quantity < recipeIngredient.quantity) {
-                return false; // Missing ingredient or not enough quantity
+                return false; // Missing ingredient or insufficient quantity
             }
         }
         return true; // All ingredients are available in sufficient quantity
     }
+
 
     /* Drafting for next iteration
     public void generateGroceryList (Recipe recipe) {

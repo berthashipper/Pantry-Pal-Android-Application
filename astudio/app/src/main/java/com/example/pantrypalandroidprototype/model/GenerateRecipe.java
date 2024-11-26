@@ -7,19 +7,45 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 
+/**
+ * The {@code GenerateRecipe} class is responsible for generating recipes that can be made from a user's pantry.
+ * It compares the ingredients available in the user's pantry against the ingredients required by the recipes,
+ * and returns a set of recipes that can be made based on the available ingredients.
+ * This class also includes functionality for handling ingredient matching with a similarity threshold.
+ */
 public class GenerateRecipe implements Serializable {
+
+    /** The user's pantry containing available ingredients. */
     Pantry userPantry;
+
+    /** The set of all available recipes. */
     Set<Recipe> allRecipes;
+
+    /** The similarity threshold for ingredient matching. */
     static final int SIMILARITY_THRESHOLD = 3;
 
-    // Constructor
+    /**
+     * Constructs a {@code GenerateRecipe} instance with the user's pantry and all available recipes.
+     *
+     * @param userPantry The user's pantry containing available ingredients.
+     * @param allRecipes The set of all available recipes.
+     */
     public GenerateRecipe(Pantry userPantry, Set<Recipe> allRecipes) {
         this.userPantry = userPantry;
         this.allRecipes = allRecipes;
     }
 
-    // Main method to generate matching recipes based on pantry ingredients
+    /**
+     * Generates a set of recipes that can be made using the ingredients in the user's pantry.
+     *
+     * @return A set of recipes that can be made based on the available ingredients in the pantry.
+     */
     public Set<Recipe> generateMatchingRecipes() {
         Set<Recipe> matchedRecipes = new HashSet<>();
 
@@ -32,7 +58,13 @@ public class GenerateRecipe implements Serializable {
         return matchedRecipes;
     }
 
-    // Helper method to check if the pantry has enough of all ingredients to make the recipe
+    /**
+     * Checks if the user's pantry has enough of all required ingredients to make the specified recipe.
+     *
+     * @param recipe The recipe to check.
+     * @return {@code true} if the recipe can be made with the available ingredients in the pantry,
+     *         {@code false} otherwise.
+     */
     public boolean canMakeRecipe(Recipe recipe) {
         for (Ingredient recipeIngredient : recipe.getIngredients()) {
             Ingredient pantryIngredient = findMatchingPantryIngredient(recipeIngredient.getName().toLowerCase());
@@ -45,6 +77,13 @@ public class GenerateRecipe implements Serializable {
         return true; // All ingredients are available in sufficient quantity
     }
 
+    /**
+     * Finds the best matching ingredient from the pantry for a given recipe ingredient name.
+     * It checks for exact matches first and then performs a similarity check using token overlap and Levenshtein distance.
+     *
+     * @param ingredientName The name of the ingredient from the recipe to find in the pantry.
+     * @return The best matching ingredient from the pantry, or {@code null} if no match is found.
+     */
     public Ingredient findMatchingPantryIngredient(String ingredientName) {
         // Normalize recipe ingredient name to lowercase and split into tokens
         String[] recipeTokens = ingredientName.toLowerCase().split("\\s+");

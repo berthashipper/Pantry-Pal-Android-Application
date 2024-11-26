@@ -1,18 +1,34 @@
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a pantry containing a list of ingredients and manages various operations,
+ * such as adding, deleting, filtering, and searching for ingredients.
+ */
 public class Pantry {
+    /** A map storing ingredients in the pantry, with their names as keys (in lowercase for consistency). */
     public Map<String, Ingredient> ingredientList = new HashMap<>();
-    // Temporary grocery list since that use case hasn't been implemented yet
+    /** A temporary grocery list storing ingredients to be purchased and their desired quantities. */
     Map<Ingredient, Double> groceryList = new HashMap<>();
 
-    // Method to add an existing Ingredient object to the pantry
+    /**
+     * Adds an existing {@code Ingredient} object to the pantry.
+     *
+     * @param ingredient The {@code Ingredient} object to add to the pantry.
+     */
     public void add_ingredient(Ingredient ingredient) {
         ingredientList.put(ingredient.name.toLowerCase(), ingredient);
         System.out.println("Added " + ingredient.name + " to pantry.");
     }
 
-    // Overloaded method to create AND add an Ingredient
+    /**
+     * Creates and adds a new {@code Ingredient} to the pantry with the specified details.
+     *
+     * @param name     The name of the ingredient.
+     * @param quantity The quantity of the ingredient.
+     * @param unit     The unit of measurement for the ingredient.
+     * @param tags     A set of dietary tags associated with the ingredient.
+     */
     public void add_ingredient(String name, int quantity, String unit, Set<Ingredient.dietary_tags> tags) {
         if (tags == null) {
             tags = new HashSet<>();  // Initialize an empty set if no tags are provided
@@ -22,7 +38,12 @@ public class Pantry {
         System.out.println("Added " + name + " to pantry.");
     }
 
-    // Method to delete ingredient from pantry
+
+    /**
+     * Deletes an ingredient from the pantry by name.
+     *
+     * @param name The name of the ingredient to delete.
+     */
     public void delete_ingredient(String name) {
         Ingredient ing = ingredientList.get(name.toLowerCase());  // Use lowercase for consistency
         if (ing != null) {
@@ -33,7 +54,12 @@ public class Pantry {
         }
     }
 
-    // Method to edit quantity of ingredient in pantry
+    /**
+     * Updates the quantity of an existing ingredient in the pantry.
+     *
+     * @param name        The name of the ingredient to update.
+     * @param newQuantity The new quantity to set.
+     */
     public void edit_ingredient(String name, int newQuantity) {
         Ingredient ingredient = ingredientList.get(name.toLowerCase());  // Use lowercase for consistency
         if (ingredient != null) {
@@ -44,7 +70,12 @@ public class Pantry {
         }
     }
 
-    // Method to filter ingredients by dietary tag
+    /**
+     * Filters the ingredients in the pantry based on a specific dietary tag.
+     *
+     * @param tag The dietary tag to filter ingredients by.
+     * @return A list of ingredients that match the specified dietary tag.
+     */
     public List<Ingredient> filter_ingredients_by_tag(Ingredient.dietary_tags tag) {
         List<Ingredient> filteredList = new ArrayList<>();
         for (Ingredient ingredient : ingredientList.values()) {
@@ -55,7 +86,11 @@ public class Pantry {
         return filteredList;
     }
 
-    // Method to print ingredients filtered by dietary tag
+    /**
+     * Prints the ingredients in the pantry that match a specific dietary tag.
+     *
+     * @param tag The dietary tag to filter and print ingredients by.
+     */
     public void printIngredientsByTag(Ingredient.dietary_tags tag) {
         List<Ingredient> filteredIngredients = filter_ingredients_by_tag(tag);
         if (filteredIngredients.isEmpty()) {
@@ -68,7 +103,12 @@ public class Pantry {
         }
     }
 
-    // Method to search for ingredients by name substring
+
+    /**
+     * Searches for ingredients in the pantry whose names contain the specified substring.
+     *
+     * @param name The substring to search for in ingredient names.
+     */
     public void searchIngredient(String name) {
         List<Ingredient> foundIngredients = new ArrayList<>();
         for (String key : ingredientList.keySet()) {
@@ -85,7 +125,12 @@ public class Pantry {
         }
     }
 
-    // Method to add ingredient to grocery list
+    /**
+     * Adds an ingredient to the grocery list with the specified quantity.
+     *
+     * @param name     The name of the ingredient to add to the grocery list.
+     * @param quantity The quantity to purchase.
+     */
     public void addToGroceryList(String name, double quantity) {
         Ingredient ingredient = ingredientList.get(name.toLowerCase()); // Use lowercase for consistency
         if (ingredient != null) {
@@ -96,7 +141,9 @@ public class Pantry {
         }
     }
 
-    // Method to print grocery list
+    /**
+     * Prints the contents of the grocery list.
+     */
     public void printGroceryList() {
         if (groceryList.isEmpty()) {
             System.out.println("Grocery list is empty.");
@@ -110,7 +157,11 @@ public class Pantry {
         }
     }
 
-    // toString method to print pantry contents
+    /**
+     * Generates a string representation of the pantry's contents.
+     *
+     * @return A formatted string listing all ingredients in the pantry, along with their quantities and dietary tags.
+     */
     @Override
     public String toString() {
         StringBuilder pantryContents = new StringBuilder("Pantry contents:\n");
