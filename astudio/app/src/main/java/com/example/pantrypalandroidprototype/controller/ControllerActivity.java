@@ -10,8 +10,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.example.pantrypalandroidprototype.R;
+import com.example.pantrypalandroidprototype.model.Cookbook;
 import com.example.pantrypalandroidprototype.model.GenerateRecipe;
 import com.example.pantrypalandroidprototype.model.Ingredient;
+import com.example.pantrypalandroidprototype.model.Ledger;
 import com.example.pantrypalandroidprototype.model.Pantry;
 import com.example.pantrypalandroidprototype.model.Recipe;
 import com.example.pantrypalandroidprototype.view.AddIngredientFragment;
@@ -35,21 +37,13 @@ import com.example.pantrypalandroidprototype.view.RecipeDetailFragment;
 import com.example.pantrypalandroidprototype.view.RecipeFragment;
 import com.example.pantrypalandroidprototype.view.SearchIngredientFragment;
 import com.example.pantrypalandroidprototype.view.SearchRecipeFragment;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
+
+import persistence.IPersistenceFacade;
+import persistence.LocalStorageFacade;
 
 public class ControllerActivity extends AppCompatActivity
         implements IAddIngredientView.Listener, IPantryView.Listener,
@@ -60,6 +54,9 @@ public class ControllerActivity extends AppCompatActivity
     IMainView mainView;
     Pantry pantry;
     Set<Recipe> recipes = new HashSet<>();
+    Ledger ledger;
+    IPersistenceFacade persFacade; // proxy for persistence subsystem
+    Cookbook cookbook;
 
 
     public static final int REQUEST_CODE_ADD_TO_COOKBOOK = 1;
@@ -68,6 +65,10 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        this.persFacade = new LocalStorageFacade(this); // set up persistence proxy
+        this.ledger = this.persFacade.loadLedger(); // load the ledger
+
 
         /*FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -94,13 +95,14 @@ public class ControllerActivity extends AppCompatActivity
         setContentView(this.mainView.getRootView());
 
         pantry = new Pantry();
+        cookbook = new Cookbook();
 
         mainView.setListener(this);
 
-        this.mainView.displayFragment(AddIngredientFragment.newInstance(this));
+        /*this.mainView.displayFragment(AddIngredientFragment.newInstance(this));
         this.mainView.displayFragment(EditIngredientFragment.newInstance(this));
         this.mainView.displayFragment(DeleteIngredientFragment.newInstance(this));
-        this.mainView.displayFragment(CookbookFragment.newInstance(this, CookbookFragment.getAllRecipes()));
+        this.mainView.displayFragment(CookbookFragment.newInstance(this, cookbook));*/
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
 
     }
@@ -198,7 +200,10 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onViewCookbookMenu() {
         mainView.setListener(this);
-        this.mainView.displayFragment(CookbookFragment.newInstance(this, CookbookFragment.getAllRecipes()));
+        if (cookbook == null) {
+            cookbook = persFacade.loadCookbook(); // Load cookbook from persistence
+        }
+        this.mainView.displayFragment(CookbookFragment.newInstance(this, cookbook));
     }
 
     @Override
@@ -215,7 +220,7 @@ public class ControllerActivity extends AppCompatActivity
 
         if (!matchedRecipes.isEmpty()) {
             // Pass matched recipes to a new fragment
-            RecipeFragment recipeFragment = RecipeFragment.newInstance(new ArrayList<>(matchedRecipes));
+            RecipeFragment recipeFragment = RecipeFragment.newInstance(new Cookbook(matchedRecipes));
             mainView.displayFragment(recipeFragment);
         } else {
             if (currentFragment instanceof RecipeFragment) {
@@ -223,7 +228,7 @@ public class ControllerActivity extends AppCompatActivity
                 ((RecipeFragment) currentFragment).showNoRecipesMessage();
             } else {
                 // Navigate back to RecipeFragment and show the message
-                RecipeFragment recipeFragment = RecipeFragment.newInstance(new ArrayList<>());
+                RecipeFragment recipeFragment = RecipeFragment.newInstance(new Cookbook(matchedRecipes));
                 mainView.displayFragment(recipeFragment);
                 getSupportFragmentManager().executePendingTransactions();
                 recipeFragment.showNoRecipesMessage();
@@ -234,12 +239,15 @@ public class ControllerActivity extends AppCompatActivity
     public Set<Recipe> generateMatchingRecipes() {
         Log.d("ControllerActivity", "Recipes available: " + recipes.size());
         GenerateRecipe recipeGenerator = new GenerateRecipe(pantry, recipes);
+        //GenerateRecipe recipeGenerator = new GenerateRecipe(pantry, cookbook.getAllRecipes());
         return recipeGenerator.generateMatchingRecipes();
     }
 
-    @Override
-    public void onCookbookRecipesLoaded(Set<Recipe> recipes) {
-        this.recipes = recipes; // Store the loaded recipes
+    //@Override
+    public void onCookbookUpdated(Cookbook updatedCookbook) {
+        this.cookbook = updatedCookbook;
+        persFacade.saveCookbook(updatedCookbook);
+        updateCookbookFragment();
     }
 
     @Override
@@ -252,7 +260,13 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onRecipeCreated(Recipe recipe) {
         // Add the recipe to the set of recipes
-        recipes.add(recipe);
+        cookbook.addRecipe(recipe);
+        //recipes.add(recipe);
+        // Persist changes to the cookbook
+        persFacade.saveCookbook(cookbook);
+
+        // Update the view
+        updateCookbookFragment();
 
         // Display the recipe in the RecipeDetailFragment
         //RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(recipe);
@@ -260,14 +274,19 @@ public class ControllerActivity extends AppCompatActivity
 
         // Update the CookbookFragment to include the new recipe
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragmentContainerView, CookbookFragment.newInstance(this, recipes))
+                .replace(R.id.fragmentContainerView, CookbookFragment.newInstance(this, cookbook))
                 .commit();
+
+        //this.ledger.addRecipe(recipe); // save recipe onto ledger
+        //this.persFacade.saveLedger(ledger); // save the ledger to persistent memory
     }
 
 
     public void updateCookbookFragment() {
         // Update CookbookFragment with the new list of recipes
-        this.mainView.displayFragment(CookbookFragment.newInstance(this, recipes));
+        if (cookbook != null) {
+            this.mainView.displayFragment(CookbookFragment.newInstance(this, cookbook));
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -284,21 +303,20 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onDoneViewingRecipe() {
         // After viewing the recipe details, return to the CookbookFragment
-        mainView.displayFragment(CookbookFragment.newInstance(this, new HashSet<>(recipes)));
+        mainView.displayFragment(CookbookFragment.newInstance(this, cookbook));
     }
+
 
     @Override
     public void onSearchRecipe(String query) {
         // Filter recipes based on the query
-        Set<Recipe> filteredRecipes = recipes.stream()
-                .filter(recipe -> recipe.getRecipeName().toLowerCase().contains(query.toLowerCase()))
-                .collect(Collectors.toSet());
+        Set<Recipe> filteredRecipes = cookbook.searchRecipes(query);
 
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
 
-        if (!filteredRecipes.isEmpty()) {
+        if (filteredRecipes != null && !filteredRecipes.isEmpty()) {
             // Display filtered recipes
-            RecipeFragment recipeFragment = RecipeFragment.newInstance(new ArrayList<>(filteredRecipes));
+            RecipeFragment recipeFragment = RecipeFragment.newInstance(new Cookbook(filteredRecipes));
             mainView.displayFragment(recipeFragment);
         } else if (currentFragment instanceof SearchRecipeFragment) {
             // Use the current fragment to show the error
@@ -315,7 +333,7 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onSearchDone() {
         // Navigate back to the Cookbook view or another fragment
-        mainView.displayFragment(CookbookFragment.newInstance(this, new HashSet<>(recipes)));
+        mainView.displayFragment(CookbookFragment.newInstance(this, cookbook));
     }
 
     @Override
