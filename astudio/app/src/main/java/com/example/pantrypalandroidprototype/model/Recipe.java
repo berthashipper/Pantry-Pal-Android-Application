@@ -72,13 +72,10 @@ public class Recipe implements Serializable {
      * @param cookTime            The cooking time.
      * @param servingSize         The number of servings.
      * @param url                 The URL for more details.
-     * @param calories            The total calorie content.
-     * @param imageUrl            The URL of the recipe image.
      */
     public Recipe(String recipeName, Set<Ingredient> ingredientsInRecipe,
                   String instructions, Set<Ingredient.dietary_tags> recipeTags,
-                  String recipeDescription, Duration cookTime, int servingSize,
-                  String url, double calories, String imageUrl) {
+                  String recipeDescription, Duration cookTime, int servingSize, String url) {
         this.recipeName = recipeName;
         this.ingredientsInRecipe = ingredientsInRecipe;
         this.instructions = instructions;
@@ -86,10 +83,9 @@ public class Recipe implements Serializable {
         this.recipeDescription = recipeDescription;
         this.cookTime = cookTime;
         this.servingSize = servingSize;
-        this.url = url;
-        this.calories = calories;
-        this.imageUrl = imageUrl;
+        this.url = url; // Initialize URL
     }
+
 
     /**
      * Retrieves the set of ingredients in the recipe.
