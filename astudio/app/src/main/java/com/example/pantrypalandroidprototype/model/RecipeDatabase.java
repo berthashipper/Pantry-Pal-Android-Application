@@ -1,3 +1,4 @@
+/*
 package com.example.pantrypalandroidprototype.model;
 
 import androidx.room.Database;
@@ -8,3 +9,4 @@ public abstract class RecipeDatabase extends RoomDatabase {
     public abstract RecipeDao recipeDao();
 }
 
+*/

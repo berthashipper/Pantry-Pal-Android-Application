@@ -19,8 +19,8 @@ import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
 import com.example.pantrypalandroidprototype.model.RecipeBuilder;
 import com.example.pantrypalandroidprototype.model.RecipeAdapter;
-import com.example.pantrypalandroidprototype.model.RecipeDatabase;
-import com.example.pantrypalandroidprototype.model.RecipeService;
+//import com.example.pantrypalandroidprototype.model.RecipeDatabase;
+//import com.example.pantrypalandroidprototype.model.RecipeService;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.time.Duration;
@@ -36,7 +36,7 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
     RecipeAdapter recipeAdapter;
     Set<Recipe> recipes;
     Listener listener;
-    RecipeDatabase recipeDatabase;
+    //RecipeDatabase recipeDatabase;
 
     public static CookbookFragment newInstance(Listener listener, Set<Recipe> recipes) {
         CookbookFragment fragment = new CookbookFragment();
@@ -52,8 +52,8 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
         View rootView = binding.getRoot();
 
         // Fetch recipes from EDAMAM API
-        fetchRecipesFromAPI();
-        recipeDatabase = Room.databaseBuilder(requireContext(), RecipeDatabase.class, "recipes_db").build();
+        //fetchRecipesFromAPI();
+        //recipeDatabase = Room.databaseBuilder(requireContext(), RecipeDatabase.class, "recipes_db").build();
 
         // Set up Add Recipe button
         binding.addRecipeButton.setOnClickListener(v -> {
@@ -75,23 +75,20 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (getArguments() != null) {
-            recipes = (Set<Recipe>) getArguments().getSerializable("recipes");
+
+        // Set up RecyclerView to ensure the latest recipes are displayed
+        if (recipes != null && recipeAdapter != null) {
+            recipeAdapter.updateRecipes(new ArrayList<>(recipes)); // Update adapter's dataset
+            recipeAdapter.notifyDataSetChanged(); // Notify adapter of data changes
         }
 
+        //setupRecyclerView();
         if (listener != null) {
             listener.onCookbookRecipesLoaded(recipes);
-
-            recyclerView = view.findViewById(R.id.recycler_view_recipes);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-            // Initialize the adapter and set it to the RecyclerView
-            recipeAdapter = new RecipeAdapter(new ArrayList<>(recipes), requireContext(), this);
-            recyclerView.setAdapter(recipeAdapter);
         }
     }
 
-    public void fetchRecipesFromDatabase() {
+    /*public void fetchRecipesFromDatabase() {
         new Thread(() -> {
             List<Recipe> dbRecipes = recipeDatabase.recipeDao().getAllRecipes();
 
@@ -103,10 +100,10 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
                 });
             }
         }).start();
-    }
+    }*/
     @Override
     public void onRecipeCreated(Recipe recipe) {
-        new Thread(() -> {
+        /*new Thread(() -> {
             recipeDatabase.recipeDao().insertRecipe(recipe);
 
             if (isAdded()) {
@@ -115,7 +112,7 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
                     recipeAdapter.updateRecipes(new ArrayList<>(recipes));
                 });
             }
-        }).start();
+        }).start();*/
     }
 
     @Override
@@ -125,7 +122,7 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
     }
 
     private void showSearchDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Search Recipes");
 
         final EditText input = new EditText(requireContext());
@@ -144,10 +141,10 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
         });
 
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-        builder.show();
+        builder.show();*/
     }
 
-    public void fetchRecipesFromAPI() {
+    /*public void fetchRecipesFromAPI() {
         new Thread(() -> {
             try {
                 // Call API Service to fetch recipes
@@ -171,7 +168,7 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
                 }
             }
         }).start();
-    }
+    }*/
 
     public static Set<Recipe> getAllRecipes() {
         Set<Recipe> recipes = new HashSet<>();

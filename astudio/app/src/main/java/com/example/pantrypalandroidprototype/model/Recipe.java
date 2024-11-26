@@ -1,7 +1,5 @@
 package com.example.pantrypalandroidprototype.model;
 
-import androidx.room.PrimaryKey;
-
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -10,8 +8,6 @@ import java.util.List;
 import java.util.Set;
 
 public class Recipe implements Serializable {
-    @PrimaryKey(autoGenerate = true)
-    private int id;
     public String recipeName;
     public Set<Ingredient> ingredientsInRecipe;
     public String instructions;
@@ -20,24 +16,11 @@ public class Recipe implements Serializable {
     public Duration cookTime;
     public int servingSize;
     public String url;
-    public double calories;
-    public String imageUrl;
 
-    // Constructor for EDAMAM recipes
-    public Recipe(String recipeName, String imageUrl, String url) {
-        this.recipeName = recipeName;
-        this.imageUrl = imageUrl;
-        this.url = url;
-        this.ingredientsInRecipe = new HashSet<>();
-        this.recipeTags = new HashSet<>();
-    }
-
-
-    // General constructor method for Recipe
+    // Constructor method for Recipe
     public Recipe(String recipeName, Set<Ingredient> ingredientsInRecipe,
                   String instructions, Set<Ingredient.dietary_tags> recipeTags,
-                  String recipeDescription, Duration cookTime, int servingSize,
-                  String url, double calories, String imageUrl) {
+                  String recipeDescription, Duration cookTime, int servingSize, String url) {
         this.recipeName = recipeName;
         this.ingredientsInRecipe = ingredientsInRecipe;
         this.instructions = instructions;
@@ -45,9 +28,7 @@ public class Recipe implements Serializable {
         this.recipeDescription = recipeDescription;
         this.cookTime = cookTime;
         this.servingSize = servingSize;
-        this.url = url;
-        this.calories = calories;
-        this.imageUrl = imageUrl;
+        this.url = url; // Initialize URL
     }
 
     // Getter for ingredients
@@ -77,6 +58,33 @@ public class Recipe implements Serializable {
         return filteredRecipes;
     }
 
+    // toString method to print a recipe
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Recipe: ").append(recipeName).append("\n")
+                .append("Description: ").append(recipeDescription).append("\n")
+                .append("Cook Time: ").append(cookTime != null ? cookTime.toMinutes() : 0).append(" minutes\n")
+                .append("Serves: ").append(servingSize).append("\n\n")
+                .append("Ingredients:\n");
+
+        // Print each ingredient with its details
+        for (Ingredient ingredient : ingredientsInRecipe) {
+            stringBuilder.append("- ").append(ingredient.getQuantity()).append(" ")
+                    .append(ingredient.getUnit()).append(" of ")
+                    .append(ingredient.getName()).append("\n");
+        }
+
+        // Print the instructions
+        stringBuilder.append("\nInstructions:\n");
+        String[] steps = instructions.split("\n");
+        for (int i = 0; i < steps.length; i++) {
+            stringBuilder.append((i + 1)).append(". ").append(steps[i].trim()).append("\n");
+        }
+
+        return stringBuilder.toString();
+    }
+
     // Getter for tags
     public Set<Ingredient.dietary_tags>  getTags() {
         return recipeTags;
@@ -100,49 +108,5 @@ public class Recipe implements Serializable {
     // Getter for serving size
     public int getServingSize(){
         return servingSize;
-    }
-
-    public double getCalories() {
-        return calories;
-    }
-
-    public void setCalories(double calories) {
-        this.calories = calories;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    // toString method to print a recipe
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Recipe: ").append(recipeName).append("\n")
-                .append("Description: ").append(recipeDescription).append("\n")
-                .append("Cook Time: ").append(cookTime != null ? cookTime.toMinutes() : 0).append(" minutes\n")
-                .append("Serves: ").append(servingSize).append("\n")
-                .append("Calories: ").append(calories).append(" kcal\n")
-                .append("Image: ").append(imageUrl).append("\n")
-                .append("URL: ").append(url).append("\n\n")
-                .append("Ingredients:\n");
-
-        for (Ingredient ingredient : ingredientsInRecipe) {
-            stringBuilder.append("- ").append(ingredient.getQuantity()).append(" ")
-                    .append(ingredient.getUnit()).append(" of ")
-                    .append(ingredient.getName()).append("\n");
-        }
-
-        stringBuilder.append("\nInstructions:\n");
-        String[] steps = instructions.split("\n");
-        for (int i = 0; i < steps.length; i++) {
-            stringBuilder.append((i + 1)).append(". ").append(steps[i].trim()).append("\n");
-        }
-
-        return stringBuilder.toString();
     }
 }

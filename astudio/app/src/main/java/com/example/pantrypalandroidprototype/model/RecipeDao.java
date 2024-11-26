@@ -1,3 +1,4 @@
+/*
 package com.example.pantrypalandroidprototype.model;
 
 import androidx.room.Dao;
@@ -21,4 +22,4 @@ public interface RecipeDao {
 
     @Delete
     void deleteRecipe(Recipe recipe);
-}
+}*/

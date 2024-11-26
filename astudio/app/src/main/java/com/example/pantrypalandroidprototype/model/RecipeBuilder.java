@@ -107,9 +107,7 @@ public class RecipeBuilder implements Serializable {
                 description,
                 cookTime,
                 servingSize,
-                url,
-                calories,
-                imageUrl
+                url
         );
     }
 }

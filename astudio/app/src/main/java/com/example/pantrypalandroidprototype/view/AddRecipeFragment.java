@@ -20,9 +20,9 @@ import java.util.Set;
 
 public class AddRecipeFragment extends Fragment implements IAddRecipeView {
 
-    private FragmentAddRecipeBinding binding;
-    private Listener listener;
-    private RecipeBuilder recipeBuilder = new RecipeBuilder();
+    FragmentAddRecipeBinding binding;
+    Listener listener;
+    RecipeBuilder recipeBuilder = new RecipeBuilder();
 
     public static AddRecipeFragment newInstance(Listener listener) {
         AddRecipeFragment fragment = new AddRecipeFragment();

@@ -14,6 +14,7 @@ import com.example.pantrypalandroidprototype.R;
 import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
+
     public List<Recipe> recipes;
     public Context context;
     public OnRecipeClickListener onRecipeClickListener;

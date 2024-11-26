@@ -35,11 +35,19 @@ import com.example.pantrypalandroidprototype.view.RecipeDetailFragment;
 import com.example.pantrypalandroidprototype.view.RecipeFragment;
 import com.example.pantrypalandroidprototype.view.SearchIngredientFragment;
 import com.example.pantrypalandroidprototype.view.SearchRecipeFragment;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -53,6 +61,7 @@ public class ControllerActivity extends AppCompatActivity
     Pantry pantry;
     Set<Recipe> recipes = new HashSet<>();
 
+
     public static final int REQUEST_CODE_ADD_TO_COOKBOOK = 1;
 
     @SuppressLint("MissingInflatedId")
@@ -60,7 +69,23 @@ public class ControllerActivity extends AppCompatActivity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        /*FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+
+        CollectionReference cref = db.collection("users");
+        DocumentReference dref = cref.document("user1");
+
+        Log.i("PantryPal", "calling get");
+        Task<DocumentSnapshot> task = dref.get();
+
+        task.addOnSuccessListener(new OnSuccessListener<>() {
+            @Override
+            public void onSuccess(DocumentSnapshot dsnap) {
+                String username = (String) dsnap.get("username");
+                Log.i("PantryPal", "read username = " + username);
+            }
+        });*/
+
 
         setContentView(R.layout.main);
 
@@ -230,17 +255,19 @@ public class ControllerActivity extends AppCompatActivity
         recipes.add(recipe);
 
         // Display the recipe in the RecipeDetailFragment
-        RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(recipe);
-        mainView.displayFragment(recipeDetailFragment);
+        //RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(recipe);
+        //mainView.displayFragment(recipeDetailFragment);
 
         // Update the CookbookFragment to include the new recipe
-        updateCookbookFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainerView, CookbookFragment.newInstance(this, recipes))
+                .commit();
     }
 
 
     public void updateCookbookFragment() {
         // Update CookbookFragment with the new list of recipes
-        this.mainView.displayFragment(CookbookFragment.newInstance(this, new HashSet<>(recipes)));
+        this.mainView.displayFragment(CookbookFragment.newInstance(this, recipes));
     }
 
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
