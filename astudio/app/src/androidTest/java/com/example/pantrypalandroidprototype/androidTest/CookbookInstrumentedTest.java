@@ -310,7 +310,7 @@ public class CookbookInstrumentedTest {
         SystemClock.sleep(3000);
 
         // Verify that the correct recipe details screen is displayed
-        Espresso.onView(ViewMatchers.withId(R.id.recipe_name)) // ID of TextView on the details screen
+        Espresso.onView(ViewMatchers.withId(R.id.recipe_name))
                 .check(ViewAssertions.matches(ViewMatchers.withText(testName))); // Ensure the name matches
 
         Espresso.onView(ViewMatchers.withId(R.id.recipe_description)) // ID of description TextView
@@ -326,19 +326,21 @@ public class CookbookInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton))
                 .perform(ViewActions.click());
 
+        SystemClock.sleep(3000);
+
         // Navigate back to cookbook screen
         Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
                 .perform(ViewActions.click());
 
-        // Search for the added recipe
-        Espresso.onView(ViewMatchers.withId(R.id.searchRecipesButton))
-                .perform(ViewActions.typeText(testName), ViewActions.closeSoftKeyboard());
+        SystemClock.sleep(3000);
 
-        // Verify the added recipe is displayed in the search results
+        // Verify that the correct recipe details screen is still displayed after navigation
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .perform(RecyclerViewActions.scrollTo(
                         ViewMatchers.hasDescendant(ViewMatchers.withText(testName))
                 ));
+
+        // Ensure that "Toast" is still in the RecyclerView after navigating back
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .check(ViewAssertions.matches(
                         ViewMatchers.hasDescendant(ViewMatchers.withText(testName))

@@ -42,8 +42,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import persistence.IPersistenceFacade;
-import persistence.LocalStorageFacade;
+import com.example.pantrypalandroidprototype.persistence.IPersistenceFacade;
+import com.example.pantrypalandroidprototype.persistence.LocalStorageFacade;
 
 public class ControllerActivity extends AppCompatActivity
         implements IAddIngredientView.Listener, IPantryView.Listener,
