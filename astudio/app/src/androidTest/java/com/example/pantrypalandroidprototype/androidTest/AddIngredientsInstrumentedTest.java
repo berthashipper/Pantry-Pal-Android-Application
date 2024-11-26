@@ -45,7 +45,12 @@ public class AddIngredientsInstrumentedTest {
         String testUnit = "kg";
 
         typeText(R.id.itemNameText, testName);
+        typeText(R.id.itemQtyText, testName);
+        Espresso.onView(ViewMatchers.withId(R.id.itemQtyText))
+                .check(ViewAssertions.matches(ViewMatchers.withText(""))); //Checks if only take in numbers for input
         typeText(R.id.itemQtyText, testQty);
+        Espresso.onView(ViewMatchers.withId(R.id.itemQtyText))
+                .check(ViewAssertions.matches(ViewMatchers.withText("1.5")));
         typeText(R.id.itemUnitText, testUnit);
 
         // Select dietary tags (e.g., Vegan and Gluten-Free)
@@ -105,27 +110,27 @@ public class AddIngredientsInstrumentedTest {
                 .check(ViewAssertions.matches(ViewMatchers.withText("Please fill in all fields.")));
     }
 
-    /**
-     * Tests validation when quantity input is invalid.
-     */
-    @org.junit.Test
-    public void testValidationForInvalidQuantity() {
-        // Navigate to Add Ingredients screen
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
-                .perform(ViewActions.click());
-
-        // Input invalid quantity
-        typeText(R.id.itemNameText, "Flour");
-        typeText(R.id.itemQtyText, "invalid");
-        typeText(R.id.itemUnitText, "kg");
-
-        // Click "Add" button
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
-
-        // Verify that a validation error message is displayed
-        Espresso.onView(ViewMatchers.withText("Invalid quantity. Please enter a valid number."))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-    }
+//    /**
+//     * Tests validation when quantity input is invalid.
+//     */
+//    @org.junit.Test
+//    public void testValidationForInvalidQuantity() {
+//        // Navigate to Add Ingredients screen
+//        Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
+//                .perform(ViewActions.click());
+//
+//        // Input invalid quantity
+//        typeText(R.id.itemNameText, "Flour");
+//        typeText(R.id.itemQtyText, "invalid");
+//        typeText(R.id.itemUnitText, "kg");
+//
+//        // Click "Add" button
+//        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
+//
+//        // Verify that a validation error message is displayed
+//        Espresso.onView(ViewMatchers.withText("Invalid quantity. Please enter a valid number."))
+//                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+//    }
 
     /**
      * Helper method to type text into a text field.
