@@ -1,6 +1,8 @@
 package com.example.pantrypalandroidprototype.view;
 
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +38,7 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAddItemsBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
+        setupQuantityField();
         return rootView;
     }
 
@@ -63,15 +66,15 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
 
         // Check if the quantity is a valid number
         double qty;
-        try {
+//        try {
             qty = Double.parseDouble(qtyString);
-            if (qty <= 0) {
-                throw new NumberFormatException();
-            }
-        } catch (NumberFormatException e) {
-            Snackbar.make(getView(), "Invalid quantity. Please enter a valid number.", Snackbar.LENGTH_LONG).show();
-            return;
-        }
+//            if (qty <= 0) {
+//                throw new NumberFormatException();
+//            }
+//        } catch (NumberFormatException e) {
+//            Snackbar.make(getView(), "Invalid quantity. Please enter a valid number.", Snackbar.LENGTH_LONG).show();
+//            return;
+//        }
 
         Set<Ingredient.dietary_tags> tags = new HashSet<>();
 
@@ -105,6 +108,23 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         addedIngredients.add(newIngredient);
         ingredientAdapter.notifyItemInserted(addedIngredients.size() - 1);
         clearInputs();
+    }
+
+
+    /**
+     * Restricts the quantity input to only accept numeric values.
+     */
+    private void setupQuantityField() {
+        binding.itemQtyText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10), new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if (source.equals("") || source.toString().matches("[0-9]*\\.?[0-9]*")) {
+                    return null;  // Accept valid numbers
+                } else {
+                    return "";  // Reject non-numeric input
+                }
+            }
+        }});
     }
 
     private void clearInputs() {

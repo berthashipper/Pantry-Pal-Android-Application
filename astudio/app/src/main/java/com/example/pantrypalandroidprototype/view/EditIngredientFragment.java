@@ -1,6 +1,8 @@
 package com.example.pantrypalandroidprototype.view;
 
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ public class EditIngredientFragment extends Fragment implements IEditIngredientV
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentEditItemsBinding.inflate(inflater, container, false);
+        setupQuantityField();
         return binding.getRoot();
     }
 
@@ -42,12 +45,12 @@ public class EditIngredientFragment extends Fragment implements IEditIngredientV
         String name = binding.itemNameText.getText().toString().trim();
         double newQty;
 
-        try {
+ //       try {
             newQty = Double.parseDouble(binding.itemQuantityText.getText().toString().trim());
-        } catch (NumberFormatException e) {
-            Snackbar.make(binding.getRoot(), "Invalid quantity.", Snackbar.LENGTH_LONG).show();
-            return;
-        }
+//        } catch (NumberFormatException e) {
+//            Snackbar.make(binding.getRoot(), "Invalid quantity.", Snackbar.LENGTH_LONG).show();
+//            return;
+//        }
 
         if (listener != null && !name.isEmpty()) {
             listener.onEditIngredient(name, newQty);
@@ -69,6 +72,23 @@ public class EditIngredientFragment extends Fragment implements IEditIngredientV
             listener.onEditDone();
         }
         Snackbar.make(getView(), "Returning to Pantry", Snackbar.LENGTH_LONG).show();
+    }
+
+
+    /**
+     * Restricts the quantity input to only accept numeric values.
+     */
+    private void setupQuantityField() {
+        binding.itemQuantityText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10), new InputFilter() {
+            @Override
+            public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                if (source.equals("") || source.toString().matches("[0-9]*\\.?[0-9]*")) {
+                    return null;  // Accept valid numbers
+                } else {
+                    return "";  // Reject non-numeric input
+                }
+            }
+        }});
     }
 
     private void clearInputs() {

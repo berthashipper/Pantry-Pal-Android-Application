@@ -1,6 +1,8 @@
 package com.example.pantrypalandroidprototype.view;
 
 import android.os.Bundle;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAddRecipeBinding.inflate(inflater, container, false);
+        setupInputFields();
         return binding.getRoot();
     }
 
@@ -59,14 +62,14 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
 
         // Validate quantity input
         double quantity = -1;
-        while (quantity == -1) {
-            try {
+//        while (quantity == -1) {
+//            try {
                 quantity = Double.parseDouble(quantityString);
-            } catch (NumberFormatException e) {
-                Toast.makeText(getContext(), "Please enter a valid quantity (number)", Toast.LENGTH_SHORT).show();
-                return;
-            }
-        }
+//            } catch (NumberFormatException e) {
+//                Toast.makeText(getContext(), "Please enter a valid quantity (number)", Toast.LENGTH_SHORT).show();
+//                return;
+//            }
+//        }
 
         Set<Ingredient.dietary_tags> dietaryTags = new HashSet<>();
         // Check if dietary tags are selected and add to set
@@ -139,7 +142,6 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         recipeBuilder.setServingSize(servingSize);
 
         Recipe recipe = recipeBuilder.build();
-
         // Notify the listener to display RecipeDetailFragment
         if (listener != null) {
             listener.onRecipeCreated(recipe);
@@ -163,4 +165,46 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
             listener.onRecipeCreated(newRecipe);
         }
     }
+
+    private void setupInputFields() {
+        // Restrict quantity field to numbers only
+        binding.ingredientQuantityEditText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10),
+                new InputFilter() {
+                    @Override
+                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                        if (source.equals("") || source.toString().matches("[0-9]*\\.?[0-9]*")) {
+                            return null;  // Accept valid numbers (whole numbers or decimals)
+                        } else {
+                            return "";  // Reject non-numeric input
+                        }
+                    }
+                }});
+
+        // Restrict cooktime field to numbers only (for whole numbers or decimals)
+        binding.cookTimeEditText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10),
+                new InputFilter() {
+                    @Override
+                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                        if (source.equals("") || source.toString().matches("[0-9]*\\.?[0-9]*")) {
+                            return null;  // Accept valid numbers (whole numbers or decimals)
+                        } else {
+                            return "";  // Reject non-numeric input
+                        }
+                    }
+                }});
+
+        // Restrict serving size field to numbers only (for whole numbers)
+        binding.servingSizeEditText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10),
+                new InputFilter() {
+                    @Override
+                    public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
+                        if (source.equals("") || source.toString().matches("[0-9]+")) {
+                            return null;  // Accept valid whole numbers only
+                        } else {
+                            return "";  // Reject non-numeric input
+                        }
+                    }
+                }});
+    }
+
 }

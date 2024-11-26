@@ -1,4 +1,4 @@
-package persistence;
+package com.example.pantrypalandroidprototype.persistence;
 
 import android.content.Context;
 import android.util.Log;

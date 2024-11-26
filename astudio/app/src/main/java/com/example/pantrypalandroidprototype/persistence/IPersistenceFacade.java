@@ -1,4 +1,4 @@
-package persistence;
+package com.example.pantrypalandroidprototype.persistence;
 
 import com.example.pantrypalandroidprototype.model.Cookbook;
 import com.example.pantrypalandroidprototype.model.Ledger;
