@@ -11,14 +11,14 @@ import java.util.LinkedList;
  */
 public class Ledger implements java.io.Serializable {
 
-    private final Collection<Recipe> recipes; // the sales recorded on the ledger
+    private final Collection<Recipe> recipes; // the recipes recorded on the ledger
 
     /**
      * Constructs an empty ledger.
      */
-    public Ledger(Collection<Recipe> recipes){
-        this.recipes = new LinkedList<>();
-        }
+    public Ledger(){
+        this.recipes = new LinkedList<>();  }
+
 
     /**
      * Adds a new recipe to the ledger.
@@ -43,4 +43,3 @@ public class Ledger implements java.io.Serializable {
         return sb.toString();
     }
 }
-
