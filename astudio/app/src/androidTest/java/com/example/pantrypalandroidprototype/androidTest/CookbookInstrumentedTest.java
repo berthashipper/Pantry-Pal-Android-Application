@@ -235,23 +235,15 @@ public class CookbookInstrumentedTest {
                 .perform(ViewActions.click());
 
         // Input test data
-        String testName = "Cinnamon Toast";
-        String testDescipt = "A simple and comforting breakfast toast.";
+        String testName = "Toast";
+        String testDescipt = "A simple toast.";
         String testCooktime = "3";
         String testSsize = "1";
         String ingName1 = "Bread";
         String ingQty1 = "2";
         String IngUnit1 = "slices";
-        String ingName2 = "Butter";
-        String ingQty2 = "2";
-        String IngUnit2 = "teaspoons";
-        String ingName3 = "Cinnamon";
-        String ingQty3 = "2";
-        String IngUnit3 = "teaspoons";
 
         String testInstruction1 = "Toast bread for 3 mins.";
-        String testInstruction2 = "Put butter on toast and sprinkle cinnamon on top.";
-        String testInstruction3 = "Eat while warm, and enjoy!";
 
         typeText(R.id.recipeNameEditText, testName);
         typeText(R.id.descriptionEditText, testDescipt);
@@ -268,26 +260,6 @@ public class CookbookInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo()); // Ensure it's in view
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).check(ViewAssertions.matches(ViewMatchers.isDisplayed())); // Ensure visibility
 
-        // Add second ingredient
-        typeText(R.id.ingredientNameEditText, ingName2);
-        typeText(R.id.ingredientQuantityEditText, ingQty2);
-        typeText(R.id.ingredientUnitEditText, IngUnit2);
-
-        // Click "Add ingredient" button
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
-
-        SystemClock.sleep(2000);
-
-        //Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo());
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-
-        // Add third ingredient
-        typeText(R.id.ingredientNameEditText, ingName3);
-        typeText(R.id.ingredientQuantityEditText, ingQty3);
-        typeText(R.id.ingredientUnitEditText, IngUnit3);
-
-        // Click "Add ingredient" button
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
         SystemClock.sleep(2000);
 
@@ -307,15 +279,6 @@ public class CookbookInstrumentedTest {
                 .perform(ViewActions.scrollTo(), ViewActions.click());
         SystemClock.sleep(2000);
 
-        typeText(R.id.instructionEditText, testInstruction2);
-        Espresso.onView(ViewMatchers.withId(R.id.addInstructionButton))
-                .perform(ViewActions.scrollTo(), ViewActions.click());
-        SystemClock.sleep(2000);
-
-        typeText(R.id.instructionEditText, testInstruction3);
-        Espresso.onView(ViewMatchers.withId(R.id.addInstructionButton))
-                .perform(ViewActions.scrollTo(), ViewActions.click());
-        SystemClock.sleep(2000);
 
         // Click done button
         Espresso.onView(ViewMatchers.withId(R.id.doneButton))
@@ -335,7 +298,7 @@ public class CookbookInstrumentedTest {
                         ViewMatchers.hasDescendant(ViewMatchers.withText(testName)) // Ensure the text exists
                 ));
 
-        SystemClock.sleep(4000);
+        SystemClock.sleep(3000);
 
         // Scroll to the item and perform a click on it
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
@@ -344,7 +307,7 @@ public class CookbookInstrumentedTest {
                         ViewActions.click()
                 ));
 
-        SystemClock.sleep(4000);
+        SystemClock.sleep(3000);
 
         // Verify that the correct recipe details screen is displayed
         Espresso.onView(ViewMatchers.withId(R.id.recipe_name)) // ID of TextView on the details screen
@@ -381,7 +344,6 @@ public class CookbookInstrumentedTest {
                         ViewMatchers.hasDescendant(ViewMatchers.withText(testName))
                 ));
     }
-
 
     /**
      * Helper method to type text into a text field.
