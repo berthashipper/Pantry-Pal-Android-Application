@@ -4,14 +4,32 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+/**
+ * Represents an ingredient used in recipes. An ingredient has a name, quantity, unit, and a set of dietary tags.
+ * Provides methods for managing the ingredient's quantity, tags, and printing its details.
+ * Implements {@link Serializable} for object serialization.
+ */
 public class Ingredient implements Serializable {
+
+    /** The name of the ingredient. */
     public final String name;
+
+    /** The quantity of the ingredient. */
     public double quantity;
+
+    /** The unit of measurement for the ingredient. */
     public final String unit;
+
+    /** A set of dietary tags associated with the ingredient. */
     public final Set<String> tags;
 
-    // Enum for dietary tags
+    /**
+     * Enum representing common dietary tags for ingredients.
+     */
     public enum dietary_tags {
         VEGAN,
         KOSHER,
@@ -22,7 +40,14 @@ public class Ingredient implements Serializable {
         DAIRY_FREE
     }
 
-    // Constructor with default tags as empty
+    /**
+     * Constructs an ingredient with specified name, quantity, unit, and dietary tags.
+     *
+     * @param name   The name of the ingredient.
+     * @param quantity The quantity of the ingredient.
+     * @param unit     The unit of measurement for the ingredient.
+     * @param tags     The set of dietary tags associated with the ingredient.
+     */
     public Ingredient(String name, double quantity, String unit, Set<String> tags) {
         this.name = name;
         this.quantity = quantity;
@@ -30,40 +55,83 @@ public class Ingredient implements Serializable {
         this.tags = (tags == null) ? new HashSet<>() : new HashSet<>(tags);
     }
 
-    // Constructor for name only (default values for quantity, unit, and tags)
+    /**
+     * Constructs an ingredient with the specified name and default values for quantity, unit, and tags.
+     *
+     * @param name The name of the ingredient.
+     */
     public Ingredient(String name) {
         this(name, 0.0, "unit", new HashSet<>());  // Default values for quantity and unit
     }
 
+    /**
+     * Updates the quantity of the ingredient.
+     *
+     * @param newQuantity The new quantity of the ingredient.
+     */
     public void updateQuantity(double newQuantity) {
         this.quantity = newQuantity;
     }
 
+    /**
+     * Returns the name of the ingredient.
+     *
+     * @return The name of the ingredient.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns the quantity of the ingredient.
+     *
+     * @return The quantity of the ingredient.
+     */
     public double getQuantity() {
         return quantity;
     }
 
+    /**
+     * Returns the unit of measurement for the ingredient.
+     *
+     * @return The unit of measurement for the ingredient.
+     */
     public String getUnit() {
         return unit;
     }
 
+    /**
+     * Returns a copy of the tags associated with the ingredient.
+     *
+     * @return A set of dietary tags associated with the ingredient.
+     */
     public Set<String> getTags() {
         return new HashSet<>(tags);
     }
 
+    /**
+     * Adds a dietary tag to the ingredient.
+     *
+     * @param tag The dietary tag to add.
+     */
     public void addDietaryTag(String tag) {
         tags.add(tag);
     }
 
+    /**
+     * Removes a dietary tag from the ingredient.
+     *
+     * @param tag The dietary tag to remove.
+     */
     public void removeDietaryTag(String tag) {
         tags.remove(tag);
     }
 
-    // toString method to print ingredient
+    /**
+     * Returns a string representation of the ingredient, including its name, quantity, unit, and dietary tags.
+     *
+     * @return A string representation of the ingredient.
+     */
     @Override
     public String toString() {
         StringBuilder ingredientDetails = new StringBuilder();
@@ -72,5 +140,4 @@ public class Ingredient implements Serializable {
                 .append("   Tags: ").append(tags.isEmpty() ? "None" : String.join(", ", tags)).append("\n");
         return ingredientDetails.toString();
     }
-
 }
