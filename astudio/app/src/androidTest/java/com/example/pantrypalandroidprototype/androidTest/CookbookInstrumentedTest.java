@@ -176,6 +176,78 @@ public class CookbookInstrumentedTest {
      * Tests "BackToCookbook" functionality.
      */
     @org.junit.Test //passed
+    public void testValidInput() {
+        // Navigate to cookbook screen
+        Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
+                .perform(ViewActions.click());
+
+        // Navigate to add recipe screen
+        Espresso.onView(ViewMatchers.withId(R.id.addRecipeButton))
+                .perform(ViewActions.click());
+
+        // Input test data
+        String testName = "Cinnamon Toast";
+        String testDescipt = "A simple and comforting breakfast toast.";
+        String testCooktime = "3";
+        String testSsize = "1";
+        String ingName1 = "Bread";
+        String ingQty1 = "2";
+        String IngUnit1 = "slices";
+        String ingName2 = "Butter";
+        String ingQty2 = "2";
+        String IngUnit2 = "teaspoons";
+
+        typeText(R.id.recipeNameEditText, testName);
+        typeText(R.id.descriptionEditText, testDescipt);
+        typeText(R.id.cookTimeEditText, testName);
+        Espresso.onView(ViewMatchers.withId(R.id.cookTimeEditText))
+                .check(ViewAssertions.matches(ViewMatchers.withText("")));
+        typeText(R.id.cookTimeEditText, testCooktime);
+        Espresso.onView(ViewMatchers.withId(R.id.cookTimeEditText))
+                .check(ViewAssertions.matches(ViewMatchers.withText("3")));
+        typeText(R.id.servingSizeEditText, testName);
+        Espresso.onView(ViewMatchers.withId(R.id.servingSizeEditText))
+                .check(ViewAssertions.matches(ViewMatchers.withText("")));
+        typeText(R.id.servingSizeEditText, testSsize);
+        Espresso.onView(ViewMatchers.withId(R.id.servingSizeEditText))
+                .check(ViewAssertions.matches(ViewMatchers.withText("1")));
+        typeText(R.id.ingredientNameEditText, ingName1);
+        typeText(R.id.ingredientQuantityEditText, ingQty1);
+        typeText(R.id.ingredientUnitEditText, IngUnit1);
+
+        // Click "Add ingredient" button
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
+
+        // Wait for UI updates
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo()); // Ensure it's in view
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).check(ViewAssertions.matches(ViewMatchers.isDisplayed())); // Ensure visibility
+
+        // Add second ingredient
+        typeText(R.id.ingredientNameEditText, ingName2);
+        typeText(R.id.ingredientQuantityEditText, ingName2);
+        Espresso.onView(ViewMatchers.withId(R.id.ingredientQuantityEditText))
+                .check(ViewAssertions.matches(ViewMatchers.withText("")));
+        typeText(R.id.ingredientQuantityEditText, ingQty2);
+        Espresso.onView(ViewMatchers.withId(R.id.ingredientQuantityEditText))
+                .check(ViewAssertions.matches(ViewMatchers.withText("2")));
+        typeText(R.id.ingredientUnitEditText, IngUnit2);
+
+        // Click "Add ingredient" button
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.doneButton))
+                .perform(ViewActions.scrollTo(), ViewActions.click());
+
+        SystemClock.sleep(2000);
+
+    }
+
+
+    /**
+     * Tests click on Recipe blocks the details of the recipe is shown correctly.
+     * Tests "BackToCookbook" functionality.
+     */
+    @org.junit.Test //passed
     public void testBackToCookbook() {
         // Navigate to cookbook screen
         Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
