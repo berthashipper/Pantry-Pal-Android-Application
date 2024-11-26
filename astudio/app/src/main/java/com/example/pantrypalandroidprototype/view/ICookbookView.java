@@ -1,5 +1,6 @@
 package com.example.pantrypalandroidprototype.view;
 
+import com.example.pantrypalandroidprototype.model.Cookbook;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
 
@@ -11,13 +12,14 @@ public interface ICookbookView {
 
     void onSearchRecipesMenu();
 
-    void onCookbookRecipesLoaded(Set<Recipe> recipes);
+    void onCookbookRecipesLoaded(Cookbook cookbook);
 
     interface Listener {
         void onViewCookbookMenu();
         void onRecipeClick(Recipe recipe);
-        void onCookbookRecipesLoaded(Set<Recipe> recipes);
+        //void onCookbookRecipesLoaded(Cookbook cookbook);
         void onNavigateToAddRecipe();
+
         void onSearchRecipesMenu();
         void onRecipeCreated(Recipe recipe);
     }

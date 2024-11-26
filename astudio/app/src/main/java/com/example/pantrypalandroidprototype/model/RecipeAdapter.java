@@ -11,16 +11,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantrypalandroidprototype.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
+
+    public Cookbook cookbook;
 
     public List<Recipe> recipes;
     public Context context;
     public OnRecipeClickListener onRecipeClickListener;
 
-    public RecipeAdapter(List<Recipe> recipes, Context context, OnRecipeClickListener onRecipeClickListener) {
-        this.recipes = recipes;
+    public RecipeAdapter(Cookbook cookbook, Context context, OnRecipeClickListener onRecipeClickListener) {
+        this.cookbook = cookbook;
         this.context = context;
         this.onRecipeClickListener = onRecipeClickListener;
     }
@@ -34,19 +37,19 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
 
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
-        Recipe recipe = recipes.get(position);
+        Recipe recipe = new ArrayList<>(cookbook.recipeList.values()).get(position);
         holder.recipeName.setText(recipe.recipeName);
         holder.itemView.setOnClickListener(v -> onRecipeClickListener.onRecipeClick(recipe));
     }
 
     @Override
     public int getItemCount() {
-        return recipes.size();
+        return cookbook.recipeList.size();
     }
 
-    public void updateRecipes(List<Recipe> newRecipes) {
-        this.recipes.clear();
-        this.recipes.addAll(newRecipes);
+    public void updateRecipes(Cookbook newCookbook) {
+        this.cookbook = newCookbook;
+        notifyDataSetChanged();
     }
 
     public interface OnRecipeClickListener {

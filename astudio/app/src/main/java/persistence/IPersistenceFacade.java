@@ -1,5 +1,6 @@
 package persistence;
 
+import com.example.pantrypalandroidprototype.model.Cookbook;
 import com.example.pantrypalandroidprototype.model.Ledger;
 
 /**
@@ -13,6 +14,12 @@ public interface IPersistenceFacade {
      * @param ledger the ledger object to be saved.
      */
     void saveLedger(final Ledger ledger);
+
+    // Method signature should match the LocalStorageFacade implementation
+    void saveCookbook(Cookbook cookbook); // Takes Cookbook as argument
+
+    // Method signature should match the LocalStorageFacade implementation
+    Cookbook loadCookbook(); // Returns a Cookbook
 
     /**
      * Loads ledger from underlying persistence subsystem.
