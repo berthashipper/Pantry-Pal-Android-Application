@@ -19,17 +19,5 @@ public interface IDeleteIngredientView {
         void onDeleteIngredient(String name);
         void onDeletionDone();
     }
-
-    /**
-     * Updates the pantry display with the current pantry contents.
-     *
-     * @param pantry The pantry object containing the ingredients.
-     */
     void updatePantryDisplay(@NonNull final Pantry pantry);
-
-    /**
-     * Returns the top-level graphical element.
-     *
-     * @return The root view.
-     */
 }

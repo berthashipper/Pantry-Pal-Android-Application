@@ -28,7 +28,7 @@ import java.util.Set;
 public class RecipeFragment extends Fragment {
 
     private static final String ARG_COOKBOOK = "cookbook";
-    private Cookbook cookbook;
+    Cookbook cookbook;
     RecyclerView recyclerView;
     RecipeAdapter recipeAdapter;
 

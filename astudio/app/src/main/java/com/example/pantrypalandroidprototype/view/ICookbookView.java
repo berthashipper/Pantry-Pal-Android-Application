@@ -17,9 +17,7 @@ public interface ICookbookView {
     interface Listener {
         void onViewCookbookMenu();
         void onRecipeClick(Recipe recipe);
-        //void onCookbookRecipesLoaded(Cookbook cookbook);
         void onNavigateToAddRecipe();
-
         void onSearchRecipesMenu();
         void onRecipeCreated(Recipe recipe);
     }

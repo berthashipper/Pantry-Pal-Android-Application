@@ -35,12 +35,8 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
     FragmentCookbookBinding binding;
     RecyclerView recyclerView;
     RecipeAdapter recipeAdapter;
-
-    //trying to replace set<recipes> with this
     Cookbook cookbook;
-
     Listener listener;
-    //RecipeDatabase recipeDatabase;
 
     public static CookbookFragment newInstance(ICookbookView.Listener listener, Cookbook cookbook) {
         CookbookFragment fragment = new CookbookFragment();

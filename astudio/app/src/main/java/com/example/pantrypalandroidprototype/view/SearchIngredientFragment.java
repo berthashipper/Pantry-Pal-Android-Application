@@ -40,7 +40,7 @@ public class SearchIngredientFragment extends Fragment implements ISearchIngredi
         binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
     }
 
-    private void onSearchButtonClicked() {
+    public void onSearchButtonClicked() {
         String query = binding.searchQueryText.getText().toString().trim();
 
         if (listener != null && !query.isEmpty()) {
@@ -50,7 +50,7 @@ public class SearchIngredientFragment extends Fragment implements ISearchIngredi
         }
     }
 
-    private void onDoneButtonClicked() {
+    public void onDoneButtonClicked() {
         if (listener != null) {
             listener.onSearchIngredientDone();
         }

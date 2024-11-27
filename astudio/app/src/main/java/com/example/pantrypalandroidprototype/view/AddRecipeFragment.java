@@ -50,7 +50,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         binding.addInstructionButton.setOnClickListener(v -> onAddInstructionButtonClicked());
     }
 
-    private void onAddIngredientButtonClicked() {
+    public void onAddIngredientButtonClicked() {
         String name = binding.ingredientNameEditText.getText().toString().trim();
         String quantityString = binding.ingredientQuantityEditText.getText().toString().trim();
         String unit = binding.ingredientUnitEditText.getText().toString().trim();
@@ -85,7 +85,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         clearIngredientFields();
     }
 
-    private void onAddInstructionButtonClicked() {
+    public void onAddInstructionButtonClicked() {
         String instruction = binding.instructionEditText.getText().toString().trim();
 
         if (instruction.isEmpty()) {
@@ -148,7 +148,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         }
     }
 
-    private void clearIngredientFields() {
+    public void clearIngredientFields() {
         binding.ingredientNameEditText.setText("");
         binding.ingredientQuantityEditText.setText("");
         binding.ingredientUnitEditText.setText("");
@@ -166,7 +166,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         }
     }
 
-    private void setupInputFields() {
+    public void setupInputFields() {
         // Restrict quantity field to numbers only
         binding.ingredientQuantityEditText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10),
                 new InputFilter() {

@@ -114,7 +114,7 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
     /**
      * Restricts the quantity input to only accept numeric values.
      */
-    private void setupQuantityField() {
+    public void setupQuantityField() {
         binding.itemQtyText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10), new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
@@ -127,7 +127,7 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         }});
     }
 
-    private void clearInputs() {
+    public void clearInputs() {
         binding.itemNameText.setText("");
         binding.itemQtyText.setText("");
         binding.itemUnitText.setText("");

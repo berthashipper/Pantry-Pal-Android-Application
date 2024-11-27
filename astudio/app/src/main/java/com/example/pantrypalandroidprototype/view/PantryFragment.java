@@ -68,13 +68,13 @@ public class PantryFragment extends Fragment implements IPantryView {
         }
     }
 
-    public void onDeleteButtonClicked(){
+    public void onDeleteButtonClicked() {
         if (listener != null) {
             listener.onDeleteIngredientsMenu();
         }
     }
 
-    public void onEditButtonClicked(){
+    public void onEditButtonClicked() {
         if (listener != null) {
             listener.onEditIngredientsMenu();
         }
