@@ -237,9 +237,8 @@ public class ControllerActivity extends AppCompatActivity
     }
 
     public Set<Recipe> generateMatchingRecipes() {
-        Log.d("ControllerActivity", "Recipes available: " + recipes.size());
-        GenerateRecipe recipeGenerator = new GenerateRecipe(pantry, recipes);
-        //GenerateRecipe recipeGenerator = new GenerateRecipe(pantry, cookbook.getAllRecipes());
+        Log.d("ControllerActivity", "Recipes available in cookbook: " + cookbook.recipeList.size());
+        GenerateRecipe recipeGenerator = new GenerateRecipe(pantry, cookbook);
         return recipeGenerator.generateMatchingRecipes();
     }
 
