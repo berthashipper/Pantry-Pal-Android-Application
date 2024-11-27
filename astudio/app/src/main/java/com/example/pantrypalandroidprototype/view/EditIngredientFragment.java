@@ -43,10 +43,15 @@ public class EditIngredientFragment extends Fragment implements IEditIngredientV
 
     public void onEditButtonClicked() {
         String name = binding.itemNameText.getText().toString().trim();
-        double newQty;
+        String quantityInput = binding.itemQuantityText.getText().toString().trim();
 
- //       try {
-            newQty = Double.parseDouble(binding.itemQuantityText.getText().toString().trim());
+        if (quantityInput.isEmpty()) {
+            Snackbar.make(binding.getRoot(), "Invalid quantity.", Snackbar.LENGTH_LONG).show();
+            return;
+        }
+
+        double newQty = Double.parseDouble(quantityInput);
+
 //        } catch (NumberFormatException e) {
 //            Snackbar.make(binding.getRoot(), "Invalid quantity.", Snackbar.LENGTH_LONG).show();
 //            return;
@@ -54,13 +59,17 @@ public class EditIngredientFragment extends Fragment implements IEditIngredientV
 
         if (listener != null && !name.isEmpty()) {
             listener.onEditIngredient(name, newQty);
+        } else if (name.isEmpty()) {
+            Snackbar.make(binding.getRoot(), "Item name cannot be empty.", Snackbar.LENGTH_LONG).show();
         }
+
         clearInputs();
     }
 
     public void showIngredientUpdateMessage(String name) {
         Snackbar.make(binding.getRoot(), "Updated quantity " + name, Snackbar.LENGTH_LONG).show();
     }
+
 
     public void showIngredientNotFoundError(String name) {
         Snackbar.make(binding.getRoot(), name + " does not exist in your pantry", Snackbar.LENGTH_LONG).show();

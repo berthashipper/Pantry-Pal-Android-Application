@@ -73,7 +73,7 @@ public class EditIngredientInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.editButton))
                 .perform(ViewActions.click());
 
-        SystemClock.sleep(5000);
+        SystemClock.sleep(3000);
 
         // Verify the ingredient is updated in the pantry
         Espresso.onView(ViewMatchers.withId(R.id.pantryContentsTextView))
@@ -89,11 +89,46 @@ public class EditIngredientInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.editIngredientsButton))
                 .perform(ViewActions.click());
 
+        // Ensure fields are empty
+        Espresso.onView(ViewMatchers.withId(R.id.itemNameText))
+                .perform(ViewActions.clearText());
+        Espresso.onView(ViewMatchers.withId(R.id.itemQuantityText))
+                .perform(ViewActions.clearText());
+
         // Attempt to edit with empty fields
-        Espresso.onView(ViewMatchers.withId(R.id.editButton)).perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.editButton))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(1000);
 
         // Verify validation error message is displayed
         Espresso.onView(ViewMatchers.withText("Invalid quantity."))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    /**
+     * Tests validation error when the name field is empty.
+     */
+    @org.junit.Test
+    public void testValidationWhenNameIsEmpty() {
+        // Navigate to Edit Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.editIngredientsButton))
+                .perform(ViewActions.click());
+
+        // Ensure the name field is empty
+        Espresso.onView(ViewMatchers.withId(R.id.itemNameText))
+                .perform(ViewActions.clearText());
+        // Enter a valid quantity
+        typeText(R.id.itemQuantityText, "2.0");
+
+        // Attempt to edit with an empty name field
+        Espresso.onView(ViewMatchers.withId(R.id.editButton))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(1000);
+
+        // Verify validation error message is displayed
+        Espresso.onView(ViewMatchers.withText("Item name cannot be empty."))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
@@ -133,10 +168,13 @@ public class EditIngredientInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.editButton))
                 .perform(ViewActions.click());
 
+        SystemClock.sleep(1000);
+
         // Verify the error message for nonexistent ingredient is displayed
         Espresso.onView(ViewMatchers.withText("Nonexistent Ingredient does not exist in your pantry"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
+
 
     /**
      * Helper method to type text into a text field.
