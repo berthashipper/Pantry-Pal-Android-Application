@@ -1,4 +1,4 @@
-# Model (Java Classes) Diagram:
+# Model — Controller Diagram:
 ```plantuml
 @startuml
 
@@ -14,16 +14,20 @@ class Ingredient{
     Set<dietary_tags> tags
     __
     public Ingredient(String name, int quantity, String unit, Set<Ingredient.dietary_tags> tags)
+    public Ingredient(String name)
     public void updateQuantity(int newQuantity)
     public String getName()
     public double getQuantity()
     public String getUnit()
+    public Set<String> getTags()
+    public void addDietaryTag(String tag)
+    public void removeDietaryTag(String tag)
     public String toString()
 }
 
 class Pantry{
-    Map<String, Ingredient> ingredientList
-    Map<Ingredient, Double> groceryList
+    Map<String, Ingredient> ingredientList = new HashMap<>()
+    Map<Ingredient, Double> groceryList = new HashMap<>()
     --
     public void add_ingredient(Ingredient ingredient)
     public void add_ingredient(String name, double quantity, String unit, Set<Ingredient.dietary_tags> tags)
@@ -49,18 +53,26 @@ class Recipe{
     int servingSize
     String url
     --
+    public Recipe(String recipeName, String imageUrl, String url)
     public Set<Ingredient> getIngredients()
-    public void printRecipeDetails()
+    public String getInstructions()
+    public Set<Ingredient.dietary_tags> getTags()
+    public String getRecipeName()
+    public String getUrl()
+    public Duration getCookTime()
+    public int getServingSize()
+    public String toString()
 }
 
 class RecipeBuilder{
-    String recipeName
-    Set<Ingredient> ingredients
-    List<String> instructions
-    Set<Ingredient.dietary_tags> tags
-    String description
-    LocalTime cookTime
-    int servingSize
+    public String recipeName
+    public Set<Ingredient> ingredients = new HashSet<>()
+    public List<String> instructions = new ArrayList<>()
+    public Set<Ingredient.dietary_tags> tags = new HashSet<>()
+    public String description
+    public Duration cookTime
+    public int servingSize
+    public String url
     --
     public RecipeBuilder setName(String name)
     public RecipeBuilder addIngredient(Ingredient ingredient)
@@ -70,18 +82,20 @@ class RecipeBuilder{
     public RecipeBuilder setDescription(String description)
     public RecipeBuilder setCookTime(LocalTime time)
     public RecipeBuilder setServingSize(int size)
+    public RecipeBuilder setUrl(String url)
     public Recipe build()
 }
 
-
 class Generate_Recipe{
     Pantry userPantry
-    Set<Recipe> allRecipes
+    Cookbook cookbook
+    static final int SIMILARITY_THRESHOLD = 3    
     --
-    public void generateMatchingRecipes()
-    private void printMatchedRecipes(Set<Recipe> matchedRecipes)
+    public GenerateRecipe(Pantry userPantry, Cookbook cookbook)
+    public Set<Recipe> generateMatchingRecipes()
     private boolean canMakeRecipe(Recipe recipe)
-    public void generateGroceryList (Set<Recipe> matchedRecipes)
+    public Ingredient findMatchingPantryIngredient(String ingredientName)
+    
 }
 
 class UI {
@@ -105,69 +119,58 @@ class UI {
     public void searchRecipeUI()
 }
 
-class Controller {
+class ControllerActivity {
+    IMainView mainView
     Pantry pantry
-    Set<Recipe> allRecipes
     Cookbook cookbook
     --
-    public void addIngredient(String name, int quantity, String unit, Set<Ingredient.dietary_tags> tags)
-    public void editIngredient(String name, int newQuantity)
-    public void deleteIngredient(String name)
-    public void viewPantryContents()
-    public void generateRecipeSuggestions()
-    public void searchIngredientByName(String name)
-    public void printIngredientsByTag(Ingredient.dietary_tags tag)
-    public void uploadRecipe(String name, String description, Duration cookTime, int servingSize,
-                              Set<Ingredient> ingredients, Set<String> instructions)
-    public void viewCookbook()
-    public void searchRecipeByName(String name)
-    public void addRecipeToCookbook(Recipe recipe)
+    public void onCreate(Bundle savedInstanceState)
+    public void onAddIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags)
+    public void onItemsDone()
+    public void onAddIngredientsMenu()
+    public void onViewPantryMenu()
+    public void onDeleteIngredient(String name)
+    public void onDeletionDone()
+    public void onDeleteIngredientsMenu()
+    public void onEditIngredient(String name, double newQty)
+    public void onEditDone()
+    public void onEditIngredientsMenu()
+    public void onViewCookbookMenu()
+    public void onRecipeClick(Recipe recipe)
+    public void onGenerateRecipes()
+    public Set<Recipe> generateMatchingRecipes()
+    public void onNavigateToAddRecipe()
+    public void onRecipeCreated(Recipe recipe)
+    public void updateCookbookFragment()
+    public void onDoneViewingRecipe()
+    public void onSearchRecipe(String query)
+    public void onSearchDone()
+    public void onSearchRecipesMenu()
+    public void onSearchIngredient(String query)
+    public void onSearchIngredientDone()
+    public void onSearchIngredientsMenu()
 }
 
 class Cookbook {
-    - recipeList: Map<String, Recipe>
+    public Map<String, Recipe> recipeList = new HashMap<>()
     --
+    public Cookbook()
+    public Cookbook(Set<Recipe> recipes)
     public void addRecipe(Recipe recipe)
     public Set<Recipe> searchRecipes(String name)
     public void initializeDefaultRecipes()
 }
 
-interface IPantryView {
-interface Listener {
-        + void onAddIngredientsMenu()
-        + void onDeleteIngredientsMenu()
-        + void onViewPantryMenu()
-        + void onEditIngredientsMenu()
-        + void onViewCookbookMenu()
-        + void onGenerateRecipes()
-        + void onSearchIngredientsMenu()    
-}
-
-interface ICookbookView {
-    interface Listener {
-        +onViewCookbookMenu()
-        +onRecipeClick(recipe: Recipe)
-        +onNavigateToAddRecipe()
-        +onSearchRecipesMenu()
-        +onRecipeCreated(recipe: Recipe)
-}
-
-interface IRecipeDetailView {
-    interface Listener {
-        void onDoneViewingRecipe();
-}
     
     
 ' associations
-UI "1" -down- "1" Controller : \tSends-calls-to\t\t
+UI "1" -down- "1" ControllerActivity : \tSends-calls-to\t\t
 
-Controller "1" -right- "*" Generate_Recipe : \tUses\t\t
-Controller "1" -down- "1" Pantry : \tManages\t\t
-Controller "1" -down- "1" Cookbook : \tManages\t\t
+ControllerActivity "1" -right- "*" Generate_Recipe : \tCalls\t\t
+ControllerActivity "1" -down- "1" Pantry : \tDelegates-calls-to\t\t
+ControllerActivity "1" -down- "1" Cookbook : \tDelegates-calls-to\t\t
 
 Pantry "1" *--up- "*" Ingredient : \tContained-in\t\t
-Pantry "1" -down- "1" IPantryView : \tImplements\t\t
-Cookbook "1" -down- "1" ICookbookView : \tImplements\t\t
 RecipeBuilder "1..*" -down- "1..*" Recipe : \tConstructs\t\t
 Generate_Recipe "1" -down "*" Recipe : \tSuggests\t\t
 Generate_Recipe "1" -down "1" Cookbook : \tAccesses\t\t

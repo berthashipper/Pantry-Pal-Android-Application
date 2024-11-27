@@ -25,8 +25,6 @@ public class GenerateRecipe implements Serializable {
     Pantry userPantry;
 
     /** The set of all available recipes. */
-    Set<Recipe> allRecipes;
-
     Cookbook cookbook;
 
     /** The similarity threshold for ingredient matching. */
