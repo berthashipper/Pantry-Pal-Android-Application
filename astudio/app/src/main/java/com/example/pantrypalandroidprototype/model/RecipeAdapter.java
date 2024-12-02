@@ -93,7 +93,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         return cookbook.recipeList.size();
     }
 
-
     /**
      * Updates the adapter with a new cookbook and refreshes the displayed data.
      *
@@ -104,6 +103,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         notifyDataSetChanged();
     }
 
+    public void setOnRecipeClickListener(OnRecipeClickListener listener) {
+        this.onRecipeClickListener = listener;
+    }
 
     /**
      * Interface definition for a callback to be invoked when a recipe is clicked.
@@ -136,5 +138,4 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
             recipeName = itemView.findViewById(R.id.recipe_name);
         }
     }
-
 }

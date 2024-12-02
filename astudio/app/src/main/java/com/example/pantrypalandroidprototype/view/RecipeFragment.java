@@ -98,6 +98,10 @@ public class RecipeFragment extends Fragment {
         return view;
     }
 
+    public void setRecipeClickListener(RecipeAdapter.OnRecipeClickListener listener) {
+        recipeAdapter.setOnRecipeClickListener(listener);
+    }
+
     /**
      * Updates the displayed list of recipes with a new {@link Cookbook}.
      *

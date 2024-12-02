@@ -59,8 +59,10 @@ public class ControllerActivity extends AppCompatActivity
     Pantry pantry;
     Set<Recipe> recipes = new HashSet<>();
     Ledger ledger;
-    IPersistenceFacade persFacade; // proxy for persistence subsystem
     Cookbook cookbook;
+    IPersistenceFacade persFacade;
+    //Cookbook loadedCookbook; // To store loaded cookbook
+    //Pantry loadedPantry;      // To store loaded pantry
     Recipe currentRecipe;
 
     public static final int REQUEST_CODE_ADD_TO_COOKBOOK = 1;
@@ -82,13 +84,12 @@ public class ControllerActivity extends AppCompatActivity
             Log.d("ControllerActivity", "Restored currentRecipe: " + currentRecipe.getRecipeName());
         }
 
-        this.persFacade = new LocalStorageFacade(this); // set up persistence proxy
-        this.ledger = this.persFacade.loadLedger(); // load the ledger
+        // Set up persistence facade
+        this.persFacade = new LocalStorageFacade(this);
 
-
-        //Local storage
-        //on destroy
-
+        // Load cookbook and pantry from local storage
+        this.cookbook = this.persFacade.loadCookbook();
+        this.pantry = this.persFacade.loadPantry();
 
         setContentView(R.layout.main);
 

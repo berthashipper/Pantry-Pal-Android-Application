@@ -2,6 +2,7 @@ package com.example.pantrypalandroidprototype.persistence;
 
 import com.example.pantrypalandroidprototype.model.Cookbook;
 import com.example.pantrypalandroidprototype.model.Ledger;
+import com.example.pantrypalandroidprototype.model.Pantry;
 
 /**
  * Interface that specifies a contract that all persistence solutions must fulfill.
@@ -9,23 +10,31 @@ import com.example.pantrypalandroidprototype.model.Ledger;
 public interface IPersistenceFacade {
 
     /**
-     * Saves ledger to underlying persistence subsystem.
+     * Saves the cookbook to the underlying persistence subsystem.
      *
-     * @param ledger the ledger object to be saved.
+     * @param cookbook The cookbook to save.
      */
-    void saveLedger(final Ledger ledger);
-
-    // Method signature should match the LocalStorageFacade implementation
-    void saveCookbook(Cookbook cookbook); // Takes Cookbook as argument
-
-    // Method signature should match the LocalStorageFacade implementation
-    Cookbook loadCookbook(); // Returns a Cookbook
+    void saveCookbook(Cookbook cookbook);
 
     /**
-     * Loads ledger from underlying persistence subsystem.
+     * Loads the cookbook from the underlying persistence subsystem.
      *
-     * @return the ledger loaded from the persistence subsystem, or an empty one if none exists.
+     * @return The loaded cookbook, or a new one if none exists.
      */
-    Ledger loadLedger();
+    Cookbook loadCookbook();
+
+    /**
+     * Saves the pantry to the underlying persistence subsystem.
+     *
+     * @param pantry The pantry to save.
+     */
+    void savePantry(Pantry pantry);
+
+    /**
+     * Loads the pantry from the underlying persistence subsystem.
+     *
+     * @return The loaded pantry, or a new one if none exists.
+     */
+    Pantry loadPantry();
 }
 
