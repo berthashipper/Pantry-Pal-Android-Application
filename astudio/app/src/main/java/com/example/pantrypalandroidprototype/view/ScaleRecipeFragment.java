@@ -62,11 +62,11 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
                     listener.onRecipeScaled(scaledRecipe);
                 } else {
                     // Show error message for invalid scale factor
-                    Toast.makeText(getContext(), "Scale factor must be greater than 0", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(getView(), "Scale factor must be greater than 0", Snackbar.LENGTH_LONG).show();
                 }
             } catch (NumberFormatException e) {
                 // Handle invalid input
-                Toast.makeText(getContext(), "Invalid scale factor", Toast.LENGTH_SHORT).show();
+                Snackbar.make(getView(), "Invalid scale factor", Snackbar.LENGTH_LONG).show();
             }
         });
     }
@@ -103,7 +103,7 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
                 listener.onScaleRecipe(scaleFactor);  // Pass the scale factor to the controller
             }
         } catch (NumberFormatException e) {
-            Toast.makeText(getContext(), "Invalid scale factor", Toast.LENGTH_SHORT).show();
+            Snackbar.make(getView(), "Invalid scale factor", Snackbar.LENGTH_LONG).show();
         }
     }
 

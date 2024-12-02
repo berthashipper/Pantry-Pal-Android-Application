@@ -98,7 +98,7 @@ public class SearchRecipeInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.searchButton))
                 .perform(ViewActions.click());
 
-        // Step 5: Verify that a toast message is displayed indicating no recipes were found
+        // Step 5: Verify that a snackbar message is displayed indicating no recipes were found
         Espresso.onView(ViewMatchers.withText("No recipes found"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }

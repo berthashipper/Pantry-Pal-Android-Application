@@ -296,12 +296,8 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onScaleRecipeMenu() {
-        if (currentRecipe != null) {
-            ScaleRecipeFragment scaleRecipeFragment = ScaleRecipeFragment.newInstance(currentRecipe, this);
-            mainView.displayFragment(scaleRecipeFragment);
-        } else {
-            Toast.makeText(this, "No recipe selected to scale", Toast.LENGTH_SHORT).show();
-        }
+        ScaleRecipeFragment scaleRecipeFragment = ScaleRecipeFragment.newInstance(currentRecipe, this);
+        mainView.displayFragment(scaleRecipeFragment);
     }
 
     @Override
