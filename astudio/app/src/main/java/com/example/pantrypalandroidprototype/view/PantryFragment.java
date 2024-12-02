@@ -51,7 +51,7 @@ public class PantryFragment extends Fragment implements IPantryView {
         binding.deleteIngredientsButton.setOnClickListener(v -> onDeleteButtonClicked());
         binding.editIngredientsButton.setOnClickListener(v -> onEditButtonClicked());
         binding.searchIngredientsButton.setOnClickListener(v -> onSearchIngredientsMenu());
-
+        binding.clearPantryButton.setOnClickListener(v -> onClearPantryButtonClicked());
 
         this.binding.pantryContentsTextView.setText(this.pantry.toString());
     }
@@ -83,6 +83,12 @@ public class PantryFragment extends Fragment implements IPantryView {
     public void onSearchIngredientsMenu() {
         if (listener != null) {
             listener.onSearchIngredientsMenu();
+        }
+    }
+
+    public void onClearPantryButtonClicked() {
+        if (listener != null) {
+            listener.onClearPantry();  // Notify listener to handle clearing the pantry
         }
     }
 }

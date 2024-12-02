@@ -114,6 +114,10 @@ public class GenerateRecipesInstrumentedTest {
      */
     @org.junit.Test
     public void testNoMatchingRecipes() {
+        // Clear pantry from any persisted ingredients
+        Espresso.onView(ViewMatchers.withId(R.id.clearPantryButton))
+                .perform(ViewActions.click());
+
         SystemClock.sleep(3000);
 
         // Navigate to Generate Recipes directly

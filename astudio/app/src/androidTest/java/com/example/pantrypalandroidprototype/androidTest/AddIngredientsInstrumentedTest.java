@@ -67,9 +67,18 @@ public class AddIngredientsInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());
 
         SystemClock.sleep(5000);
+
         // Verify the result is correct
         Espresso.onView(ViewMatchers.withId(R.id.pantryContentsTextView))
                 .check(ViewAssertions.matches(withText("🛒 Pantry Contents:\n\n• Sugar\n   Quantity: 1.5 kg\n   Tags: GLUTEN_FREE, VEGAN\n\n")));
+
+        // Clear pantry from any persisted ingredients
+        Espresso.onView(ViewMatchers.withId(R.id.clearPantryButton))
+                .perform(ViewActions.click());
+
+        // Verify the result is correct
+        Espresso.onView(ViewMatchers.withId(R.id.pantryContentsTextView))
+                .check(ViewAssertions.matches(withText("🛒 Pantry Contents:\n\nYour pantry is currently empty. Add some ingredients to get started!\n")));
 
     }
 
@@ -110,27 +119,6 @@ public class AddIngredientsInstrumentedTest {
                 .check(ViewAssertions.matches(ViewMatchers.withText("Please fill in all fields.")));
     }
 
-//    /**
-//     * Tests validation when quantity input is invalid.
-//     */
-//    @org.junit.Test
-//    public void testValidationForInvalidQuantity() {
-//        // Navigate to Add Ingredients screen
-//        Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
-//                .perform(ViewActions.click());
-//
-//        // Input invalid quantity
-//        typeText(R.id.itemNameText, "Flour");
-//        typeText(R.id.itemQtyText, "invalid");
-//        typeText(R.id.itemUnitText, "kg");
-//
-//        // Click "Add" button
-//        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
-//
-//        // Verify that a validation error message is displayed
-//        Espresso.onView(ViewMatchers.withText("Invalid quantity. Please enter a valid number."))
-//                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-//    }
 
     /**
      * Helper method to type text into a text field.

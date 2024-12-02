@@ -67,6 +67,11 @@ public class Pantry implements Serializable {
         return false;
     }
 
+    // Method to clear all ingredients
+    public void clear() {
+        ingredientList.clear();
+    }
+
     /**
      * Edits the quantity of an existing ingredient in the pantry.
      *

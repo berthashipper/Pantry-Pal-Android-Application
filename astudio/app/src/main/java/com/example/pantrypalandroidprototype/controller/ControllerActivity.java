@@ -185,6 +185,15 @@ public class ControllerActivity extends AppCompatActivity
     }
 
     @Override
+    public void onClearPantry() {
+        // Clear all ingredients from the pantry
+        pantry.clear();
+        // Save updated pantry to local storage
+        persFacade.savePantry(pantry);
+        onViewPantryMenu(); // Return to the pantry view
+    }
+
+    @Override
     public void onEditIngredient(String name, double newQty) {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         if (currentFragment instanceof EditIngredientFragment) {

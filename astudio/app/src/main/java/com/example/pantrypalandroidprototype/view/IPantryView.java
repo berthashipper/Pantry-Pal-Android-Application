@@ -13,8 +13,6 @@ import java.util.Set;
  * This interface communicates with the associated presenter or controller to manage the user's interactions with the pantry.
  */
 public interface IPantryView {
-
-
     /**
      * The {@code Listener} interface defines the methods for handling user actions related to pantry management.
      * It allows the view to notify the controller or presenter about various actions, such as adding ingredients,
@@ -59,6 +57,6 @@ public interface IPantryView {
          * The implementation should handle navigating to a screen where the user can search for specific ingredients in the pantry.
          */
         void onSearchIngredientsMenu();
+        void onClearPantry();
     }
-
 }
