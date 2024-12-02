@@ -70,10 +70,17 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        // Save cookbook and pantry before the activity is destroyed
+        persFacade.saveCookbook(cookbook);
+        persFacade.savePantry(pantry);
+
+        // Optionally save other data like the current recipe
         if (currentRecipe != null) {
             outState.putSerializable("currentRecipe", currentRecipe);
         }
     }
+
     @SuppressLint("MissingInflatedId")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,22 +93,25 @@ public class ControllerActivity extends AppCompatActivity
 
         // Set up persistence facade
         this.persFacade = new LocalStorageFacade(this);
-
         // Load cookbook and pantry from local storage
         this.cookbook = this.persFacade.loadCookbook();
         this.pantry = this.persFacade.loadPantry();
 
         setContentView(R.layout.main);
-
         this.mainView = new MainView(this, this);
 
         setContentView(this.mainView.getRootView());
 
-        pantry = new Pantry();
-        cookbook = new Cookbook();
-
+        // Initialize empty pantry and cookbook if not found
+        if (this.pantry == null) {
+            this.pantry = new Pantry();
+        }
+        if (this.cookbook == null) {
+            this.cookbook = new Cookbook();
+        }
+        //pantry = new Pantry();
+        //cookbook = new Cookbook();
         mainView.setListener(this);
-
 
         // Display pantry fragment to start app
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
@@ -115,9 +125,10 @@ public class ControllerActivity extends AppCompatActivity
         for (Ingredient.dietary_tags tag : tags) {
             tagStrings.add(tag.name()); // Converts enum to String
         }
-
         Ingredient newIngredient = new Ingredient(name, qty, unit, tagStrings);
         pantry.add_ingredient(newIngredient);
+        // Save updated pantry to local storage
+        persFacade.savePantry(pantry);
     }
 
     @Override
@@ -156,6 +167,8 @@ public class ControllerActivity extends AppCompatActivity
                 deleteIngredientFragment.showIngredientNotFoundError(name);
             }
         }
+        // Save updated pantry to local storage
+        persFacade.savePantry(pantry);
         onViewPantryMenu(); // Return to the pantry view
     }
 
@@ -184,6 +197,8 @@ public class ControllerActivity extends AppCompatActivity
                 editIngredientFragment.showIngredientNotFoundError(name);
             }
         }
+        // Save updated pantry to local storage
+        persFacade.savePantry(pantry);
         onViewPantryMenu(); // Return to pantry view
     }
 
@@ -267,26 +282,15 @@ public class ControllerActivity extends AppCompatActivity
     public void onRecipeCreated(Recipe recipe) {
         // Add the recipe to the set of recipes
         cookbook.addRecipe(recipe);
-        //recipes.add(recipe);
         // Persist changes to the cookbook
         persFacade.saveCookbook(cookbook);
-
         // Update the view
         updateCookbookFragment();
-
-        // Display the recipe in the RecipeDetailFragment
-        //RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(recipe);
-        //mainView.displayFragment(recipeDetailFragment);
-
         // Update the CookbookFragment to include the new recipe
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainerView, CookbookFragment.newInstance(this, cookbook))
                 .commit();
-
-        //this.ledger.addRecipe(recipe); // save recipe onto ledger
-        //this.persFacade.saveLedger(ledger); // save the ledger to persistent memory
     }
-
 
     public void updateCookbookFragment() {
         // Update CookbookFragment with the new list of recipes

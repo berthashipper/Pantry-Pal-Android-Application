@@ -22,10 +22,9 @@ import java.io.ObjectOutputStream;
 
 public class LocalStorageFacade implements IPersistenceFacade {
 
-    private static final String COOKBOOK_FNAME = "cookbook.pos";
-    private static final String PANTRY_FNAME = "pantry.pos";
-
-    private final Context context;
+    static final String COOKBOOK_FNAME = "cookbook.pos";
+    static final String PANTRY_FNAME = "pantry.pos";
+    final Context context;
 
     /**
      * Constructs a {@code LocalStorageFacade} with the specified context.
@@ -70,7 +69,7 @@ public class LocalStorageFacade implements IPersistenceFacade {
             final String emsg = String.format("I/O exception while reading cookbook: %s", e.getMessage());
             Log.e("LocalStorageFacade", emsg);
         }
-        return new Cookbook();  // Return a default empty cookbook if loading fails
+        return new Cookbook();  // Return a default empty cookbook if not found
     }
 
     /**
@@ -107,6 +106,6 @@ public class LocalStorageFacade implements IPersistenceFacade {
             final String emsg = String.format("I/O exception while reading pantry: %s", e.getMessage());
             Log.e("LocalStorageFacade", emsg);
         }
-        return new Pantry();  // Return a default empty pantry if loading fails
+        return new Pantry();  // Return a default empty pantry if not found
     }
 }
