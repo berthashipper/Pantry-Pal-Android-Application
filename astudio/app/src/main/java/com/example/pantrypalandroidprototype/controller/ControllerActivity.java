@@ -47,6 +47,7 @@ import java.util.Set;
 
 import com.example.pantrypalandroidprototype.persistence.IPersistenceFacade;
 import com.example.pantrypalandroidprototype.persistence.LocalStorageFacade;
+import com.google.android.material.snackbar.Snackbar;
 
 public class ControllerActivity extends AppCompatActivity
         implements IAddIngredientView.Listener, IPantryView.Listener,
@@ -64,10 +65,22 @@ public class ControllerActivity extends AppCompatActivity
 
     public static final int REQUEST_CODE_ADD_TO_COOKBOOK = 1;
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (currentRecipe != null) {
+            outState.putSerializable("currentRecipe", currentRecipe);
+        }
+    }
     @SuppressLint("MissingInflatedId")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null && savedInstanceState.containsKey("currentRecipe")) {
+            currentRecipe = (Recipe) savedInstanceState.getSerializable("currentRecipe");
+            Log.d("ControllerActivity", "Restored currentRecipe: " + currentRecipe.getRecipeName());
+        }
 
         this.persFacade = new LocalStorageFacade(this); // set up persistence proxy
         this.ledger = this.persFacade.loadLedger(); // load the ledger
@@ -208,6 +221,10 @@ public class ControllerActivity extends AppCompatActivity
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
 
         if (!matchedRecipes.isEmpty()) {
+            // Select the first matched recipe to display
+            Recipe selectedRecipe = matchedRecipes.iterator().next();
+            this.currentRecipe = selectedRecipe;
+
             // Pass matched recipes to a new fragment
             RecipeFragment recipeFragment = RecipeFragment.newInstance(new Cookbook(matchedRecipes));
             mainView.displayFragment(recipeFragment);
@@ -296,8 +313,18 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onScaleRecipeMenu() {
-        ScaleRecipeFragment scaleRecipeFragment = ScaleRecipeFragment.newInstance(currentRecipe, this);
-        mainView.displayFragment(scaleRecipeFragment);
+        if (currentRecipe != null) {
+            Log.d("ControllerActivity", "Navigating to ScaleRecipeFragment with recipe: " + currentRecipe.getRecipeName());
+            ScaleRecipeFragment fragment = ScaleRecipeFragment.newInstance(currentRecipe, this);
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerView, fragment)
+                    .addToBackStack(null)
+                    .commit();
+        } else {
+            Log.e("ControllerActivity", "Recipe is null while navigating to ScaleRecipeFragment");
+            Snackbar.make(findViewById(android.R.id.content), "Error: No recipe selected", Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -382,7 +409,6 @@ public class ControllerActivity extends AppCompatActivity
         ScaleRecipeFragment scaleRecipeFragment = ScaleRecipeFragment.newInstance(currentRecipe,this);
         mainView.displayFragment(scaleRecipeFragment);
     }
-
 
     @Override
     public void onRecipeScaled(Recipe scaledRecipe) {

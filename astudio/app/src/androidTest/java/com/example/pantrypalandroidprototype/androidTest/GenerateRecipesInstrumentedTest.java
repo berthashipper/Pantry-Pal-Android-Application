@@ -115,7 +115,7 @@ public class GenerateRecipesInstrumentedTest {
     @org.junit.Test
     public void testNoMatchingRecipes() {
         SystemClock.sleep(3000);
-        
+
         // Navigate to Generate Recipes directly
         Espresso.onView(ViewMatchers.withId(R.id.generateRecipesMenuButton))
                 .perform(ViewActions.click());
@@ -134,7 +134,7 @@ public class GenerateRecipesInstrumentedTest {
      * @param qty   the quantity of the ingredient.
      * @param unit  the unit of the ingredient.
      */
-    private void addIngredient(String name, String qty, String unit) {
+    public static void addIngredient(String name, String qty, String unit) {
         // Wait until the "Add Ingredient" form is visible
         Espresso.onView(ViewMatchers.withId(R.id.itemNameText))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
@@ -155,7 +155,7 @@ public class GenerateRecipesInstrumentedTest {
      * @param viewId the id of the text field to type into.
      * @param text   the text to be typed.
      */
-    private void typeText(final int viewId, final String text) {
+    public static void typeText(final int viewId, final String text) {
         Espresso.onView(ViewMatchers.withId(viewId))
                 .perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard());
     }

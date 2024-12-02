@@ -2,6 +2,7 @@ package com.example.pantrypalandroidprototype.view;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,8 +52,13 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
             this.recipe = (Recipe) getArguments().getSerializable("recipe");
         }
 
+        if (recipe == null) {
+            Log.e("ScaleRecipeFragment", "Recipe object is null");
+            Snackbar.make(view, "Error: Recipe data is missing", Snackbar.LENGTH_LONG).show();
+            return;  // Prevent further execution
+        }
+
         binding.recipeName.setText(recipe.getRecipeName());
-        //binding.scaleFactor.setText("1.0"); // Default scale factor
 
         binding.scaleButton.setOnClickListener(v -> {
             try {

@@ -132,6 +132,66 @@ public class ScaleRecipeInstrumentedTest {
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
+    /**
+     * This tests the functionality of scaling a recipe from generate recipes.
+     */
+    @org.junit.Test
+    public void testScaleRecipe_generatedRecipe() {
+        // Navigate to Add Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
+                .perform(ViewActions.click());
+
+        // Add 3 slices of bread
+        GenerateRecipesInstrumentedTest.addIngredient("Bread", "3", "slices");
+
+        // Add 4 slices of cheese
+        GenerateRecipesInstrumentedTest.addIngredient("Cheese", "4", "slices");
+
+        // Navigate back to the Pantry view
+        Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(3000);
+
+        // Navigate to Generate Recipes
+        Espresso.onView(ViewMatchers.withId(R.id.generateRecipesMenuButton))
+                .perform(ViewActions.click());
+
+        // Step 2: Select a recipe
+        Espresso.onView(ViewMatchers.withId(R.id.recipe_recycler_view))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Grilled Cheese Sandwich")),
+                        ViewActions.click()
+                ));
+
+        // Step 3: Click the "Scale Recipe" button
+        Espresso.onView(ViewMatchers.withId(R.id.scale_button))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(1000);
+
+        // Step 4: Enter a valid scaling factor (e.g., 2)
+        this.typeText(R.id.scaleFactor, "2");
+
+        SystemClock.sleep(1000);
+
+        // Step 5: Click the "Apply Scaling" button
+        Espresso.onView(ViewMatchers.withId(R.id.scaleButton))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(1000);
+
+        // Step 6: Verify that the scaled recipe is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.fragmentContainerView))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        SystemClock.sleep(1000);
+
+        // Step 7: Verify that a scaled ingredient is correctly updated (e.g., "2 cups flour")
+        Espresso.onView(ViewMatchers.withText("4.0 slices of Bread"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
 
     /**
      * Helper method to type text into a text field.
@@ -145,4 +205,3 @@ public class ScaleRecipeInstrumentedTest {
         Espresso.closeSoftKeyboard();
     }
 }
-
