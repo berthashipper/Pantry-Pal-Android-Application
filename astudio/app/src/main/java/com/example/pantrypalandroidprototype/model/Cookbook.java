@@ -9,25 +9,55 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * The {@code Cookbook} class represents a collection of recipes. It provides functionality
+ * to add, search, and manage recipes in a cookbook.
+ */
 public class Cookbook implements Serializable {
+    /**
+     * A map that stores the list of recipes in the cookbook.
+     * The key is the recipe name, and the value is the corresponding {@link Recipe} object.
+     */
     public Map<String, Recipe> recipeList = new HashMap<>();
 
-    // Default constructor
+    /**
+     * Default constructor that initializes the cookbook with a set of default recipes.
+     */
     public Cookbook() {
         initializeDefaultRecipes();
     }
 
-    // Constructor accepting a Set of Recipes
+
+    /**
+     * Constructs a {@code Cookbook} with a specified set of recipes.
+     *
+     * @param recipes A set of {@link Recipe} objects to be added to the cookbook.
+     */
     public Cookbook(Set<Recipe> recipes) {
         for (Recipe recipe : recipes) {
             addRecipe(recipe);
         }
     }
 
+    /**
+     * Adds a new recipe to the cookbook.
+     *
+     * @param recipe The {@link Recipe} object to be added.
+     */
     public void addRecipe(Recipe recipe) {
         recipeList.put(recipe.recipeName, recipe);
     }
 
+
+    /**
+     * Searches for recipes whose names contain the specified search term.
+     * <p>
+     * The search is case-insensitive and returns a set of matching recipes.
+     * </p>
+     *
+     * @param name The search term used to filter recipe names.
+     * @return A set of {@link Recipe} objects whose names contain the search term.
+     */
     public Set<Recipe> searchRecipes(String name) {
         Set<Recipe> foundRecipes = new HashSet<>();
         for (String key : recipeList.keySet()) {
@@ -38,7 +68,16 @@ public class Cookbook implements Serializable {
         return foundRecipes;
     }
 
-    // Method to initialize default recipes
+
+
+    /**
+     * Initializes the cookbook with a predefined set of recipes.
+     * <p>
+     * The default recipes include various cuisines and dietary preferences, such as
+     * vegetarian, vegan, gluten-free, and more. Each recipe contains ingredients,
+     * cooking instructions, a description, and other details.
+     * </p>
+     */
     public void initializeDefaultRecipes() {
         // Recipe 1: Spaghetti Bolognese
         addRecipe(new RecipeBuilder()

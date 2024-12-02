@@ -15,15 +15,48 @@ import com.example.pantrypalandroidprototype.R;
 
 import java.util.List;
 
+/**
+ * The {@code IngredientAdapter} class is a custom adapter for displaying a list of ingredients
+ * in a {@link RecyclerView}. Each item in the RecyclerView represents an ingredient, showing
+ * its name and allowing interaction for managing dietary tags.
+ * <p>
+ * This adapter handles the binding of ingredient data to views and provides functionality
+ * to manage and display dietary tags through a dialog.
+ * </p>
+ */
+
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
+
+    /**
+     * List of {@link Ingredient} objects to be displayed in the RecyclerView.
+     */
     private final List<Ingredient> ingredientList;
+
+    /**
+     * Context for inflating views and creating dialogs.
+     */
     private final Context context;
 
+
+    /**
+     * Constructs an {@code IngredientAdapter} with the specified ingredient list and context.
+     *
+     * @param ingredientList The list of ingredients to display.
+     * @param context        The context used for inflating views and creating dialogs.
+     */
     public IngredientAdapter(List<Ingredient> ingredientList, Context context) {
         this.ingredientList = ingredientList;
         this.context = context;
     }
 
+
+    /**
+     * Inflates the view for an individual ingredient item and creates a new {@link IngredientViewHolder}.
+     *
+     * @param parent   The parent view group into which the new view will be added.
+     * @param viewType The view type of the new view.
+     * @return A new {@link IngredientViewHolder} holding the inflated view.
+     */
     @NonNull
     @Override
     public IngredientViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -31,21 +64,42 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         return new IngredientViewHolder(view);
     }
 
+
+    /**
+     * Binds the data of the ingredient at the specified position to the {@link IngredientViewHolder}.
+     *
+     * @param holder   The {@link IngredientViewHolder} to bind data to.
+     * @param position The position of the ingredient in the list.
+     */
     @Override
     public void onBindViewHolder(@NonNull IngredientViewHolder holder, int position) {
         Ingredient ingredient = ingredientList.get(position);
         holder.nameTextView.setText(ingredient.getName());
     }
 
+
+    /**
+     * Returns the total number of ingredients in the list.
+     *
+     * @return The number of ingredients in the list, or 0 if the list is null.
+     */
     @Override
     public int getItemCount() {
         return ingredientList != null ? ingredientList.size() : 0;
     }
 
-    public static class IngredientViewHolder extends RecyclerView.ViewHolder {
-        TextView nameTextView, dietaryTagsTextView;
-        LinearLayout dietaryTagsLayout;
 
+    /**
+     * The {@code IngredientViewHolder} class holds references to the views for each ingredient item.
+     */
+    public static class IngredientViewHolder extends RecyclerView.ViewHolder {
+        TextView nameTextView, dietaryTagsTextView; //TextView to display the ingredient's name, TextView to display dietary tags associated with the ingredient.
+        LinearLayout dietaryTagsLayout; //Layout for displaying dietary tags.
+        /**
+         * Constructs an {@code IngredientViewHolder} and initializes its views.
+         *
+         * @param itemView The view representing an individual ingredient item.
+         */
         public IngredientViewHolder(View itemView) {
             super(itemView);
             nameTextView = itemView.findViewById(R.id.ingredient_name);
@@ -54,6 +108,12 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         }
     }
 
+    /**
+     * Displays a dialog allowing the user to select dietary tags for a specified ingredient.
+     *
+     * @param ingredient The ingredient for which dietary tags are being managed.
+     * @param position   The position of the ingredient in the list.
+     */
     private void showDietaryTagsDialog(Ingredient ingredient, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle("Select Dietary Tags");

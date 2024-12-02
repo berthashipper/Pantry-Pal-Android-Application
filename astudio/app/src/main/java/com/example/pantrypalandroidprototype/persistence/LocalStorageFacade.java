@@ -19,13 +19,32 @@ import java.io.ObjectOutputStream;
  */
 public class LocalStorageFacade implements IPersistenceFacade {
 
+    /**
+     * The file name for storing the ledger data.
+     */
     private static final String LEDGER_FNAME = "ledger.pos";
+
+    /**
+     * The application context used for accessing file storage.
+     */
     private final Context context;
 
+
+    /**
+     * Constructs a {@code LocalStorageFacade} with the specified context.
+     *
+     * @param context The application context used for file operations.
+     */
     public LocalStorageFacade(final Context context) {
         this.context = context;
     }
 
+
+    /**
+     * Saves the {@link Ledger} object to local storage.
+     *
+     * @param ledger The {@link Ledger} to be saved.
+     */
     @Override
     public void saveLedger(final Ledger ledger) {
         final File outFile = new File(context.getFilesDir(), LEDGER_FNAME);
@@ -38,6 +57,15 @@ public class LocalStorageFacade implements IPersistenceFacade {
         }
     }
 
+
+    /**
+     * Loads the {@link Ledger} object from local storage.
+     * <p>
+     * If the ledger file does not exist, a new {@link Ledger} is returned.
+     * </p>
+     *
+     * @return The loaded {@link Ledger}, or a new instance if the file does not exist or an error occurs.
+     */
     @Override
     public Ledger loadLedger() {
         Ledger ledger = new Ledger();
@@ -53,6 +81,12 @@ public class LocalStorageFacade implements IPersistenceFacade {
         return ledger;
     }
 
+
+    /**
+     * Saves the {@link Cookbook} object to local storage.
+     *
+     * @param cookbook The {@link Cookbook} to be saved.
+     */
     @Override
     public void saveCookbook(Cookbook cookbook) {
         final File outFile = new File(context.getFilesDir(), "cookbook.pos");
@@ -65,6 +99,15 @@ public class LocalStorageFacade implements IPersistenceFacade {
         }
     }
 
+
+    /**
+     * Loads the {@link Cookbook} object from local storage.
+     * <p>
+     * If the cookbook file does not exist or an error occurs, a new {@link Cookbook} instance is returned.
+     * </p>
+     *
+     * @return The loaded {@link Cookbook}, or a new instance if the file does not exist or an error occurs.
+     */
     @Override
     public Cookbook loadCookbook() {
         final File inFile = new File(context.getFilesDir(), "cookbook.pos");

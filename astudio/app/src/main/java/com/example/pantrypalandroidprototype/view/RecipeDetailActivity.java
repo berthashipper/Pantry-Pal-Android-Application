@@ -25,6 +25,7 @@ public class RecipeDetailActivity extends AppCompatActivity {
         recipeInstructions = findViewById(R.id.recipe_instructions);
         recipeCookTime = findViewById(R.id.recipe_cook_time);
         recipeServingSize = findViewById(R.id.recipe_serving_size);
+
         Button addToCookbookButton = findViewById(R.id.add_to_cookbook_button);
 
         Intent intent = getIntent();

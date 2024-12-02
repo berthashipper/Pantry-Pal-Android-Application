@@ -20,18 +20,46 @@ import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The {@code AddRecipeFragment} class represents a fragment for creating and adding recipes.
+ * It implements the {@link IAddRecipeView} interface and provides functionality to input recipe details,
+ * ingredients, and instructions, while validating the input fields.
+ */
 public class AddRecipeFragment extends Fragment implements IAddRecipeView {
-
+    /**
+     * View binding for accessing the UI elements of the fragment.
+     */
     FragmentAddRecipeBinding binding;
+    /**
+     * Listener for handling interactions with the fragment.
+     */
     Listener listener;
+    /**
+     * Instance of {@link RecipeBuilder} for building and managing the recipe creation process.
+     */
     RecipeBuilder recipeBuilder = new RecipeBuilder();
 
+    /**
+     * Creates a new instance of {@code AddRecipeFragment} with a specified listener.
+     *
+     * @param listener The listener to handle fragment interactions.
+     * @return A new instance of {@code AddRecipeFragment}.
+     */
     public static AddRecipeFragment newInstance(Listener listener) {
         AddRecipeFragment fragment = new AddRecipeFragment();
         fragment.listener = listener;
         return fragment;
     }
 
+
+    /**
+     * Called to create the fragment's view hierarchy.
+     *
+     * @param inflater  The {@link LayoutInflater} object for inflating views.
+     * @param container The parent view group for the fragment's UI.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous state.
+     * @return The root view of the fragment.
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -40,6 +68,13 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         return binding.getRoot();
     }
 
+
+    /**
+     * Called immediately after the fragment's view has been created.
+     *
+     * @param view The fragment's root view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous state.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -50,6 +85,11 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         binding.addInstructionButton.setOnClickListener(v -> onAddInstructionButtonClicked());
     }
 
+
+    /**
+     * Handles the "Add Ingredient" button click event.
+     * Validates the ingredient input fields, creates an ingredient, and adds it to the recipe.
+     */
     private void onAddIngredientButtonClicked() {
         String name = binding.ingredientNameEditText.getText().toString().trim();
         String quantityString = binding.ingredientQuantityEditText.getText().toString().trim();
@@ -85,6 +125,11 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         clearIngredientFields();
     }
 
+
+    /**
+     * Handles the "Add Instruction" button click event.
+     * Validates the instruction input field and adds the instruction to the recipe.
+     */
     private void onAddInstructionButtonClicked() {
         String instruction = binding.instructionEditText.getText().toString().trim();
 
@@ -101,6 +146,10 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         clearInstructionField();
     }
 
+    /**
+     * Handles the "Done" button click event.
+     * Validates recipe details and notifies the listener to save the created recipe.
+     */
     public void onDoneButtonClicked() {
         String recipeName = binding.recipeNameEditText.getText().toString().trim();
         String description = binding.descriptionEditText.getText().toString().trim();
@@ -148,16 +197,25 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         }
     }
 
+    /**
+     * Clears the ingredient input fields.
+     */
     private void clearIngredientFields() {
         binding.ingredientNameEditText.setText("");
         binding.ingredientQuantityEditText.setText("");
         binding.ingredientUnitEditText.setText("");
     }
 
+    /**
+     * Clears the instruction input field.
+     */
     public void clearInstructionField() {
         binding.instructionEditText.setText("");
     }
 
+    /**
+     * Saves the current recipe and notifies the listener.
+     */
     @Override
     public void onSaveRecipe() {
         Recipe newRecipe = recipeBuilder.build();
@@ -166,6 +224,9 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         }
     }
 
+    /**
+     * Sets up input fields to restrict input to numeric values for quantity, cook time, and serving size.
+     */
     private void setupInputFields() {
         // Restrict quantity field to numbers only
         binding.ingredientQuantityEditText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10),
