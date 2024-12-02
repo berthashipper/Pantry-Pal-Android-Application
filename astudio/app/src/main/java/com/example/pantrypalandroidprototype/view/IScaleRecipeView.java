@@ -2,9 +2,10 @@ package com.example.pantrypalandroidprototype.view;
 
 import com.example.pantrypalandroidprototype.model.Recipe;
 
-public interface IRecipeDetailView {
+public interface IScaleRecipeView {
+
     interface Listener {
-        void onDoneViewingRecipe();
-        void onScaleRecipeMenu();
+        void onScaleRecipe(double scaleFactor);
+        void onRecipeScaled(Recipe scaledRecipe);
     }
 }

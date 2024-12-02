@@ -1,0 +1,53 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <!-- Recipe Name Section -->
+    <TextView
+        android:id="@+id/recipeName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#333333"
+        android:layout_marginBottom="16dp"
+        android:text="Recipe Name"/>
+
+    <!-- Input and Button Section -->
+    <EditText
+        android:id="@+id/scaleFactor"
+        android:inputType="numberDecimal"
+        android:hint="Enter scale factor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/scaleButton"
+        android:text="Scale Recipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Scaled Ingredients Section -->
+    <TextView
+        android:id="@+id/scaledIngredients"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Scaled Ingredients will appear here"
+        android:visibility="gone"
+        android:paddingTop="16dp"/>
+
+    <!-- Error Message Section -->
+    <TextView
+        android:id="@+id/errorMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:textColor="@android:color/holo_red_dark"
+        android:paddingTop="8dp"
+        android:text="Error: Invalid scale factor"/>
+
+</LinearLayout>

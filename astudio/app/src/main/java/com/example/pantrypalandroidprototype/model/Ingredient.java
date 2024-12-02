@@ -92,6 +92,15 @@ public class Ingredient implements Serializable {
     }
 
     /**
+     * Returns the scaled quantity of the ingredient.
+     *
+     * @return The scaled quantity of the ingredient.
+     */
+    public void scaleQuantity(double factor) {
+        this.quantity *= factor;
+    }
+
+    /**
      * Returns the unit of measurement for the ingredient.
      *
      * @return The unit of measurement for the ingredient.

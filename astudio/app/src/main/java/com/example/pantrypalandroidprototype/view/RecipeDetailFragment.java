@@ -66,6 +66,8 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
 
         // Reference the Done button
         Button doneButton = view.findViewById(R.id.done_button);
+        // Reference the Scale button
+        Button scaleButton = view.findViewById(R.id.scale_button);
 
         // Set the recipe details in the corresponding views
         recipeName.setText(recipe.recipeName);
@@ -90,6 +92,13 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
             }
         });
 
+        // Set up the "Scale" button to navigate to ScaleRecipeFragment
+        scaleButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onScaleRecipeMenu();  // Notify listener when Scale is pressed
+            }
+        });
+
         return view;
     }
 
@@ -101,4 +110,3 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
         return "Not specified";
     }
 }
-

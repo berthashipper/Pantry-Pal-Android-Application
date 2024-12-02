@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,12 +30,14 @@ import com.example.pantrypalandroidprototype.view.IEditIngredientView;
 import com.example.pantrypalandroidprototype.view.IMainView;
 import com.example.pantrypalandroidprototype.view.IPantryView;
 import com.example.pantrypalandroidprototype.view.IRecipeDetailView;
+import com.example.pantrypalandroidprototype.view.IScaleRecipeView;
 import com.example.pantrypalandroidprototype.view.ISearchIngredientView;
 import com.example.pantrypalandroidprototype.view.ISearchRecipeView;
 import com.example.pantrypalandroidprototype.view.MainView;
 import com.example.pantrypalandroidprototype.view.PantryFragment;
 import com.example.pantrypalandroidprototype.view.RecipeDetailFragment;
 import com.example.pantrypalandroidprototype.view.RecipeFragment;
+import com.example.pantrypalandroidprototype.view.ScaleRecipeFragment;
 import com.example.pantrypalandroidprototype.view.SearchIngredientFragment;
 import com.example.pantrypalandroidprototype.view.SearchRecipeFragment;
 
@@ -44,18 +47,12 @@ import java.util.Set;
 
 import com.example.pantrypalandroidprototype.persistence.IPersistenceFacade;
 import com.example.pantrypalandroidprototype.persistence.LocalStorageFacade;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ControllerActivity extends AppCompatActivity
         implements IAddIngredientView.Listener, IPantryView.Listener,
         IDeleteIngredientView.Listener, IEditIngredientView.Listener,
         ICookbookView.Listener, IAddRecipeView.Listener, IRecipeDetailView.Listener,
-        ISearchRecipeView.Listener, ISearchIngredientView.Listener {
+        ISearchRecipeView.Listener, ISearchIngredientView.Listener, IScaleRecipeView.Listener {
 
     IMainView mainView;
     Pantry pantry;
@@ -63,6 +60,7 @@ public class ControllerActivity extends AppCompatActivity
     Ledger ledger;
     IPersistenceFacade persFacade; // proxy for persistence subsystem
     Cookbook cookbook;
+    Recipe currentRecipe;
 
     public static final int REQUEST_CODE_ADD_TO_COOKBOOK = 1;
 
@@ -75,22 +73,8 @@ public class ControllerActivity extends AppCompatActivity
         this.ledger = this.persFacade.loadLedger(); // load the ledger
 
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-
-        CollectionReference cref = db.collection("users");
-        DocumentReference dref = cref.document("user1");
-
-        Log.i("PantryPal", "calling get");
-        Task<DocumentSnapshot> task = dref.get();
-
-        task.addOnSuccessListener(new OnSuccessListener<>() {
-            @Override
-            public void onSuccess(DocumentSnapshot dsnap) {
-                String username = (String) dsnap.get("username");
-                Log.i("PantryPal", "read username = " + username);
-            }
-        });
+        //Local storage
+        //on destroy
 
 
         setContentView(R.layout.main);
@@ -103,7 +87,7 @@ public class ControllerActivity extends AppCompatActivity
         cookbook = new Cookbook();
 
         mainView.setListener(this);
-        
+
 
         // Display pantry fragment to start app
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
@@ -132,6 +116,7 @@ public class ControllerActivity extends AppCompatActivity
         // Switch to the Pantry fragment
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
     }
+
     @Override
     public void onAddIngredientsMenu() {
         AddIngredientFragment addIngredientFragment = AddIngredientFragment.newInstance(this);
@@ -211,6 +196,7 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onRecipeClick(Recipe recipe) {
+        this.currentRecipe = recipe;
         RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(recipe);
         this.mainView.displayFragment(recipeDetailFragment);
     }
@@ -308,6 +294,15 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(CookbookFragment.newInstance(this, cookbook));
     }
 
+    @Override
+    public void onScaleRecipeMenu() {
+        if (currentRecipe != null) {
+            ScaleRecipeFragment scaleRecipeFragment = ScaleRecipeFragment.newInstance(currentRecipe, this);
+            mainView.displayFragment(scaleRecipeFragment);
+        } else {
+            Toast.makeText(this, "No recipe selected to scale", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public void onSearchRecipe(String query) {
@@ -384,5 +379,19 @@ public class ControllerActivity extends AppCompatActivity
     public void onSearchIngredientsMenu() {
         SearchIngredientFragment searchIngredientFragment = SearchIngredientFragment.newInstance(this);
         mainView.displayFragment(searchIngredientFragment);
+    }
+
+    @Override
+    public void onScaleRecipe(double scaleFactor) {
+        ScaleRecipeFragment scaleRecipeFragment = ScaleRecipeFragment.newInstance(currentRecipe,this);
+        mainView.displayFragment(scaleRecipeFragment);
+    }
+
+
+    @Override
+    public void onRecipeScaled(Recipe scaledRecipe) {
+        this.currentRecipe = scaledRecipe; // Update the current recipe
+        RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(scaledRecipe);
+        mainView.displayFragment(recipeDetailFragment);
     }
 }

@@ -69,6 +69,7 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
             }
         });
 
+
         return rootView;
     }
 

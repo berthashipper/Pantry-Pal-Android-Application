@@ -83,7 +83,7 @@ public class Recipe implements Serializable {
         this.recipeDescription = recipeDescription;
         this.cookTime = cookTime;
         this.servingSize = servingSize;
-        this.url = url; // Initialize URL
+        this.url = url;
     }
 
 
@@ -143,6 +143,15 @@ public class Recipe implements Serializable {
      * @return The recipe name.
      */
     public String getRecipeName() {
+        return recipeName;
+    }
+
+    /**
+     * Retrieves the description of the recipe.
+     *
+     * @return The description name.
+     */
+    public String getRecipeDescription() {
         return recipeName;
     }
 
@@ -208,6 +217,7 @@ public class Recipe implements Serializable {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
 
     /**
      * Returns a string representation of the recipe, including all attributes and details.
