@@ -44,6 +44,12 @@ import java.util.Set;
 
 import com.example.pantrypalandroidprototype.persistence.IPersistenceFacade;
 import com.example.pantrypalandroidprototype.persistence.LocalStorageFacade;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class ControllerActivity extends AppCompatActivity
         implements IAddIngredientView.Listener, IPantryView.Listener,
@@ -69,7 +75,7 @@ public class ControllerActivity extends AppCompatActivity
         this.ledger = this.persFacade.loadLedger(); // load the ledger
 
 
-        /*FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
         CollectionReference cref = db.collection("users");
@@ -84,7 +90,7 @@ public class ControllerActivity extends AppCompatActivity
                 String username = (String) dsnap.get("username");
                 Log.i("PantryPal", "read username = " + username);
             }
-        });*/
+        });
 
 
         setContentView(R.layout.main);
@@ -97,11 +103,9 @@ public class ControllerActivity extends AppCompatActivity
         cookbook = new Cookbook();
 
         mainView.setListener(this);
+        
 
-        /*this.mainView.displayFragment(AddIngredientFragment.newInstance(this));
-        this.mainView.displayFragment(EditIngredientFragment.newInstance(this));
-        this.mainView.displayFragment(DeleteIngredientFragment.newInstance(this));
-        this.mainView.displayFragment(CookbookFragment.newInstance(this, cookbook));*/
+        // Display pantry fragment to start app
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
 
     }
