@@ -23,7 +23,6 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
 
     static final String ARG_RECIPE = "recipe";
     Recipe recipe;
-
     Listener listener;
 
     public static RecipeDetailFragment newInstance(Recipe recipe) {

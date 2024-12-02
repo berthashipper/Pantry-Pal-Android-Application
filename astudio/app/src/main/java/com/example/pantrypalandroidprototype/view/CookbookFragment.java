@@ -30,41 +30,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * The {@code CookbookFragment} class represents a fragment displaying a list of recipes.
- * It implements the {@link ICookbookView} interface and handles user interactions with the recipe list.
- */
 public class CookbookFragment extends Fragment implements ICookbookView, RecipeAdapter.OnRecipeClickListener {
-    /**
-     * View binding for accessing the UI elements of the fragment.
-     */
+
     FragmentCookbookBinding binding;
-    /**
-     * RecyclerView for displaying the list of recipes.
-     */
     RecyclerView recyclerView;
-    /**
-     * Adapter for managing and displaying recipes in the RecyclerView.
-     */
     RecipeAdapter recipeAdapter;
-    /**
-     * The {@link Cookbook} instance that holds the collection of recipes.
-     */
     Cookbook cookbook;
-    /**
-     * Listener for handling fragment interactions, such as navigation and events.
-     */
     Listener listener;
-    //RecipeDatabase recipeDatabase;
 
-
-    /**
-     * Creates a new instance of {@code CookbookFragment} with a specified listener and cookbook.
-     *
-     * @param listener The listener to handle fragment interactions.
-     * @param cookbook The cookbook containing the recipes to display.
-     * @return A new instance of {@code CookbookFragment}.
-     */
     public static CookbookFragment newInstance(ICookbookView.Listener listener, Cookbook cookbook) {
         CookbookFragment fragment = new CookbookFragment();
         fragment.listener = listener;
@@ -72,14 +45,6 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
         return fragment;
     }
 
-    /**
-     * Called to create the fragment's view hierarchy.
-     *
-     * @param inflater  The {@link LayoutInflater} object for inflating views.
-     * @param container The parent view group for the fragment's UI.
-     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous state.
-     * @return The root view of the fragment.
-     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,12 +72,6 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
         return rootView;
     }
 
-    /**
-     * Called immediately after the fragment's view has been created.
-     *
-     * @param view The fragment's root view.
-     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous state.
-     */
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -142,12 +101,6 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
             }
         }).start();
     }*/
-
-    /**
-     * Handles the event when a recipe is created.
-     *
-     * @param recipe The newly created recipe.
-     */
     @Override
     public void onRecipeCreated(Recipe recipe) {
         /*new Thread(() -> {
@@ -162,18 +115,12 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
         }).start();*/
     }
 
-    /**
-     * Handles the event when the Search Recipes menu is opened.
-     */
     @Override
     public void onSearchRecipesMenu() {
         // Show a dialog or navigate to a search fragment
         showSearchDialog();
     }
 
-    /**
-     * Displays a dialog for searching recipes by name or keyword.
-     */
     private void showSearchDialog() {
         /*AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
         builder.setTitle("Search Recipes");
@@ -223,11 +170,6 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
         }).start();
     }*/
 
-    /**
-     * Retrieves all recipes from the {@link Cookbook}.
-     *
-     * @return A set containing all recipes in the cookbook.
-     */
     public Set<Recipe> getAllRecipes() {
         // Ensure the cookbook is not null
         if (cookbook == null) {
@@ -238,20 +180,12 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
         return new HashSet<>(cookbook.recipeList.values());
     }
 
-    /**
-     * Handles the event to view the cookbook menu.
-     */
     public void onViewCookbookMenu(){
         if (listener != null) {
             listener.onViewCookbookMenu();
         }
     }
 
-    /**
-     * Handles the click event on a recipe in the list.
-     *
-     * @param recipe The clicked recipe.
-     */
     @Override
     public void onRecipeClick(Recipe recipe) {
         if (listener != null) {
@@ -259,20 +193,12 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
         }
     }
 
-    /**
-     * Navigates to the Add Recipe screen.
-     */
     public void navigateToAddRecipe() {
         if (listener != null) {
             listener.onNavigateToAddRecipe();
         }
     }
 
-    /**
-     * Updates the cookbook when recipes are loaded and refreshes the RecyclerView.
-     *
-     * @param cookbook The updated cookbook containing recipes.
-     */
     @Override
     public void onCookbookRecipesLoaded(Cookbook cookbook) {
         this.cookbook = cookbook;
@@ -281,9 +207,6 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
         }
     }
 
-    /**
-     * Sets up the RecyclerView with the recipe adapter and layout manager.
-     */
     public void setupRecyclerView() {
         recyclerView = binding.recyclerViewRecipes;
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));

@@ -20,48 +20,19 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-/**
- * The {@code AddIngredientFragment} class represents a fragment for adding ingredients to a list.
- * It implements the {@link IAddIngredientView} interface and provides functionality to input
- * ingredient details, validate data, and update the ingredient list.
- */
 public class AddIngredientFragment extends Fragment implements IAddIngredientView {
-    /**
-     * View binding for accessing the UI elements of the fragment.
-     */
-    FragmentAddItemsBinding binding;
 
-    /**
-     * Listener for handling interactions with the fragment.
-     */
+    FragmentAddItemsBinding binding;
     Listener listener;
     List<Ingredient> addedIngredients = new ArrayList<>();
-
-    /**
-     * Adapter for displaying the list of added ingredients.
-     */
     IngredientAdapter ingredientAdapter;
 
-    /**
-     * Creates a new instance of {@code AddIngredientFragment} with a specified listener.
-     *
-     * @param listener The listener to handle fragment interactions.
-     * @return A new instance of {@code AddIngredientFragment}.
-     */
     public static AddIngredientFragment newInstance(Listener listener) {
         AddIngredientFragment fragment = new AddIngredientFragment();
         fragment.listener = listener;
         return fragment;
     }
 
-    /**
-     * Called to create the fragment's view hierarchy.
-     *
-     * @param inflater  The {@link LayoutInflater} object for inflating views.
-     * @param container The parent view group for the fragment's UI.
-     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous state.
-     * @return The root view of the fragment.
-     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,12 +42,6 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         return rootView;
     }
 
-    /**
-     * Called immediately after the fragment's view has been created.
-     *
-     * @param view The fragment's root view.
-     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous state.
-     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -89,11 +54,6 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         //binding.ingredientsRecyclerView.setAdapter(ingredientAdapter);
     }
 
-
-    /**
-     * Handles the "Add Ingredient" button click event.
-     * Validates user input, creates a new ingredient, and updates the ingredient list.
-     */
     public void onAddButtonClicked() {
         String name = binding.itemNameText.getText().toString().trim();
         String qtyString = binding.itemQtyText.getText().toString().trim();
@@ -154,7 +114,7 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
     /**
      * Restricts the quantity input to only accept numeric values.
      */
-    private void setupQuantityField() {
+    public void setupQuantityField() {
         binding.itemQtyText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10), new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
@@ -167,10 +127,7 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         }});
     }
 
-    /**
-     * Clears all input fields and resets checkboxes.
-     */
-    private void clearInputs() {
+    public void clearInputs() {
         binding.itemNameText.setText("");
         binding.itemQtyText.setText("");
         binding.itemUnitText.setText("");
@@ -183,20 +140,11 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         binding.dairyFreeCheckbox.setChecked(false);
 
     }
-
-    /**
-     * Handles the "Done" button click event.
-     * Notifies the listener that ingredient addition is complete.
-     */
     public void onDoneButtonClicked() {
         if (listener != null) {
             listener.onItemsDone();
         }
     }
-
-    /**
-     * Displays a completion message using a {@link Snackbar}.
-     */
     public void showDoneMessage() {
         Snackbar.make(getView(), "Done adding ingredients, returning to Pantry", Snackbar.LENGTH_LONG).show();
     }

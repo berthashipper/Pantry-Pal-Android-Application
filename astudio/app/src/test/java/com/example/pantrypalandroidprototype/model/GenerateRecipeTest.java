@@ -44,12 +44,12 @@ public class GenerateRecipeTest extends TestCase {
         pantry.add_ingredient(sugar);
         pantry.add_ingredient(eggs);
 
-        // Add Recipe to the set of all recipes
-        Set<Recipe> allRecipes = new HashSet<>();
-        allRecipes.add(cakeRecipe);
+        // Create a Cookbook and add the Recipe
+        Cookbook cookbook = new Cookbook();
+        cookbook.addRecipe(cakeRecipe);
 
-        // Create GenerateRecipe object with the pantry and recipes
-        GenerateRecipe generateRecipe = new GenerateRecipe(pantry, allRecipes);
+        // Create GenerateRecipe object
+        GenerateRecipe generateRecipe = new GenerateRecipe(pantry, cookbook);
 
         // Call the method to generate matching recipes
         Set<Recipe> matchedRecipes = generateRecipe.generateMatchingRecipes();
@@ -90,8 +90,11 @@ public class GenerateRecipeTest extends TestCase {
         pantry.add_ingredient(sugar);
         pantry.add_ingredient(eggs);
 
+        // Create a Cookbook
+        Cookbook cookbook = new Cookbook();
+
         // Create GenerateRecipe object
-        GenerateRecipe generateRecipe = new GenerateRecipe(pantry, new HashSet<>());
+        GenerateRecipe generateRecipe = new GenerateRecipe(pantry, cookbook);
 
         // Test if the recipe can be made
         boolean canMake = generateRecipe.canMakeRecipe(cakeRecipe);
@@ -127,8 +130,11 @@ public class GenerateRecipeTest extends TestCase {
         pantry.add_ingredient(sugar);
         pantry.add_ingredient(eggs);
 
+        // Create a Cookbook
+        Cookbook cookbook = new Cookbook();
+
         // Create GenerateRecipe object
-        GenerateRecipe generateRecipe = new GenerateRecipe(pantry, new HashSet<>());
+        GenerateRecipe generateRecipe = new GenerateRecipe(pantry, cookbook);
 
         // Test finding an exact match
         Ingredient foundIngredient = generateRecipe.findMatchingPantryIngredient("flour");

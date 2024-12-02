@@ -25,7 +25,7 @@ public class GenerateRecipe implements Serializable {
     Pantry userPantry;
 
     /** The set of all available recipes. */
-    Set<Recipe> allRecipes;
+    Cookbook cookbook;
 
     /** The similarity threshold for ingredient matching. */
     static final int SIMILARITY_THRESHOLD = 3;
@@ -34,11 +34,12 @@ public class GenerateRecipe implements Serializable {
      * Constructs a {@code GenerateRecipe} instance with the user's pantry and all available recipes.
      *
      * @param userPantry The user's pantry containing available ingredients.
-     * @param allRecipes The set of all available recipes.
+     * @param cookbook The set of all available recipes.
      */
-    public GenerateRecipe(Pantry userPantry, Set<Recipe> allRecipes) {
+    public GenerateRecipe(Pantry userPantry, Cookbook cookbook) {
         this.userPantry = userPantry;
-        this.allRecipes = allRecipes;
+        //this.allRecipes = allRecipes;
+        this.cookbook = cookbook;
     }
 
     /**
@@ -49,7 +50,7 @@ public class GenerateRecipe implements Serializable {
     public Set<Recipe> generateMatchingRecipes() {
         Set<Recipe> matchedRecipes = new HashSet<>();
 
-        for (Recipe recipe : allRecipes) {
+        for (Recipe recipe : cookbook.recipeList.values()) {
             if (canMakeRecipe(recipe)) {
                 matchedRecipes.add(recipe);
             }

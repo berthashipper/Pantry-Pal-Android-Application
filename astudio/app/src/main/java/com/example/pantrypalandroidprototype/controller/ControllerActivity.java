@@ -58,7 +58,6 @@ public class ControllerActivity extends AppCompatActivity
     IPersistenceFacade persFacade; // proxy for persistence subsystem
     Cookbook cookbook;
 
-
     public static final int REQUEST_CODE_ADD_TO_COOKBOOK = 1;
 
     @SuppressLint("MissingInflatedId")
@@ -130,14 +129,14 @@ public class ControllerActivity extends AppCompatActivity
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
     }
     @Override
-    public void onAddIngredientsMenu(){
+    public void onAddIngredientsMenu() {
         AddIngredientFragment addIngredientFragment = AddIngredientFragment.newInstance(this);
         this.mainView.displayFragment(addIngredientFragment);
 
     }
 
     @Override
-    public void onViewPantryMenu(){
+    public void onViewPantryMenu() {
         mainView.setListener(this);
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
     }
@@ -237,9 +236,8 @@ public class ControllerActivity extends AppCompatActivity
     }
 
     public Set<Recipe> generateMatchingRecipes() {
-        Log.d("ControllerActivity", "Recipes available: " + recipes.size());
-        GenerateRecipe recipeGenerator = new GenerateRecipe(pantry, recipes);
-        //GenerateRecipe recipeGenerator = new GenerateRecipe(pantry, cookbook.getAllRecipes());
+        Log.d("ControllerActivity", "Recipes available in cookbook: " + cookbook.recipeList.size());
+        GenerateRecipe recipeGenerator = new GenerateRecipe(pantry, cookbook);
         return recipeGenerator.generateMatchingRecipes();
     }
 
