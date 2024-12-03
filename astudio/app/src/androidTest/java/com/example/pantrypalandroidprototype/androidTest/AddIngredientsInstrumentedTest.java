@@ -73,7 +73,7 @@ public class AddIngredientsInstrumentedTest {
         SystemClock.sleep(3000);
 
         // Verify the result is correct
-        Espresso.onView(ViewMatchers.withId(R.id.pantryContentsTextView))
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_pantry))
                 .check(ViewAssertions.matches(withText("🛒 Pantry Contents:\n\n• Sugar\n   Quantity: 1.5 kg\n   Tags: GLUTEN_FREE, VEGAN\n\n")));
 
         // Clear pantry from any persisted ingredients
@@ -96,7 +96,7 @@ public class AddIngredientsInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());
 
         // Verify that the Pantry view is displayed
-        Espresso.onView(ViewMatchers.withId(R.id.pantryContentsTextView))
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_pantry))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 

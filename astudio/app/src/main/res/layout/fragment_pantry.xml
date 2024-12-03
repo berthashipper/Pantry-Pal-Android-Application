@@ -70,7 +70,18 @@
             android:layout_gravity="center"/>
     </LinearLayout>
 
-    <!-- Clear Pantry Button in the Bottom Right Corner -->
+    <!-- Ingredients RecyclerView -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_pantry"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/buttonsRow"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/clearPantryButton"
+        android:layout_margin="16dp" />
+
+    <!-- Clear Pantry Button -->
     <Button
         android:id="@+id/clearPantryButton"
         android:layout_width="wrap_content"
@@ -79,45 +90,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginBottom="16dp"
-        android:layout_marginEnd="16dp"
-        android:contentDescription="Clear Pantry Button" />
+        android:layout_marginEnd="16dp" />
 
-    <!-- Scrollable Content Section -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@id/clearPantryButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonsRow"
-        app:layout_constraintVertical_bias="1.0">
+    <TextView
+        android:id="@+id/ingredient_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:text="Ingredient Name" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- Pantry Contents TextView -->
-            <TextView
-                android:id="@+id/pantryContentsTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="16dp" />
-
-            <!-- View Pantry Button (hidden initially) -->
-            <Button
-                android:id="@+id/viewPantryButton"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/view_pantry"
-                android:visibility="gone" />
-        </LinearLayout>
-    </ScrollView>
-
+    <ImageView
+        android:id="@+id/delete_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:src="@drawable/delete_icon" />
 </androidx.constraintlayout.widget.ConstraintLayout>

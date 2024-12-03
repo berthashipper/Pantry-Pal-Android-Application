@@ -1,6 +1,7 @@
 package com.example.pantrypalandroidprototype.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.example.pantrypalandroidprototype.databinding.FragmentPantryBinding;
+import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The PantryFragment class represents a user interface fragment that displays and manages pantry-related operations.
@@ -25,6 +31,7 @@ public class PantryFragment extends Fragment implements IPantryView {
     Listener listener;
     /** The Pantry object that contains the list of ingredients managed by this fragment. */
     Pantry pantry;
+    PantryAdapter adapter;
 
     /**
      * Creates a new instance of the PantryFragment with a specified listener and pantry data.
@@ -66,15 +73,33 @@ public class PantryFragment extends Fragment implements IPantryView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Log.d("PantryFragment", "Ingredient RecyclerView: " + binding.recyclerViewPantry);
 
         binding.addIngredientsButton.setOnClickListener(v -> onAddIngredientButtonClicked());
-        binding.viewPantryButton.setOnClickListener(v -> onViewPantryMenu());
+        //binding.viewPantryButton.setOnClickListener(v -> onViewPantryMenu());
         binding.deleteIngredientsButton.setOnClickListener(v -> onDeleteButtonClicked());
         binding.editIngredientsButton.setOnClickListener(v -> onEditButtonClicked());
         binding.searchIngredientsButton.setOnClickListener(v -> onSearchIngredientsMenu());
         binding.clearPantryButton.setOnClickListener(v -> onClearPantryButtonClicked());
 
-        this.binding.pantryContentsTextView.setText(this.pantry.toString());
+        List<Ingredient> ingredientList = pantry.getAllIngredients();
+        List<String> ingredientNames = new ArrayList<>();
+        for (Ingredient ingredient : ingredientList) {
+            ingredientNames.add(ingredient.getName());
+        }
+
+        // Initialize the adapter and assign it to the RecyclerView
+        if (ingredientNames.isEmpty()) {
+            Log.d("PantryFragment", "No ingredients to display.");
+        } else {
+            adapter = new PantryAdapter(ingredientNames, ingredientName -> {
+                pantry.delete_ingredient(ingredientName);
+                adapter.notifyDataSetChanged();
+            });
+        }
+
+        binding.recyclerViewPantry.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerViewPantry.setAdapter(adapter);
     }
 
     /**
