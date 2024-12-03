@@ -23,6 +23,7 @@ import com.example.pantrypalandroidprototype.view.CookbookFragment;
 import com.example.pantrypalandroidprototype.view.DeleteIngredientFragment;
 import com.example.pantrypalandroidprototype.view.DeleteRecipeIngredientFragment;
 import com.example.pantrypalandroidprototype.view.EditIngredientFragment;
+import com.example.pantrypalandroidprototype.view.EditInstructionFragment;
 import com.example.pantrypalandroidprototype.view.EditRecipeIngredientFragment;
 import com.example.pantrypalandroidprototype.view.IAddIngredientView;
 import com.example.pantrypalandroidprototype.view.IAddRecipeIngredientView;
@@ -31,6 +32,7 @@ import com.example.pantrypalandroidprototype.view.ICookbookView;
 import com.example.pantrypalandroidprototype.view.IDeleteIngredientView;
 import com.example.pantrypalandroidprototype.view.IDeleteRecipeIngredientView;
 import com.example.pantrypalandroidprototype.view.IEditIngredientView;
+import com.example.pantrypalandroidprototype.view.IEditInstructionView;
 import com.example.pantrypalandroidprototype.view.IEditRecipeIngredientView;
 import com.example.pantrypalandroidprototype.view.IMainView;
 import com.example.pantrypalandroidprototype.view.IPantryView;
@@ -60,7 +62,8 @@ public class ControllerActivity extends AppCompatActivity
         IDeleteIngredientView.Listener, IEditIngredientView.Listener,
         ICookbookView.Listener, IAddRecipeView.Listener, IRecipeDetailView.Listener,
         ISearchRecipeView.Listener, ISearchIngredientView.Listener, IScaleRecipeView.Listener,
-        IEditRecipeIngredientView.Listener, IAddRecipeIngredientView.Listener, IDeleteRecipeIngredientView.Listener {
+        IEditRecipeIngredientView.Listener, IAddRecipeIngredientView.Listener,
+        IDeleteRecipeIngredientView.Listener, IEditInstructionView.Listener {
 
     IMainView mainView;
     Pantry pantry;
@@ -472,8 +475,6 @@ public class ControllerActivity extends AppCompatActivity
         // Notify the user
         Snackbar.make(findViewById(R.id.fragmentContainerView), name + " updated!", Snackbar.LENGTH_LONG).show();
 
-        // Refresh the RecipeDetailFragment with updated data
-        mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
     }
 
     @Override
@@ -516,8 +517,6 @@ public class ControllerActivity extends AppCompatActivity
         // Notify the user that the ingredient has been added or updated
         Snackbar.make(findViewById(R.id.fragmentContainerView), name + " added/updated!", Snackbar.LENGTH_LONG).show();
 
-        // Refresh the RecipeDetailFragment with updated data
-        mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
     }
 
     @Override
@@ -530,7 +529,6 @@ public class ControllerActivity extends AppCompatActivity
         DeleteRecipeIngredientFragment deleteRecipeIngredientFragment = DeleteRecipeIngredientFragment.newInstance(this);
         this.mainView.displayFragment(deleteRecipeIngredientFragment);
     }
-
 
     @Override
     public void onDeleteRecipeIngredient(String name) {
@@ -554,12 +552,47 @@ public class ControllerActivity extends AppCompatActivity
             Snackbar.make(findViewById(R.id.fragmentContainerView), "Ingredient not found!", Snackbar.LENGTH_LONG).show();
         }
 
-        // Refresh the RecipeDetailFragment with updated data
-        mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
     }
 
     @Override
     public void onDeleteRecipeDone() {
+        mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
+        Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
+    }
+
+
+    @Override
+    public void onEditInstructions() {
+        EditInstructionFragment editInstructionFragment = EditInstructionFragment.newInstance(this);
+        this.mainView.displayFragment(editInstructionFragment);
+    }
+
+    @Override
+    public void onEditInstruction(String instruction) {
+            currentRecipe.instructions = instruction;
+    }
+
+    @Override
+    public void onAddInstruction(String instruction) {
+
+        // Retrieve existing instructions from the model
+        String existingInstructions = currentRecipe.getInstructions();
+
+        // If existing instructions are not empty, add a newline or bullet point for separation
+        if (!existingInstructions.isEmpty()) {
+            existingInstructions += "\n"; // Use "\n" or "\n• " for bullet points
+        }
+
+        // Add the new instruction to the existing ones
+        existingInstructions += instruction;
+
+        // Update the recipe model with the new combined instructions
+        currentRecipe.instructions = existingInstructions;
+    }
+
+    @Override
+    public void onEditInstructionDone() {
+        // Return to the recipe detail view or any other relevant fragment
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
         Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
     }
