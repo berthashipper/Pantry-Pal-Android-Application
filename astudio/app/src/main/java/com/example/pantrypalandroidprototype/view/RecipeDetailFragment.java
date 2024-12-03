@@ -95,6 +95,14 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
             }
         });
 
+        // Set up the "Edit" button to navigate back to EditInstructionFragment
+        binding.editInstruction.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onEditInstruction(); // Notify listener when Done is pressed
+            }
+        });
+
+
         // Set up the "Done" button to navigate back to CookbookFragment
         binding.doneButton.setOnClickListener(v -> {
             if (listener != null) {

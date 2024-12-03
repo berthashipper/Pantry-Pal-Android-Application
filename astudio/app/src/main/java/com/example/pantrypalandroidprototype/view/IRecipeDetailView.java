@@ -8,6 +8,7 @@ public interface IRecipeDetailView {
         void onEditRecipeIngredients();
         void onAddRecipeIngredients();
         void onDeleteRecipeIngredients();
+        void onEditInstruction();
         void onScaleRecipeMenu();
     }
 }
