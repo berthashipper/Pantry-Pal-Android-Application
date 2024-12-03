@@ -74,6 +74,12 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
                 Snackbar.make(getView(), "Invalid scale factor", Snackbar.LENGTH_LONG).show();
             }
         });
+
+        binding.backToRecipeButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onBackToRecipe();  // Notify the controller to navigate back
+            }
+        });
     }
 
     public Recipe scaleRecipe(Recipe originalRecipe, double scaleFactor) {
@@ -128,6 +134,11 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
 
     @Override
     public void onRecipeScaled(Recipe scaledRecipe) {
+
+    }
+
+    @Override
+    public void onBackToRecipe() {
 
     }
 }

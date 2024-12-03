@@ -7,5 +7,6 @@ public interface IScaleRecipeView {
     interface Listener {
         void onScaleRecipe(double scaleFactor);
         void onRecipeScaled(Recipe scaledRecipe);
+        void onBackToRecipe();
     }
 }

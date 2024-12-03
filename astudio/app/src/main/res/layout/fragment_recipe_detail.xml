@@ -93,32 +93,57 @@
         </LinearLayout>
 
         <!-- Buttons Section -->
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="16dp">
 
             <!-- Back Icon -->
             <ImageView
-                android:id="@+id/doneButton"
+                android:id="@+id/done_button"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/back_icon"
                 android:contentDescription="Back to Cookbook"
-                android:layout_marginEnd="16dp" />
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true" />
+
+            <!-- Back Text -->
+            <TextView
+                android:id="@+id/doneButtonText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back to Cookbook"
+                android:textSize="16sp"
+                android:textColor="#333333"
+                android:layout_toEndOf="@id/done_button"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp" />
 
             <!-- Scale Icon -->
             <ImageView
-                android:id="@+id/scaleButton"
+                android:id="@+id/scale_button"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/scale_icon"
-                android:contentDescription="Scale Recipe" />
+                android:contentDescription="Scale Recipe"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true" />
 
-        </LinearLayout>
+            <!-- Scale Text -->
+            <TextView
+                android:id="@+id/scaleButtonText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Scale Recipe"
+                android:textSize="16sp"
+                android:textColor="#333333"
+                android:layout_toStartOf="@id/scale_button"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 </ScrollView>
