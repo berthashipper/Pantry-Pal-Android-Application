@@ -88,6 +88,13 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
             }
         });
 
+        // Set up the "Delete" button to navigate back to DeleteRecipeIngredientFragment
+        binding.deleteRecipeIngredient.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onDeleteRecipeIngredients();  // Notify listener when Done is pressed
+            }
+        });
+
         // Set up the "Done" button to navigate back to CookbookFragment
         binding.doneButton.setOnClickListener(v -> {
             if (listener != null) {

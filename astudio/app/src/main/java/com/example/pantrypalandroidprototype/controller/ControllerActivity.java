@@ -16,12 +16,12 @@ import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Ledger;
 import com.example.pantrypalandroidprototype.model.Pantry;
 import com.example.pantrypalandroidprototype.model.Recipe;
-import com.example.pantrypalandroidprototype.model.RecipeBuilder;
 import com.example.pantrypalandroidprototype.view.AddIngredientFragment;
 import com.example.pantrypalandroidprototype.view.AddRecipeFragment;
 import com.example.pantrypalandroidprototype.view.AddRecipeIngredientFragment;
 import com.example.pantrypalandroidprototype.view.CookbookFragment;
 import com.example.pantrypalandroidprototype.view.DeleteIngredientFragment;
+import com.example.pantrypalandroidprototype.view.DeleteRecipeIngredientFragment;
 import com.example.pantrypalandroidprototype.view.EditIngredientFragment;
 import com.example.pantrypalandroidprototype.view.EditRecipeIngredientFragment;
 import com.example.pantrypalandroidprototype.view.IAddIngredientView;
@@ -29,6 +29,7 @@ import com.example.pantrypalandroidprototype.view.IAddRecipeIngredientView;
 import com.example.pantrypalandroidprototype.view.IAddRecipeView;
 import com.example.pantrypalandroidprototype.view.ICookbookView;
 import com.example.pantrypalandroidprototype.view.IDeleteIngredientView;
+import com.example.pantrypalandroidprototype.view.IDeleteRecipeIngredientView;
 import com.example.pantrypalandroidprototype.view.IEditIngredientView;
 import com.example.pantrypalandroidprototype.view.IEditRecipeIngredientView;
 import com.example.pantrypalandroidprototype.view.IMainView;
@@ -59,7 +60,7 @@ public class ControllerActivity extends AppCompatActivity
         IDeleteIngredientView.Listener, IEditIngredientView.Listener,
         ICookbookView.Listener, IAddRecipeView.Listener, IRecipeDetailView.Listener,
         ISearchRecipeView.Listener, ISearchIngredientView.Listener, IScaleRecipeView.Listener,
-        IEditRecipeIngredientView.Listener, IAddRecipeIngredientView.Listener {
+        IEditRecipeIngredientView.Listener, IAddRecipeIngredientView.Listener, IDeleteRecipeIngredientView.Listener {
 
     IMainView mainView;
     Pantry pantry;
@@ -512,5 +513,44 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onAddRecipeDone() {
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
+    }
+
+    @Override
+    public void onDeleteRecipeIngredients() {
+        DeleteRecipeIngredientFragment deleteRecipeIngredientFragment = DeleteRecipeIngredientFragment.newInstance(this);
+        this.mainView.displayFragment(deleteRecipeIngredientFragment);
+    }
+
+
+    @Override
+    public void onDeleteRecipeIngredient(String name) {
+// Update the recipe object by removing the specified ingredient
+        boolean ingredientFound = false;
+        Iterator<Ingredient> iterator = currentRecipe.getIngredients().iterator();
+
+        while (iterator.hasNext()) {
+            Ingredient ingredient = iterator.next();
+            if (ingredient.getName().equalsIgnoreCase(name)) {
+                iterator.remove();  // Remove the ingredient from the list
+                ingredientFound = true;
+                break;
+            }
+        }
+
+        // Notify the user of the deletion result
+        if (ingredientFound) {
+            Snackbar.make(findViewById(R.id.fragmentContainerView), name + " deleted!", Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(findViewById(R.id.fragmentContainerView), "Ingredient not found!", Snackbar.LENGTH_LONG).show();
+        }
+
+        // Refresh the RecipeDetailFragment with updated data
+        mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
+    }
+
+    @Override
+    public void onDeleteRecipeDone() {
+        mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
+        Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
     }
 }
