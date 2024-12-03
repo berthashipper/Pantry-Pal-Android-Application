@@ -1,4 +1,4 @@
-package com.example.pantrypalandroidprototype.model;
+package com.example.pantrypalandroidprototype.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,9 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.ItemRecipeBinding;
+import com.example.pantrypalandroidprototype.model.Cookbook;
+import com.example.pantrypalandroidprototype.model.Recipe;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The {@code RecipeAdapter} class is a custom adapter for displaying a list of recipes

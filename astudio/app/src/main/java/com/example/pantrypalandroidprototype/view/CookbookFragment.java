@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pantrypalandroidprototype.databinding.FragmentCookbookBinding;
 import com.example.pantrypalandroidprototype.model.Cookbook;
 import com.example.pantrypalandroidprototype.model.Recipe;
-import com.example.pantrypalandroidprototype.model.RecipeAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.HashSet;

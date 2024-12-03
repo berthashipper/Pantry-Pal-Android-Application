@@ -1,14 +1,13 @@
-package com.example.pantrypalandroidprototype.model;
+package com.example.pantrypalandroidprototype.view;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.ItemPantryBinding;
+import com.example.pantrypalandroidprototype.model.Ingredient;
 
 import java.util.ArrayList;
 import java.util.List;

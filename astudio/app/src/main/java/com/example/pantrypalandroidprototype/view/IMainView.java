@@ -5,12 +5,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.pantrypalandroidprototype.controller.ControllerActivity;
-import com.example.pantrypalandroidprototype.model.Ingredient;
-import com.example.pantrypalandroidprototype.model.PantryAdapter;
-
-import java.util.List;
-
 /**
  * An interface for the application screen template.
  */
