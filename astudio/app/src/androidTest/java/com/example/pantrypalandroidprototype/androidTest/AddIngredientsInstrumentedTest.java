@@ -35,6 +35,10 @@ public class AddIngredientsInstrumentedTest {
      */
     @org.junit.Test
     public void testAddThenClearIngredient() {
+        // Clear pantry from any persisted ingredients
+        Espresso.onView(ViewMatchers.withId(R.id.clearPantryButton))
+                .perform(ViewActions.click());
+
         // Navigate to Add Ingredients screen
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
                 .perform(ViewActions.click());
