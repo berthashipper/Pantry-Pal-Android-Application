@@ -280,7 +280,7 @@ public class ControllerActivity extends AppCompatActivity
         return recipeGenerator.generateMatchingRecipes();
     }
 
-    //@Override
+    @Override
     public void onCookbookUpdated(Cookbook updatedCookbook) {
         this.cookbook = updatedCookbook;
         persFacade.saveCookbook(updatedCookbook);

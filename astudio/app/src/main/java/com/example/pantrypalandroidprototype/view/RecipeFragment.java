@@ -82,14 +82,21 @@ public class RecipeFragment extends Fragment {
 
         // Set up the RecyclerView
         binding.recipeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recipeAdapter = new RecipeAdapter(cookbook, getContext(), recipe -> {
-            // Navigate to RecipeDetailFragment on recipe click
-            RecipeDetailFragment detailFragment = RecipeDetailFragment.newInstance(recipe);
-            requireActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainerView, detailFragment)
-                    .addToBackStack(null)
-                    .commit();
-        });
+        recipeAdapter = new RecipeAdapter(cookbook, getContext(),
+                recipe -> {
+                    // Navigate to RecipeDetailFragment on recipe click
+                    RecipeDetailFragment detailFragment = RecipeDetailFragment.newInstance(recipe);
+                    requireActivity().getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragmentContainerView, detailFragment)
+                            .addToBackStack(null)
+                            .commit();
+                },
+                recipe -> {
+                    // Handle recipe deletion
+                    Snackbar.make(binding.getRoot(), "Recipe deleted", Snackbar.LENGTH_SHORT).show();
+                    cookbook.removeRecipe(recipe);
+                    recipeAdapter.removeRecipe(recipe);
+                });
         binding.recipeRecyclerView.setAdapter(recipeAdapter);
 
         // Show a message if the cookbook is empty

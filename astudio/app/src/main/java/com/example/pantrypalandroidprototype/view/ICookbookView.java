@@ -67,5 +67,7 @@ public interface ICookbookView {
          * @param recipe The recipe that has been created.
          */
         void onRecipeCreated(Recipe recipe);
+
+        void onCookbookUpdated(Cookbook cookbook);
     }
 }

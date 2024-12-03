@@ -3,6 +3,7 @@ package com.example.pantrypalandroidprototype.model;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -28,7 +29,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
      */
     public Cookbook cookbook;
 
-    public List<Recipe> recipes;
+    //public List<Recipe> recipes;
     /**
      * The {@link Context} in which the adapter is being used.
      */
@@ -37,6 +38,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
      * Interface to handle recipe item click events.
      */
     public OnRecipeClickListener onRecipeClickListener;
+    public OnDeleteRecipeListener onDeleteRecipeListener;
 
     /**
      * Constructs a {@code RecipeAdapter} with the specified cookbook, context, and click listener.
@@ -45,10 +47,12 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
      * @param context                The context in which the adapter will be used.
      * @param onRecipeClickListener  The listener for handling recipe item clicks.
      */
-    public RecipeAdapter(Cookbook cookbook, Context context, OnRecipeClickListener onRecipeClickListener) {
+    public RecipeAdapter(Cookbook cookbook, Context context, OnRecipeClickListener onRecipeClickListener,
+                         OnDeleteRecipeListener deleteListener) {
         this.cookbook = cookbook;
         this.context = context;
         this.onRecipeClickListener = onRecipeClickListener;
+        this.onDeleteRecipeListener = deleteListener;
     }
 
     /**
@@ -76,8 +80,9 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         Recipe recipe = new ArrayList<>(cookbook.recipeList.values()).get(position);
         holder.binding.recipeName.setText(recipe.recipeName);
         holder.itemView.setOnClickListener(v -> onRecipeClickListener.onRecipeClick(recipe));
-    }
 
+        holder.deleteIcon.setOnClickListener(v -> onDeleteRecipeListener.onDeleteRecipe(recipe));
+    }
 
     /**
      * Returns the total number of recipes in the cookbook.
@@ -115,16 +120,21 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         void onRecipeClick(Recipe recipe);
     }
 
+    public interface OnDeleteRecipeListener {
+        void onDeleteRecipe(Recipe recipe);
+    }
+
     /**
      * The {@code RecipeViewHolder} class holds references to the views for each recipe item.
      */
-    public class RecipeViewHolder extends RecyclerView.ViewHolder {
+    public static class RecipeViewHolder extends RecyclerView.ViewHolder {
 
         /**
          * TextView to display the recipe's name.
          */
         TextView recipeName;
         ItemRecipeBinding binding;
+        ImageView deleteIcon;
         /**
          * Constructs a {@code RecipeViewHolder} and initializes its views.
          *
@@ -133,6 +143,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         public RecipeViewHolder(ItemRecipeBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            recipeName = itemView.findViewById(R.id.recipe_name);
+            deleteIcon = itemView.findViewById(R.id.delete_icon);
         }
+    }
+
+    public void removeRecipe(Recipe recipe) {
+        cookbook.removeRecipe(recipe);
+        notifyDataSetChanged();
     }
 }

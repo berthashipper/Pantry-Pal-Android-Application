@@ -41,7 +41,7 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
     public static CookbookFragment newInstance(ICookbookView.Listener listener, Cookbook cookbook) {
         CookbookFragment fragment = new CookbookFragment();
         fragment.listener = listener;
-        fragment.cookbook = cookbook;  //Set<Recipe> recipes; Set the passed recipes
+        fragment.cookbook = (cookbook != null) ? cookbook : new Cookbook();
         return fragment;
     }
 
@@ -212,7 +212,31 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
         recyclerView = binding.recyclerViewRecipes;
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        recipeAdapter = new RecipeAdapter(cookbook, getContext(), this);
+        recipeAdapter = new RecipeAdapter(cookbook, getContext(),
+                new RecipeAdapter.OnRecipeClickListener() {
+                    @Override
+                    public void onRecipeClick(Recipe recipe) {
+                        if (listener != null) {
+                            listener.onRecipeClick(recipe);
+                        }
+                    }
+                },
+                recipe -> {
+                    // Remove recipe from the cookbook
+                    cookbook.removeRecipe(recipe);
+
+                    // Notify adapter about the change
+                    recipeAdapter.notifyDataSetChanged();
+
+                    // Persist the updated cookbook
+                    if (listener != null) {
+                        listener.onCookbookUpdated(cookbook);
+                    }
+
+                    Snackbar.make(binding.getRoot(), "Recipe deleted", Snackbar.LENGTH_SHORT).show();
+                }
+        );
+
         recyclerView.setAdapter(recipeAdapter);
     }
 }

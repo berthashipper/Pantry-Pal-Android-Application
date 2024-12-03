@@ -68,6 +68,9 @@ public class Cookbook implements Serializable {
         return foundRecipes;
     }
 
+    public void removeRecipe(Recipe recipe) {
+        recipeList.remove(recipe.recipeName);
+    }
 
 
     /**
