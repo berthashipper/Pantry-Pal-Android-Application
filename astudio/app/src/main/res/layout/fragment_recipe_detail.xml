@@ -101,18 +101,23 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="16dp">
 
-            <Button
-                android:id="@+id/done_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Back to Cookbook"
-                android:layout_marginEnd="16dp"/>
+            <!-- Back Icon -->
+            <ImageView
+                android:id="@+id/doneButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/back_icon"
+                android:contentDescription="Back to Cookbook"
+                android:layout_marginEnd="16dp" />
 
-            <Button
-                android:id="@+id/scale_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Scale Recipe"/>
+            <!-- Scale Icon -->
+            <ImageView
+                android:id="@+id/scaleButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/scale_icon"
+                android:contentDescription="Scale Recipe" />
+
         </LinearLayout>
 
     </LinearLayout>

@@ -19,7 +19,6 @@ import com.example.pantrypalandroidprototype.databinding.FragmentScaleRecipeBind
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.firestore.util.Listener;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -79,6 +78,7 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
 
     public Recipe scaleRecipe(Recipe originalRecipe, double scaleFactor) {
         Set<Ingredient> scaledIngredients = new HashSet<>();
+        // Scale each ingredient's quantity based on the scale factor
         for (Ingredient ingredient : originalRecipe.getIngredients()) {
             double newQuantity = ingredient.getQuantity() * scaleFactor;
             Ingredient scaledIngredient = new Ingredient(
@@ -90,6 +90,9 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
             scaledIngredients.add(scaledIngredient);
         }
 
+        // Scale the serving size
+        int scaledServingSize = (int) (originalRecipe.getServingSize() * scaleFactor);
+
         return new Recipe(
                 originalRecipe.getRecipeName(),
                 scaledIngredients,
@@ -97,7 +100,7 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
                 originalRecipe.getTags(),
                 originalRecipe.getRecipeDescription(),
                 originalRecipe.getCookTime(),
-                originalRecipe.getServingSize(),
+                scaledServingSize,
                 originalRecipe.getUrl()
         );
     }

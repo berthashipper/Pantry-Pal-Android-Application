@@ -8,7 +8,7 @@
         android:id="@+id/searchQueryText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter recipe name"
+        android:hint="Search for recipe name"
         android:inputType="text" />
 
     <TextView
@@ -24,9 +24,4 @@
         android:layout_height="wrap_content"
         android:text="Search" />
 
-    <Button
-        android:id="@+id/doneButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Done" />
 </LinearLayout>

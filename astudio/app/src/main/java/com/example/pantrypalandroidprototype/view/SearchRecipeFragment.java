@@ -59,7 +59,6 @@ public class SearchRecipeFragment extends Fragment implements ISearchRecipeView 
         super.onViewCreated(view, savedInstanceState);
 
         binding.searchButton.setOnClickListener(v -> onSearchButtonClicked());
-        binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
     }
 
     /**
@@ -72,16 +71,6 @@ public class SearchRecipeFragment extends Fragment implements ISearchRecipeView 
             listener.onSearchRecipe(query);
         } else {
             binding.errorText.setText("Please enter a valid search query.");
-        }
-    }
-
-
-    /**
-     * Handles the click event for the done button. It signals that the search process is complete.
-     */
-    public void onDoneButtonClicked() {
-        if (listener != null) {
-            listener.onSearchDone();
         }
     }
 

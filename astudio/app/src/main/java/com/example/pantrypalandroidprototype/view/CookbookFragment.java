@@ -1,33 +1,22 @@
 package com.example.pantrypalandroidprototype.view;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import androidx.room.Room;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.FragmentCookbookBinding;
 import com.example.pantrypalandroidprototype.model.Cookbook;
-import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
-import com.example.pantrypalandroidprototype.model.RecipeBuilder;
 import com.example.pantrypalandroidprototype.model.RecipeAdapter;
-//import com.example.pantrypalandroidprototype.model.RecipeDatabase;
-//import com.example.pantrypalandroidprototype.model.RecipeService;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.time.Duration;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class CookbookFragment extends Fragment implements ICookbookView, RecipeAdapter.OnRecipeClickListener {

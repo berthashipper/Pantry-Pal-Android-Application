@@ -128,6 +128,6 @@ public class DeleteIngredientFragment extends Fragment implements IDeleteIngredi
         if (listener != null) {
             listener.onDeletionDone();
         }
-        Snackbar.make(getView(), "Returning to Pantry" , Snackbar.LENGTH_LONG).show();
+        Snackbar.make(getView(), "Returning to Pantry" , Snackbar.LENGTH_SHORT).show();
     }
 }
