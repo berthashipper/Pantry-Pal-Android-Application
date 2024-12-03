@@ -213,13 +213,17 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onEditIngredientMenu(Ingredient ingredient) {
-
+        EditIngredientFragment editIngredientFragment = EditIngredientFragment.newInstance(this);
+        mainView.displayFragment(editIngredientFragment);
     }
+
 
     @Override
     public void onDeleteIngredientMenu(Ingredient ingredient) {
-
+        this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
+        persFacade.savePantry(pantry);
     }
+
 
     @Override
     public void onEditIngredient(EditIngredientFragment editIngredientFragment, String name, double newQty) {
