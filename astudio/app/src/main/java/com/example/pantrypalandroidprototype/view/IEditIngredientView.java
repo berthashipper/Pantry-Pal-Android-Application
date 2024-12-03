@@ -18,7 +18,8 @@ public interface IEditIngredientView {
      * Listener interface for handling ingredient editing events.
      */
     interface Listener {
-        void onEditIngredient(String name, double newQty);
+        //void onEditIngredient(String name, double newQty);
+        void onEditIngredient(EditIngredientFragment editIngredientFragment, String name, double newQty);
         void onEditDone();
     }
 }

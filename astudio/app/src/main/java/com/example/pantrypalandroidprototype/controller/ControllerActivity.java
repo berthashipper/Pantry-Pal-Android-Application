@@ -202,21 +202,20 @@ public class ControllerActivity extends AppCompatActivity
     }
 
     @Override
-    public void onEditIngredient(String name, double newQty) {
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
-        if (currentFragment instanceof EditIngredientFragment) {
-            EditIngredientFragment editIngredientFragment = (EditIngredientFragment) currentFragment;
-            boolean isUpdated = pantry.edit_ingredient(name, newQty);
+    public void onEditIngredient(EditIngredientFragment editIngredientFragment, String name, double newQty) {
+        boolean isUpdated = pantry.edit_ingredient(name, newQty);
 
-            if (isUpdated) {
-                editIngredientFragment.showIngredientUpdateMessage(name);
-            } else {
-                editIngredientFragment.showIngredientNotFoundError(name);
-            }
+        if (isUpdated) {
+            editIngredientFragment.showIngredientUpdateMessage(name);
+        } else {
+            editIngredientFragment.showIngredientNotFoundError(name);
         }
+
         // Save updated pantry to local storage
         persFacade.savePantry(pantry);
-        onViewPantryMenu(); // Return to pantry view
+
+        // Return to pantry view
+        onViewPantryMenu();
     }
 
 

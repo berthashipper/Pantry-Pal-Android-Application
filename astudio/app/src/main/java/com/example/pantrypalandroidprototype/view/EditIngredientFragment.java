@@ -52,13 +52,8 @@ public class EditIngredientFragment extends Fragment implements IEditIngredientV
 
         double newQty = Double.parseDouble(quantityInput);
 
-//        } catch (NumberFormatException e) {
-//            Snackbar.make(binding.getRoot(), "Invalid quantity.", Snackbar.LENGTH_LONG).show();
-//            return;
-//        }
-
         if (listener != null && !name.isEmpty()) {
-            listener.onEditIngredient(name, newQty);
+            listener.onEditIngredient(this, name, newQty);
         } else if (name.isEmpty()) {
             Snackbar.make(binding.getRoot(), "Item name cannot be empty.", Snackbar.LENGTH_LONG).show();
         }
