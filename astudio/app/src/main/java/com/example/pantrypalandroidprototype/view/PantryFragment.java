@@ -94,15 +94,35 @@ public class PantryFragment extends Fragment implements IPantryView {
             adapter = new PantryAdapter(ingredientList, new PantryAdapter.PantryViewHolder.OnItemClickListener() {
                 @Override
                 public void onEditIngredient(Ingredient ingredient) {
-                    // Open the edit ingredient screen
-                    if (listener != null) listener.onEditIngredientMenu(ingredient);
+                    if (listener != null) {
+                        listener.onEditIngredientMenu(ingredient); // Open the edit ingredient screen
+                    }
                 }
 
                 @Override
                 public void onDeleteIngredient(Ingredient ingredient) {
-                    // Delete the ingredient
-                    pantry.delete_ingredient(ingredient.getName());
-                    adapter.notifyDataSetChanged();
+                    // Create an AlertDialog to confirm deletion of the ingredient
+                    new AlertDialog.Builder(requireContext())
+                            .setTitle("Delete Ingredient")
+                            .setMessage("Are you sure you want to delete this ingredient? This action cannot be undone.")
+                            .setPositiveButton("Yes", (dialog, which) -> {
+                                // Deletion occurs only after confirmation
+                                if (pantry.delete_ingredient(ingredient.getName())) {
+                                    // Notify adapter to update the UI after deletion
+                                    adapter.notifyDataSetChanged();
+                                    Snackbar.make(getView(), ingredient.getName() + " deleted", Snackbar.LENGTH_SHORT).show();
+                                } else {
+                                    // Handle case where the ingredient wasn't found
+                                    Log.d("PantryFragment", "Ingredient not found: " + ingredient.getName());
+                                    Snackbar.make(getView(), "Ingredient not found", Snackbar.LENGTH_SHORT).show();
+                                }
+                            })
+                            .setNegativeButton("No", (dialog, which) -> {
+                                // Dismiss the dialog if "No" is clicked
+                                dialog.dismiss();
+                            })
+                            .create()
+                            .show();
                 }
             });
         }

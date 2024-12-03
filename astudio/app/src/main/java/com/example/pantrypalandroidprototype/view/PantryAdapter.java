@@ -66,18 +66,24 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         Ingredient ingredient = ingredients.get(position);
         holder.ingredientName.setText(ingredient.getName());
         holder.ingredientDetails.setText("Amount: " + ingredient.getQuantity() + " " + ingredient.getUnit() + ", Tags: " + ingredient.getTags());
+        // Show ingredient details when card is clicked
         holder.itemView.setOnClickListener(v -> {
-            // Show ingredient details on card click
             holder.ingredientDetails.setVisibility(View.VISIBLE);
-            holder.editButton.setVisibility(View.VISIBLE);
         });
-        holder.editButton.setOnClickListener(v -> {
-            // Open edit menu for ingredient
+
+        // Make the edit icon clickable and trigger the edit action
+        holder.editIcon.setOnClickListener(v -> {
+            // Open the edit ingredient screen
             if (listener != null) listener.onEditIngredient(ingredient);
         });
+
+        // Set onClickListener for the delete icon
         holder.deleteIcon.setOnClickListener(v -> {
-            // Handle delete action
-            if (listener != null) listener.onDeleteIngredient(ingredient);
+            if (listener != null) {
+                listener.onDeleteIngredient(ingredient); // Pass ingredient to listener for deletion
+                ingredients.remove(position); // Remove from the list
+                notifyItemRemoved(position); // Notify adapter to remove the item from the view
+            }
         });
     }
 
@@ -96,8 +102,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
      */
     public static class PantryViewHolder extends RecyclerView.ViewHolder {
         TextView ingredientName, ingredientDetails;
-        ImageView deleteIcon;
-        Button editButton;
+        ImageView deleteIcon, editIcon;
 
         /**
          * Constructs a {@code PantryViewHolder} and initializes its views.
@@ -109,7 +114,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
             ingredientName = itemView.findViewById(R.id.ingredient_name);
             ingredientDetails = itemView.findViewById(R.id.ingredient_details);
             deleteIcon = itemView.findViewById(R.id.delete_icon);
-            editButton = itemView.findViewById(R.id.edit_button);
+            editIcon = itemView.findViewById(R.id.edit_icon);
         }
 
         public interface OnItemClickListener {
