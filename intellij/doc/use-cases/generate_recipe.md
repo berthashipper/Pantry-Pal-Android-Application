@@ -70,34 +70,46 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": RecipeFragment" as rf
-participant ": RecipeAdapter" as ra
-participant ": RecipeDatabase" as recd
 participant ": GenerateRecipe" as gr
+participant ": RecipeFragment" as rf
+participant ": Cookbook" as cb
+participant ": Pantry" as pantry
 
-user -> ui: Display main menu
+ui -> user: Display main menu
 user -> ui: Select "Generate Recipe Suggestions"
 ui -> cont: onGenerateRecipes()
 
 cont -> gr: generateMatchingRecipes()
-gr -> recd: Generate matching recipes using pantry and recipes
-recd -> gr: Return matched recipes
+gr -> cb: Access all recipes
+gr -> pantry: Access pantry ingredients
+loop For each recipe in cookbook
+    gr -> gr: Check if pantry has enough ingredients
+    alt Matching ingredients found
+        gr -> gr: Add recipe to matched recipes
+    else No match
+        gr -> gr: Skip recipe
+    end
+end
 gr -> cont: Return matched recipes
-cont -> rf: Create RecipeFragment with matched recipes
-cont -> ui: displayFragment(RecipeFragment)
 
-ui -> rf: Show recipe list (via RecyclerView)
-rf -> ra: Set up RecyclerView with recipes
-ra -> ui: Display list of recipes
-ui -> user: Present list of recipes
-
-alt No matching recipes
-    cont -> rf: Show no recipes message
-    rf -> ui: Display "No matching recipes found" message
+alt Matched recipes found
+    cont -> rf: Create RecipeFragment with matched recipes
+    cont -> ui: displayFragment(RecipeFragment)
+    ui -> rf: Display list of matched recipes
+    rf -> ui: Display recipes
+    ui -> user: Show matched recipes
+else No matched recipes
+    alt Current fragment is RecipeFragment
+        cont -> rf: Show no recipes message
+        rf -> ui: Display "No matching recipes found"
+    else Different fragment
+        cont -> rf: Create RecipeFragment with empty cookbook
+        cont -> ui: displayFragment(RecipeFragment)
+        ui -> user: Display "No matching recipes found"
+    end
 end
 
 @enduml
-
 
 ```
 
