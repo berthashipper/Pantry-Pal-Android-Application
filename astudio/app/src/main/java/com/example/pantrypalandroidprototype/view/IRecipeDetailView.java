@@ -5,6 +5,7 @@ import com.example.pantrypalandroidprototype.model.Recipe;
 public interface IRecipeDetailView {
     interface Listener {
         void onDoneViewingRecipe();
+        void onEditRecipeIngredients();
         void onScaleRecipeMenu();
     }
 }
