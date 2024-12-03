@@ -6,6 +6,7 @@ public interface IRecipeDetailView {
     interface Listener {
         void onDoneViewingRecipe();
         void onEditRecipeIngredients();
+        void onAddRecipeIngredients();
         void onScaleRecipeMenu();
     }
 }
