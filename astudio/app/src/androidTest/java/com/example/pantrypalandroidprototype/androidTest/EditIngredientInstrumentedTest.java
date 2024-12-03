@@ -45,7 +45,7 @@ public class EditIngredientInstrumentedTest {
         typeText(R.id.itemQtyText, initialQty);
         typeText(R.id.itemUnitText, initialUnit);
 
-        // Select dietary tags (e.g., Vegan and Gluten-Free)
+        // Select dietary tags
         Espresso.onView(ViewMatchers.withId(R.id.veganCheckbox)).perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.glutenFreeCheckbox)).perform(ViewActions.click());
 

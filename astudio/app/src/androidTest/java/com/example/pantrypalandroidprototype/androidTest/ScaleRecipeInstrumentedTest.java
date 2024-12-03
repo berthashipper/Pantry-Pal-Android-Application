@@ -44,7 +44,7 @@ public class ScaleRecipeInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.scale_button))
                 .perform(ViewActions.click());
 
-        // Step 4: Enter a valid scaling factor (e.g., 2)
+        // Step 4: Enter a valid scaling factor
         this.typeText(R.id.scaleFactor, "2");
 
         // Step 5: Click the "Apply Scaling" button
@@ -57,7 +57,7 @@ public class ScaleRecipeInstrumentedTest {
 
         SystemClock.sleep(1000);
 
-        // Step 7: Verify that a scaled ingredient is correctly updated (e.g., "2 cups flour")
+        // Step 7: Verify that a scaled ingredient is correctly updated
         Espresso.onView(ViewMatchers.withText("4.0 slices of Bread"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
@@ -174,7 +174,7 @@ public class ScaleRecipeInstrumentedTest {
 
         SystemClock.sleep(1000);
 
-        // Step 4: Enter a valid scaling factor (e.g., 2)
+        // Step 4: Enter a valid scaling factor
         this.typeText(R.id.scaleFactor, "2");
 
         SystemClock.sleep(1000);
@@ -199,7 +199,7 @@ public class ScaleRecipeInstrumentedTest {
         Espresso.onView(ViewMatchers.withText("Serves: 2"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
-//alertdialog
+
     /**
      * This tests the functionality of navigating back to the recipe from the ScaleRecipeFragment.
      */

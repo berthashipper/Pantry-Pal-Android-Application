@@ -4,21 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.FragmentPantryBinding;
-import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
 import com.google.android.material.snackbar.Snackbar;
-
-import java.util.HashSet;
-import java.util.Set;
+import androidx.appcompat.app.AlertDialog;
 
 /**
  * The PantryFragment class represents a user interface fragment that displays and manages pantry-related operations.
@@ -139,9 +132,19 @@ public class PantryFragment extends Fragment implements IPantryView {
      * Notifies the listener to clear all ingredients in the pantry.
      */
     public void onClearPantryButtonClicked() {
-        if (listener != null) {
-            listener.onClearPantry();  // Notify listener to handle clearing the pantry
-        }
+        // Create an AlertDialog to confirm clearing the pantry
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Clear Pantry")
+                .setMessage("Are you sure you want to clear all ingredients? This action cannot be undone.")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    // Notify listener to handle clearing the pantry if the user confirms
+                    if (listener != null) {
+                        listener.onClearPantry();
+                    }
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                .create()
+                .show();
     }
 
     /**

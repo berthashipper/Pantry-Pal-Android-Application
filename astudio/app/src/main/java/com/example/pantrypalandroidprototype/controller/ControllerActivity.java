@@ -477,7 +477,6 @@ public class ControllerActivity extends AppCompatActivity
                 break;
             }
         }
-
         // Notify the user
         Snackbar.make(findViewById(R.id.fragmentContainerView), name + " updated!", Snackbar.LENGTH_LONG).show();
 

@@ -57,7 +57,7 @@ public class AddIngredientsInstrumentedTest {
                 .check(ViewAssertions.matches(ViewMatchers.withText("1.5")));
         typeText(R.id.itemUnitText, testUnit);
 
-        // Select dietary tags (e.g., Vegan and Gluten-Free)
+        // Select dietary tags
         Espresso.onView(ViewMatchers.withId(R.id.veganCheckbox)).perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withId(R.id.glutenFreeCheckbox)).perform(ViewActions.click());
 

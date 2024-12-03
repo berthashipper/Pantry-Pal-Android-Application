@@ -95,7 +95,7 @@ public class SearchIngredientsInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.searchIngredientsButton))
                 .perform(ViewActions.click());
 
-        // Type in a query that doesn't match any ingredient (e.g., "NonExistentIngredient")
+        // Type in a query that doesn't match any ingredient
         this.typeText(R.id.searchQueryText, "NonExistentIngredient");
 
         // Click the search button
