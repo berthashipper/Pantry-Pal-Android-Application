@@ -67,7 +67,7 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         // Check if the quantity is a valid number
         double qty;
 //        try {
-            qty = Double.parseDouble(qtyString);
+        qty = Double.parseDouble(qtyString);
 //            if (qty <= 0) {
 //                throw new NumberFormatException();
 //            }

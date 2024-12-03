@@ -1,7 +1,6 @@
 package com.example.pantrypalandroidprototype.model;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -9,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantrypalandroidprototype.R;
+import com.example.pantrypalandroidprototype.databinding.ItemPantryBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +40,9 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
     @NonNull
     @Override
     public PantryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_pantry, parent, false);
-        return new PantryViewHolder(view);
+        // Inflate the layout using ViewBinding
+        ItemPantryBinding binding = ItemPantryBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new PantryViewHolder(binding);
     }
 
 
@@ -81,19 +82,16 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
      * The {@code PantryViewHolder} class holds references to the views for each pantry item.
      */
     public static class PantryViewHolder extends RecyclerView.ViewHolder {
-        private final TextView itemNameText;
-        private final TextView itemQtyText;
-
+        ItemPantryBinding binding;
 
         /**
          * Constructs a {@code PantryViewHolder} and initializes its views.
          *
-         * @param itemView The view representing an individual pantry item.
+         * @param binding The binding representing an individual pantry item.
          */
-        public PantryViewHolder(View itemView) {
-            super(itemView);
-            itemNameText = itemView.findViewById(R.id.itemName);
-            itemQtyText = itemView.findViewById(R.id.itemQty);
+        public PantryViewHolder(ItemPantryBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         /**
@@ -102,8 +100,8 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
          * @param ingredient The {@link Ingredient} object containing the data to display.
          */
         public void bind(Ingredient ingredient) {
-            itemNameText.setText(ingredient.getName());
-            itemQtyText.setText(String.valueOf(ingredient.getQuantity()));
+            binding.itemName.setText(ingredient.getName());
+            binding.itemQty.setText(String.valueOf(ingredient.getQuantity()));
         }
     }
 }

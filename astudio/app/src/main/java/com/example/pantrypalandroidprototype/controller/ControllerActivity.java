@@ -335,18 +335,12 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onScaleRecipeMenu() {
-        if (currentRecipe != null) {
-            Log.d("ControllerActivity", "Navigating to ScaleRecipeFragment with recipe: " + currentRecipe.getRecipeName());
-            ScaleRecipeFragment fragment = ScaleRecipeFragment.newInstance(currentRecipe, this);
+        ScaleRecipeFragment fragment = ScaleRecipeFragment.newInstance(currentRecipe, this);
             getSupportFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragmentContainerView, fragment)
                     .addToBackStack(null)
                     .commit();
-        } else {
-            Log.e("ControllerActivity", "Recipe is null while navigating to ScaleRecipeFragment");
-            Snackbar.make(findViewById(android.R.id.content), "Error: No recipe selected", Snackbar.LENGTH_LONG).show();
-        }
     }
 
     @Override

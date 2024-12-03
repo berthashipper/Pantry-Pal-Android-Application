@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.controller.ControllerActivity;
+import com.example.pantrypalandroidprototype.databinding.FragmentRecipeListBinding;
 import com.example.pantrypalandroidprototype.model.Cookbook;
 import com.example.pantrypalandroidprototype.model.Recipe;
 import com.example.pantrypalandroidprototype.model.RecipeAdapter;
@@ -36,6 +37,7 @@ public class RecipeFragment extends Fragment {
     Cookbook cookbook;
     RecyclerView recyclerView;
     RecipeAdapter recipeAdapter;
+    FragmentRecipeListBinding binding;
 
     /**
      * Creates a new instance of {@code RecipeFragment} with the specified {@link Cookbook}.
@@ -76,11 +78,11 @@ public class RecipeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recipe_list, container, false);
-        RecyclerView recyclerView = view.findViewById(R.id.recipe_recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding = FragmentRecipeListBinding.inflate(inflater, container, false);
 
-        RecipeAdapter adapter = new RecipeAdapter(cookbook, getContext(), recipe -> {
+        // Set up the RecyclerView
+        binding.recipeRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recipeAdapter = new RecipeAdapter(cookbook, getContext(), recipe -> {
             // Navigate to RecipeDetailFragment on recipe click
             RecipeDetailFragment detailFragment = RecipeDetailFragment.newInstance(recipe);
             requireActivity().getSupportFragmentManager().beginTransaction()
@@ -88,14 +90,14 @@ public class RecipeFragment extends Fragment {
                     .addToBackStack(null)
                     .commit();
         });
-        recyclerView.setAdapter(adapter);
+        binding.recipeRecyclerView.setAdapter(recipeAdapter);
 
         // Show a message if the cookbook is empty
         if (cookbook.recipeList.isEmpty()) {
             showNoRecipesMessage();
         }
 
-        return view;
+        return binding.getRoot();
     }
 
     public void setRecipeClickListener(RecipeAdapter.OnRecipeClickListener listener) {
@@ -108,13 +110,8 @@ public class RecipeFragment extends Fragment {
      * @param newCookbook The new cookbook containing the updated list of recipes.
      */
     public void updateCookbook(Cookbook newCookbook) {
-        View rootView = getView();
-        if (rootView != null) {
-            RecyclerView recyclerView = rootView.findViewById(R.id.recipe_recycler_view);
-            RecipeAdapter adapter = (RecipeAdapter) recyclerView.getAdapter();
-            if (adapter != null) {
-                adapter.updateRecipes(newCookbook);
-            }
+        if (binding != null) {
+            recipeAdapter.updateRecipes(newCookbook);
         }
     }
 
@@ -175,6 +172,7 @@ public class RecipeFragment extends Fragment {
     public void showRecipeNotFoundError(String recipeName) {
         Toast.makeText(getContext(), "Recipe '" + recipeName + "' not found.", Toast.LENGTH_SHORT).show();
     }
+
 }
 
 

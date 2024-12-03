@@ -1,32 +1,25 @@
+<!-- item_ingredient.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="16dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <!-- Ingredient Name Text -->
     <TextView
         android:id="@+id/ingredient_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ingredient Name"
-        android:textSize="16sp" />
+        android:text="Ingredient Name" />
 
-    <!-- Dietary Tags Text -->
     <TextView
         android:id="@+id/dietary_tags"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:paddingTop="8dp"
-        android:textColor="@android:color/black" />
+        android:text="Dietary Tags" />
 
-    <!-- Layout for Dietary Tags -->
     <LinearLayout
         android:id="@+id/dietary_tags_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="8dp">
-    </LinearLayout>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.pantrypalandroidprototype.R;
+import com.example.pantrypalandroidprototype.databinding.FragmentRecipeDetailBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
 
@@ -24,6 +25,7 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
     static final String ARG_RECIPE = "recipe";
     Recipe recipe;
     Listener listener;
+    FragmentRecipeDetailBinding binding;
 
     public static RecipeDetailFragment newInstance(Recipe recipe) {
         RecipeDetailFragment fragment = new RecipeDetailFragment();
@@ -54,52 +56,40 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_recipe_detail, container, false);
+        // Inflate the binding object
+        binding = FragmentRecipeDetailBinding.inflate(inflater, container, false);
 
-        // Find the TextViews for the UI components
-        TextView recipeName = view.findViewById(R.id.recipe_name);
-        TextView recipeDescription = view.findViewById(R.id.recipe_description);
-        TextView recipeCookTime = view.findViewById(R.id.recipe_cook_time);
-        TextView recipeServingSize = view.findViewById(R.id.recipe_serving_size);
-        LinearLayout ingredientsLayout = view.findViewById(R.id.ingredients_layout);
-        TextView recipeInstructions = view.findViewById(R.id.recipe_instructions);
-
-        // Reference the Done button
-        Button doneButton = view.findViewById(R.id.done_button);
-        // Reference the Scale button
-        Button scaleButton = view.findViewById(R.id.scale_button);
-
-        // Set the recipe details in the corresponding views
-        recipeName.setText(recipe.recipeName);
-        recipeDescription.setText(recipe.recipeDescription);
-        recipeCookTime.setText("Cook Time: " + formatCookTime(recipe.cookTime));
-        recipeServingSize.setText("Serves: " + recipe.servingSize);
+        // Use the binding object to reference views
+        binding.recipeName.setText(recipe.getRecipeName());
+        binding.recipeDescription.setText(recipe.getRecipeDescription());
+        binding.recipeCookTime.setText("Cook Time: " + formatCookTime(recipe.cookTime));
+        binding.recipeServingSize.setText("Serves: " + recipe.servingSize);
 
         // Add ingredients to the layout
         for (Ingredient ingredient : recipe.getIngredients()) {
             TextView ingredientView = new TextView(getContext());
             ingredientView.setText(ingredient.getQuantity() + " " + ingredient.getUnit() + " of " + ingredient.getName());
-            ingredientsLayout.addView(ingredientView);
+            binding.ingredientsLayout.addView(ingredientView);
         }
 
         // Set the recipe instructions
-        recipeInstructions.setText(recipe.instructions);
+        binding.recipeInstructions.setText(recipe.instructions);
 
         // Set up the "Done" button to navigate back to CookbookFragment
-        doneButton.setOnClickListener(v -> {
+        binding.doneButton.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onDoneViewingRecipe();  // Notify listener when Done is pressed
             }
         });
 
         // Set up the "Scale" button to navigate to ScaleRecipeFragment
-        scaleButton.setOnClickListener(v -> {
+        binding.scaleButton.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onScaleRecipeMenu();  // Notify listener when Scale is pressed
             }
         });
 
-        return view;
+        return binding.getRoot();
     }
 
     public String formatCookTime(Duration cookTime) {

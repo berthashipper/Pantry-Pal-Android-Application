@@ -2,7 +2,6 @@ package com.example.pantrypalandroidprototype.model;
 
 import android.content.Context;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -10,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantrypalandroidprototype.R;
+import com.example.pantrypalandroidprototype.databinding.ItemRecipeBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +23,6 @@ import java.util.List;
  * </p>
  */
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder> {
-
-
     /**
      * The {@link Cookbook} object containing the recipes to be displayed.
      */
@@ -39,7 +37,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
      * Interface to handle recipe item click events.
      */
     public OnRecipeClickListener onRecipeClickListener;
-
 
     /**
      * Constructs a {@code RecipeAdapter} with the specified cookbook, context, and click listener.
@@ -64,10 +61,10 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @NonNull
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(context).inflate(R.layout.item_recipe, parent, false);
-        return new RecipeViewHolder(itemView);
+        // Use the generated binding class for the item_recipe layout
+        ItemRecipeBinding binding = ItemRecipeBinding.inflate(LayoutInflater.from(context), parent, false);
+        return new RecipeViewHolder(binding);
     }
-
 
     /**
      * Binds the data of the recipe at the specified position to the {@link RecipeViewHolder}.
@@ -78,7 +75,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
         Recipe recipe = new ArrayList<>(cookbook.recipeList.values()).get(position);
-        holder.recipeName.setText(recipe.recipeName);
+        holder.binding.recipeName.setText(recipe.recipeName);
         holder.itemView.setOnClickListener(v -> onRecipeClickListener.onRecipeClick(recipe));
     }
 
@@ -128,14 +125,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
          * TextView to display the recipe's name.
          */
         TextView recipeName;
+        ItemRecipeBinding binding;
         /**
          * Constructs a {@code RecipeViewHolder} and initializes its views.
          *
-         * @param itemView The view representing an individual recipe item.
+         * @param binding The binding object representing the individual recipe item.
          */
-        public RecipeViewHolder(View itemView) {
-            super(itemView);
-            recipeName = itemView.findViewById(R.id.recipe_name);
+        public RecipeViewHolder(ItemRecipeBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
     }
 }
