@@ -1,4 +1,4 @@
-<!-- item_pantry.xml -->
+<!-- item_ingredient.xml -->
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -20,6 +20,15 @@
             android:textSize="18sp"
             android:text="Ingredient Name" />
 
+        <TextView
+            android:id="@+id/ingredient_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Details"
+            android:textSize="14sp"
+            android:layout_below="@id/ingredient_name"
+            android:visibility="gone" />
+
         <ImageView
             android:id="@+id/delete_icon"
             android:layout_width="24dp"
@@ -28,5 +37,23 @@
             android:layout_centerVertical="true"
             android:contentDescription="Delete Icon"
             android:src="@drawable/delete_icon"/>
+
+        <ImageView
+            android:id="@+id/edit_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="Edit Icon"
+            android:src="@drawable/edit_icon"/>
+
+        <Button
+            android:id="@+id/edit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/delete_icon"
+            android:visibility="gone" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

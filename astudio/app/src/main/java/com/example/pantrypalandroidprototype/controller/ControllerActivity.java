@@ -209,6 +209,16 @@ public class ControllerActivity extends AppCompatActivity
     }
 
     @Override
+    public void onEditIngredientMenu(Ingredient ingredient) {
+
+    }
+
+    @Override
+    public void onDeleteIngredientMenu(Ingredient ingredient) {
+
+    }
+
+    @Override
     public void onEditIngredient(EditIngredientFragment editIngredientFragment, String name, double newQty) {
         boolean isUpdated = pantry.edit_ingredient(name, newQty);
 

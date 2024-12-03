@@ -73,7 +73,6 @@ public class PantryFragment extends Fragment implements IPantryView {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d("PantryFragment", "Ingredient RecyclerView: " + binding.recyclerViewPantry);
 
         binding.addIngredientsButton.setOnClickListener(v -> onAddIngredientButtonClicked());
         //binding.viewPantryButton.setOnClickListener(v -> onViewPantryMenu());
@@ -89,12 +88,22 @@ public class PantryFragment extends Fragment implements IPantryView {
         }
 
         // Initialize the adapter and assign it to the RecyclerView
-        if (ingredientNames.isEmpty()) {
+        if (ingredientList.isEmpty()) {
             Log.d("PantryFragment", "No ingredients to display.");
         } else {
-            adapter = new PantryAdapter(ingredientNames, ingredientName -> {
-                pantry.delete_ingredient(ingredientName);
-                adapter.notifyDataSetChanged();
+            adapter = new PantryAdapter(ingredientList, new PantryAdapter.PantryViewHolder.OnItemClickListener() {
+                @Override
+                public void onEditIngredient(Ingredient ingredient) {
+                    // Open the edit ingredient screen
+                    if (listener != null) listener.onEditIngredientMenu(ingredient);
+                }
+
+                @Override
+                public void onDeleteIngredient(Ingredient ingredient) {
+                    // Delete the ingredient
+                    pantry.delete_ingredient(ingredient.getName());
+                    adapter.notifyDataSetChanged();
+                }
             });
         }
 
