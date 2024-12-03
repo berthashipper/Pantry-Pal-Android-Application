@@ -457,6 +457,13 @@ public class ControllerActivity extends AppCompatActivity
     }
 
     @Override
+    public void onBackToRecipe() {
+        RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(currentRecipe);
+        mainView.displayFragment(recipeDetailFragment); // Navigate back
+    }
+
+
+    @Override
     public void onEditRecipeDone() {
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
     }
