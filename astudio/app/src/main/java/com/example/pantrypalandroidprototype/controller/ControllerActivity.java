@@ -18,14 +18,18 @@ import com.example.pantrypalandroidprototype.model.Pantry;
 import com.example.pantrypalandroidprototype.model.Recipe;
 import com.example.pantrypalandroidprototype.view.AddIngredientFragment;
 import com.example.pantrypalandroidprototype.view.AddRecipeFragment;
+import com.example.pantrypalandroidprototype.view.AddRecipeIngredientFragment;
 import com.example.pantrypalandroidprototype.view.CookbookFragment;
 import com.example.pantrypalandroidprototype.view.DeleteIngredientFragment;
+import com.example.pantrypalandroidprototype.view.DeleteRecipeIngredientFragment;
 import com.example.pantrypalandroidprototype.view.EditIngredientFragment;
 import com.example.pantrypalandroidprototype.view.EditRecipeIngredientFragment;
 import com.example.pantrypalandroidprototype.view.IAddIngredientView;
+import com.example.pantrypalandroidprototype.view.IAddRecipeIngredientView;
 import com.example.pantrypalandroidprototype.view.IAddRecipeView;
 import com.example.pantrypalandroidprototype.view.ICookbookView;
 import com.example.pantrypalandroidprototype.view.IDeleteIngredientView;
+import com.example.pantrypalandroidprototype.view.IDeleteRecipeIngredientView;
 import com.example.pantrypalandroidprototype.view.IEditIngredientView;
 import com.example.pantrypalandroidprototype.view.IEditRecipeIngredientView;
 import com.example.pantrypalandroidprototype.view.IMainView;
@@ -43,6 +47,7 @@ import com.example.pantrypalandroidprototype.view.SearchIngredientFragment;
 import com.example.pantrypalandroidprototype.view.SearchRecipeFragment;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -54,7 +59,8 @@ public class ControllerActivity extends AppCompatActivity
         implements IAddIngredientView.Listener, IPantryView.Listener,
         IDeleteIngredientView.Listener, IEditIngredientView.Listener,
         ICookbookView.Listener, IAddRecipeView.Listener, IRecipeDetailView.Listener,
-        ISearchRecipeView.Listener, ISearchIngredientView.Listener, IScaleRecipeView.Listener, IEditRecipeIngredientView.Listener {
+        ISearchRecipeView.Listener, ISearchIngredientView.Listener, IScaleRecipeView.Listener,
+        IEditRecipeIngredientView.Listener, IAddRecipeIngredientView.Listener, IDeleteRecipeIngredientView.Listener {
 
     IMainView mainView;
     Pantry pantry;
@@ -218,30 +224,6 @@ public class ControllerActivity extends AppCompatActivity
         // Return to pantry view
         onViewPantryMenu();
     }
-
-//    @Override
-//    public void onAddIngredients() {
-//        // This method will be triggered when adding an ingredient
-//        // Display a fragment where the user can add a new ingredient
-////        AddIngredientFragment addRecipeIngredientFragment = AddRecipeIngredientFragment.newInstance(this);
-////        mainView.displayFragment(addIngredientFragment);
-//    }
-//
-//    @Override
-//    public void onEditInstructions() {
-//        // This method will allow the user to edit the instructions for a recipe
-//        // You may choose to show an EditText or another fragment to facilitate this
-////        EditInstructionsFragment editInstructionsFragment = EditRecipeInstructionsFragment.newInstance(this);
-////        mainView.displayFragment(editInstructionsFragment);
-//    }
-//
-//    @Override
-//    public void onDeleteIngredients() {
-//        // This method will trigger when the user wants to delete an ingredient from the pantry
-//        // Display a fragment to prompt the user to select an ingredient to delete
-//        DeleteIngredientFragment deleteRecipeIngredientFragment = DeleteIngredientFragment.newInstance(this);
-//        mainView.displayFragment(deleteRecipeIngredientFragment);
-//    }
 
     @Override
     public void onEditDone() {
@@ -490,4 +472,85 @@ public class ControllerActivity extends AppCompatActivity
         this.mainView.displayFragment(editRecipeIngredientFragment);
     }
 
+    @Override
+    public void onAddRecipeIngredients() {
+        AddRecipeIngredientFragment addRecipeIngredientFragment = AddRecipeIngredientFragment.newInstance(this);
+        this.mainView.displayFragment(addRecipeIngredientFragment);
+    }
+
+    @Override
+    public void onAddRecipeIngredient(String name, double newQty, String unit, Set<Ingredient.dietary_tags> tags) {
+        boolean ingredientFound = false;
+
+        // Check if the ingredient already exists in the current recipe's ingredient list
+        for (Ingredient ingredient : currentRecipe.getIngredients()) {
+            if (ingredient.getName().equalsIgnoreCase(name)) {
+                // Update the quantity and unit of the existing ingredient
+                ingredient.updateQuantity(newQty);
+                ingredientFound = true;
+                break;
+            }
+        }
+    // Convert Set<Ingredient.dietary_tags> to Set<String>
+        Set<String> tagStrings = new HashSet<>();
+        for (Ingredient.dietary_tags tag : tags) {
+            tagStrings.add(tag.name()); // Converts enum to String
+        }
+
+        // If the ingredient does not exist, add a new one
+        if (!ingredientFound) {
+            Ingredient newIngredient = new Ingredient(name, newQty, unit, tagStrings);
+            currentRecipe.ingredientsInRecipe.add(newIngredient);
+        }
+
+        // Notify the user that the ingredient has been added or updated
+        Snackbar.make(findViewById(R.id.fragmentContainerView), name + " added/updated!", Snackbar.LENGTH_LONG).show();
+
+        // Refresh the RecipeDetailFragment with updated data
+        mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
+    }
+
+    @Override
+    public void onAddRecipeDone() {
+        mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
+    }
+
+    @Override
+    public void onDeleteRecipeIngredients() {
+        DeleteRecipeIngredientFragment deleteRecipeIngredientFragment = DeleteRecipeIngredientFragment.newInstance(this);
+        this.mainView.displayFragment(deleteRecipeIngredientFragment);
+    }
+
+
+    @Override
+    public void onDeleteRecipeIngredient(String name) {
+// Update the recipe object by removing the specified ingredient
+        boolean ingredientFound = false;
+        Iterator<Ingredient> iterator = currentRecipe.getIngredients().iterator();
+
+        while (iterator.hasNext()) {
+            Ingredient ingredient = iterator.next();
+            if (ingredient.getName().equalsIgnoreCase(name)) {
+                iterator.remove();  // Remove the ingredient from the list
+                ingredientFound = true;
+                break;
+            }
+        }
+
+        // Notify the user of the deletion result
+        if (ingredientFound) {
+            Snackbar.make(findViewById(R.id.fragmentContainerView), name + " deleted!", Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(findViewById(R.id.fragmentContainerView), "Ingredient not found!", Snackbar.LENGTH_LONG).show();
+        }
+
+        // Refresh the RecipeDetailFragment with updated data
+        mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
+    }
+
+    @Override
+    public void onDeleteRecipeDone() {
+        mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
+        Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
+    }
 }
