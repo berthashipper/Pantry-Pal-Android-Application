@@ -190,6 +190,14 @@ public class ControllerActivity extends AppCompatActivity
         pantry.clear();
         // Save updated pantry to local storage
         persFacade.savePantry(pantry);
+
+        // Get the current fragment and check if it is an instance of PantryFragment
+        PantryFragment pantryFragment = (PantryFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        // If the fragment is found, call showClearedMessage
+        if (pantryFragment != null) {
+            pantryFragment.showClearedMessage();
+        }
+
         onViewPantryMenu(); // Return to the pantry view
     }
 

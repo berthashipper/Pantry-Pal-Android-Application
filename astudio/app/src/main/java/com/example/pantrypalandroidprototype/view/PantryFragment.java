@@ -15,6 +15,7 @@ import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.FragmentPantryBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -90,5 +91,9 @@ public class PantryFragment extends Fragment implements IPantryView {
         if (listener != null) {
             listener.onClearPantry();  // Notify listener to handle clearing the pantry
         }
+    }
+
+    public void showClearedMessage() {
+        Snackbar.make(getView(), "Pantry cleared", Snackbar.LENGTH_LONG).show();
     }
 }
