@@ -152,7 +152,7 @@ public class Recipe implements Serializable {
      * @return The description name.
      */
     public String getRecipeDescription() {
-        return recipeName;
+        return recipeDescription;
     }
 
     /**

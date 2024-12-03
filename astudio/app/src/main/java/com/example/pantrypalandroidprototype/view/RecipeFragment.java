@@ -172,7 +172,4 @@ public class RecipeFragment extends Fragment {
     public void showRecipeNotFoundError(String recipeName) {
         Toast.makeText(getContext(), "Recipe '" + recipeName + "' not found.", Toast.LENGTH_SHORT).show();
     }
-
 }
-
-

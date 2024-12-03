@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 
 import com.example.pantrypalandroidprototype.databinding.FragmentAddItemsBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
-import com.example.pantrypalandroidprototype.model.IngredientAdapter;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;

@@ -132,7 +132,7 @@ public class CookbookInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.doneButton))
                 .perform(ViewActions.scrollTo(), ViewActions.click());
 
-        SystemClock.sleep(4000);
+        SystemClock.sleep(2000);
 
         // Verify that the added recipe is displayed in the RecyclerView
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes)) // Target RecyclerView
@@ -146,7 +146,7 @@ public class CookbookInstrumentedTest {
                         ViewMatchers.hasDescendant(ViewMatchers.withText(testName)) // Ensure the text exists
                 ));
 
-        SystemClock.sleep(4000);
+        SystemClock.sleep(2000);
 
         // Scroll to the item and perform a click on it
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
@@ -155,7 +155,7 @@ public class CookbookInstrumentedTest {
                         ViewActions.click()
                 ));
 
-        SystemClock.sleep(4000);
+        SystemClock.sleep(2000);
 
         // Verify that the correct recipe details screen is displayed
         Espresso.onView(ViewMatchers.withId(R.id.recipe_name)) // ID of TextView on the details screen
@@ -239,9 +239,7 @@ public class CookbookInstrumentedTest {
                 .perform(ViewActions.scrollTo(), ViewActions.click());
 
         SystemClock.sleep(2000);
-
     }
-
 
     /**
      * Tests click on Recipe blocks the details of the recipe is shown correctly.
@@ -356,7 +354,7 @@ public class CookbookInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.doneButton))
                 .perform(ViewActions.scrollTo(), ViewActions.click());
 
-        SystemClock.sleep(4000);
+        SystemClock.sleep(2000);
 
         // Verify that the added recipe is displayed in the RecyclerView
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes)) // Target RecyclerView
@@ -370,7 +368,7 @@ public class CookbookInstrumentedTest {
                         ViewMatchers.hasDescendant(ViewMatchers.withText(testName)) // Ensure the text exists
                 ));
 
-        SystemClock.sleep(3000);
+        SystemClock.sleep(2000);
 
         // Scroll to the item and perform a click on it
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
@@ -379,7 +377,7 @@ public class CookbookInstrumentedTest {
                         ViewActions.click()
                 ));
 
-        SystemClock.sleep(3000);
+        SystemClock.sleep(2000);
 
         // Verify that the correct recipe details screen is displayed
         Espresso.onView(ViewMatchers.withId(R.id.recipe_name))
@@ -398,13 +396,13 @@ public class CookbookInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton))
                 .perform(ViewActions.click());
 
-        SystemClock.sleep(3000);
+        SystemClock.sleep(2000);
 
         // Navigate back to cookbook screen
         Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
                 .perform(ViewActions.click());
 
-        SystemClock.sleep(3000);
+        SystemClock.sleep(2000);
 
         // Verify that the correct recipe details screen is still displayed after navigation
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))

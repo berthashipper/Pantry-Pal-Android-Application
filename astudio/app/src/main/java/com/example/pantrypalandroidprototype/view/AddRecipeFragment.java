@@ -206,5 +206,4 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
                     }
                 }});
     }
-
 }

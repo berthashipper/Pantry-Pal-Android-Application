@@ -59,7 +59,6 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
         // Inflate the binding object
         binding = FragmentRecipeDetailBinding.inflate(inflater, container, false);
 
-        // Use the binding object to reference views
         binding.recipeName.setText(recipe.getRecipeName());
         binding.recipeDescription.setText(recipe.getRecipeDescription());
         binding.recipeCookTime.setText("Cook Time: " + formatCookTime(recipe.cookTime));
