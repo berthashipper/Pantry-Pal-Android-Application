@@ -60,6 +60,10 @@ public class ScaleRecipeInstrumentedTest {
         // Step 7: Verify that a scaled ingredient is correctly updated (e.g., "2 cups flour")
         Espresso.onView(ViewMatchers.withText("4.0 slices of Bread"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        // Verify that a scaled serving size is correctly updated
+        Espresso.onView(ViewMatchers.withText("Serves: 2"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
     /**
@@ -187,8 +191,40 @@ public class ScaleRecipeInstrumentedTest {
 
         SystemClock.sleep(1000);
 
-        // Step 7: Verify that a scaled ingredient is correctly updated (e.g., "2 cups flour")
+        // Step 7: Verify that a scaled ingredient is correctly updated
         Espresso.onView(ViewMatchers.withText("4.0 slices of Bread"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        // Verify that a scaled serving size is correctly updated
+        Espresso.onView(ViewMatchers.withText("Serves: 2"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+//alertdialog
+    /**
+     * This tests the functionality of navigating back to the recipe from the ScaleRecipeFragment.
+     */
+    @org.junit.Test
+    public void testBackToRecipeNavigation() {
+        // Step 1: Navigate to the recipe details screen
+        Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
+                .perform(ViewActions.click());
+
+        // Step 2: Select a recipe
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Grilled Cheese Sandwich")),
+                        ViewActions.click()
+                ));
+
+        // Step 3: Click the "Scale Recipe" button
+        Espresso.onView(ViewMatchers.withId(R.id.scale_button))
+                .perform(ViewActions.click());
+
+        // Step 4: Click the "Back to Recipe" button
+        Espresso.onView(ViewMatchers.withId(R.id.backToRecipeButton))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withText("Cook Time: 10 minutes"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
