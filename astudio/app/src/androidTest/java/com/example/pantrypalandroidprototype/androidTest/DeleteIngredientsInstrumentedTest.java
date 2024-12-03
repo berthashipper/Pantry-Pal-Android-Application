@@ -71,7 +71,7 @@ public class DeleteIngredientsInstrumentedTest {
         SystemClock.sleep(1000);
 
         // Verify that the Pantry view is displayed
-        Espresso.onView(ViewMatchers.withId(R.id.pantryContentsTextView))
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_pantry))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         // Verify the ingredient is no longer displayed in the RecyclerView
@@ -95,7 +95,7 @@ public class DeleteIngredientsInstrumentedTest {
         SystemClock.sleep(1000);
 
         // Verify the Pantry fragment is displayed
-        Espresso.onView(ViewMatchers.withId(R.id.pantryContentsTextView))
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_pantry))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 

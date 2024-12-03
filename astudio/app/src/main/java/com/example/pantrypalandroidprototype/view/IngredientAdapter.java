@@ -23,17 +23,14 @@ import java.util.List;
  */
 
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
-
     /**
      * List of {@link Ingredient} objects to be displayed in the RecyclerView.
      */
     final List<Ingredient> ingredientList;
-
     /**
      * Context for inflating views and creating dialogs.
      */
     final Context context;
-
 
     /**
      * Constructs an {@code IngredientAdapter} with the specified ingredient list and context.
