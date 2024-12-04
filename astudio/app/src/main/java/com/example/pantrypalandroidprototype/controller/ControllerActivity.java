@@ -107,24 +107,27 @@ public class ControllerActivity extends AppCompatActivity
 
         // Set up persistence facade
         this.persFacade = new LocalStorageFacade(this);
-        // Load cookbook and pantry from local storage
+        // Load cookbook, pantry, and grocery list from local storage
         this.cookbook = this.persFacade.loadCookbook();
         this.pantry = this.persFacade.loadPantry();
+        this.groceryList = this.persFacade.loadGroceryList();
 
         setContentView(R.layout.main);
         this.mainView = new MainView(this, this);
 
         setContentView(this.mainView.getRootView());
 
-        // Initialize empty pantry and cookbook if not found
+        // Initialize files if empty
         if (this.pantry == null) {
             this.pantry = new Pantry();
         }
         if (this.cookbook == null) {
             this.cookbook = new Cookbook();
         }
-        //pantry = new Pantry();
-        //cookbook = new Cookbook();
+        if (this.groceryList == null) {
+            this.groceryList = new HashMap<>();
+        }
+
         mainView.setListener(this);
 
         // Display pantry fragment to start app
@@ -614,14 +617,13 @@ public class ControllerActivity extends AppCompatActivity
         Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
     }
     public void onAddIngredientToGroceryList(String name, double qty) {
-        Ingredient newIngredient = new Ingredient(name, qty, "unit_placeholder", new HashSet<>());
+        Ingredient newIngredient = new Ingredient(name, qty, "", new HashSet<>());
         groceryList.put(newIngredient, qty);
 
         // Save the updated list to pantry
         pantry.setGroceryList(groceryList); // Add this to reflect changes in the pantry
 
-        // Persist the pantry
-        persFacade.savePantry(pantry);
+        persFacade.saveGroceryList(groceryList);
 
         // Log the update for debugging
         Log.d("Controller", "Grocery list after addition: " + groceryList);
@@ -631,6 +633,7 @@ public class ControllerActivity extends AppCompatActivity
     public void onAddIngredientsToGroceryListMenu() {
         AddToGroceryListFragment addToGroceryListFragment = AddToGroceryListFragment.newInstance(this);
         this.mainView.displayFragment(addToGroceryListFragment);
+        persFacade.saveGroceryList(groceryList);
     }
     @Override
     public void onViewGroceryListMenu() {
@@ -654,7 +657,8 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onClearShoppingList() {
-
+        groceryList.clear();
+        persFacade.saveGroceryList(groceryList);
     }
 
     @Override

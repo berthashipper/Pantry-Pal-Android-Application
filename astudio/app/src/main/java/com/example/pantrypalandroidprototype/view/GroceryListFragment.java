@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -116,13 +117,13 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             TextView ingredientName, ingredientQuantity;
-            Button removeButton;
+            ImageView removeButton;
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                ingredientName = itemView.findViewById(R.id.ingredientName);
-                ingredientQuantity = itemView.findViewById(R.id.ingredientQuantity);
-                removeButton = itemView.findViewById(R.id.removeButton);
+                ingredientName = itemView.findViewById(R.id.ingredient_name);
+                ingredientQuantity = itemView.findViewById(R.id.ingredient_quantity);
+                removeButton = itemView.findViewById(R.id.delete_icon);
             }
         }
     }
