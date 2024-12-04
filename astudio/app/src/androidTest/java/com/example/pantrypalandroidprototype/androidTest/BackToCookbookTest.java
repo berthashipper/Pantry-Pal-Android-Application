@@ -99,7 +99,7 @@ public class BackToCookbookTest {
         Espresso.onView(ViewMatchers.withId(R.id.scale_button))
                 .perform(ViewActions.click());
 
-        // Navigate back to the Cookbook view using the done button
+        // Navigate back to the Recipe view using the back button
         Espresso.onView(ViewMatchers.withId(R.id.backToRecipeButton))
                 .perform(ViewActions.click());
 

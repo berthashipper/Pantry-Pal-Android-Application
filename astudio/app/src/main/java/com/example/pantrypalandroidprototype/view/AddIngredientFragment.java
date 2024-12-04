@@ -49,8 +49,6 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
 
         ingredientAdapter = new IngredientAdapter(addedIngredients, getContext());
-        //binding.ingredientsRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        //binding.ingredientsRecyclerView.setAdapter(ingredientAdapter);
     }
 
     public void onAddButtonClicked() {
@@ -63,17 +61,7 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
             return;
         }
 
-        // Check if the quantity is a valid number
-        double qty;
-//        try {
-        qty = Double.parseDouble(qtyString);
-//            if (qty <= 0) {
-//                throw new NumberFormatException();
-//            }
-//        } catch (NumberFormatException e) {
-//            Snackbar.make(getView(), "Invalid quantity. Please enter a valid number.", Snackbar.LENGTH_LONG).show();
-//            return;
-//        }
+        double qty = Double.parseDouble(qtyString);
 
         Set<Ingredient.dietary_tags> tags = new HashSet<>();
 
@@ -105,10 +93,10 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         // adapter update
         Ingredient newIngredient = new Ingredient(name, qty, unit, new HashSet<>());
         addedIngredients.add(newIngredient);
+        Snackbar.make(getView(), "Added " + newIngredient.getName() + " to pantry.", Snackbar.LENGTH_SHORT).show();
         ingredientAdapter.notifyItemInserted(addedIngredients.size() - 1);
         clearInputs();
     }
-
 
     /**
      * Restricts the quantity input to only accept numeric values.

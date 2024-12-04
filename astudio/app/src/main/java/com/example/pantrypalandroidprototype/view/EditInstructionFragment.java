@@ -15,8 +15,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class EditInstructionFragment extends Fragment implements IEditInstructionView {
 
-    private FragmentEditInstructionBinding binding;  // Assumes a corresponding binding class exists
-    private Listener listener; // Reference to the current recipe builder or editor
+    private FragmentEditInstructionBinding binding;
+    private Listener listener;
 
     /**
      * Creates a new instance of the fragment with a listener.
