@@ -60,5 +60,6 @@ public interface IPantryView {
         void onClearPantry();
         void onEditIngredientMenu(Ingredient ingredient); // Open edit menu for ingredient
         void onDeleteIngredientMenu(Ingredient ingredient); // Handle deletion of ingredient
+        void onViewGroceryListMenu();
     }
 }

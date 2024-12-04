@@ -9,8 +9,6 @@ import androidx.fragment.app.Fragment;
  * An interface for the application screen template.
  */
 public interface IMainView {
-
-
     /**
      * Retrieve the graphical widget (android view) at the root of the screen hierarchy/
      * @return the screen's root android view (widget)
@@ -34,13 +32,4 @@ public interface IMainView {
     void displayFragment(@NonNull final Fragment fragment, final String transName);
 
     void setListener(IPantryView.Listener listener);
-
-    //  PantryAdapter getPantryAdapter();
-    /**
-     * Displays the pantry items in the RecyclerView.
-     */
-    //void displayPantry(@NonNull List<Ingredient> pantryItems);
-
-    //void updatePantryDisplay(List<Ingredient> pantryItems);
-
 }

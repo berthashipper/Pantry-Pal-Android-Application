@@ -13,10 +13,10 @@ import java.util.*;
 public class Pantry implements Serializable {
 
     /** A map to store ingredients, with the ingredient name (in lowercase) as the key. */
-    Map<String, Ingredient> ingredientList = new HashMap<>();
+    public Map<String, Ingredient> ingredientList = new HashMap<>();
 
     /** A map representing the grocery list, with ingredients and their desired quantities. */
-    Map<Ingredient, Double> groceryList = new HashMap<>();
+    public Map<Ingredient, Double> groceryList = new HashMap<>();
 
     /**
      * Adds an ingredient to the pantry.
@@ -198,6 +198,11 @@ public class Pantry implements Serializable {
      */
     public List<Ingredient> getAllIngredients() {
         return new ArrayList<>(ingredientList.values());
+    }
+
+
+    public Map<Ingredient, Double> getGroceryList() {
+        return groceryList;
     }
 
     /**

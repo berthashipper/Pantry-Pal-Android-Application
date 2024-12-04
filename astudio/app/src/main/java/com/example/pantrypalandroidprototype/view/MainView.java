@@ -54,6 +54,13 @@ public class MainView implements IMainView {
             }
         });
 
+        // Set up listener for the Grocery LIst button
+        binding.viewGroceryListButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onViewGroceryListMenu();
+            }
+        });
+
         EdgeToEdge.enable((FragmentActivity) context);
         ViewCompat.setOnApplyWindowInsetsListener(this.binding.getRoot(), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());

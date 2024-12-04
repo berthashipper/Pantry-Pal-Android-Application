@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import com.example.pantrypalandroidprototype.view.DeleteRecipeIngredientFragment
 import com.example.pantrypalandroidprototype.view.EditIngredientFragment;
 import com.example.pantrypalandroidprototype.view.EditInstructionFragment;
 import com.example.pantrypalandroidprototype.view.EditRecipeIngredientFragment;
+import com.example.pantrypalandroidprototype.view.GroceryListFragment;
 import com.example.pantrypalandroidprototype.view.IAddIngredientView;
 import com.example.pantrypalandroidprototype.view.IAddRecipeIngredientView;
 import com.example.pantrypalandroidprototype.view.IAddRecipeView;
@@ -34,6 +36,7 @@ import com.example.pantrypalandroidprototype.view.IDeleteRecipeIngredientView;
 import com.example.pantrypalandroidprototype.view.IEditIngredientView;
 import com.example.pantrypalandroidprototype.view.IEditInstructionView;
 import com.example.pantrypalandroidprototype.view.IEditRecipeIngredientView;
+import com.example.pantrypalandroidprototype.view.IGroceryListView;
 import com.example.pantrypalandroidprototype.view.IMainView;
 import com.example.pantrypalandroidprototype.view.IPantryView;
 import com.example.pantrypalandroidprototype.view.IRecipeDetailView;
@@ -63,17 +66,15 @@ public class ControllerActivity extends AppCompatActivity
         ICookbookView.Listener, IAddRecipeView.Listener, IRecipeDetailView.Listener,
         ISearchRecipeView.Listener, ISearchIngredientView.Listener, IScaleRecipeView.Listener,
         IEditRecipeIngredientView.Listener, IAddRecipeIngredientView.Listener,
-        IDeleteRecipeIngredientView.Listener, IEditInstructionView.Listener {
+        IDeleteRecipeIngredientView.Listener, IEditInstructionView.Listener, IGroceryListView.Listener {
 
     IMainView mainView;
     Pantry pantry;
-    Set<Recipe> recipes = new HashSet<>();
-    Ledger ledger;
     Cookbook cookbook;
-    IPersistenceFacade persFacade;
-    //Cookbook loadedCookbook; // To store loaded cookbook
-    //Pantry loadedPantry;      // To store loaded pantry
     Recipe currentRecipe;
+    Pantry groceryList;
+    IPersistenceFacade persFacade;
+
 
     public static final int REQUEST_CODE_ADD_TO_COOKBOOK = 1;
 
@@ -601,5 +602,31 @@ public class ControllerActivity extends AppCompatActivity
         // Return to the recipe detail view or any other relevant fragment
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
         Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onViewGroceryListMenu() {
+        if (groceryList == null) {
+            groceryList = persFacade.loadPantry(); // Load grocery list from persistence
+        }
+
+        // Display the GroceryListFragment
+        mainView.setListener(this);  // Set listener for this menu
+        this.mainView.displayFragment(GroceryListFragment.newInstance(this, groceryList));
+    }
+
+    @Override
+    public void onClearShoppingList() {
+
+    }
+
+    @Override
+    public void onCheckout() {
+
+    }
+
+    @Override
+    public void onRemoveIngredient(Ingredient ingredient) {
+
     }
 }
