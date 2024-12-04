@@ -51,6 +51,7 @@ import com.example.pantrypalandroidprototype.view.ScaleRecipeFragment;
 import com.example.pantrypalandroidprototype.view.SearchIngredientFragment;
 import com.example.pantrypalandroidprototype.view.SearchRecipeFragment;
 
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -471,7 +472,6 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(recipeDetailFragment); // Navigate back to recipe
     }
 
-
     @Override
     public void onEditRecipeDone() {
         persFacade.saveCookbook(cookbook);
@@ -532,7 +532,7 @@ public class ControllerActivity extends AppCompatActivity
 
         persFacade.saveCookbook(cookbook);
         // Notify the user that the ingredient has been added or updated
-        Snackbar.make(findViewById(R.id.fragmentContainerView), name + " added/updated!", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(findViewById(R.id.fragmentContainerView), name + " added to recipe.", Snackbar.LENGTH_LONG).show();
 
     }
 
@@ -569,7 +569,7 @@ public class ControllerActivity extends AppCompatActivity
 
         // Notify the user of the deletion result
         if (ingredientFound) {
-            Snackbar.make(findViewById(R.id.fragmentContainerView), name + " deleted!", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.fragmentContainerView), name + " deleted from recipe.", Snackbar.LENGTH_LONG).show();
             persFacade.saveCookbook(cookbook);
         } else {
             Snackbar.make(findViewById(R.id.fragmentContainerView), name + " not found in recipe", Snackbar.LENGTH_LONG).show();
@@ -598,7 +598,6 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onAddInstruction(String instruction) {
-
         // Retrieve existing instructions from the model
         String existingInstructions = currentRecipe.getInstructions();
 
@@ -620,6 +619,7 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
         Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
     }
+    @Override
     public void onAddIngredientToGroceryList(String name, double qty) {
         Ingredient newIngredient = new Ingredient(name, qty, "", new HashSet<>());
         groceryList.put(newIngredient, qty);
@@ -685,5 +685,21 @@ public class ControllerActivity extends AppCompatActivity
         if (groceryListFragment != null) {
             groceryListFragment.showDeletedMessage(ingredient);
         }
+    }
+
+    public void setCookTime(Duration cookTime, Recipe recipe) {
+        recipe.setCookTime(cookTime);
+        persFacade.saveCookbook(cookbook);  // Save updated cookbook
+        mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Refresh view
+    }
+
+    public void setServingSize(int servingSize, Recipe recipe) {
+        recipe.setServingSize(servingSize);
+        persFacade.saveCookbook(cookbook);  // Save updated cookbook
+        mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Refresh view
+    }
+
+    public void onBackToRecipe(Recipe recipe) {
+        mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Navigate back to recipe view
     }
 }

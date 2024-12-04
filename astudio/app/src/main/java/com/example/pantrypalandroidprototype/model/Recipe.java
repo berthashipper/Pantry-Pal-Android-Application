@@ -172,6 +172,10 @@ public class Recipe implements Serializable {
         return cookTime;
     }
 
+    public void setCookTime(Duration cookTime) {
+        this.cookTime = cookTime;
+    }
+
     /**
      * Retrieves the serving size for the recipe.
      *
@@ -179,6 +183,10 @@ public class Recipe implements Serializable {
      */
     public int getServingSize() {
         return servingSize;
+    }
+
+    public void setServingSize(int servingSize) {
+        this.servingSize = servingSize;
     }
 
     /**
