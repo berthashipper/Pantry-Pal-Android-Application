@@ -108,7 +108,7 @@ public class PantryFragment extends Fragment implements IPantryView {
                     // Create an AlertDialog to confirm deletion of the ingredient
                     new AlertDialog.Builder(requireContext())
                             .setTitle("Delete Ingredient")
-                            .setMessage("Are you sure you want to delete this ingredient? This action cannot be undone.")
+                            .setMessage("Are you sure you want to delete " + ingredient.getName() + " from the pantry? This action cannot be undone.")
                             .setPositiveButton("Yes", (dialog, which) -> {
                                 // Deletion occurs only after confirmation
                                 if (pantry.delete_ingredient(ingredient.getName())) {
