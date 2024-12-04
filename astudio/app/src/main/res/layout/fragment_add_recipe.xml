@@ -4,10 +4,40 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <!-- Back to Cookbook Button Section -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <!-- Back Icon -->
+            <ImageView
+                android:id="@+id/backToCookbookIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/back_icon"
+                android:contentDescription="Back to Cookbook"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true" />
+
+            <!-- Back Text -->
+            <TextView
+                android:id="@+id/backToCookbookText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back to Cookbook"
+                android:textSize="16sp"
+                android:textColor="#333333"
+                android:layout_toEndOf="@id/backToCookbookIcon"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp" />
+        </RelativeLayout>
 
         <!-- Header Section with ConstraintLayout for Alignment -->
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -158,7 +188,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Done" />
+            android:text="Create Recipe" />
 
     </LinearLayout>
 </ScrollView>

@@ -387,7 +387,7 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onSearchDone() {
-        // Navigate back to the Cookbook view or another fragment
+        // Navigate back to the Cookbook view
         mainView.displayFragment(CookbookFragment.newInstance(this, cookbook));
     }
 
@@ -523,6 +523,11 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onAddRecipeDone() {
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
+    }
+
+    @Override
+    public void onNavigateToCookbook() {
+        mainView.displayFragment(CookbookFragment.newInstance(this,cookbook));
     }
 
     @Override

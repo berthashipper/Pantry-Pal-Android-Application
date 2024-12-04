@@ -31,7 +31,7 @@ public class BackToPantryTest {
      * Tests whether clicking "ViewButton" navigates back to the Pantry view.
      */
     @org.junit.Test
-    public void testViewPantryButtonNavigatesToPantry() {
+    public void testDoneButtonsNavigateToPantry() {
         // Navigate to Add Ingredients screen
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
                 .perform(ViewActions.click());

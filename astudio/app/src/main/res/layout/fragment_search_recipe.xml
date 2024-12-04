@@ -1,27 +1,61 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!-- Back Button Section -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <!-- Back Icon -->
+        <ImageView
+            android:id="@+id/backToCookbookButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/back_icon"
+            android:contentDescription="Back to Cookbook"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true" />
+
+        <!-- Back Text -->
+        <TextView
+            android:id="@+id/back_to_cookbook_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back to Cookbook"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:layout_toEndOf="@id/backToCookbookButton"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp" />
+    </RelativeLayout>
+
+    <!-- Search Input Section -->
     <EditText
         android:id="@+id/searchQueryText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Search for recipe name"
-        android:inputType="text" />
+        android:inputType="text"
+        android:layout_marginBottom="16dp" />
 
+    <!-- Error Message Section -->
     <TextView
         android:id="@+id/errorText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="#FF0000"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:layout_marginBottom="16dp" />
 
+    <!-- Search Button -->
     <Button
         android:id="@+id/searchButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Search" />
-
 </LinearLayout>

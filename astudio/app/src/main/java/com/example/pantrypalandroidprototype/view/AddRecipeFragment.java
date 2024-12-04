@@ -44,10 +44,10 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        // Set up listeners
         binding.addIngredientButton.setOnClickListener(v -> onAddIngredientButtonClicked());
         binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
         binding.addInstructionButton.setOnClickListener(v -> onAddInstructionButtonClicked());
+        binding.backToCookbookIcon.setOnClickListener(v -> onBackToCookbookIconClicked());
     }
 
     public void onAddIngredientButtonClicked() {
@@ -60,16 +60,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
             return;
         }
 
-        // Validate quantity input
-        double quantity = -1;
-//        while (quantity == -1) {
-//            try {
-                quantity = Double.parseDouble(quantityString);
-//            } catch (NumberFormatException e) {
-//                Toast.makeText(getContext(), "Please enter a valid quantity (number)", Toast.LENGTH_SHORT).show();
-//                return;
-//            }
-//        }
+        double quantity = Double.parseDouble(quantityString);
 
         Set<Ingredient.dietary_tags> dietaryTags = new HashSet<>();
         // Check if dietary tags are selected and add to set
@@ -145,6 +136,13 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         // Notify the listener to display RecipeDetailFragment
         if (listener != null) {
             listener.onRecipeCreated(recipe);
+        }
+    }
+
+    public void onBackToCookbookIconClicked() {
+        // Notify the listener or navigate back to the cookbook
+        if (listener != null) {
+            listener.onNavigateToCookbook();
         }
     }
 

@@ -59,6 +59,7 @@ public class SearchRecipeFragment extends Fragment implements ISearchRecipeView 
         super.onViewCreated(view, savedInstanceState);
 
         binding.searchButton.setOnClickListener(v -> onSearchButtonClicked());
+        binding.backToCookbookButton.setOnClickListener(v -> onBackToCookbookClicked());
     }
 
     /**
@@ -71,6 +72,16 @@ public class SearchRecipeFragment extends Fragment implements ISearchRecipeView 
             listener.onSearchRecipe(query);
         } else {
             binding.errorText.setText("Please enter a valid search query.");
+        }
+    }
+
+
+    /**
+     * Handles the click event for the Back to Cookbook button. It triggers navigation back to the cookbook view.
+     */
+    public void onBackToCookbookClicked() {
+        if (listener != null) {
+            listener.onSearchDone();
         }
     }
 
