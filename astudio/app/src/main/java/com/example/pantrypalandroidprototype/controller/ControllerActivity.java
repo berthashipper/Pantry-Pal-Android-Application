@@ -474,6 +474,7 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onEditRecipeDone() {
+        persFacade.saveCookbook(cookbook);
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
     }
 
@@ -481,11 +482,12 @@ public class ControllerActivity extends AppCompatActivity
     public void onEditRecipeIngredient(String name, double newQty) {
         // Update the recipe object with the new ingredient quantity
         for (Ingredient ingredient : currentRecipe.getIngredients()) {
-            if (ingredient.getName().equals(name)) {
+            if (ingredient.getName().toLowerCase().equals(name)) {
                 ingredient.updateQuantity(newQty);  // Update quantity in the model
                 break;
             }
         }
+        persFacade.saveCookbook(cookbook);
         // Notify the user
         Snackbar.make(findViewById(R.id.fragmentContainerView), name + " updated!", Snackbar.LENGTH_LONG).show();
 

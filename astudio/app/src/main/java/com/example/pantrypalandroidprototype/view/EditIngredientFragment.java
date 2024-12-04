@@ -67,7 +67,8 @@ public class EditIngredientFragment extends Fragment implements IEditIngredientV
         double newQty = Double.parseDouble(quantityInput);
 
         if (listener != null) {
-            listener.onEditIngredient(this, ingredient.getName(), newQty);
+            // Convert the ingredient name to lowercase for a case-insensitive check
+            listener.onEditIngredient(this, ingredient.getName().toLowerCase(), newQty);
         }
 
         clearInputs();
