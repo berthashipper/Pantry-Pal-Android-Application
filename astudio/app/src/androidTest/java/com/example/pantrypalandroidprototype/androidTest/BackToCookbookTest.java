@@ -5,6 +5,7 @@ import android.os.SystemClock;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -63,5 +64,52 @@ public class BackToCookbookTest {
         // Verify that the Cookbook view is displayed
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        SystemClock.sleep(1000);
+
+        // Click on a recipe
+        Espresso.onView(ViewMatchers.withText("Spaghetti Bolognese"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        SystemClock.sleep(1000);
+
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Spaghetti Bolognese")),
+                        ViewActions.click()
+                ));
+
+        // Navigate back to the Cookbook view using the done button
+        Espresso.onView(ViewMatchers.withId(R.id.done_button))
+                .perform(ViewActions.click());
+
+        // Verify that the Cookbook view is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        SystemClock.sleep(1000);
+
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Spaghetti Bolognese")),
+                        ViewActions.click()
+                ));
+
+        // Navigate back to the Scale fragment
+        Espresso.onView(ViewMatchers.withId(R.id.scale_button))
+                .perform(ViewActions.click());
+
+        // Navigate back to the Cookbook view using the done button
+        Espresso.onView(ViewMatchers.withId(R.id.backToRecipeButton))
+                .perform(ViewActions.click());
+
+        // Navigate back to the Cookbook view using the done button
+        Espresso.onView(ViewMatchers.withId(R.id.done_button))
+                .perform(ViewActions.click());
+
+        // Verify that the Cookbook view is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
     }
 }
