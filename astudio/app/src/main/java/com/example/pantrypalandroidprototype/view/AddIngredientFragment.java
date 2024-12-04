@@ -145,6 +145,6 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         }
     }
     public void showDoneMessage() {
-        Snackbar.make(getView(), "Done adding ingredients, returning to Pantry", Snackbar.LENGTH_SHORT).show();
+        //Snackbar.make(getView(), "Returning to Pantry", Snackbar.LENGTH_SHORT).show();
     }
 }
