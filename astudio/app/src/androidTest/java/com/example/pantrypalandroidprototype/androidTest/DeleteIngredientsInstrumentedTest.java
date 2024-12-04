@@ -57,10 +57,13 @@ public class DeleteIngredientsInstrumentedTest {
         typeText(R.id.itemUnitText, testUnit);
 
         // Click "Add" button
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo());
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
         // Navigate back to the pantry
         Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());
+
+        SystemClock.sleep(1000);
 
         // Locate the delete icon within the specific item in the RecyclerView
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_pantry))
