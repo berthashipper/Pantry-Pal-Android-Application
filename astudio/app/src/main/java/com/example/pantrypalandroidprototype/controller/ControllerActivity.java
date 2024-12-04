@@ -570,8 +570,10 @@ public class ControllerActivity extends AppCompatActivity
         // Notify the user of the deletion result
         if (ingredientFound) {
             Snackbar.make(findViewById(R.id.fragmentContainerView), name + " deleted!", Snackbar.LENGTH_LONG).show();
+            persFacade.saveCookbook(cookbook);
         } else {
-            Snackbar.make(findViewById(R.id.fragmentContainerView), "Ingredient not found!", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(findViewById(R.id.fragmentContainerView), name + " not found in recipe", Snackbar.LENGTH_LONG).show();
+            persFacade.saveCookbook(cookbook);
         }
 
     }
