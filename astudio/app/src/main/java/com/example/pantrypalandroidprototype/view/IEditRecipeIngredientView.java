@@ -12,6 +12,7 @@ public interface IEditRecipeIngredientView {
     interface Listener {
         void onEditRecipeIngredient(String name, double newQty);
         void onEditRecipeDone();
+        void onBackToRecipe();
 
     }
 }

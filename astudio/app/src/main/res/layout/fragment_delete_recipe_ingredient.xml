@@ -1,15 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
+
+    <!-- Back to Recipe Section -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <!-- Back Icon -->
+        <ImageView
+            android:id="@+id/backToRecipeButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/back_icon"
+            android:contentDescription="Back to Recipe"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true" />
+
+        <!-- Back Text -->
+        <TextView
+            android:id="@+id/back_to_recipe_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back to Recipe"
+            android:textSize="16sp"
+            android:textColor="#333333"
+            android:layout_toEndOf="@id/backToRecipeButton"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="8dp" />
+    </RelativeLayout>
+
+    <!-- Delete Ingredients Header -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Delete Ingredients from Recipe:"
         android:layout_marginBottom="8dp"
+        android:textSize="20sp"
         android:textStyle="bold" />
-
 
     <EditText
         android:id="@+id/itemNameText"
@@ -30,5 +62,4 @@
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:layout_height="wrap_content" />
-
 </LinearLayout>

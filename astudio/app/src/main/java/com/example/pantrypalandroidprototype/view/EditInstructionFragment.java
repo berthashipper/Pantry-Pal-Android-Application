@@ -50,6 +50,12 @@ public class EditInstructionFragment extends Fragment implements IEditInstructio
         binding.addButton.setOnClickListener(v -> onAddInstructionButtonClicked());
         binding.editButton.setOnClickListener(v -> onEditInstructionButtonClicked());
         binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
+
+        binding.backToRecipeButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onBackToRecipe();
+            }
+        });
     }
 
     private void onAddInstructionButtonClicked() {

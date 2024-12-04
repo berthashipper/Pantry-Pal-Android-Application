@@ -8,6 +8,7 @@ public interface IEditInstructionView {
         void onEditInstruction(String instruction);
         void onAddInstruction(String instruction);
         void onEditInstructionDone();
+        void onBackToRecipe();
     }
 
 }

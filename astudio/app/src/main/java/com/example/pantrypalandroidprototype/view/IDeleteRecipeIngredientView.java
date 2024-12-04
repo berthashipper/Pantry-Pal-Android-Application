@@ -8,6 +8,6 @@ public interface IDeleteRecipeIngredientView {
 interface Listener {
     void onDeleteRecipeIngredient(String name);
     void onDeleteRecipeDone();
-
+    void onBackToRecipe();
 }
 }

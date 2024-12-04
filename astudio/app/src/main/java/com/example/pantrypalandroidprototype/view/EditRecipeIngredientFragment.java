@@ -54,6 +54,12 @@ public class EditRecipeIngredientFragment extends Fragment implements IEditRecip
 
         binding.editButton.setOnClickListener(v -> onEditButtonClicked());
         binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
+
+        binding.backToRecipeButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onBackToRecipe();
+            }
+        });
     }
 
     /**

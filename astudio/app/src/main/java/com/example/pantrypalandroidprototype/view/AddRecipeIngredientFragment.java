@@ -72,6 +72,12 @@ public class AddRecipeIngredientFragment extends Fragment {
 
         binding.addButton.setOnClickListener(v -> onAddButtonClicked());
         binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
+
+        binding.backToRecipeButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onBackToRecipe();
+            }
+        });
     }
 
     /**

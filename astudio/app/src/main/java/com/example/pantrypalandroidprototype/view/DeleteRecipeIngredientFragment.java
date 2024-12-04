@@ -51,6 +51,12 @@ public class DeleteRecipeIngredientFragment extends Fragment implements IDeleteR
 
         binding.deleteButton.setOnClickListener(v -> onDeleteButtonClicked());
         binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
+
+        binding.backToRecipeButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onBackToRecipe();
+            }
+        });
     }
 
     /**
@@ -67,7 +73,7 @@ public class DeleteRecipeIngredientFragment extends Fragment implements IDeleteR
 
         if (listener != null) {
             listener.onDeleteRecipeIngredient(name);
-            showIngredientDeletedMessage(name);
+            //showIngredientDeletedMessage(name);
             clearInputs();
         }
     }
@@ -96,7 +102,7 @@ public class DeleteRecipeIngredientFragment extends Fragment implements IDeleteR
      * @param name The name of the deleted ingredient.
      */
     private void showIngredientDeletedMessage(String name) {
-        Snackbar.make(binding.getRoot(), "Successfully deleted " + name, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(binding.getRoot(), "Deleted " + name + " from recipe.", Snackbar.LENGTH_LONG).show();
     }
 
     /**

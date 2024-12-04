@@ -11,6 +11,6 @@ public interface IAddRecipeIngredientView {
     interface Listener {
         void onAddRecipeIngredient(String name, double newQty,String unit, Set<Ingredient.dietary_tags> tags);
         void onAddRecipeDone();
-
+        void onBackToRecipe();
     }
 }
