@@ -32,8 +32,8 @@ public class SearchIngredientsInstrumentedTest {
                 .perform(ViewActions.click());
 
         // Add ingredients to search for
-        addIngredient("Whole Wheat Bread", "30", "slices");
-        addIngredient("White Bread", "10", "slices");
+        GenerateRecipesInstrumentedTest.addIngredient("Whole Wheat Bread", "30", "slices");
+        GenerateRecipesInstrumentedTest.addIngredient("White Bread", "10", "slices");
 
         // Navigate back to the Pantry view
         Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton))
@@ -109,27 +109,6 @@ public class SearchIngredientsInstrumentedTest {
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
-    /**
-     * Helper method to add an ingredient to the pantry.
-     *
-     * @param name  the name of the ingredient.
-     * @param qty   the quantity of the ingredient.
-     * @param unit  the unit of the ingredient.
-     */
-    private void addIngredient(String name, String qty, String unit) {
-        // Wait until the "Add Ingredient" form is visible
-        Espresso.onView(ViewMatchers.withId(R.id.itemNameText))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-
-        typeText(R.id.itemNameText, name);
-        typeText(R.id.itemQtyText, qty);
-        typeText(R.id.itemUnitText, unit);
-
-        // Click "Add" button
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
-
-        SystemClock.sleep(2000);
-    }
 
     /**
      * Helper method to type text into a text field.
