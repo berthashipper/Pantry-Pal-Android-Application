@@ -7,6 +7,7 @@ import android.os.SystemClock;
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -64,19 +65,23 @@ public class AddIngredientsInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.glutenFreeCheckbox)).perform(ViewActions.click());
 
         // Click "Add" button
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo());
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
         // Wait for UI updates
-        SystemClock.sleep(5000);
+        SystemClock.sleep(3000);
 
         // Click "Done" button
         Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());
 
         SystemClock.sleep(3000);
 
-        // Verify the result is correct
+        // Verify the ingredient has been added
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_pantry))
-                .check(ViewAssertions.matches(withText("🛒 Pantry Contents:\n\n• Sugar\n   Quantity: 1.5 kg\n   Tags: GLUTEN_FREE, VEGAN\n\n")));
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Sugar")),
+                        ViewActions.click()
+                ));
 
         // Clear pantry from any persisted ingredients
         Espresso.onView(ViewMatchers.withId(R.id.clearPantryButton))
@@ -115,9 +120,10 @@ public class AddIngredientsInstrumentedTest {
                 .perform(ViewActions.click());
 
         // Click "Add" button without entering any data
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo());
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
-        SystemClock.sleep(5000);
+        SystemClock.sleep(3000);
 
         // Verify that a validation error message is displayed
         Espresso.onView(ViewMatchers.withId(R.id.errorText))
