@@ -10,6 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,9 +22,12 @@ import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.FragmentGroceryListBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class GroceryListFragment extends Fragment implements IGroceryListView {
@@ -71,6 +77,19 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
         });
 
         return rootView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Update the grocery list status text based on whether the list is empty or not
+        if (groceryList.isEmpty()) {
+            binding.groceryStatusText.setText(getString(R.string.pantry_empty));
+        } else {
+            binding.groceryStatusText.setText("🛒 Shopping List Contents:");
+        }
+
     }
 
     private void clearShoppingList() {

@@ -90,7 +90,7 @@ public class PantryFragment extends Fragment implements IPantryView {
         if (ingredientList.isEmpty()) {
             binding.pantryStatusText.setText(getString(R.string.pantry_empty));
         } else {
-            binding.pantryStatusText.setText("🛒 Pantry Contents:");
+            binding.pantryStatusText.setText("🍴️ Pantry Contents:");
         }
 
         // Initialize the adapter and assign it to the RecyclerView
