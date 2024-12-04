@@ -1,4 +1,6 @@
 package com.example.pantrypalandroidprototype.androidTest;
+import android.os.SystemClock;
+
 import androidx.test.espresso.Espresso;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
@@ -32,6 +34,34 @@ public class BackToPantryTest {
     public void testViewPantryButtonNavigatesToPantry() {
         // Navigate to Add Ingredients screen
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
+                .perform(ViewActions.click());
+
+        // Navigate to pantry screen
+        Espresso.onView(ViewMatchers.withId(R.id.doneButton))
+                .perform(ViewActions.click());
+
+        // Verify that the Pantry view is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_pantry))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        SystemClock.sleep(1000);
+
+        // Navigate to Add Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.searchIngredientsButton))
+                .perform(ViewActions.click());
+
+        // Navigate to pantry screen
+        Espresso.onView(ViewMatchers.withId(R.id.doneButton))
+                .perform(ViewActions.click());
+
+        // Verify that the Pantry view is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_pantry))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        SystemClock.sleep(1000);
+
+        // Navigate to Add Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
                 .perform(ViewActions.click());
 
         // Navigate to pantry screen
