@@ -192,6 +192,7 @@ public class ControllerActivity extends AppCompatActivity
     public void onDeleteIngredientsMenu() {
         DeleteIngredientFragment deleteIngredientFragment = DeleteIngredientFragment.newInstance(this);
         this.mainView.displayFragment(deleteIngredientFragment);
+        persFacade.savePantry(pantry);
     }
 
     @Override
@@ -217,27 +218,22 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(editIngredientFragment);
     }
 
-
     @Override
     public void onDeleteIngredientMenu(Ingredient ingredient) {
-        this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
         persFacade.savePantry(pantry);
+        this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
     }
-
 
     @Override
     public void onEditIngredient(EditIngredientFragment editIngredientFragment, String name, double newQty) {
         boolean isUpdated = pantry.edit_ingredient(name, newQty);
-
         if (isUpdated) {
             editIngredientFragment.showIngredientUpdateMessage(name);
         } else {
             editIngredientFragment.showIngredientNotFoundError(name);
         }
-
         // Save updated pantry to local storage
         persFacade.savePantry(pantry);
-
         // Return to pantry view
         onViewPantryMenu();
     }

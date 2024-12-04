@@ -108,8 +108,10 @@ public class PantryFragment extends Fragment implements IPantryView {
                             .setPositiveButton("Yes", (dialog, which) -> {
                                 // Deletion occurs only after confirmation
                                 if (pantry.delete_ingredient(ingredient.getName())) {
-                                    // Notify adapter to update the UI after deletion
-                                    adapter.notifyDataSetChanged();
+                                    // Remove from the list and update the UI
+                                    int position = ingredientList.indexOf(ingredient); // Get the position
+                                    ingredientList.remove(position);
+                                    adapter.notifyItemRemoved(position); // Notify adapter to update the view
                                     Snackbar.make(getView(), ingredient.getName() + " deleted", Snackbar.LENGTH_SHORT).show();
                                 } else {
                                     // Handle case where the ingredient wasn't found

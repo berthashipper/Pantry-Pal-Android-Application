@@ -72,7 +72,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
             holder.ingredientDetails.setVisibility(View.VISIBLE);
         });
 
-        // Make the edit icon clickable and trigger the edit action
+        // Set onClickListener for the edit icon
         holder.editIcon.setOnClickListener(v -> {
             // Open the edit ingredient screen
             if (listener != null) listener.onEditIngredient(ingredient);
@@ -81,9 +81,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         // Set onClickListener for the delete icon
         holder.deleteIcon.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onDeleteIngredient(ingredient); // Pass ingredient to listener for deletion
-                ingredients.remove(position); // Remove from the list
-                notifyItemRemoved(position); // Notify adapter to remove the item from the view
+                listener.onDeleteIngredient(ingredient); // Trigger the delete action, handled in the fragment
             }
         });
     }

@@ -95,7 +95,7 @@ public class EditIngredientInstrumentedTest {
                 .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withText("Yes"))
                 .perform(ViewActions.click());
-g
+
         // Navigate to Add Ingredients screen
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
                 .perform(ViewActions.click());
