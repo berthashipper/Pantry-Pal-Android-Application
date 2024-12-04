@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.FragmentPantryBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
@@ -75,9 +77,6 @@ public class PantryFragment extends Fragment implements IPantryView {
         super.onViewCreated(view, savedInstanceState);
 
         binding.addIngredientsButton.setOnClickListener(v -> onAddIngredientButtonClicked());
-        //binding.viewPantryButton.setOnClickListener(v -> onViewPantryMenu());
-        binding.deleteIngredientsButton.setOnClickListener(v -> onDeleteButtonClicked());
-        binding.editIngredientsButton.setOnClickListener(v -> onEditButtonClicked());
         binding.searchIngredientsButton.setOnClickListener(v -> onSearchIngredientsMenu());
         binding.clearPantryButton.setOnClickListener(v -> onClearPantryButtonClicked());
 
@@ -87,10 +86,15 @@ public class PantryFragment extends Fragment implements IPantryView {
             ingredientNames.add(ingredient.getName());
         }
 
-        // Initialize the adapter and assign it to the RecyclerView
+        // Update the pantry status text based on whether the pantry is empty or not
         if (ingredientList.isEmpty()) {
-            Log.d("PantryFragment", "No ingredients to display.");
+            binding.pantryStatusText.setText(getString(R.string.pantry_empty));
         } else {
+            binding.pantryStatusText.setText("🛒 Pantry Contents:");
+        }
+
+        // Initialize the adapter and assign it to the RecyclerView
+        if (!ingredientList.isEmpty()) {
             adapter = new PantryAdapter(ingredientList, new PantryAdapter.PantryViewHolder.OnItemClickListener() {
                 @Override
                 public void onEditIngredient(Ingredient ingredient) {
@@ -113,8 +117,10 @@ public class PantryFragment extends Fragment implements IPantryView {
                                     ingredientList.remove(position);
                                     adapter.notifyItemRemoved(position); // Notify adapter to update the view
                                     Snackbar.make(getView(), ingredient.getName() + " deleted", Snackbar.LENGTH_SHORT).show();
+                                    if (listener != null) {
+                                        listener.onDeleteIngredientMenu(ingredient);
+                                    }
                                 } else {
-                                    // Handle case where the ingredient wasn't found
                                     Log.d("PantryFragment", "Ingredient not found: " + ingredient.getName());
                                     Snackbar.make(getView(), "Ingredient not found", Snackbar.LENGTH_SHORT).show();
                                 }
@@ -126,6 +132,7 @@ public class PantryFragment extends Fragment implements IPantryView {
                             .create()
                             .show();
                 }
+
             });
         }
 

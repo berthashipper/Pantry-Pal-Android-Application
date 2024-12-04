@@ -73,6 +73,10 @@
     <string name="search">Search</string>
     <string name="view_pantry">View Pantry</string>
     <string name="scale_recipe">Scale Recipe</string>
+    <string name="cookbook">Cookbook</string>
+    <string name="upload_recipe">Upload Recipe</string>
+    <string name="search_recipes">Search Recipes</string>
+    <string name="pantry_empty">Your pantry is currently empty. Add some ingredients to get started!</string>
 
 
 </resources>
