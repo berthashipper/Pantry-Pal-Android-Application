@@ -530,6 +530,7 @@ public class ControllerActivity extends AppCompatActivity
             currentRecipe.ingredientsInRecipe.add(newIngredient);
         }
 
+        persFacade.saveCookbook(cookbook);
         // Notify the user that the ingredient has been added or updated
         Snackbar.make(findViewById(R.id.fragmentContainerView), name + " added/updated!", Snackbar.LENGTH_LONG).show();
 

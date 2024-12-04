@@ -102,52 +102,59 @@
             android:layout_marginTop="8dp" />
 
         <!-- Ingredients Section -->
-        <TextView
-            android:id="@+id/ingredients_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ingredients"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#333333"
-            android:layout_marginTop="16dp" />
-
-        <!-- Buttons Section -->
-        <LinearLayout
-            android:id="@+id/buttonsRow"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp"
-            android:weightSum="3">
+            android:layout_marginTop="16dp">
 
-            <Button
-                android:id="@+id/edit_recipe_ingredient"
-                android:layout_width="0dp"
+            <!-- Ingredients Header -->
+            <TextView
+                android:id="@+id/ingredients_header"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Edit"
-                android:layout_weight="1"
-                android:textSize="12sp"
-                android:layout_marginEnd="5dp" />
+                android:text="Ingredients"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true" />
 
-            <Button
-                android:id="@+id/add_recipe_ingredient"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Add"
-                android:layout_weight="1"
-                android:textSize="12sp"
-                android:layout_marginEnd="5dp" />
-
-            <Button
+            <!-- Delete Icon -->
+            <ImageView
                 android:id="@+id/delete_recipe_ingredient"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Delete"
-                android:layout_weight="1"
-                android:textSize="12sp" />
-        </LinearLayout>
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/delete_icon"
+                android:contentDescription="Delete Ingredients"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp" />
 
+            <!-- Edit Icon -->
+            <ImageView
+                android:id="@+id/edit_recipe_ingredient"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/edit_icon"
+                android:contentDescription="Edit Ingredients"
+                android:layout_toStartOf="@id/delete_recipe_ingredient"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp" />
+
+            <!-- Add Icon -->
+            <ImageView
+                android:id="@+id/add_recipe_ingredient"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/upload_icon"
+                android:contentDescription="Add Ingredients"
+                android:layout_toStartOf="@id/edit_recipe_ingredient"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/ingredients_layout"
@@ -159,26 +166,35 @@
 
 
         <!-- Instructions Section -->
-        <TextView
-            android:id="@+id/instructions_header"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Instructions"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#333333"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp">
 
+            <!-- Instructions Header -->
+            <TextView
+                android:id="@+id/instructions_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Instructions"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="8dp" />
 
-        <Button
-            android:id="@+id/edit_instruction"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit"
-            android:layout_marginTop="20dp"
-
-            android:layout_gravity="center"/>
-
+            <!-- Edit Icon -->
+            <ImageView
+                android:id="@+id/edit_instruction"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/edit_icon"
+                android:contentDescription="Edit Instructions"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="8dp"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/instructions_layout"
@@ -186,13 +202,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="8dp">
+
             <TextView
                 android:id="@+id/recipe_instructions"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textColor="#666666"
-                android:lineSpacingExtra="6dp"/>
+                android:lineSpacingExtra="6dp" />
         </LinearLayout>
+
     </LinearLayout>
 </ScrollView>
