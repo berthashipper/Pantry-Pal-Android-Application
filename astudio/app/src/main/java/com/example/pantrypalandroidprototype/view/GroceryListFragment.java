@@ -49,10 +49,10 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
         groceryList = pantry.getGroceryList();
 
         adapter = new GroceryListAdapter(groceryList);
-        binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.recyclerView.setAdapter(adapter);
+        binding.recyclerViewGroceryList.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerViewGroceryList.setAdapter(adapter);
 
-        binding.addIngredientFromGroceryListButton.setOnClickListener(v -> {
+        binding.addIngredientsButton.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onAddIngredientsToGroceryListMenu();
             }
@@ -64,14 +64,6 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
                 listener.onClearShoppingList();
             }
             clearShoppingList();
-        });
-
-        // Checkout Button
-        binding.checkoutButton.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onCheckout();
-            }
-            checkout();
         });
 
         updateButtonsState();
@@ -94,10 +86,10 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
 
     private void updateButtonsState() {
         // Enable checkout button only if the grocery list is not empty
-        binding.checkoutButton.setEnabled(!pantry.getGroceryList().isEmpty());
-        binding.checkoutButton.setTextColor(pantry.getGroceryList().isEmpty() ?
-                ContextCompat.getColor(getContext(), android.R.color.darker_gray) :
-                ContextCompat.getColor(getContext(), android.R.color.black));
+        //binding.checkoutButton.setEnabled(!pantry.getGroceryList().isEmpty());
+        //binding.checkoutButton.setTextColor(pantry.getGroceryList().isEmpty() ?
+                //ContextCompat.getColor(getContext(), android.R.color.darker_gray) :
+                //ContextCompat.getColor(getContext(), android.R.color.black));
     }
 
     // Adapter for the RecyclerView to display the shopping list

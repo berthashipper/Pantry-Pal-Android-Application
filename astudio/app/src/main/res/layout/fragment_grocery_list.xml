@@ -3,69 +3,79 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Header Section: Shopping List Title -->
     <TextView
-        android:id="@+id/titleTextView"
+        android:id="@+id/headerText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Shopping List"
-        android:textSize="18sp"
+        android:text="Grocery List"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/recyclerView" />
+        app:layout_constraintStart_toStartOf="parent" />
 
+    <!-- Add Ingredients Icon -->
+    <ImageView
+        android:id="@+id/addIngredientsButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="Add Ingredients"
+        android:src="@drawable/upload_icon"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/searchIngredientsButton" />
+
+    <!-- Search Ingredients Icon -->
+    <ImageView
+        android:id="@+id/searchIngredientsButton"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:contentDescription="Search Ingredients"
+        android:src="@drawable/search_icon"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- TextView for Shopping List Status -->
+    <TextView
+        android:id="@+id/pantryStatusText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your shopping list is empty!"
+        android:textSize="16sp"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:paddingStart="0dp"
+        android:paddingEnd="20dp"
+        app:layout_constraintTop_toBottomOf="@id/headerText"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- RecyclerView for Shopping List Items -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recycler_view_grocery_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/titleTextView"
+        app:layout_constraintTop_toBottomOf="@id/pantryStatusText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottomButtonsContainer"/>
+        app:layout_constraintBottom_toTopOf="@id/clearPantryButton"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp" />
 
-    <!-- New input fields for adding ingredients -->
-    <LinearLayout
-        android:id="@+id/inputLayout"
-        android:layout_width="0dp"
+    <!-- Clear Shopping List Button -->
+    <Button
+        android:id="@+id/clearShoppingListButton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/recyclerView"
-        app:layout_constraintStart_toStartOf="parent"
+        android:text="Clear Shopping List"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="16dp">
-
-        <Button
-            android:id="@+id/addIngredientFromGroceryListButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Ingredient"
-            android:layout_marginTop="16dp"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/bottomButtonsContainer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
-        android:padding="16dp">
-
-        <Button
-            android:id="@+id/clearShoppingListButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Clear List" />
-
-        <Button
-            android:id="@+id/checkoutButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Checkout"
-            android:enabled="false"
-            android:textColor="@android:color/darker_gray"/>
-    </LinearLayout>
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
