@@ -84,7 +84,7 @@ public class AddRecipeIngredientFragment extends Fragment {
         String unit = binding.itemUnitText.getText().toString().trim();
 
         if (name.isEmpty() || quantityInput.isEmpty()) {
-            showError("Please fill out both fields.");
+            showError("Please fill out all fields.");
             return;
         }
 

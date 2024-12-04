@@ -482,7 +482,7 @@ public class ControllerActivity extends AppCompatActivity
     public void onEditRecipeIngredient(String name, double newQty) {
         // Update the recipe object with the new ingredient quantity
         for (Ingredient ingredient : currentRecipe.getIngredients()) {
-            if (ingredient.getName().toLowerCase().equals(name)) {
+            if (ingredient.getName().equalsIgnoreCase(name)) {
                 ingredient.updateQuantity(newQty);  // Update quantity in the model
                 break;
             }
