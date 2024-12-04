@@ -10,7 +10,6 @@ public interface IGroceryListView {
         void onAddIngredientsToGroceryListMenu();
 
         void onClearShoppingList();
-        void onCheckout();
         void onRemoveIngredient(Ingredient ingredient);
     }
 }

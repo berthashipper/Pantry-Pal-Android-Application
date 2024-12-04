@@ -659,11 +659,15 @@ public class ControllerActivity extends AppCompatActivity
     public void onClearShoppingList() {
         groceryList.clear();
         persFacade.saveGroceryList(groceryList);
-    }
 
-    @Override
-    public void onCheckout() {
+        // Get the current fragment and check if it is an instance of PantryFragment
+        GroceryListFragment groceryListFragment = (GroceryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        // If the fragment is found, call showClearedMessage
+        if (groceryListFragment != null) {
+            groceryListFragment.showClearedMessage();
+        }
 
+        onViewGroceryListMenu(); // Return to the grocery list view
     }
 
     @Override

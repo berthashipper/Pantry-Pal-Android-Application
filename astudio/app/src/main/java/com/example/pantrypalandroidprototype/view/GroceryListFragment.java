@@ -5,10 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,10 +22,7 @@ import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class GroceryListFragment extends Fragment implements IGroceryListView {
@@ -70,10 +65,7 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
         });
 
         binding.clearShoppingListButton.setOnClickListener(v -> {
-            if (listener != null) {
-                listener.onClearShoppingList();
-            }
-            clearShoppingList();
+            showClearListConfirmationDialog();
         });
 
         return rootView;
@@ -92,9 +84,27 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
 
     }
 
+    private void showClearListConfirmationDialog() {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Clear Grocery List")
+                .setMessage("Are you sure you want to clear all ingredients? This action cannot be undone.")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    if (listener != null) {
+                        listener.onClearShoppingList();
+                    }
+                    clearShoppingList(); // Clears the list and updates the UI
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                .create()
+                .show();
+    }
+
     private void clearShoppingList() {
-        pantry.getGroceryList().clear();  // Use getter method for groceryList
-        adapter.notifyDataSetChanged();
+        //
+    }
+
+    public void showClearedMessage() {
+        Snackbar.make(getView(), "Grocery List cleared", Snackbar.LENGTH_LONG).show();
     }
 
     // Adapter for the RecyclerView to display the shopping list
