@@ -137,6 +137,7 @@ public class AddRecipeIngredientFragment extends Fragment {
     private void clearInputs() {
         binding.itemNameText.setText("");
         binding.itemQuantityText.setText("");
+        binding.itemUnitText.setText("");
     }
 
     /**
