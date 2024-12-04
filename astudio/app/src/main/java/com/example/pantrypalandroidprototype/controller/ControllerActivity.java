@@ -150,9 +150,16 @@ public class ControllerActivity extends AppCompatActivity
         if (currentFragment instanceof AddIngredientFragment) {
             AddIngredientFragment addIngredientFragment = (AddIngredientFragment) currentFragment;
             addIngredientFragment.showDoneMessage();
+            // Switch to the Pantry fragment
+            this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
         }
-        // Switch to the Pantry fragment
-        this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
+        if (currentFragment instanceof AddToGroceryListFragment) {
+            AddToGroceryListFragment addToGroceryListFragment = (AddToGroceryListFragment) currentFragment;
+            addToGroceryListFragment.showDoneMessage();
+            // Switch to the Pantry fragment
+            this.mainView.displayFragment(GroceryListFragment.newInstance(this, groceryList));
+        }
+
     }
 
     @Override
