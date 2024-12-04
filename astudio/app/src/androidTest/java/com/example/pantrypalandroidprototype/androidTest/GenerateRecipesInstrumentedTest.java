@@ -150,6 +150,7 @@ public class GenerateRecipesInstrumentedTest {
         typeText(R.id.itemUnitText, unit);
 
         // Click "Add" button
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo());
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
         SystemClock.sleep(2000);
