@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.widget.EditText;
 
 import androidx.fragment.app.DialogFragment;
@@ -35,6 +36,8 @@ public class EditDialogFragment extends DialogFragment {
             recipe = (Recipe) getArguments().getSerializable(ARG_RECIPE);
         }
 
+        Log.d("EditDialogFragment", "onCreateDialog: requestCode=" + requestCode + ", recipe=" + (recipe != null ? recipe.getRecipeName() : "null"));
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(requestCode == REQUEST_EDIT_COOK_TIME ? "Edit Cook Time" : "Edit Serving Size");
 
@@ -57,10 +60,13 @@ public class EditDialogFragment extends DialogFragment {
                 Bundle result = new Bundle();
                 result.putInt("request_code", requestCode);
                 result.putString("new_value", newValue);
+                Log.d("EditDialogFragment", "Save clicked: requestCode=" + requestCode + ", newValue=" + newValue);
 
                 // Send the result back to the parent fragment
                 requireActivity().getSupportFragmentManager()
                         .setFragmentResult("edit_request", result);
+            } else {
+                Log.d("EditDialogFragment", "Save clicked but input is empty");
             }
         });
 

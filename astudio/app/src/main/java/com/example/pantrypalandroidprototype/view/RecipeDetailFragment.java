@@ -177,6 +177,7 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
     }
 
     public void showEditDialog(int requestCode) {
+        Log.d(TAG, "Showing EditDialog with requestCode=" + requestCode);
         EditDialogFragment dialog = EditDialogFragment.newInstance(requestCode, recipe);
         dialog.show(getParentFragmentManager(), "EditDialog");
     }
