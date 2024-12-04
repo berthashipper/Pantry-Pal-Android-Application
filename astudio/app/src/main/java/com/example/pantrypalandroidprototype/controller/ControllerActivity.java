@@ -672,6 +672,14 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onRemoveIngredient(Ingredient ingredient) {
+        groceryList.remove(ingredient);  // Remove ingredient from the list
+        persFacade.saveGroceryList(groceryList); // Save the updated grocery list
 
+        // Get the current fragment and check if it is an instance of PantryFragment
+        GroceryListFragment groceryListFragment = (GroceryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        // If the fragment is found, call showDeletedMessage
+        if (groceryListFragment != null) {
+            groceryListFragment.showDeletedMessage(ingredient);
+        }
     }
 }

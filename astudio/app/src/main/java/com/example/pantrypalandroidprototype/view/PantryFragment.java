@@ -116,7 +116,7 @@ public class PantryFragment extends Fragment implements IPantryView {
                                     int position = ingredientList.indexOf(ingredient); // Get the position
                                     ingredientList.remove(position);
                                     adapter.notifyItemRemoved(position); // Notify adapter to update the view
-                                    Snackbar.make(getView(), ingredient.getName() + " deleted", Snackbar.LENGTH_SHORT).show();
+                                    Snackbar.make(getView(), "Deleted " + ingredient.getName() + " from Pantry", Snackbar.LENGTH_SHORT).show();
                                     if (listener != null) {
                                         listener.onDeleteIngredientMenu(ingredient);
                                     }

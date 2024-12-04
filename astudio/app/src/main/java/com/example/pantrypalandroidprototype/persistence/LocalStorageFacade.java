@@ -17,12 +17,9 @@ import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * Interface that specifies a contract that all persistence solutions must fulfill.
  */
-// LocalStorageFacade.java
-
 public class LocalStorageFacade implements IPersistenceFacade {
 
     static final String COOKBOOK_FNAME = "cookbook";

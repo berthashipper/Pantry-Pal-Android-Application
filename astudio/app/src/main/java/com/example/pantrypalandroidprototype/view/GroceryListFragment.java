@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantrypalandroidprototype.R;
+import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 import com.example.pantrypalandroidprototype.databinding.FragmentGroceryListBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
@@ -79,7 +80,7 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
         if (groceryList.isEmpty()) {
             binding.groceryStatusText.setText(getString(R.string.pantry_empty));
         } else {
-            binding.groceryStatusText.setText("🛒 Shopping List Contents:");
+            binding.groceryStatusText.setText("🛒 Shopping For:");
         }
 
     }
@@ -105,6 +106,10 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
 
     public void showClearedMessage() {
         Snackbar.make(getView(), "Grocery List cleared", Snackbar.LENGTH_LONG).show();
+    }
+
+    public void showDeletedMessage(Ingredient ingredient) {
+        Snackbar.make(getView(), "Deleted " + ingredient.getName() + " from Grocery List", Snackbar.LENGTH_LONG).show();
     }
 
     // Adapter for the RecyclerView to display the shopping list
@@ -139,8 +144,24 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
         }
 
         private void removeIngredient(Ingredient ingredient) {
-            pantry.getGroceryList().remove(ingredient);
-            notifyDataSetChanged();
+            // Show a confirmation dialog before removing the ingredient
+            new AlertDialog.Builder(requireContext())
+                    .setTitle("Delete Ingredient")
+                    .setMessage("Are you sure you want to delete " + ingredient.getName() + " from the grocery list? This action cannot be undone.")
+                    .setPositiveButton("Yes", (dialog, which) -> {
+                        // Perform the deletion
+                        listener.onRemoveIngredient(ingredient);
+                        notifyDataSetChanged(); // Update the UI
+                        if (getView() != null) {
+                            Snackbar.make(getView(), ingredient.getName() + " deleted from Grocery List", Snackbar.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("No", (dialog, which) -> {
+                        // Just dismiss the dialog if "No" is clicked
+                        dialog.dismiss();
+                    })
+                    .create()
+                    .show();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
