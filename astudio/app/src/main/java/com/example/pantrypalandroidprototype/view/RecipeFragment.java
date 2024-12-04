@@ -124,7 +124,7 @@ public class RecipeFragment extends Fragment {
     public void showNoRecipesMessage() {
         View rootView = getView();
         if (rootView != null) {
-            Snackbar.make(rootView, "No matching recipes found.", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(rootView, "No matching recipes found.", Snackbar.LENGTH_SHORT).show();
         } else {
             Log.e("RecipeFragment", "Unable to show Snackbar: View is null");
         }

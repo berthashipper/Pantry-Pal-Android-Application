@@ -156,6 +156,22 @@ public class Pantry implements Serializable {
         }
     }
 
+    public void addIngredientToGroceryList(Ingredient ingredient) {
+        if (groceryList == null) {
+            groceryList = new HashMap<>();
+        }
+        groceryList.put(ingredient, ingredient.getQuantity());
+    }
+
+    public Map<Ingredient, Double> getGroceryList() {
+        // Assuming `ingredients` is a collection in Pantry
+        Map<Ingredient, Double> groceryList = new HashMap<>();
+        for (Ingredient ingredient : this.ingredientList.values()) {
+            groceryList.put(ingredient, ingredient.getQuantity());
+        }
+        return groceryList;
+    }
+
     /**
      * Prints the grocery list.
      */
@@ -171,6 +187,8 @@ public class Pantry implements Serializable {
             }
         }
     }
+
+
 
     /**
      * Retrieves the number of items in the pantry.
@@ -200,10 +218,6 @@ public class Pantry implements Serializable {
         return new ArrayList<>(ingredientList.values());
     }
 
-
-    public Map<Ingredient, Double> getGroceryList() {
-        return groceryList;
-    }
 
     /**
      * Returns a string representation of the pantry contents.

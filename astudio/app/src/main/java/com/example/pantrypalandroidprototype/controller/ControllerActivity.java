@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,12 +13,12 @@ import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.model.Cookbook;
 import com.example.pantrypalandroidprototype.model.GenerateRecipe;
 import com.example.pantrypalandroidprototype.model.Ingredient;
-import com.example.pantrypalandroidprototype.model.Ledger;
 import com.example.pantrypalandroidprototype.model.Pantry;
 import com.example.pantrypalandroidprototype.model.Recipe;
 import com.example.pantrypalandroidprototype.view.AddIngredientFragment;
 import com.example.pantrypalandroidprototype.view.AddRecipeFragment;
 import com.example.pantrypalandroidprototype.view.AddRecipeIngredientFragment;
+import com.example.pantrypalandroidprototype.view.AddToGroceryListFragment;
 import com.example.pantrypalandroidprototype.view.CookbookFragment;
 import com.example.pantrypalandroidprototype.view.DeleteIngredientFragment;
 import com.example.pantrypalandroidprototype.view.DeleteRecipeIngredientFragment;
@@ -30,6 +29,7 @@ import com.example.pantrypalandroidprototype.view.GroceryListFragment;
 import com.example.pantrypalandroidprototype.view.IAddIngredientView;
 import com.example.pantrypalandroidprototype.view.IAddRecipeIngredientView;
 import com.example.pantrypalandroidprototype.view.IAddRecipeView;
+import com.example.pantrypalandroidprototype.view.IAddToGroceryListView;
 import com.example.pantrypalandroidprototype.view.ICookbookView;
 import com.example.pantrypalandroidprototype.view.IDeleteIngredientView;
 import com.example.pantrypalandroidprototype.view.IDeleteRecipeIngredientView;
@@ -51,9 +51,11 @@ import com.example.pantrypalandroidprototype.view.ScaleRecipeFragment;
 import com.example.pantrypalandroidprototype.view.SearchIngredientFragment;
 import com.example.pantrypalandroidprototype.view.SearchRecipeFragment;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.example.pantrypalandroidprototype.persistence.IPersistenceFacade;
@@ -66,13 +68,14 @@ public class ControllerActivity extends AppCompatActivity
         ICookbookView.Listener, IAddRecipeView.Listener, IRecipeDetailView.Listener,
         ISearchRecipeView.Listener, ISearchIngredientView.Listener, IScaleRecipeView.Listener,
         IEditRecipeIngredientView.Listener, IAddRecipeIngredientView.Listener,
-        IDeleteRecipeIngredientView.Listener, IEditInstructionView.Listener, IGroceryListView.Listener {
+        IDeleteRecipeIngredientView.Listener, IEditInstructionView.Listener,
+        IGroceryListView.Listener, IAddToGroceryListView.Listener {
 
     IMainView mainView;
     Pantry pantry;
     Cookbook cookbook;
     Recipe currentRecipe;
-    Pantry groceryList;
+    Map<Ingredient, Double> groceryList;
     IPersistenceFacade persFacade;
 
 
@@ -603,16 +606,36 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
         Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
     }
+    public void onAddIngredientToGroceryList(String name, double qty) {
+        Ingredient newIngredient = new Ingredient(name, qty, "unit_placeholder", new HashSet<>());
+        groceryList.put(newIngredient, qty);
+        persFacade.savePantry(pantry);
+    }
 
+    @Override
+    public void onAddIngredientsToGroceryListMenu() {
+        AddToGroceryListFragment addToGroceryListFragment = AddToGroceryListFragment.newInstance(this);
+        this.mainView.displayFragment(addToGroceryListFragment);
+    }
     @Override
     public void onViewGroceryListMenu() {
         if (groceryList == null) {
-            groceryList = persFacade.loadPantry(); // Load grocery list from persistence
+            // Use the pantry's grocery list directly
+            groceryList = pantry.getGroceryList(); // This directly returns a Map<Ingredient, Double>
         }
 
         // Display the GroceryListFragment
         mainView.setListener(this);  // Set listener for this menu
         this.mainView.displayFragment(GroceryListFragment.newInstance(this, groceryList));
+    }
+
+    // Helper method to convert Pantry to Map<Ingredient, Double>
+    public Map<Ingredient, Double> convertPantryToGroceryList(Pantry pantry) {
+        Map<Ingredient, Double> groceryListMap = new HashMap<>();
+        for (Ingredient ingredient : pantry.getAllIngredients()) {
+            groceryListMap.put(ingredient, ingredient.getQuantity());
+        }
+        return groceryListMap;
     }
 
     @Override

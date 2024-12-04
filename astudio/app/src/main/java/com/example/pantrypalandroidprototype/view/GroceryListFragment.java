@@ -18,6 +18,7 @@ import com.example.pantrypalandroidprototype.databinding.FragmentGroceryListBind
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
 
+import java.io.Serializable;
 import java.util.Map;
 
 public class GroceryListFragment extends Fragment implements IGroceryListView {
@@ -25,18 +26,16 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
     Pantry pantry;
     GroceryListAdapter adapter;
     Listener listener;
+    Map<Ingredient, Double> groceryList;
     static final String ARG_GROCERY_LIST = "grocery_list";
 
     // Modify newInstance method to accept listener
-    public static GroceryListFragment newInstance(Listener listener, Pantry groceryList) {
+    public static GroceryListFragment newInstance(Listener listener, Map<Ingredient, Double> groceryList) {
         GroceryListFragment fragment = new GroceryListFragment();
-        Bundle args = new Bundle();
-        args.putSerializable(ARG_GROCERY_LIST, groceryList);  // Pass grocery list to fragment
-        fragment.setArguments(args);
+        fragment.groceryList = groceryList;  // Directly assign the map
         fragment.listener = listener;
         return fragment;
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,10 +46,17 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
         if (pantry == null) {
             pantry = new Pantry();  // Initialize pantry if null
         }
+        groceryList = pantry.getGroceryList();
 
-        adapter = new GroceryListAdapter(pantry.getGroceryList());
+        adapter = new GroceryListAdapter(groceryList);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerView.setAdapter(adapter);
+
+        binding.addIngredientFromGroceryListButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onAddIngredientsToGroceryListMenu();
+            }
+        });
 
         // Clear Shopping List Button
         binding.clearShoppingListButton.setOnClickListener(v -> {
