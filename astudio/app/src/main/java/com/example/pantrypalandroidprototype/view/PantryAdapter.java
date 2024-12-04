@@ -66,6 +66,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
         Ingredient ingredient = ingredients.get(position);
         holder.ingredientName.setText(ingredient.getName());
         holder.ingredientDetails.setText("Amount: " + ingredient.getQuantity() + " " + ingredient.getUnit() + ", Tags: " + ingredient.getTags());
+
         // Show ingredient details when card is clicked
         holder.itemView.setOnClickListener(v -> {
             holder.ingredientDetails.setVisibility(View.VISIBLE);
@@ -121,5 +122,6 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
             void onEditIngredient(Ingredient ingredient);
             void onDeleteIngredient(Ingredient ingredient);
         }
+
     }
 }

@@ -60,7 +60,8 @@
     <string name="label_ingredient_unit">Unit of Measure</string>
     <string name="please_fill_in_all_fields">Please fill in all fields.</string>
     <string name="add_ingredient">Add Ingredient</string>
-    <string name="edit_ingredient">Edit Ingredient</string>
+    <string name="edit_ingredient">Edit Quantity</string>
+    <string name="back_to_pantry">Back to Pantry</string>
     <string name="done">Done</string>
     <string name="new_quantity">New Quantity</string>
     <string name="ingredient_name">Ingredient Name</string>
@@ -71,6 +72,7 @@
     <string name="edit">Edit</string>
     <string name="search">Search</string>
     <string name="view_pantry">View Pantry</string>
+    <string name="scale_recipe">Scale Recipe</string>
 
 
 </resources>

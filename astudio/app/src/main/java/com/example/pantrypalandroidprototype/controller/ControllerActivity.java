@@ -213,7 +213,7 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onEditIngredientMenu(Ingredient ingredient) {
-        EditIngredientFragment editIngredientFragment = EditIngredientFragment.newInstance(this);
+        EditIngredientFragment editIngredientFragment = EditIngredientFragment.newInstance(this, ingredient);
         mainView.displayFragment(editIngredientFragment);
     }
 
@@ -249,8 +249,8 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onEditIngredientsMenu() {
-        EditIngredientFragment editIngredientFragment = EditIngredientFragment.newInstance(this);
-        mainView.displayFragment(editIngredientFragment);
+        //EditIngredientFragment editIngredientFragment = EditIngredientFragment.newInstance(this,);
+        //mainView.displayFragment(editIngredientFragment);
     }
 
     @Override

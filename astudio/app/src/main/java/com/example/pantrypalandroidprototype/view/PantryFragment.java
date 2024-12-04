@@ -118,7 +118,7 @@ public class PantryFragment extends Fragment implements IPantryView {
                                 }
                             })
                             .setNegativeButton("No", (dialog, which) -> {
-                                // Dismiss the dialog if "No" is clicked
+                                // Just dismiss the dialog if "No" is clicked
                                 dialog.dismiss();
                             })
                             .create()

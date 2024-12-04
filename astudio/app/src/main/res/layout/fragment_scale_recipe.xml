@@ -55,9 +55,10 @@
 
     <Button
         android:id="@+id/scaleButton"
-        android:text="Scale Recipe"
+        android:text="@string/scale_recipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginBottom="16dp" />
 
     <!-- Scaled Ingredients Section -->

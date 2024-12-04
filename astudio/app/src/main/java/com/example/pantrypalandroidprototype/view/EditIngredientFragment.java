@@ -3,6 +3,7 @@ package com.example.pantrypalandroidprototype.view;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +13,22 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.pantrypalandroidprototype.databinding.FragmentEditItemsBinding;
+import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
 import com.google.android.material.snackbar.Snackbar;
 
 public class EditIngredientFragment extends Fragment implements IEditIngredientView {
+    static final String ARG_INGREDIENT = "ingredient";
+    Ingredient ingredient;
     FragmentEditItemsBinding binding;
     Listener listener;
 
-    public static EditIngredientFragment newInstance(Listener listener) {
+    public static EditIngredientFragment newInstance(Listener listener, Ingredient ingredient) {
         EditIngredientFragment fragment = new EditIngredientFragment();
         fragment.listener = listener;
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_INGREDIENT, ingredient);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -29,7 +36,11 @@ public class EditIngredientFragment extends Fragment implements IEditIngredientV
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentEditItemsBinding.inflate(inflater, container, false);
-        setupQuantityField();
+        if (getArguments() != null) {
+            ingredient = (Ingredient) getArguments().getSerializable(ARG_INGREDIENT);
+            Log.d("EditIngredientFragment", "Editing ingredient: " + ingredient.getName());
+        }
+        setupUI();
         return binding.getRoot();
     }
 
@@ -37,12 +48,15 @@ public class EditIngredientFragment extends Fragment implements IEditIngredientV
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (getArguments() != null) {
+            ingredient = (Ingredient) getArguments().getSerializable(ARG_INGREDIENT);
+        }
+
         binding.editButton.setOnClickListener(v -> onEditButtonClicked());
         binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
     }
 
     public void onEditButtonClicked() {
-        String name = binding.itemNameText.getText().toString().trim();
         String quantityInput = binding.itemQuantityText.getText().toString().trim();
 
         if (quantityInput.isEmpty()) {
@@ -52,10 +66,8 @@ public class EditIngredientFragment extends Fragment implements IEditIngredientV
 
         double newQty = Double.parseDouble(quantityInput);
 
-        if (listener != null && !name.isEmpty()) {
-            listener.onEditIngredient(this, name, newQty);
-        } else if (name.isEmpty()) {
-            Snackbar.make(binding.getRoot(), "Item name cannot be empty.", Snackbar.LENGTH_LONG).show();
+        if (listener != null) {
+            listener.onEditIngredient(this, ingredient.getName(), newQty);
         }
 
         clearInputs();
@@ -82,7 +94,7 @@ public class EditIngredientFragment extends Fragment implements IEditIngredientV
     /**
      * Restricts the quantity input to only accept numeric values.
      */
-    private void setupQuantityField() {
+    public void setupQuantityField() {
         binding.itemQuantityText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10), new InputFilter() {
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
@@ -95,7 +107,21 @@ public class EditIngredientFragment extends Fragment implements IEditIngredientV
         }});
     }
 
-    private void clearInputs() {
+    public void setupUI() {
+        if (ingredient != null) {
+            // Set the ingredient name as read-only
+            binding.itemNameText.setText(ingredient.getName());
+            binding.itemNameText.setFocusable(false);
+            binding.itemNameText.setClickable(false);
+            binding.itemNameText.setEnabled(false);
+
+            // Populate the quantity field with the current value
+            binding.itemQuantityText.setText(String.valueOf(ingredient.getQuantity()));
+        }
+        setupQuantityField();
+    }
+
+    public void clearInputs() {
         binding.itemNameText.setText("");
         binding.itemQuantityText.setText("");
     }
