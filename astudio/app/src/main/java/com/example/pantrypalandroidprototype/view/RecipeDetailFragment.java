@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 import com.example.pantrypalandroidprototype.databinding.FragmentRecipeDetailBinding;
@@ -20,6 +22,7 @@ import com.google.android.material.snackbar.Snackbar;
 import java.time.Duration;
 
 public class RecipeDetailFragment extends Fragment implements IRecipeDetailView {
+    static final String TAG = RecipeDetailFragment.class.getSimpleName();
     static final String ARG_RECIPE = "recipe";
     Recipe recipe;
     Listener listener;
@@ -63,11 +66,13 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
 
         binding.recipeName.setText(recipe.getRecipeName());
         binding.recipeDescription.setText(recipe.getRecipeDescription());
+        Log.d(TAG, "Recipe details set: " + recipe.getRecipeName() + ", " + recipe.getRecipeDescription());
         binding.recipeCookTime.setText("Cook Time: " + formatCookTime(recipe.cookTime));
         binding.recipeServingSize.setText("Serves: " + recipe.servingSize);
 
         // Add ingredients to the layout
         for (Ingredient ingredient : recipe.getIngredients()) {
+            Log.d(TAG, "Adding ingredient: " + ingredient.getName());
             TextView ingredientView = new TextView(getContext());
             ingredientView.setText(ingredient.getQuantity() + " " + ingredient.getUnit() + " of " + ingredient.getName());
             binding.ingredientsLayout.addView(ingredientView);
@@ -75,16 +80,6 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
 
         // Set the recipe instructions
         binding.recipeInstructions.setText(recipe.instructions);
-
-        // Edit Cook Time
-        binding.editCookTime.setOnClickListener(v -> {
-            showEditDialog(REQUEST_EDIT_COOK_TIME);
-        });
-
-        // Edit Serving Size
-        binding.editServingSize.setOnClickListener(v -> {
-            showEditDialog(REQUEST_EDIT_SERVING_SIZE);
-        });
 
         //Set up the "Edit" button to navigate to AddRecipeIngredientFragment
         binding.editRecipeIngredient.setOnClickListener(v -> {
@@ -103,14 +98,14 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
         // Set up the "Delete" button to navigate back to DeleteRecipeIngredientFragment
         binding.deleteRecipeIngredient.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onDeleteRecipeIngredients();  // Notify listener when Delete is pressed
+                listener.onDeleteRecipeIngredients();  // Notify listener when Done is pressed
             }
         });
 
         // Set up the "Edit" button to navigate back to EditInstructionFragment
         binding.editInstruction.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onEditInstructions(); // Notify listener when Edit is pressed
+                listener.onEditInstructions(); // Notify listener when Done is pressed
             }
         });
 
@@ -128,7 +123,49 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
             }
         });
 
+        // Edit Cook Time
+        binding.editCookTime.setOnClickListener(v -> {
+            Log.d(TAG, "Edit Cook Time button clicked");
+            showEditDialog(REQUEST_EDIT_COOK_TIME);
+        });
+
+        // Edit Serving Size
+        binding.editServingSize.setOnClickListener(v -> {
+            Log.d(TAG, "Edit Serving Size button clicked");
+            showEditDialog(REQUEST_EDIT_SERVING_SIZE);
+        });
+
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Register FragmentResultListener
+        getParentFragmentManager().setFragmentResultListener("edit_request", this, (requestKey, result) -> {
+            int requestCode = result.getInt("request_code");
+            String newValue = result.getString("new_value");
+
+            Log.d(TAG, "Received result: requestCode=" + requestCode + ", newValue=" + newValue);
+
+            if (requestCode == REQUEST_EDIT_COOK_TIME) {
+                try {
+                    long newCookTimeMinutes = Long.parseLong(newValue);
+                    Duration newCookTime = Duration.ofMinutes(newCookTimeMinutes);
+                    controller.setCookTime(newCookTime, recipe);
+                    binding.recipeCookTime.setText(newCookTimeMinutes + " mins");
+                    Snackbar.make(getView(), "Cook time updated to " + newCookTimeMinutes + " mins", Snackbar.LENGTH_SHORT).show();
+                } catch (NumberFormatException e) {
+                    Log.e(TAG, "Invalid input for cook time: " + newValue, e);
+                    Snackbar.make(getView(), "Invalid input for cook time", Snackbar.LENGTH_SHORT).show();
+                }
+            } else if (requestCode == REQUEST_EDIT_SERVING_SIZE) {
+                controller.setServingSize(Integer.parseInt(newValue), recipe);
+                binding.recipeServingSize.setText(newValue + " servings");
+                Snackbar.make(getView(), "Yield updated to " + newValue, Snackbar.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public String formatCookTime(Duration cookTime) {
@@ -140,19 +177,18 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
     }
 
     public void showEditDialog(int requestCode) {
-        // Show appropriate edit dialog based on the request code
         EditDialogFragment dialog = EditDialogFragment.newInstance(requestCode, recipe);
-        dialog.setTargetFragment(this, requestCode);
-        dialog.show(getFragmentManager(), "EditDialog");
+        dialog.show(getParentFragmentManager(), "EditDialog");
     }
-
 
     @Override
     public void onDialogEditDone(int requestCode, String newValue) {
+        Log.d(TAG, "Dialog edit done for request code: " + requestCode + ", new value: " + newValue);
         if (requestCode == REQUEST_EDIT_COOK_TIME) {
             try {
                 // Parse the input as an integer (representing minutes)
                 long newCookTimeMinutes = Long.parseLong(newValue);
+                Log.d(TAG, "New cook time (minutes): " + newCookTimeMinutes);
                 Duration newCookTime = Duration.ofMinutes(newCookTimeMinutes);
 
                 // Update the cook time via controller
@@ -162,10 +198,12 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
                 binding.recipeCookTime.setText(newCookTimeMinutes + " mins");
                 Snackbar.make(getView(), "Cook time updated to " + newCookTimeMinutes + " mins", Snackbar.LENGTH_SHORT).show();
             } catch (NumberFormatException e) {
+                Log.e(TAG, "Invalid input for cook time: " + newValue, e);
                 // Handle invalid input (non-numeric)
                 Snackbar.make(getView(), "Invalid input for cook time", Snackbar.LENGTH_SHORT).show();
             }
         } else if (requestCode == REQUEST_EDIT_SERVING_SIZE) {
+            Log.d(TAG, "Updating serving size to: " + newValue);
             controller.setServingSize(Integer.parseInt(newValue), recipe);
             binding.recipeServingSize.setText(newValue + " servings");
             Snackbar.make(getView(), "Yield updated to " + newValue, Snackbar.LENGTH_SHORT).show();

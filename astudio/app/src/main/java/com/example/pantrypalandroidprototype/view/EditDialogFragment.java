@@ -1,4 +1,5 @@
 package com.example.pantrypalandroidprototype.view;
+import androidx.fragment.app.FragmentResultListener;
 
 import static com.example.pantrypalandroidprototype.view.RecipeDetailFragment.REQUEST_EDIT_COOK_TIME;
 
@@ -40,10 +41,10 @@ public class EditDialogFragment extends DialogFragment {
         final EditText input = new EditText(getActivity());
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-        // Set the input value to just the minutes for cook time (e.g., 80)
+        // Set input based on the type of edit
         if (requestCode == REQUEST_EDIT_COOK_TIME) {
             long cookTimeMinutes = recipe.getCookTime().toMinutes();
-            input.setText(String.valueOf(cookTimeMinutes));  // Display minutes only
+            input.setText(String.valueOf(cookTimeMinutes));
         } else {
             input.setText(String.valueOf(recipe.getServingSize()));
         }
@@ -53,8 +54,13 @@ public class EditDialogFragment extends DialogFragment {
         builder.setPositiveButton("Save", (dialog, which) -> {
             String newValue = input.getText().toString();
             if (!newValue.isEmpty()) {
-                // Send the new value back to the parent fragment
-                ((RecipeDetailFragment) getTargetFragment()).onDialogEditDone(requestCode, newValue);
+                Bundle result = new Bundle();
+                result.putInt("request_code", requestCode);
+                result.putString("new_value", newValue);
+
+                // Send the result back to the parent fragment
+                requireActivity().getSupportFragmentManager()
+                        .setFragmentResult("edit_request", result);
             }
         });
 
@@ -62,6 +68,4 @@ public class EditDialogFragment extends DialogFragment {
 
         return builder.create();
     }
-
 }
-

@@ -7,13 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.example.pantrypalandroidprototype.databinding.FragmentAddRecipeIngredientBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
-import com.google.android.material.snackbar.Snackbar;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +23,7 @@ import java.util.Set;
  * Implements the functionality for input validation and communicates with the parent activity through a listener.
  */
 public class AddRecipeIngredientFragment extends Fragment {
+    static final String TAG = AddRecipeIngredientFragment.class.getSimpleName();
 
     /** Binding object for accessing the views in the fragment's layout. */
     private FragmentAddRecipeIngredientBinding binding;
@@ -66,6 +67,7 @@ public class AddRecipeIngredientFragment extends Fragment {
      */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onViewCreated called");
         super.onViewCreated(view, savedInstanceState);
 
         setupQuantityField();

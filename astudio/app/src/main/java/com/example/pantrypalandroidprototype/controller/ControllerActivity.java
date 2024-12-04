@@ -472,6 +472,22 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(recipeDetailFragment); // Navigate back to recipe
     }
 
+    public void setCookTime(Duration cookTime, Recipe recipe) {
+        recipe.setCookTime(cookTime);
+        persFacade.saveCookbook(cookbook);  // Save updated cookbook
+        mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Refresh view
+    }
+
+    public void setServingSize(int servingSize, Recipe recipe) {
+        recipe.setServingSize(servingSize);
+        persFacade.saveCookbook(cookbook);  // Save updated cookbook
+        mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Refresh view
+    }
+
+    public void onBackToRecipe(Recipe recipe) {
+        mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Navigate back to recipe view
+    }
+
     @Override
     public void onEditRecipeDone() {
         persFacade.saveCookbook(cookbook);
@@ -577,13 +593,11 @@ public class ControllerActivity extends AppCompatActivity
         }
 
     }
-
     @Override
     public void onDeleteRecipeDone() {
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
         Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
     }
-
 
     @Override
     public void onEditInstructions() {
@@ -685,21 +699,5 @@ public class ControllerActivity extends AppCompatActivity
         if (groceryListFragment != null) {
             groceryListFragment.showDeletedMessage(ingredient);
         }
-    }
-
-    public void setCookTime(Duration cookTime, Recipe recipe) {
-        recipe.setCookTime(cookTime);
-        persFacade.saveCookbook(cookbook);  // Save updated cookbook
-        mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Refresh view
-    }
-
-    public void setServingSize(int servingSize, Recipe recipe) {
-        recipe.setServingSize(servingSize);
-        persFacade.saveCookbook(cookbook);  // Save updated cookbook
-        mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Refresh view
-    }
-
-    public void onBackToRecipe(Recipe recipe) {
-        mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Navigate back to recipe view
     }
 }
