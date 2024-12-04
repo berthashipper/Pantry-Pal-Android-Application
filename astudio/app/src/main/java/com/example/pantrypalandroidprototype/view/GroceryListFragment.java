@@ -1,6 +1,7 @@
 package com.example.pantrypalandroidprototype.view;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,12 +42,15 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
                              Bundle savedInstanceState) {
         binding = FragmentGroceryListBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
+        Log.d("GroceryListFragment", "Initializing GroceryListFragment with groceryList: " + groceryList);
 
         // Check if pantry is null and handle accordingly
         if (pantry == null) {
-            pantry = new Pantry();  // Initialize pantry if null
+            pantry = new Pantry();
+            Log.d("GroceryListFragment", "Pantry initialized.");
         }
         groceryList = pantry.getGroceryList();
+        Log.d("GroceryListFragment", "Loaded grocery list from pantry: " + groceryList);
 
         adapter = new GroceryListAdapter(groceryList);
         binding.recyclerViewGroceryList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -66,30 +70,12 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
             clearShoppingList();
         });
 
-        updateButtonsState();
-
         return rootView;
     }
 
     private void clearShoppingList() {
         pantry.getGroceryList().clear();  // Use getter method for groceryList
         adapter.notifyDataSetChanged();
-        updateButtonsState();
-    }
-
-    private void checkout() {
-        Toast.makeText(getContext(), "Checkout successful!", Toast.LENGTH_SHORT).show();
-        pantry.getGroceryList().clear();
-        adapter.notifyDataSetChanged();
-        updateButtonsState();
-    }
-
-    private void updateButtonsState() {
-        // Enable checkout button only if the grocery list is not empty
-        //binding.checkoutButton.setEnabled(!pantry.getGroceryList().isEmpty());
-        //binding.checkoutButton.setTextColor(pantry.getGroceryList().isEmpty() ?
-                //ContextCompat.getColor(getContext(), android.R.color.darker_gray) :
-                //ContextCompat.getColor(getContext(), android.R.color.black));
     }
 
     // Adapter for the RecyclerView to display the shopping list
@@ -112,7 +98,7 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
         public void onBindViewHolder(ViewHolder holder, int position) {
             Ingredient ingredient = (Ingredient) groceryList.keySet().toArray()[position];
             Double quantity = groceryList.get(ingredient);
-
+            Log.d("GroceryListAdapter", "Binding ingredient: " + ingredient.getName() + ", Qty: " + quantity);
             holder.ingredientName.setText(ingredient.getName());
             holder.ingredientQuantity.setText(quantity + " " + ingredient.getUnit());
             holder.removeButton.setOnClickListener(v -> removeIngredient(ingredient));
@@ -126,7 +112,6 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
         private void removeIngredient(Ingredient ingredient) {
             pantry.getGroceryList().remove(ingredient);
             notifyDataSetChanged();
-            updateButtonsState();
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {

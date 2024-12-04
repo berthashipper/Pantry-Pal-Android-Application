@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,6 @@ import java.util.List;
 import java.util.Map;
 
 public class AddToGroceryListFragment extends Fragment implements IAddToGroceryListView {
-
     FragmentAddToGroceryListBinding binding;
     Listener listener;
     Map<Ingredient, Double> addedIngredients = new HashMap<>();
@@ -68,13 +68,16 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
         }
 
         double qty = Double.parseDouble(qtyString);
+        Log.d("AddToGroceryListFragment", "Attempting to add ingredient: " + name + ", Qty: " + qty);
 
         if (listener != null) {
             listener.onAddIngredientToGroceryList(name, qty);
+            Log.d("AddToGroceryListFragment", "Listener called successfully.");
         }
 
         Ingredient newIngredient = new Ingredient(name, qty, "unit_placeholder", new HashSet<>());
         addedIngredients.put(newIngredient, qty);
+        Log.d("AddToGroceryListFragment", "Ingredient added locally: " + addedIngredients);
         Snackbar.make(getView(), "Added " + newIngredient.getName() + " to grocery list.", Snackbar.LENGTH_SHORT).show();
         ingredientAdapter.notifyDataSetChanged();
         clearInputs();

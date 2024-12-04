@@ -615,8 +615,10 @@ public class ControllerActivity extends AppCompatActivity
     }
     public void onAddIngredientToGroceryList(String name, double qty) {
         Ingredient newIngredient = new Ingredient(name, qty, "unit_placeholder", new HashSet<>());
+        Log.d("Controller", "Adding ingredient to groceryList: " + name + ", Qty: " + qty);
         groceryList.put(newIngredient, qty);
         persFacade.savePantry(pantry);
+        Log.d("Controller", "Grocery list after addition: " + groceryList);
     }
 
     @Override
@@ -627,12 +629,12 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onViewGroceryListMenu() {
         if (groceryList == null) {
-            // Use the pantry's grocery list directly
-            groceryList = pantry.getGroceryList(); // This directly returns a Map<Ingredient, Double>
+            groceryList = pantry.getGroceryList();
+            Log.d("Controller", "Fetched grocery list for GroceryListFragment: " + groceryList);
         }
 
         // Display the GroceryListFragment
-        mainView.setListener(this);  // Set listener for this menu
+        mainView.setListener(this);
         this.mainView.displayFragment(GroceryListFragment.newInstance(this, groceryList));
     }
 
