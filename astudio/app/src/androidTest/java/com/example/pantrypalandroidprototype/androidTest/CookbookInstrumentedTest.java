@@ -75,7 +75,6 @@ public class CookbookInstrumentedTest {
         // Click "Add ingredient" button
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
-        // Wait for UI updates
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo()); // Ensure it's in view
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).check(ViewAssertions.matches(ViewMatchers.isDisplayed())); // Ensure visibility
 
@@ -257,7 +256,6 @@ public class CookbookInstrumentedTest {
         // Click "Add ingredient" button
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
-        // Wait for UI updates
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo()); // Ensure it's in view
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).check(ViewAssertions.matches(ViewMatchers.isDisplayed())); // Ensure visibility
 
@@ -358,5 +356,4 @@ public class CookbookInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(viewId))
                 .perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard());
     }
-
 }

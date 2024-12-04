@@ -8,7 +8,6 @@ import com.example.pantrypalandroidprototype.model.Recipe;
 public interface IGroceryListView {
     interface Listener {
         void onAddIngredientsToGroceryListMenu();
-
         void onClearShoppingList();
         void onRemoveIngredient(Ingredient ingredient);
     }

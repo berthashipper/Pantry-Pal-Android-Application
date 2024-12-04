@@ -74,7 +74,6 @@ public class DeleteIngredientsInstrumentedTest {
         Espresso.onView(ViewMatchers.withText("Yes"))
                 .perform(ViewActions.click());
 
-        // Wait for UI updates
         SystemClock.sleep(1000);
 
         // Verify that the Pantry view is displayed

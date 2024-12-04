@@ -111,6 +111,6 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
     }
 
     public void showDoneMessage() {
-        Snackbar.make(getView(), "Returning to Grocery List", Snackbar.LENGTH_SHORT).show();
+        //Snackbar.make(getView(), "Returning to Grocery List", Snackbar.LENGTH_SHORT).show();
     }
 }

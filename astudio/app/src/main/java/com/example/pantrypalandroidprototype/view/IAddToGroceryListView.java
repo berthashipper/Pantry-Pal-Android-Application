@@ -7,7 +7,6 @@ import java.util.Set;
 public interface IAddToGroceryListView {
     interface Listener {
         void onAddIngredientToGroceryList(String name, double qty);
-
         void onItemsDone();
     }
 }

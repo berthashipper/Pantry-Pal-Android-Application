@@ -93,15 +93,10 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
                     if (listener != null) {
                         listener.onClearShoppingList();
                     }
-                    clearShoppingList(); // Clears the list and updates the UI
                 })
                 .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
                 .create()
                 .show();
-    }
-
-    private void clearShoppingList() {
-        //
     }
 
     public void showClearedMessage() {

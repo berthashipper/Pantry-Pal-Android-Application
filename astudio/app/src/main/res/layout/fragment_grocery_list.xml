@@ -45,7 +45,7 @@
         android:id="@+id/groceryStatusText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="What ingredients do you need to restock?"
+        android:text="@string/grocery_list_empty_text"
         android:textSize="16sp"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"

@@ -162,7 +162,6 @@ public class ControllerActivity extends AppCompatActivity
             // Switch to the Pantry fragment
             this.mainView.displayFragment(GroceryListFragment.newInstance(this, groceryList));
         }
-
     }
 
     @Override
