@@ -615,9 +615,15 @@ public class ControllerActivity extends AppCompatActivity
     }
     public void onAddIngredientToGroceryList(String name, double qty) {
         Ingredient newIngredient = new Ingredient(name, qty, "unit_placeholder", new HashSet<>());
-        Log.d("Controller", "Adding ingredient to groceryList: " + name + ", Qty: " + qty);
         groceryList.put(newIngredient, qty);
+
+        // Save the updated list to pantry
+        pantry.setGroceryList(groceryList); // Add this to reflect changes in the pantry
+
+        // Persist the pantry
         persFacade.savePantry(pantry);
+
+        // Log the update for debugging
         Log.d("Controller", "Grocery list after addition: " + groceryList);
     }
 
@@ -630,12 +636,11 @@ public class ControllerActivity extends AppCompatActivity
     public void onViewGroceryListMenu() {
         if (groceryList == null) {
             groceryList = pantry.getGroceryList();
-            Log.d("Controller", "Fetched grocery list for GroceryListFragment: " + groceryList);
         }
+        // Log the grocery list to verify integrity
+        Log.d("Controller", "Displaying GroceryListFragment with groceryList: " + groceryList);
 
-        // Display the GroceryListFragment
-        mainView.setListener(this);
-        this.mainView.displayFragment(GroceryListFragment.newInstance(this, groceryList));
+        mainView.displayFragment(GroceryListFragment.newInstance(this, groceryList));
     }
 
     // Helper method to convert Pantry to Map<Ingredient, Double>

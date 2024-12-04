@@ -172,6 +172,10 @@ public class Pantry implements Serializable {
         return groceryList;
     }
 
+    public void setGroceryList(Map<Ingredient, Double> groceryList) {
+        this.groceryList = groceryList;
+    }
+
     /**
      * Prints the grocery list.
      */

@@ -20,6 +20,7 @@ import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 public class GroceryListFragment extends Fragment implements IGroceryListView {
@@ -42,15 +43,14 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
                              Bundle savedInstanceState) {
         binding = FragmentGroceryListBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
-        Log.d("GroceryListFragment", "Initializing GroceryListFragment with groceryList: " + groceryList);
 
-        // Check if pantry is null and handle accordingly
-        if (pantry == null) {
-            pantry = new Pantry();
-            Log.d("GroceryListFragment", "Pantry initialized.");
+        // Ensure groceryList is not null and directly use it
+        if (groceryList == null) {
+            groceryList = new HashMap<>();  // Initialize if null
         }
-        groceryList = pantry.getGroceryList();
-        Log.d("GroceryListFragment", "Loaded grocery list from pantry: " + groceryList);
+
+        // Log the grocery list for debugging
+        Log.d("GroceryListFragment", "Initializing with groceryList: " + groceryList);
 
         adapter = new GroceryListAdapter(groceryList);
         binding.recyclerViewGroceryList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -62,7 +62,6 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
             }
         });
 
-        // Clear Shopping List Button
         binding.clearShoppingListButton.setOnClickListener(v -> {
             if (listener != null) {
                 listener.onClearShoppingList();
