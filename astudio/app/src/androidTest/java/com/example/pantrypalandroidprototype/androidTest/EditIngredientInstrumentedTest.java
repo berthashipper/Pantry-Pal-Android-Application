@@ -115,6 +115,7 @@ public class EditIngredientInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.glutenFreeCheckbox)).perform(ViewActions.click());
 
         // Click "Add" button
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo());
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
 
         // Navigate back to the pantry

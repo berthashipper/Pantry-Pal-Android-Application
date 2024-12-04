@@ -15,6 +15,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 
@@ -74,7 +75,7 @@ public class AddIngredientsInstrumentedTest {
         // Click "Done" button
         Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());
 
-        SystemClock.sleep(3000);
+        SystemClock.sleep(2000);
 
         // Verify the ingredient has been added
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_pantry))
@@ -83,13 +84,19 @@ public class AddIngredientsInstrumentedTest {
                         ViewActions.click()
                 ));
 
+        // Verify the ingredient quantity is correct
+        Espresso.onView(ViewMatchers.withText(CoreMatchers.containsString("1.5 kg")))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        SystemClock.sleep(2000);
+
         // Clear pantry from any persisted ingredients
         Espresso.onView(ViewMatchers.withId(R.id.clearPantryButton))
                 .perform(ViewActions.click());
         Espresso.onView(ViewMatchers.withText("Yes"))
                 .perform(ViewActions.click());
 
-        SystemClock.sleep(3000);
+        SystemClock.sleep(2000);
     }
 
     /**
