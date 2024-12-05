@@ -24,48 +24,86 @@ public class ManageRecipeIngredientsTest {
         public ActivityScenarioRule<ControllerActivity> activityRule =
                 new ActivityScenarioRule<>(ControllerActivity.class);
 
-        /**
-         * Tests editing an ingredient's details and verifying updates.
-         */
-        @org.junit.Test
-        public void testEditRecipeIngredientUpdatesRecyclerView() {
-            // Navigate to Edit Ingredients screen
-            Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
-                    .perform(ViewActions.click());
+    /**
+     * Tests updating an ingredient successfully.
+     */
+    @org.junit.Test
+    public void testUpdateRecipeIngredientSuccessfully() {
+        // Navigate to Edit Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
+                .perform(ViewActions.click());
 
-            SystemClock.sleep(3000);
-            String testName = "Chicken Curry";
+        SystemClock.sleep(3000);
+        String testName = "Chicken Curry";
 
-            // Scroll to the item and perform a click on it
-            Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
-                    .perform(RecyclerViewActions.actionOnItem(
-                            ViewMatchers.hasDescendant(ViewMatchers.withText(testName)),
-                            ViewActions.click()
-                    ));
+        // Scroll to the item and perform a click on it
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText(testName)),
+                        ViewActions.click()
+                ));
 
-            Espresso.onView(ViewMatchers.withId(R.id.edit_recipe_ingredient))
-                    .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.edit_recipe_ingredient))
+                .perform(ViewActions.click());
 
-            typeText(R.id.itemNameText, "Chicken Breast");
-            // Enter the edited quantity
-            typeText(R.id.itemQuantityText, "600");
+        typeText(R.id.itemNameText, "Chicken Breast");
+        typeText(R.id.itemQuantityText, "600");
 
-            // Click the Edit button to confirm
-            Espresso.onView(ViewMatchers.withId(R.id.editButton))
-                    .perform(ViewActions.click());
+        // Click the Edit button to confirm
+        Espresso.onView(ViewMatchers.withId(R.id.editButton))
+                .perform(ViewActions.click());
 
-            SystemClock.sleep(2000);
+        SystemClock.sleep(2000);
 
-            // Click the Edit button to confirm
-            Espresso.onView(ViewMatchers.withId(R.id.doneButton))
-                    .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withId(R.id.doneButton))
+                .perform(ViewActions.click());
 
-            SystemClock.sleep(2000);
+        SystemClock.sleep(2000);
 
-            Espresso.onView(ViewMatchers.withText("600.0 g of Chicken Breast"))
-                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-            SystemClock.sleep(2000);
-        }
+        Espresso.onView(ViewMatchers.withText("600.0 g of Chicken Breast"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    /**
+     * Tests deleting a non-existent ingredient and checks for snackbar feedback.
+     */
+    @org.junit.Test
+    public void testDeleteNonExistentRecipeIngredient() {
+        // Navigate to Edit Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(3000);
+        String testName = "Chicken Curry";
+
+        // Scroll to the item and perform a click on it
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText(testName)),
+                        ViewActions.click()
+                ));
+
+        Espresso.onView(ViewMatchers.withId(R.id.delete_recipe_ingredient))
+                .perform(ViewActions.click());
+
+        typeText(R.id.itemNameText, "NonExistentIngredient");
+
+        // Click the Delete button
+        Espresso.onView(ViewMatchers.withId(R.id.deleteButton))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(2000);
+
+        // Verify the snackbar appears with the correct message
+        Espresso.onView(ViewMatchers.withText("NonExistentIngredient not found in recipe"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        Espresso.onView(ViewMatchers.withId(R.id.doneButton))
+                .perform(ViewActions.click());
+    }
+
+
+    /**
 
     /**
      * Tests adding an ingredient's details and verifying updates.
@@ -153,7 +191,6 @@ public class ManageRecipeIngredientsTest {
         SystemClock.sleep(2000);
     }
 
-
         /**
          * Helper method to type text into a text field.
          *
@@ -165,5 +202,3 @@ public class ManageRecipeIngredientsTest {
                     .perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard());
         }
     }
-
-

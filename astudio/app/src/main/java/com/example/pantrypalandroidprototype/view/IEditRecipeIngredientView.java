@@ -13,6 +13,7 @@ public interface IEditRecipeIngredientView {
         void onEditRecipeIngredient(String name, double newQty);
         void onEditRecipeDone();
         void onBackToRecipe();
+        boolean isIngredientExists(String name);
 
     }
 }

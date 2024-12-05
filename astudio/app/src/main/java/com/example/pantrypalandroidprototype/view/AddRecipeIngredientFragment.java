@@ -117,7 +117,7 @@ public class AddRecipeIngredientFragment extends Fragment {
         if (listener != null) {
             listener.onAddRecipeDone();
         }
-        Toast.makeText(getContext(), "Returning to Recipe Details", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(), "Returning to Recipe Details", Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -154,7 +154,7 @@ public class AddRecipeIngredientFragment extends Fragment {
      * @param name The name of the added ingredient.
      */
     private void showIngredientAddedMessage(String name) {
-        Toast.makeText(getContext(), "Successfully added " + name, Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(), "Successfully added " + name, Toast.LENGTH_LONG).show();
     }
 
     /**

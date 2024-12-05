@@ -496,17 +496,31 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onEditRecipeIngredient(String name, double newQty) {
-        // Update the recipe object with the new ingredient quantity
+        boolean ingredientFound = false;
+
         for (Ingredient ingredient : currentRecipe.getIngredients()) {
             if (ingredient.getName().equalsIgnoreCase(name)) {
-                ingredient.updateQuantity(newQty);  // Update quantity in the model
+                ingredient.updateQuantity(newQty); // Update quantity in the model
+                ingredientFound = true;
                 break;
             }
         }
-        persFacade.saveCookbook(cookbook);
-        // Notify the user
-        Snackbar.make(findViewById(R.id.fragmentContainerView), name + " updated!", Snackbar.LENGTH_LONG).show();
 
+        if (ingredientFound) {
+            persFacade.saveCookbook(cookbook);
+            Snackbar.make(findViewById(R.id.fragmentContainerView), name + " updated.", Snackbar.LENGTH_LONG).show();
+        } else {
+            Snackbar.make(findViewById(R.id.fragmentContainerView), name + " not found in recipe.", Snackbar.LENGTH_LONG).show();
+        }
+    }
+
+    public boolean isIngredientExists(String name) {
+        for (Ingredient ingredient : currentRecipe.getIngredients()) {
+            if (ingredient.getName().equalsIgnoreCase(name)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -570,7 +584,7 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onDeleteRecipeIngredient(String name) {
-// Update the recipe object by removing the specified ingredient
+        // Update the recipe object by removing the specified ingredient
         boolean ingredientFound = false;
         Iterator<Ingredient> iterator = currentRecipe.getIngredients().iterator();
 

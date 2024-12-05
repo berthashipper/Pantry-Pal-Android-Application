@@ -78,6 +78,11 @@ public class EditRecipeIngredientFragment extends Fragment implements IEditRecip
         try {
             double newQty = Double.parseDouble(quantityInput);
             if (listener != null) {
+                boolean ingredientExists = listener.isIngredientExists(name); // Check if ingredient exists
+                if (!ingredientExists) {
+                    showError(name + " does not exist in the recipe.");
+                    return;
+                }
                 listener.onEditRecipeIngredient(name, newQty);
                 showIngredientUpdateMessage(name);
                 clearInputs();
@@ -95,7 +100,7 @@ public class EditRecipeIngredientFragment extends Fragment implements IEditRecip
         if (listener != null) {
             listener.onEditRecipeDone();
         }
-        Snackbar.make(binding.getRoot(), "Returning to Recipe Details", Snackbar.LENGTH_LONG).show();
+        //Snackbar.make(binding.getRoot(), "Returning to Recipe Details", Snackbar.LENGTH_LONG).show();
     }
 
     /**
@@ -131,7 +136,7 @@ public class EditRecipeIngredientFragment extends Fragment implements IEditRecip
      * @param name The name of the updated ingredient.
      */
     public void showIngredientUpdateMessage(String name) {
-        Snackbar.make(binding.getRoot(), "Successfully updated " + name, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(binding.getRoot(), "Updated quantity of " + name, Snackbar.LENGTH_LONG).show();
     }
 
     /**

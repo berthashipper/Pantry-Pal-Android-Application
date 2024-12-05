@@ -86,7 +86,7 @@ public class DeleteRecipeIngredientFragment extends Fragment implements IDeleteR
         if (listener != null) {
             listener.onDeleteRecipeDone();
         }
-        Snackbar.make(binding.getRoot(), "Returning to Recipe Details", Snackbar.LENGTH_LONG).show();
+        //Snackbar.make(binding.getRoot(), "Returning to Recipe Details", Snackbar.LENGTH_LONG).show();
     }
 
     /**
