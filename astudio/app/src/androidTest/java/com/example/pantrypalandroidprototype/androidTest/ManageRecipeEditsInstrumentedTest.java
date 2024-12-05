@@ -181,8 +181,10 @@ public class ManageRecipeEditsInstrumentedTest {
                 .perform(ViewActions.click());
 
         SystemClock.sleep(2000);
+
         Espresso.onView(ViewMatchers.withText("600.0 g of Chicken Breast"))
                 .check(ViewAssertions.doesNotExist());
+
         SystemClock.sleep(2000);
     }
 
@@ -301,6 +303,129 @@ public class ManageRecipeEditsInstrumentedTest {
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
+    /**
+     * Tests adding a tag to a recipe and verifying updates.
+     */
+    @org.junit.Test
+    public void testAddTagUpdatesRecyclerView() {
+        // Navigate to the cookbook screen
+        Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(3000);
+
+        String testName = "Pancakes";
+
+        // Select the recipe in the RecyclerView
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText(testName)),
+                        ViewActions.click()
+                ));
+
+        // Click the "Add tag" button
+        Espresso.onView(ViewMatchers.withId(R.id.addTagButton))
+                .perform(ViewActions.click());
+
+        // Enter the new tag
+        Espresso.onView(ViewMatchers.withClassName(Matchers.equalTo(EditText.class.getName())))
+                .perform(ViewActions.clearText(), ViewActions.typeText("vegetarian"));
+
+        // Confirm the changes by clicking the Save button
+        Espresso.onView(ViewMatchers.withText("Save"))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(2000);
+
+        // Verify the tag in the UI
+        Espresso.onView(ViewMatchers.withText("VEGETARIAN"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    /**
+     * Tests adding a tag to a recipe and verifying updates.
+     */
+    @org.junit.Test
+    public void testRemoveTagUpdatesRecyclerView() {
+        // Navigate to the cookbook screen
+        Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(3000);
+
+        String testName = "Spaghetti Bolognese";
+
+        // Select the recipe in the RecyclerView
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText(testName)),
+                        ViewActions.click()
+                ));
+
+        // Click the "Add tag" button
+        Espresso.onView(ViewMatchers.withId(R.id.tagsLayout))
+                .perform(ViewActions.scrollCompletelyTo());
+        Espresso.onView(ViewMatchers.withId(R.id.deleteTagButton))
+                .perform(ViewActions.click());
+
+        // Enter the new tag
+        Espresso.onView(ViewMatchers.withClassName(Matchers.equalTo(EditText.class.getName())))
+                .perform(ViewActions.clearText(), ViewActions.typeText("dairy_free"));
+
+        // Confirm the changes by clicking the Save button
+        Espresso.onView(ViewMatchers.withText("Save"))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(2000);
+
+        // Verify the tag no longer in the UI
+        // figure out how to scroll all the way down
+        Espresso.onView(ViewMatchers.withId(R.id.tagsLayout))
+                .perform(ViewActions.scrollCompletelyTo());
+        Espresso.onView(ViewMatchers.withText("DAIRY_FREE"))
+                .check(ViewAssertions.doesNotExist());
+
+        SystemClock.sleep(2000);
+    }
+
+    /**
+     * Tests removing a nonexistent tag.
+     */
+    @org.junit.Test
+    public void testRemoveNonExistentTag() {
+        // Navigate to the cookbook screen
+        Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(3000);
+
+        String testName = "Chicken Curry";
+
+        // Select the recipe in the RecyclerView
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText(testName)),
+                        ViewActions.click()
+                ));
+
+        // Click the "Delet tag" button
+        Espresso.onView(ViewMatchers.withId(R.id.deleteTagButton))
+                .perform(ViewActions.click());
+
+        // Enter the tag to delete
+        Espresso.onView(ViewMatchers.withClassName(Matchers.equalTo(EditText.class.getName())))
+                .perform(ViewActions.clearText(), ViewActions.typeText("vegetarian"));
+
+        // Confirm the changes by clicking the Save button
+        Espresso.onView(ViewMatchers.withText("Save"))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(2000);
+
+        // Verify the updated tags in the UI
+        Espresso.onView(ViewMatchers.withText("Tag not found: VEGETARIAN"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
 
     /**
          * Helper method to type text into a text field.

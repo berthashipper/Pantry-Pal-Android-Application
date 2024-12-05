@@ -244,9 +244,15 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
             } else if (requestCode == REQUEST_DELETE_TAG) {
                 // Handle tag deletion from the dialog result
                 Ingredient.dietary_tags tagToDelete = Ingredient.dietary_tags.valueOf(newValue.toUpperCase());
-                controller.removeTagFromRecipe(recipe, tagToDelete);
-                Snackbar.make(getView(), "Tag deleted: " + tagToDelete, Snackbar.LENGTH_SHORT).show();
-                deleteTag(tagToDelete);  // Delete the tag from the recipe
+
+                // Check if the tag exists in the recipe
+                if (recipe.getTags().contains(tagToDelete)) {
+                    controller.removeTagFromRecipe(recipe, tagToDelete);
+                    Snackbar.make(getView(), "Tag deleted: " + tagToDelete, Snackbar.LENGTH_SHORT).show();
+                    deleteTag(tagToDelete);  // Delete the tag from the recipe
+                } else {
+                    Snackbar.make(getView(), "Tag not found: " + tagToDelete, Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }
