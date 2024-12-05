@@ -59,8 +59,6 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
             // Set tagActionListener to the parent activity or fragment
             if (context instanceof EditTagDialogFragment.TagActionListener) {
                 tagActionListener = (EditTagDialogFragment.TagActionListener) context;
-            } else {
-                Log.e(TAG, "Parent activity does not implement TagActionListener");
             }
         } else {
             throw new RuntimeException(context.toString() + " must be an instance of ControllerActivity");
@@ -246,6 +244,8 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
             } else if (requestCode == REQUEST_DELETE_TAG) {
                 // Handle tag deletion from the dialog result
                 Ingredient.dietary_tags tagToDelete = Ingredient.dietary_tags.valueOf(newValue.toUpperCase());
+                controller.removeTagFromRecipe(recipe, tagToDelete);
+                Snackbar.make(getView(), "Tag deleted: " + tagToDelete, Snackbar.LENGTH_SHORT).show();
                 deleteTag(tagToDelete);  // Delete the tag from the recipe
             }
         });
@@ -275,8 +275,6 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
     }
 
     private void deleteTag(Ingredient.dietary_tags tag) {
-        Log.d(TAG, "Attempting to delete tag: " + tag.name());
-
         // Remove the tag from the recipe object
         boolean tagRemoved = recipe.removeTag(tag);
         Log.d(TAG, "Tag removed from recipe: " + tag.name() + ", Success: " + tagRemoved);
@@ -287,7 +285,7 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
             Snackbar.make(getView(), "Tag '" + tag.name() + "' deleted", Snackbar.LENGTH_SHORT).show();
         } else {
             Log.e(TAG, "Failed to remove tag: " + tag.name());
-            Snackbar.make(getView(), "Failed to delete tag", Snackbar.LENGTH_SHORT).show();
+            //Snackbar.make(getView(), "Failed to delete tag", Snackbar.LENGTH_SHORT).show();
         }
     }
 
