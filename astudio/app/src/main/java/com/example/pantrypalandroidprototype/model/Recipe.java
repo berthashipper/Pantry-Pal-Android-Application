@@ -1,5 +1,7 @@
 package com.example.pantrypalandroidprototype.model;
 
+import android.util.Log;
+
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.Set;
@@ -148,10 +150,14 @@ public class Recipe implements Serializable {
         recipeTags.add(tag);
     }
 
-    public void removeTag(Ingredient.dietary_tags tag) {
-        if (recipeTags != null) {
+    public boolean removeTag(Ingredient.dietary_tags tag) {
+        if (recipeTags.contains(tag)) {
             recipeTags.remove(tag);
+            Log.d("Recipe", "Tag removed from recipe: " + tag.name());
+            return true;
         }
+        Log.e("Recipe", "Tag not found: " + tag.name());
+        return false;
     }
 
     /**

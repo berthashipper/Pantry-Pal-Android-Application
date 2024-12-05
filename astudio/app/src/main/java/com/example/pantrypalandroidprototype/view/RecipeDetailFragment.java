@@ -271,27 +271,33 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
     }
 
     private void deleteTag(Ingredient.dietary_tags tag) {
-        // Remove tag from recipe
-        recipe.removeTag(tag);
+        Log.d(TAG, "Attempting to delete tag: " + tag.name());
 
-        // Inform the controller to update the recipe data
-        controller.removeTagFromRecipe(recipe, tag);
+        // Remove the tag from the recipe object
+        boolean tagRemoved = recipe.removeTag(tag);
+        Log.d(TAG, "Tag removed from recipe: " + tag.name() + ", Success: " + tagRemoved);
 
-        // Refresh the tag display
-        updateTagsUI();
-
-        // Show confirmation
-        Snackbar.make(getView(), "Tag '" + tag.name() + "' deleted", Snackbar.LENGTH_SHORT).show();
+        if (tagRemoved) {
+            // Update the UI to reflect the removal
+            updateTagsUI(); // This method updates the UI after a tag is removed
+            Snackbar.make(getView(), "Tag '" + tag.name() + "' deleted", Snackbar.LENGTH_SHORT).show();
+        } else {
+            Log.e(TAG, "Failed to remove tag: " + tag.name());
+            Snackbar.make(getView(), "Failed to delete tag", Snackbar.LENGTH_SHORT).show();
+        }
     }
+
 
     // Method to update the tags UI dynamically
     private void updateTagsUI() {
         binding.tagsLayout.removeAllViews();
 
         if (recipe.getTags() != null && !recipe.getTags().isEmpty()) {
+            Log.d(TAG, "Re-adding tags to the UI: " + recipe.getTags());
             for (Ingredient.dietary_tags tag : recipe.getTags()) {
                 TextView tagView = new TextView(getContext());
-                tagView.setText(tag.name());  // Display the tag name
+                tagView.setText(tag.name());
+                Log.d(TAG, "Adding tag to UI: " + tag.name());
                 tagView.setTextSize(16);
                 tagView.setTextColor(Color.WHITE);
                 tagView.setPadding(20, 10, 20, 10);
