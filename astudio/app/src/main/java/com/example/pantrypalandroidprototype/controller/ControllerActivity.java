@@ -453,6 +453,7 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(searchIngredientFragment);
     }
 
+
     @Override
     public void onScaleRecipe(double scaleFactor) {
         ScaleRecipeFragment scaleRecipeFragment = ScaleRecipeFragment.newInstance(currentRecipe,this);
@@ -699,8 +700,9 @@ public class ControllerActivity extends AppCompatActivity
             groceryListFragment.showDeletedMessage(ingredient);
         }
     }
-
-    public void onTagAdded(Recipe recipe, String newTag) {
-        // Implement the method to handle tag addition
+    public void addTagToRecipe(Recipe recipe, Ingredient.dietary_tags newTag) {
+        recipe.addTag(newTag);  // Add the new tag to the recipe
+        persFacade.saveCookbook(cookbook);  // Save the updated cookbook
+        mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Refresh the view
     }
 }

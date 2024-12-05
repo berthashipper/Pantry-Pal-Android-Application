@@ -273,18 +273,19 @@
                 android:layout_centerVertical="true" />
         </RelativeLayout>
 
-        <LinearLayout
+        <com.google.android.flexbox.FlexboxLayout
             android:id="@+id/tagsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp"
-            android:gravity="start|center_vertical"
             android:paddingStart="0dp"
-            android:paddingEnd="16dp">
+            android:paddingEnd="16dp"
+            app:flexWrap="wrap"
+            app:justifyContent="flex_start"
+            app:alignItems="center">
+        </com.google.android.flexbox.FlexboxLayout>
 
-            <!-- The tags will be dynamically added here -->
-        </LinearLayout>
+        <!-- The tags will be dynamically added here -->
     </LinearLayout>
 </ScrollView>

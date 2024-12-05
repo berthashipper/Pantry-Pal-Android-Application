@@ -22,6 +22,7 @@ import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 import com.example.pantrypalandroidprototype.databinding.FragmentRecipeDetailBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
+import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.time.Duration;
@@ -104,7 +105,7 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
                 tagView.setText(tagString);  // Display the tag name
                 tagView.setTextSize(16);  // Set font size for readability
                 tagView.setTextColor(Color.WHITE);  // Set text color to white
-                tagView.setPadding(20, 10, 20, 10);  // Add padding for spacing inside the tag
+                tagView.setPadding(20, 20, 20, 20);  // Add padding for spacing inside the tag
                 tagView.setLayoutParams(new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
                 ));
@@ -222,10 +223,15 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
                 Snackbar.make(getView(), "Yield updated to " + newValue, Snackbar.LENGTH_SHORT).show();
             } else if (requestCode == REQUEST_ADD_TAG) {
                 // Add the new tag to the recipe
-                Ingredient.dietary_tags newTag = Ingredient.dietary_tags.valueOf(newValue.toUpperCase());
-                recipe.addTag(newTag);
-                Snackbar.make(getView(), "Tag added: " + newTag, Snackbar.LENGTH_SHORT).show();
-                updateTagsUI();
+                try {
+                    Ingredient.dietary_tags newTag = Ingredient.dietary_tags.valueOf(newValue.toUpperCase());
+                    controller.addTagToRecipe(recipe, newTag);  // Call controller to add the tag and persist
+                    recipe.addTag(newTag);
+                    Snackbar.make(getView(), "Tag added: " + newTag, Snackbar.LENGTH_SHORT).show();
+                    updateTagsUI();
+                } catch (IllegalArgumentException e) {
+                    Snackbar.make(getView(), "Invalid tag entered", Snackbar.LENGTH_SHORT).show();
+                }
             }
         });
     }

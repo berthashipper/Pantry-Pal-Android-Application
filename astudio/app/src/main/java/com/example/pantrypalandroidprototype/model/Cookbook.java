@@ -97,7 +97,6 @@ public class Cookbook implements Serializable {
                 .addInstruction("Stir in tomato sauce and simmer with reserved pasta water for 15 minutes.")
                 .addInstruction("Serve sauce over spaghetti with grated Parmesan cheese.")
                 .addTag(Ingredient.dietary_tags.DAIRY_FREE)
-                .addTag(Ingredient.dietary_tags.KOSHER)
                 .setDescription("A hearty Italian classic with rich, flavorful sauce.")
                 .setCookTime(Duration.ofMinutes(40))
                 .setServingSize(4)

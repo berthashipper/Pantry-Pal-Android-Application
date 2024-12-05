@@ -67,8 +67,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.google.services)
-    implementation(platform(libs.firebase.bom))
-    implementation(libs.google.firebase.firestore)
+
 
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.recyclerview)
@@ -80,6 +79,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation("androidx.test.espresso:espresso-contrib:3.5.1")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation("com.google.android.flexbox:flexbox:3.0.0")
 
     implementation("org.apache.commons:commons-text:1.10.0")
     annotationProcessor(libs.androidx.room.compiler)
@@ -91,6 +91,7 @@ dependencies {
     // TODO: Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation("com.google.firebase:firebase-analytics")
+
 
 
     // Add the dependencies for any other desired Firebase products
