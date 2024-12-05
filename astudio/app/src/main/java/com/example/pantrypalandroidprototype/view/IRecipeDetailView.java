@@ -1,6 +1,10 @@
 package com.example.pantrypalandroidprototype.view;
 
+import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
+
+import java.util.List;
+import java.util.Set;
 
 public interface IRecipeDetailView {
     // Delegate the logic of saving and updating to the Controller
@@ -13,5 +17,6 @@ public interface IRecipeDetailView {
         void onDeleteRecipeIngredients();
         void onScaleRecipeMenu();
         void onEditInstructions(String currentInstructions);
+        void shopFor(Set<Ingredient> ingredients);
     }
 }

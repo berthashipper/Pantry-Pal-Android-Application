@@ -201,6 +201,13 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
             showEditDialog(REQUEST_DELETE_TAG);
         });
 
+        binding.shopForButton.setOnClickListener(v -> {
+            // UPDATE TO USE SHOP FOR IN PANTRY CLASS
+            if (listener != null) {
+                listener.shopFor(recipe.getIngredients());
+            }
+        });
+
         return binding.getRoot();
     }
 

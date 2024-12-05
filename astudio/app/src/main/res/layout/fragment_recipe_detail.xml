@@ -74,6 +74,12 @@
             android:textColor="#333333"
             android:layout_marginBottom="8dp" />
 
+        <Button
+            android:id="@+id/shopForButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Shop for Ingredients" />
+
         <!-- Recipe Description -->
         <TextView
             android:id="@+id/recipe_description"

@@ -221,6 +221,57 @@ public class Pantry implements Serializable {
         return new ArrayList<>(ingredientList.values());
     }
 
+    /**
+     * Adds missing or insufficient ingredients from a given recipe to the grocery list.
+     *
+     * @param recipe The {@link Recipe} to shop for.
+     */
+    public void shopFor(Recipe recipe) {
+        for (Ingredient recipeIngredient : recipe.getIngredients()) {
+            String ingredientName = recipeIngredient.getName().toLowerCase();
+            Ingredient pantryIngredient = ingredientList.get(ingredientName);
+
+            // Determine the quantity needed based on pantry contents
+            double quantityNeeded = recipeIngredient.getQuantity();
+            if (pantryIngredient != null) {
+                quantityNeeded -= pantryIngredient.getQuantity();
+            }
+
+            if (quantityNeeded > 0) {
+                // Check if the ingredient is already on the grocery list
+                boolean updatedGroceryList = false;
+                for (Map.Entry<Ingredient, Double> entry : groceryList.entrySet()) {
+                    if (entry.getKey().getName().equalsIgnoreCase(ingredientName)) {
+                        // Update the quantity in the grocery list
+                        double updatedQuantity = entry.getValue() + quantityNeeded;
+                        groceryList.put(entry.getKey(), updatedQuantity);
+                        System.out.println("Updated grocery list: Added " + quantityNeeded + " more " +
+                                recipeIngredient.getUnit() + " of " + recipeIngredient.getName() + ".");
+                        updatedGroceryList = true;
+                        break;
+                    }
+                }
+
+                // If the ingredient is not in the grocery list, add it
+                if (!updatedGroceryList) {
+                    Ingredient ingredientToAdd = new Ingredient(
+                            recipeIngredient.getName(),
+                            quantityNeeded,
+                            recipeIngredient.getUnit(),
+                            recipeIngredient.getTags()
+                    );
+                    addIngredientToGroceryList(ingredientToAdd);
+                    System.out.println("Added " + quantityNeeded + " " + recipeIngredient.getUnit() +
+                            " of " + recipeIngredient.getName() + " to the grocery list.");
+                }
+            } else {
+                System.out.println("Sufficient " + recipeIngredient.getName() + " is already in the pantry.");
+            }
+        }
+    }
+
+
+
 
     /**
      * Returns a string representation of the pantry contents.

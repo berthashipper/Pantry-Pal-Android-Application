@@ -711,4 +711,21 @@ public class ControllerActivity extends AppCompatActivity
         persFacade.saveCookbook(cookbook);  // Save the updated cookbook
         mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Refresh the view
     }
+
+    @Override
+    public void shopFor(Set<Ingredient> ingredients) {
+        for (Ingredient ingredient : ingredients) {
+            groceryList.put(ingredient, ingredient.getQuantity());
+        }
+
+        // Save updated list to persistence layer
+        pantry.setGroceryList(groceryList);
+        persFacade.saveGroceryList(groceryList);
+
+        // Log the update for debugging
+        Log.d("Controller", "Ingredients added via shopFor: " + ingredients);
+
+        // Show updated grocery list
+        onViewGroceryListMenu();
+    }
 }

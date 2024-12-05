@@ -82,7 +82,15 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
         } else {
             binding.groceryStatusText.setText("🛒 Shopping For:");
         }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        // Refresh the grocery list and adapter
+        adapter.notifyDataSetChanged();
+        binding.groceryStatusText.setText(groceryList.isEmpty() ?
+                getString(R.string.pantry_empty) : "🛒 Shopping For:");
     }
 
     private void showClearListConfirmationDialog() {
