@@ -35,39 +35,41 @@ public class BackToCookbookTest {
      */
     @Test
     public void testDoneButtonsNavigateToCookbook() {
-        // Navigate to Cookbook screen
+
+        /**
+         * Back from Search Recipes Fragment
+         */
         Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
                 .perform(ViewActions.click());
 
-        // Navigate to Search Recipe screen
         Espresso.onView(ViewMatchers.withId(R.id.searchRecipesButton))
                 .perform(ViewActions.click());
 
-        // Navigate back to the Cookbook view using the done button
         Espresso.onView(ViewMatchers.withId(R.id.backToCookbookButton))
                 .perform(ViewActions.click());
 
-        // Verify that the Cookbook view is displayed
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         SystemClock.sleep(1000);
 
-        // Navigate to Add Recipe screen
+        /**
+         * Back from Add Recipe Fragment
+         */
         Espresso.onView(ViewMatchers.withId(R.id.addRecipeButton))
                 .perform(ViewActions.click());
 
-        // Navigate back to the Cookbook view using the done button
         Espresso.onView(ViewMatchers.withId(R.id.backToCookbookIcon))
                 .perform(ViewActions.click());
 
-        // Verify that the Cookbook view is displayed
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         SystemClock.sleep(1000);
 
-        // Click on a recipe
+        /**
+         * Back from Recipe Detail View Fragment
+         */
         Espresso.onView(ViewMatchers.withText("Spaghetti Bolognese"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
@@ -79,37 +81,125 @@ public class BackToCookbookTest {
                         ViewActions.click()
                 ));
 
-        // Navigate back to the Cookbook view using the done button
         Espresso.onView(ViewMatchers.withId(R.id.done_button))
                 .perform(ViewActions.click());
 
-        // Verify that the Cookbook view is displayed
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         SystemClock.sleep(1000);
 
+        /**
+         * Back from Scale Recipe Fragment
+         */
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .perform(RecyclerViewActions.actionOnItem(
                         ViewMatchers.hasDescendant(ViewMatchers.withText("Spaghetti Bolognese")),
                         ViewActions.click()
                 ));
 
-        // Navigate back to the Scale fragment
         Espresso.onView(ViewMatchers.withId(R.id.scale_button))
                 .perform(ViewActions.click());
 
-        // Navigate back to the Recipe view using the back button
         Espresso.onView(ViewMatchers.withId(R.id.backToRecipeButton))
                 .perform(ViewActions.click());
 
-        // Navigate back to the Cookbook view using the done button
         Espresso.onView(ViewMatchers.withId(R.id.done_button))
                 .perform(ViewActions.click());
 
-        // Verify that the Cookbook view is displayed
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
+        SystemClock.sleep(1000);
+
+        /**
+         * Back from Add Recipe Ingredient Fragment
+         */
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Quinoa Salad")),
+                        ViewActions.click()
+                ));
+
+        Espresso.onView(ViewMatchers.withId(R.id.add_recipe_ingredient))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.backToRecipeButton))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.done_button))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        SystemClock.sleep(1000);
+
+        /**
+         * Back from Edit Recipe Ingredient Fragment
+         */
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Chocolate Cake")),
+                        ViewActions.click()
+                ));
+
+        Espresso.onView(ViewMatchers.withId(R.id.edit_recipe_ingredient))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.backToRecipeButton))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.done_button))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        SystemClock.sleep(1000);
+
+        /**
+         * Back from Delete Recipe Ingredient Fragment
+         */
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Pancakes")),
+                        ViewActions.click()
+                ));
+
+        Espresso.onView(ViewMatchers.withId(R.id.delete_recipe_ingredient))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.backToRecipeButton))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.done_button))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        SystemClock.sleep(1000);
+
+        /**
+         * Back from Edit Recipe Instruction Fragment
+         */
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Veggie Stir Fry")),
+                        ViewActions.click()
+                ));
+
+        Espresso.onView(ViewMatchers.withId(R.id.edit_instruction))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.backToRecipeButton))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.done_button))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 }
