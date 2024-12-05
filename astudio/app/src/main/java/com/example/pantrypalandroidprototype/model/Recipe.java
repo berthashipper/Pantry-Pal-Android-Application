@@ -25,7 +25,7 @@ public class Recipe implements Serializable {
     public String instructions;
 
     /** The set of dietary tags associated with the recipe. */
-    public Set<Ingredient.dietary_tags> recipeTags;
+    public Set<Ingredient.dietary_tags> recipeTags = new HashSet<>();
 
     /** A brief description of the recipe. */
     public String recipeDescription;
@@ -138,6 +138,14 @@ public class Recipe implements Serializable {
      */
     public Set<Ingredient.dietary_tags> getTags() {
         return recipeTags;
+    }
+
+
+    public void addTag(Ingredient.dietary_tags tag) {
+        if (recipeTags == null) {
+            recipeTags = new HashSet<>();
+        }
+        recipeTags.add(tag);
     }
 
     /**

@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class CookbookFragment extends Fragment implements ICookbookView, RecipeAdapter.OnRecipeClickListener {
-
     FragmentCookbookBinding binding;
     RecyclerView recyclerView;
     RecipeAdapter recipeAdapter;
@@ -39,10 +38,6 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
         binding = FragmentCookbookBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 
-        // Fetch recipes from EDAMAM API
-        //fetchRecipesFromAPI();
-        //recipeDatabase = Room.databaseBuilder(requireContext(), RecipeDatabase.class, "recipes_db").build();
-
         // Set up Add Recipe button
         binding.addRecipeButton.setOnClickListener(v -> {
             // Navigate to AddRecipeFragment
@@ -57,107 +52,26 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
             }
         });
 
-
         return rootView;
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        /*// Set up RecyclerView to ensure the latest recipes are displayed
-        if (cookbook != null && recipeAdapter != null) {
-            recipeAdapter.updateRecipes(new ArrayList<>(recipes)); // Update adapter's dataset
-            recipeAdapter.notifyDataSetChanged(); // Notify adapter of data changes
-        }*/
-
-        //setupRecyclerView();
-        /*if (listener != null) {
-            listener.onCookbookRecipesLoaded(cookbook);
-        }*/
     }
-
-    /*public void fetchRecipesFromDatabase() {
-        new Thread(() -> {
-            List<Recipe> dbRecipes = recipeDatabase.recipeDao().getAllRecipes();
-
-            if (isAdded()) {
-                requireActivity().runOnUiThread(() -> {
-                    recipes.clear();
-                    recipes.addAll(dbRecipes);
-                    recipeAdapter.updateRecipes(new ArrayList<>(recipes));
-                });
-            }
-        }).start();
-    }*/
     @Override
     public void onRecipeCreated(Recipe recipe) {
-        /*new Thread(() -> {
-            recipeDatabase.recipeDao().insertRecipe(recipe);
 
-            if (isAdded()) {
-                requireActivity().runOnUiThread(() -> {
-                    recipes.add(recipe);
-                    recipeAdapter.updateRecipes(new ArrayList<>(recipes));
-                });
-            }
-        }).start();*/
     }
 
     @Override
     public void onSearchRecipesMenu() {
-        // Show a dialog or navigate to a search fragment
         showSearchDialog();
     }
 
     private void showSearchDialog() {
-        /*AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
-        builder.setTitle("Search Recipes");
 
-        final EditText input = new EditText(requireContext());
-        builder.setView(input);
-
-        builder.setPositiveButton("Search", (dialog, which) -> {
-            String query = input.getText().toString();
-            new Thread(() -> {
-                List<Recipe> searchResults = recipeDatabase.recipeDao().searchRecipes("%" + query + "%");
-                if (isAdded()) {
-                    requireActivity().runOnUiThread(() -> {
-                        recipeAdapter.updateRecipes(searchResults);
-                    });
-                }
-            }).start();
-        });
-
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-        builder.show();*/
     }
-
-    /*public void fetchRecipesFromAPI() {
-        new Thread(() -> {
-            try {
-                // Call API Service to fetch recipes
-                RecipeService recipeService = new RecipeService();
-                List<Recipe> apiRecipes = recipeService.fetchRecipes("chicken"); // Example query
-
-                // Update UI with recipes
-                if (isAdded()) {
-                    requireActivity().runOnUiThread(() -> {
-                        recipes.addAll(apiRecipes);
-                        recipeAdapter = new RecipeAdapter(new ArrayList<>(recipes), requireContext(), this);
-                        recyclerView.setAdapter(recipeAdapter);
-                    });
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                if (isAdded()) {
-                    requireActivity().runOnUiThread(() -> {
-                        Snackbar.make(binding.getRoot(), "Failed to load recipes.", Snackbar.LENGTH_LONG).show();
-                    });
-                }
-            }
-        }).start();
-    }*/
 
     public Set<Recipe> getAllRecipes() {
         // Ensure the cookbook is not null
@@ -224,7 +138,6 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
                     Snackbar.make(binding.getRoot(), "Recipe deleted", Snackbar.LENGTH_SHORT).show();
                 }
         );
-
         recyclerView.setAdapter(recipeAdapter);
     }
 }

@@ -225,6 +225,7 @@
                 android:layout_centerVertical="true" />
         </RelativeLayout>
 
+
         <LinearLayout
             android:id="@+id/instructions_layout"
             android:layout_width="match_parent"
@@ -240,6 +241,40 @@
                 android:textColor="#666666"
                 android:lineSpacingExtra="6dp" />
         </LinearLayout>
+
+        <!-- Tags Section -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
+
+            <!-- Tags Header -->
+            <TextView
+                android:id="@+id/tags_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tags"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/tagsLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="start|center_vertical"
+            android:paddingStart="0dp"
+            android:paddingEnd="16dp">
+
+            <!-- The tags will be dynamically added here -->
+        </LinearLayout>
+
 
     </LinearLayout>
 </ScrollView>

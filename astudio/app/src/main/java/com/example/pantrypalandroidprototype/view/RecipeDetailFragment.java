@@ -1,18 +1,23 @@
 package com.example.pantrypalandroidprototype.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 import com.example.pantrypalandroidprototype.databinding.FragmentRecipeDetailBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
@@ -79,11 +84,46 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
             binding.ingredientsLayout.addView(ingredientView);
         }
 
+        // Add dietary tags to the layout dynamically
+        if (recipe.getTags() != null && !recipe.getTags().isEmpty()) {
+            Log.d(TAG, "Recipe tags found: " + recipe.getTags());
+            for (Ingredient.dietary_tags tag : recipe.getTags()) {
+                String tagString = tag.name();
+                Log.d(TAG, "Processing tag: " + tagString);
+
+                // Create a new TextView for each tag
+                TextView tagView = new TextView(getContext());
+                tagView.setText(tagString);  // Display the tag name
+                tagView.setTextSize(16);  // Set font size for readability
+                tagView.setTextColor(Color.WHITE);  // Set text color to white
+                tagView.setPadding(20, 10, 20, 10);  // Add padding for spacing inside the tag
+                tagView.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                ));
+                tagView.setBackgroundResource(R.drawable.circular_tag_background);  // Apply circular background
+
+                // Add margin between tags
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tagView.getLayoutParams();
+                params.setMargins(8, 0, 8, 0); // Set margin to add spacing between tags
+                tagView.setLayoutParams(params);
+
+                // Add the tag view to the tags layout
+                binding.tagsLayout.addView(tagView);
+            }
+        } else {
+            Log.d(TAG, "No tags found for recipe: " + recipe.getRecipeName());
+            TextView noTagsView = new TextView(getContext());
+            noTagsView.setText("No tags available");
+            noTagsView.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+            binding.tagsLayout.addView(noTagsView);
+        }
+
+
         // Set the recipe instructions
         binding.recipeInstructions.setText(recipe.instructions);
 
         //Set up the "Edit" button to navigate to AddRecipeIngredientFragment
-        Log.d(TAG, "Edit Button Clicked");
+        //Log.d(TAG, "Edit Button Clicked");
         binding.editRecipeIngredient.setOnClickListener(v -> {
             if (listener != null) {
                 Log.d(TAG, "Listener triggered");

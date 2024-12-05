@@ -164,7 +164,6 @@ public class Pantry implements Serializable {
     }
 
     public Map<Ingredient, Double> getGroceryList() {
-        // Assuming `ingredients` is a collection in Pantry
         Map<Ingredient, Double> groceryList = new HashMap<>();
         for (Ingredient ingredient : this.ingredientList.values()) {
             groceryList.put(ingredient, ingredient.getQuantity());

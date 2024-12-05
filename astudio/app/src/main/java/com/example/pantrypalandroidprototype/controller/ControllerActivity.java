@@ -628,7 +628,6 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onEditInstructionDone() {
-        // Return to the recipe detail view or any other relevant fragment
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
         //Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
     }
