@@ -243,6 +243,10 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
                 } catch (IllegalArgumentException e) {
                     Snackbar.make(getView(), "Invalid tag entered", Snackbar.LENGTH_SHORT).show();
                 }
+            } else if (requestCode == REQUEST_DELETE_TAG) {
+                // Handle tag deletion from the dialog result
+                Ingredient.dietary_tags tagToDelete = Ingredient.dietary_tags.valueOf(newValue.toUpperCase());
+                deleteTag(tagToDelete);  // Delete the tag from the recipe
             }
         });
     }
