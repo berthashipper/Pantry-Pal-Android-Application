@@ -408,7 +408,9 @@ public class ManageRecipeEditsInstrumentedTest {
                         ViewActions.click()
                 ));
 
-        // Click the "Delet tag" button
+        // Click the "Deleet tag" button
+        Espresso.onView(ViewMatchers.withId(R.id.tagsLayout))
+                .perform(ViewActions.scrollCompletelyTo());
         Espresso.onView(ViewMatchers.withId(R.id.deleteTagButton))
                 .perform(ViewActions.click());
 
