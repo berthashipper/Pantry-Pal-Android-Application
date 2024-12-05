@@ -714,11 +714,23 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void shopFor(Set<Ingredient> ingredients) {
+        // Call pantry's shopFor method to ensure ingredients aren't duplicated
+        pantry.shopFor(currentRecipe);
+
         for (Ingredient ingredient : ingredients) {
-            groceryList.put(ingredient, ingredient.getQuantity());
+            // Check if the ingredient is already in the pantry
+            Ingredient pantryIngredient = pantry.getIngredient(ingredient.getName().toLowerCase());
+            if (pantryIngredient != null && pantryIngredient.getQuantity() > 0) {
+                // If the ingredient is in the pantry, skip adding it to the grocery list
+                System.out.println("Sufficient " + ingredient.getName() + " already in the pantry, skipping grocery list.");
+            } else {
+                // If the ingredient is not in the pantry, add it to the grocery list
+                groceryList.put(ingredient, ingredient.getQuantity());
+                System.out.println("Added " + ingredient.getQuantity() + " " + ingredient.getUnit() + " of " + ingredient.getName() + " to the grocery list.");
+            }
         }
 
-        // Save updated list to persistence layer
+        // Save updated grocery list to persistence layer
         pantry.setGroceryList(groceryList);
         persFacade.saveGroceryList(groceryList);
 

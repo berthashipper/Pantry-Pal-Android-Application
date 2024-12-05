@@ -191,8 +191,6 @@ public class Pantry implements Serializable {
         }
     }
 
-
-
     /**
      * Retrieves the number of items in the pantry.
      *
@@ -200,6 +198,10 @@ public class Pantry implements Serializable {
      */
     public int getNPantryItems() {
         return this.ingredientList.size();
+    }
+
+    public Ingredient getIngredient(String ingredientName) {
+        return ingredientList.get(ingredientName.toLowerCase());
     }
 
     /**
@@ -269,8 +271,6 @@ public class Pantry implements Serializable {
             }
         }
     }
-
-
 
 
     /**
