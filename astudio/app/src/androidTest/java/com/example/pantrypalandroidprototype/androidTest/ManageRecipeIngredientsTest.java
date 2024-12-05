@@ -46,9 +46,9 @@ public class ManageRecipeIngredientsTest {
             Espresso.onView(ViewMatchers.withId(R.id.edit_recipe_ingredient))
                     .perform(ViewActions.click());
 
-            typeText(R.id.itemNameText, "Chicken Breast");
+            typeText(R.id.itemNameText, "Garlic");
             // Enter the edited quantity
-            typeText(R.id.itemQuantityText, "600");
+            typeText(R.id.itemQuantityText, "3");
 
             // Click the Edit button to confirm
             Espresso.onView(ViewMatchers.withId(R.id.editButton))
@@ -62,7 +62,7 @@ public class ManageRecipeIngredientsTest {
 
             SystemClock.sleep(2000);
 
-            Espresso.onView(ViewMatchers.withText("600.0 g of Chicken Breast"))
+            Espresso.onView(ViewMatchers.withText("3.0 cloves of Garlic"))
                     .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
             SystemClock.sleep(2000);
         }
