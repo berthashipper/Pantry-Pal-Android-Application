@@ -11,7 +11,7 @@ public interface IRecipeDetailView {
         void onEditRecipeIngredients();
         void onAddRecipeIngredients();
         void onDeleteRecipeIngredients();
-        void onEditInstructions();
         void onScaleRecipeMenu();
+        void onEditInstructions(String currentInstructions);
     }
 }

@@ -610,43 +610,29 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onDeleteRecipeDone() {
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
-        Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
+        //Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
-    public void onEditInstructions() {
-        EditInstructionFragment editInstructionFragment = EditInstructionFragment.newInstance(this);
+    public void onEditInstructions(String currentInstructions) {
+        EditInstructionFragment editInstructionFragment = EditInstructionFragment.newInstance(this, currentInstructions);
         this.mainView.displayFragment(editInstructionFragment);
+        persFacade.saveCookbook(cookbook);
     }
 
     @Override
     public void onEditInstruction(String instruction) {
-            currentRecipe.instructions = instruction;
-    }
-
-    @Override
-    public void onAddInstruction(String instruction) {
-        // Retrieve existing instructions from the model
-        String existingInstructions = currentRecipe.getInstructions();
-
-        // If existing instructions are not empty, add a newline or bullet point for separation
-        if (!existingInstructions.isEmpty()) {
-            existingInstructions += "\n"; // Use "\n" or "\n• " for bullet points
-        }
-
-        // Add the new instruction to the existing ones
-        existingInstructions += instruction;
-
-        // Update the recipe model with the new combined instructions
-        currentRecipe.instructions = existingInstructions;
+        currentRecipe.setInstructions(instruction);
+        persFacade.saveCookbook(cookbook);
     }
 
     @Override
     public void onEditInstructionDone() {
         // Return to the recipe detail view or any other relevant fragment
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
-        Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
+        //Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
     }
+
     @Override
     public void onAddIngredientToGroceryList(String name, double qty) {
         Ingredient newIngredient = new Ingredient(name, qty, "", new HashSet<>());

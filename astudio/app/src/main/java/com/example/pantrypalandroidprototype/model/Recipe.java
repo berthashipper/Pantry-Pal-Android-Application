@@ -104,6 +104,10 @@ public class Recipe implements Serializable {
         return instructions;
     }
 
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
     /**
      * Filters a list of recipes based on a query string contained in the recipe name.
      *

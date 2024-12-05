@@ -141,7 +141,6 @@ public class GenerateRecipesInstrumentedTest {
      * @param unit  the unit of the ingredient.
      */
     public static void addIngredient(String name, String qty, String unit) {
-        // Wait until the "Add Ingredient" form is visible
         Espresso.onView(ViewMatchers.withId(R.id.itemNameText))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 

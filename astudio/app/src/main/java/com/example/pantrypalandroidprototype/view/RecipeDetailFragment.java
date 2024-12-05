@@ -108,7 +108,7 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
         // Set up the "Edit" button to navigate back to EditInstructionFragment
         binding.editInstruction.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onEditInstructions(); // Notify listener when Done is pressed
+                listener.onEditInstructions(recipe.getInstructions()); // Pass current instructions
             }
         });
 

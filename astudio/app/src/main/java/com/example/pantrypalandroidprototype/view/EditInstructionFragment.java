@@ -14,9 +14,8 @@ import com.example.pantrypalandroidprototype.model.RecipeBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 public class EditInstructionFragment extends Fragment implements IEditInstructionView {
-
-    private FragmentEditInstructionBinding binding;
-    private Listener listener;
+    FragmentEditInstructionBinding binding;
+    Listener listener;
 
     /**
      * Creates a new instance of the fragment with a listener.
@@ -24,9 +23,12 @@ public class EditInstructionFragment extends Fragment implements IEditInstructio
      * @param listener The listener to handle interactions from this fragment.
      * @return A new instance of the fragment.
      */
-    public static EditInstructionFragment newInstance(Listener listener) {
+    public static EditInstructionFragment newInstance(Listener listener, String currentInstructions) {
         EditInstructionFragment fragment = new EditInstructionFragment();
         fragment.listener = listener;
+        Bundle args = new Bundle();
+        args.putString("currentInstructions", currentInstructions);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -37,6 +39,8 @@ public class EditInstructionFragment extends Fragment implements IEditInstructio
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentEditInstructionBinding.inflate(inflater, container, false);
+        String currentInstructions = getArguments().getString("currentInstructions", "");
+        binding.instructionEditText.setText(currentInstructions); // Pre-fill the input
         return binding.getRoot();
     }
 
@@ -47,9 +51,9 @@ public class EditInstructionFragment extends Fragment implements IEditInstructio
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.addButton.setOnClickListener(v -> onAddInstructionButtonClicked());
-        binding.editButton.setOnClickListener(v -> onEditInstructionButtonClicked());
-        binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
+        //binding.addButton.setOnClickListener(v -> onAddInstructionButtonClicked());
+        //binding.editButton.setOnClickListener(v -> onEditInstructionButtonClicked());
+        binding.doneButton.setOnClickListener(v -> onInstructionSubmitted());
 
         binding.backToRecipeButton.setOnClickListener(v -> {
             if (listener != null) {
@@ -58,7 +62,7 @@ public class EditInstructionFragment extends Fragment implements IEditInstructio
         });
     }
 
-    private void onAddInstructionButtonClicked() {
+    private void onInstructionSubmitted() {
         String instruction = binding.instructionEditText.getText().toString().trim();
 
         if (instruction.isEmpty()) {
@@ -66,49 +70,17 @@ public class EditInstructionFragment extends Fragment implements IEditInstructio
             return;
         }
 
-        // Add instruction to the recipe model
-        if (listener != null) {
-            listener.onAddInstruction(instruction);
-        }
-
-        // Notify user and clear the input field
-        showInstructionAddedMessage(instruction);
-        clearInstructionField();
-    }
-
-
-    /**
-     * Handles the Add Instruction button click event.
-     * Validates input and notifies the listener to add the instruction.
-     */
-    private void onEditInstructionButtonClicked() {
-        String instruction = binding.instructionEditText.getText().toString().trim();
-
-        if (instruction.isEmpty()) {
-            showError("Please enter a valid instruction");
-            return;
-        }
-
-        // Add instruction to the recipe model
         if (listener != null) {
             listener.onEditInstruction(instruction);
         }
 
-        // Notify user and clear the input field
-        showInstructionAddedMessage(instruction);
-        clearInstructionField();
-    }
+        showInstructionAddedMessage("Instruction updated");
 
-
-    /**
-     * Handles the Done button click event.
-     * Notifies the listener that the editing process is complete.
-     */
-    private void onDoneButtonClicked() {
+        // Notify the listener to go back to the recipe detail view
         if (listener != null) {
-            listener.onEditInstructionDone();
+            listener.onBackToRecipe();
         }
-        Snackbar.make(binding.getRoot(), "Returning to Recipe Details", Snackbar.LENGTH_LONG).show();
+        clearInstructionField();
     }
 
     /**
@@ -121,10 +93,10 @@ public class EditInstructionFragment extends Fragment implements IEditInstructio
     /**
      * Displays a Snackbar message indicating a successful addition of the instruction.
      *
-     * @param instruction The instruction that was added.
+     * @param message The instruction that was added.
      */
-    private void showInstructionAddedMessage(String instruction) {
-        Snackbar.make(binding.getRoot(), "Instruction added: " + instruction, Snackbar.LENGTH_LONG).show();
+    private void showInstructionAddedMessage(String message) {
+        Snackbar.make(binding.getRoot(), message, Snackbar.LENGTH_SHORT).show();
     }
 
     /**
