@@ -261,6 +261,17 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="8dp" />
 
+            <!-- Delete Icon -->
+            <ImageView
+                android:id="@+id/deleteTagButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/delete_icon"
+                android:contentDescription="Delete Tags"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="8dp" />
+
             <!-- Add Icon -->
             <ImageView
                 android:id="@+id/addTagButton"
@@ -268,9 +279,10 @@
                 android:layout_height="24dp"
                 android:src="@drawable/upload_icon"
                 android:contentDescription="Add Tags"
-                android:layout_alignParentEnd="true"
+                android:layout_toStartOf="@id/deleteTagButton"
+                android:layout_centerVertical="true"
                 android:layout_marginEnd="8dp"
-                android:layout_centerVertical="true" />
+                android:layout_marginStart="8dp" />
         </RelativeLayout>
 
         <com.google.android.flexbox.FlexboxLayout

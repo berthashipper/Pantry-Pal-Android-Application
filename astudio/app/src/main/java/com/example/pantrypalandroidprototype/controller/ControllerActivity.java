@@ -705,4 +705,10 @@ public class ControllerActivity extends AppCompatActivity
         persFacade.saveCookbook(cookbook);  // Save the updated cookbook
         mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Refresh the view
     }
+
+    public void removeTagFromRecipe(Recipe recipe, Ingredient.dietary_tags tag) {
+        recipe.removeTag(tag); // Remove tag from recipe
+        persFacade.saveCookbook(cookbook);  // Save the updated cookbook
+        mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Refresh the view
+    }
 }

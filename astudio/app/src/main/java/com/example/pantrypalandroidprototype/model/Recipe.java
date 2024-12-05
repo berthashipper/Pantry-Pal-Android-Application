@@ -148,6 +148,12 @@ public class Recipe implements Serializable {
         recipeTags.add(tag);
     }
 
+    public void removeTag(Ingredient.dietary_tags tag) {
+        if (recipeTags != null) {
+            recipeTags.remove(tag);
+        }
+    }
+
     /**
      * Retrieves the name of the recipe.
      *

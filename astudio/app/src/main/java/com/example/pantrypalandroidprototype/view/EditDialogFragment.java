@@ -2,6 +2,7 @@ package com.example.pantrypalandroidprototype.view;
 import androidx.fragment.app.FragmentResultListener;
 
 import static com.example.pantrypalandroidprototype.view.RecipeDetailFragment.REQUEST_ADD_TAG;
+import static com.example.pantrypalandroidprototype.view.RecipeDetailFragment.REQUEST_DELETE_TAG;
 import static com.example.pantrypalandroidprototype.view.RecipeDetailFragment.REQUEST_EDIT_COOK_TIME;
 import static com.example.pantrypalandroidprototype.view.RecipeDetailFragment.REQUEST_EDIT_SERVING_SIZE;
 
@@ -42,7 +43,8 @@ public class EditDialogFragment extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(requestCode == REQUEST_EDIT_COOK_TIME ? "Edit Cook Time" :
-                (requestCode == REQUEST_EDIT_SERVING_SIZE ? "Edit Serving Size" : "Add Tag"));
+                (requestCode == REQUEST_EDIT_SERVING_SIZE ? "Edit Serving Size" :
+                        (requestCode == REQUEST_ADD_TAG ? "Add Tag" : "Enter Tag to Delete")));
 
         final EditText input = new EditText(getActivity());
 
@@ -57,6 +59,9 @@ public class EditDialogFragment extends DialogFragment {
         } else if (requestCode == REQUEST_EDIT_SERVING_SIZE) {
             input.setText(String.valueOf(recipe.getServingSize()));
             input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        } else if (requestCode == REQUEST_DELETE_TAG) {
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            input.setHint("Enter a tag");
         }
 
         builder.setView(input);
@@ -80,5 +85,4 @@ public class EditDialogFragment extends DialogFragment {
 
         return builder.create();
     }
-
 }

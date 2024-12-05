@@ -1,5 +1,6 @@
 package com.example.pantrypalandroidprototype.view;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
     static final int REQUEST_EDIT_COOK_TIME = 1;
     static final int REQUEST_EDIT_SERVING_SIZE = 2;
     static final int REQUEST_ADD_TAG = 3;
+    static final int REQUEST_DELETE_TAG = 4;
 
 
     public static RecipeDetailFragment newInstance(Recipe recipe) {
@@ -116,6 +118,10 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
                 params.setMargins(8, 0, 8, 0); // Set margin to add spacing between tags
                 tagView.setLayoutParams(params);
 
+                tagView.setOnClickListener(v -> {
+                    showDeleteTagConfirmationDialog(tag);  // Show confirmation dialog before deletion
+                });
+
                 // Add the tag view to the tags layout
                 binding.tagsLayout.addView(tagView);
             }
@@ -192,6 +198,11 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
             showEditDialog(REQUEST_ADD_TAG);
         });
 
+        // Set up the "Delete Tag" button
+        binding.deleteTagButton.setOnClickListener(v -> {
+            showEditDialog(REQUEST_DELETE_TAG);
+        });
+
         return binding.getRoot();
     }
 
@@ -250,9 +261,32 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         dialog.show(getParentFragmentManager(), "EditDialog");
     }
 
+    private void showDeleteTagConfirmationDialog(Ingredient.dietary_tags tag) {
+        new AlertDialog.Builder(getContext())
+                .setTitle("Delete Tag")
+                .setMessage("Are you sure you want to delete the tag '" + tag.name() + "'?")
+                .setPositiveButton("Yes", (dialog, which) -> deleteTag(tag))  // Confirm deletion
+                .setNegativeButton("No", null)  // Cancel deletion
+                .show();
+    }
+
+    private void deleteTag(Ingredient.dietary_tags tag) {
+        // Remove tag from recipe
+        recipe.removeTag(tag);
+
+        // Inform the controller to update the recipe data
+        controller.removeTagFromRecipe(recipe, tag);
+
+        // Refresh the tag display
+        updateTagsUI();
+
+        // Show confirmation
+        Snackbar.make(getView(), "Tag '" + tag.name() + "' deleted", Snackbar.LENGTH_SHORT).show();
+    }
+
     // Method to update the tags UI dynamically
     private void updateTagsUI() {
-        binding.tagsLayout.removeAllViews();  // Remove existing tags
+        binding.tagsLayout.removeAllViews();
 
         if (recipe.getTags() != null && !recipe.getTags().isEmpty()) {
             for (Ingredient.dietary_tags tag : recipe.getTags()) {
@@ -269,6 +303,11 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tagView.getLayoutParams();
                 params.setMargins(8, 0, 8, 0);
                 tagView.setLayoutParams(params);
+
+                // Set onClickListener to handle tag deletion
+                tagView.setOnClickListener(v -> {
+                    showDeleteTagConfirmationDialog(tag);  // Show confirmation dialog before deletion
+                });
 
                 // Add tag view to the layout
                 binding.tagsLayout.addView(tagView);
@@ -326,14 +365,14 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
                 tagView.setText(tag.name());
                 tagView.setTextSize(16);
                 tagView.setTextColor(Color.WHITE);
-                tagView.setPadding(20, 10, 20, 10);
+                tagView.setPadding(20, 20, 20, 20);
                 tagView.setLayoutParams(new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
                 ));
                 tagView.setBackgroundResource(R.drawable.circular_tag_background);
 
                 LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tagView.getLayoutParams();
-                params.setMargins(8, 0, 8, 0);
+                params.setMargins(8, 8, 8, 8);
                 tagView.setLayoutParams(params);
 
                 binding.tagsLayout.addView(tagView);
