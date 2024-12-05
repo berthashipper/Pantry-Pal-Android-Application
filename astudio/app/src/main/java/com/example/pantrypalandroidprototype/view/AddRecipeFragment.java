@@ -15,6 +15,7 @@ import com.example.pantrypalandroidprototype.databinding.FragmentAddRecipeBindin
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
 import com.example.pantrypalandroidprototype.model.RecipeBuilder;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.time.Duration;
 import java.util.HashSet;
@@ -56,7 +57,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         String unit = binding.ingredientUnitEditText.getText().toString().trim();
 
         if (name.isEmpty() || quantityString.isEmpty()) {
-            Toast.makeText(getContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            Snackbar.make(getView(), "Please fill in all fields", Snackbar.LENGTH_SHORT).show();
             return;
         }
 
@@ -72,7 +73,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         recipeBuilder.addIngredient(name, (int) quantity, unit, dietaryTags);
 
         // Notify user
-        Toast.makeText(getContext(), "Ingredient added: " + name, Toast.LENGTH_SHORT).show();
+        Snackbar.make(getView(), "Ingredient added: " + name, Snackbar.LENGTH_SHORT).show();
         clearIngredientFields();
     }
 
@@ -80,7 +81,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         String instruction = binding.instructionEditText.getText().toString().trim();
 
         if (instruction.isEmpty()) {
-            Toast.makeText(getContext(), "Please enter a valid instruction", Toast.LENGTH_SHORT).show();
+            Snackbar.make(getView(), "Please enter a valid instruction", Snackbar.LENGTH_SHORT).show();
             return;
         }
 
@@ -88,7 +89,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         recipeBuilder.addInstruction(instruction);
 
         // Notify user
-        Toast.makeText(getContext(), "Instruction added", Toast.LENGTH_SHORT).show();
+        Snackbar.make(getView(), "Instruction added", Snackbar.LENGTH_SHORT).show();
         clearInstructionField();
     }
 
@@ -99,7 +100,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         String servingSizeString = binding.servingSizeEditText.getText().toString().trim();
 
         if (recipeName.isEmpty()) {
-            Toast.makeText(getContext(), "Please provide a recipe name", Toast.LENGTH_SHORT).show();
+            Snackbar.make(getView(), "Please provide a recipe name", Snackbar.LENGTH_SHORT).show();
             return;
         }
 
@@ -110,7 +111,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
                 long cookTimeInMinutes = Long.parseLong(cookTimeString);
                 cookTime = Duration.ofMinutes(cookTimeInMinutes);
             } catch (NumberFormatException e) {
-                Toast.makeText(getContext(), "Please enter a valid cook time", Toast.LENGTH_SHORT).show();
+                Snackbar.make(getView(), "Please enter a valid cook time", Snackbar.LENGTH_SHORT).show();
                 return; // Return if invalid cook time entered
             }
         }
@@ -121,7 +122,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
             try {
                 servingSize = Integer.parseInt(servingSizeString);
             } catch (NumberFormatException e) {
-                Toast.makeText(getContext(), "Please enter a valid serving size", Toast.LENGTH_SHORT).show();
+                Snackbar.make(getView(), "Please enter a valid serving size", Snackbar.LENGTH_SHORT).show();
                 return; // Return if invalid serving size entered
             }
         }

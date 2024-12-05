@@ -45,6 +45,7 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
         super.onAttach(context);
         if (context instanceof ControllerActivity) {
             controller = (ControllerActivity) context;
+            listener = (Listener) context;
         } else {
             throw new RuntimeException(context.toString() + " must be an instance of ControllerActivity");
         }
@@ -82,8 +83,10 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
         binding.recipeInstructions.setText(recipe.instructions);
 
         //Set up the "Edit" button to navigate to AddRecipeIngredientFragment
+        Log.d(TAG, "Edit Button Clicked");
         binding.editRecipeIngredient.setOnClickListener(v -> {
             if (listener != null) {
+                Log.d(TAG, "Listener triggered");
                 listener.onEditRecipeIngredients();
             }
         });

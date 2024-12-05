@@ -214,12 +214,20 @@ public class CookbookInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.done_button))
                 .perform(ViewActions.click());
 
-        // Verify that is back to the viewCookbook fragment
+        SystemClock.sleep(2000);
+
+        // Verify back to cookbook
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .perform(RecyclerViewActions.scrollTo(
                         ViewMatchers.hasDescendant(ViewMatchers.withText("Grilled Cheese Sandwich"))
                 ));
+
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .check(ViewAssertions.matches(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Grilled Cheese Sandwich"))
+                ));
     }
+
 
     /**
      * Tests whether a recipe added to the cookbook is still there after navigating away and coming back.
