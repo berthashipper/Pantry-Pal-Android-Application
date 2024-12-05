@@ -699,4 +699,8 @@ public class ControllerActivity extends AppCompatActivity
             groceryListFragment.showDeletedMessage(ingredient);
         }
     }
+
+    public void onTagAdded(Recipe recipe, String newTag) {
+        // Implement the method to handle tag addition
+    }
 }

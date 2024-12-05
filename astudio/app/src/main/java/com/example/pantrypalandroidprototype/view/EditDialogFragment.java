@@ -1,7 +1,9 @@
 package com.example.pantrypalandroidprototype.view;
 import androidx.fragment.app.FragmentResultListener;
 
+import static com.example.pantrypalandroidprototype.view.RecipeDetailFragment.REQUEST_ADD_TAG;
 import static com.example.pantrypalandroidprototype.view.RecipeDetailFragment.REQUEST_EDIT_COOK_TIME;
+import static com.example.pantrypalandroidprototype.view.RecipeDetailFragment.REQUEST_EDIT_SERVING_SIZE;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -39,17 +41,22 @@ public class EditDialogFragment extends DialogFragment {
         Log.d("EditDialogFragment", "onCreateDialog: requestCode=" + requestCode + ", recipe=" + (recipe != null ? recipe.getRecipeName() : "null"));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(requestCode == REQUEST_EDIT_COOK_TIME ? "Edit Cook Time" : "Edit Serving Size");
+        builder.setTitle(requestCode == REQUEST_EDIT_COOK_TIME ? "Edit Cook Time" :
+                (requestCode == REQUEST_EDIT_SERVING_SIZE ? "Edit Serving Size" : "Add Tag"));
 
         final EditText input = new EditText(getActivity());
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
 
-        // Set input based on the type of edit
-        if (requestCode == REQUEST_EDIT_COOK_TIME) {
+        // Adjust input type based on requestCode
+        if (requestCode == REQUEST_ADD_TAG) {
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            input.setHint("Enter a tag");
+        } else if (requestCode == REQUEST_EDIT_COOK_TIME) {
             long cookTimeMinutes = recipe.getCookTime().toMinutes();
             input.setText(String.valueOf(cookTimeMinutes));
-        } else {
+            input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        } else if (requestCode == REQUEST_EDIT_SERVING_SIZE) {
             input.setText(String.valueOf(recipe.getServingSize()));
+            input.setInputType(InputType.TYPE_CLASS_NUMBER);
         }
 
         builder.setView(input);
@@ -62,7 +69,6 @@ public class EditDialogFragment extends DialogFragment {
                 result.putString("new_value", newValue);
                 Log.d("EditDialogFragment", "Save clicked: requestCode=" + requestCode + ", newValue=" + newValue);
 
-                // Send the result back to the parent fragment
                 requireActivity().getSupportFragmentManager()
                         .setFragmentResult("edit_request", result);
             } else {
@@ -74,4 +80,5 @@ public class EditDialogFragment extends DialogFragment {
 
         return builder.create();
     }
+
 }

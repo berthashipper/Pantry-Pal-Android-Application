@@ -26,15 +26,17 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.time.Duration;
 
-public class RecipeDetailFragment extends Fragment implements IRecipeDetailView {
+public class RecipeDetailFragment extends Fragment implements IRecipeDetailView, EditTagDialogFragment.TagActionListener {
     static final String TAG = RecipeDetailFragment.class.getSimpleName();
     static final String ARG_RECIPE = "recipe";
     Recipe recipe;
     Listener listener;
+    EditTagDialogFragment.TagActionListener tagActionListener;
     FragmentRecipeDetailBinding binding;
     ControllerActivity controller;
     static final int REQUEST_EDIT_COOK_TIME = 1;
     static final int REQUEST_EDIT_SERVING_SIZE = 2;
+    static final int REQUEST_ADD_TAG = 3;
 
 
     public static RecipeDetailFragment newInstance(Recipe recipe) {
@@ -51,6 +53,12 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
         if (context instanceof ControllerActivity) {
             controller = (ControllerActivity) context;
             listener = (Listener) context;
+            // Set tagActionListener to the parent activity or fragment
+            if (context instanceof EditTagDialogFragment.TagActionListener) {
+                tagActionListener = (EditTagDialogFragment.TagActionListener) context;
+            } else {
+                Log.e(TAG, "Parent activity does not implement TagActionListener");
+            }
         } else {
             throw new RuntimeException(context.toString() + " must be an instance of ControllerActivity");
         }
@@ -123,7 +131,6 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
         binding.recipeInstructions.setText(recipe.instructions);
 
         //Set up the "Edit" button to navigate to AddRecipeIngredientFragment
-        //Log.d(TAG, "Edit Button Clicked");
         binding.editRecipeIngredient.setOnClickListener(v -> {
             if (listener != null) {
                 Log.d(TAG, "Listener triggered");
@@ -178,6 +185,12 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
             showEditDialog(REQUEST_EDIT_SERVING_SIZE);
         });
 
+        // Set up the "Add Tag" button
+        binding.addTagButton.setOnClickListener(v -> {
+            Log.d(TAG, "Add Tag button clicked");
+            showEditDialog(REQUEST_ADD_TAG);
+        });
+
         return binding.getRoot();
     }
 
@@ -207,6 +220,12 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
                 controller.setServingSize(Integer.parseInt(newValue), recipe);
                 binding.recipeServingSize.setText(newValue + " servings");
                 Snackbar.make(getView(), "Yield updated to " + newValue, Snackbar.LENGTH_SHORT).show();
+            } else if (requestCode == REQUEST_ADD_TAG) {
+                // Add the new tag to the recipe
+                Ingredient.dietary_tags newTag = Ingredient.dietary_tags.valueOf(newValue.toUpperCase());
+                recipe.addTag(newTag);
+                Snackbar.make(getView(), "Tag added: " + newTag, Snackbar.LENGTH_SHORT).show();
+                updateTagsUI();
             }
         });
     }
@@ -223,6 +242,37 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
         Log.d(TAG, "Showing EditDialog with requestCode=" + requestCode);
         EditDialogFragment dialog = EditDialogFragment.newInstance(requestCode, recipe);
         dialog.show(getParentFragmentManager(), "EditDialog");
+    }
+
+    // Method to update the tags UI dynamically
+    private void updateTagsUI() {
+        binding.tagsLayout.removeAllViews();  // Remove existing tags
+
+        if (recipe.getTags() != null && !recipe.getTags().isEmpty()) {
+            for (Ingredient.dietary_tags tag : recipe.getTags()) {
+                TextView tagView = new TextView(getContext());
+                tagView.setText(tag.name());  // Display the tag name
+                tagView.setTextSize(16);
+                tagView.setTextColor(Color.WHITE);
+                tagView.setPadding(20, 10, 20, 10);
+                tagView.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                ));
+                tagView.setBackgroundResource(R.drawable.circular_tag_background);
+
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tagView.getLayoutParams();
+                params.setMargins(8, 0, 8, 0);
+                tagView.setLayoutParams(params);
+
+                // Add tag view to the layout
+                binding.tagsLayout.addView(tagView);
+            }
+        } else {
+            TextView noTagsView = new TextView(getContext());
+            noTagsView.setText("No tags available");
+            noTagsView.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+            binding.tagsLayout.addView(noTagsView);
+        }
     }
 
     @Override
@@ -256,5 +306,37 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView 
 
     public void onBackToRecipe() {
         controller.onBackToRecipe(recipe);  // Delegate to controller
+    }
+
+    @Override
+    public void onTagAdded(Recipe recipe, String newTag) {
+        // Clear the existing tags and add the updated ones
+        binding.tagsLayout.removeAllViews();
+
+        // Add the updated tags to the layout
+        if (recipe.getTags() != null && !recipe.getTags().isEmpty()) {
+            for (Ingredient.dietary_tags tag : recipe.getTags()) {
+                TextView tagView = new TextView(getContext());
+                tagView.setText(tag.name());
+                tagView.setTextSize(16);
+                tagView.setTextColor(Color.WHITE);
+                tagView.setPadding(20, 10, 20, 10);
+                tagView.setLayoutParams(new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT
+                ));
+                tagView.setBackgroundResource(R.drawable.circular_tag_background);
+
+                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) tagView.getLayoutParams();
+                params.setMargins(8, 0, 8, 0);
+                tagView.setLayoutParams(params);
+
+                binding.tagsLayout.addView(tagView);
+            }
+        } else {
+            TextView noTagsView = new TextView(getContext());
+            noTagsView.setText("No tags available");
+            noTagsView.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
+            binding.tagsLayout.addView(noTagsView);
+        }
     }
 }

@@ -2,7 +2,6 @@ package com.example.pantrypalandroidprototype.persistence;
 
 import com.example.pantrypalandroidprototype.model.Cookbook;
 import com.example.pantrypalandroidprototype.model.Ingredient;
-import com.example.pantrypalandroidprototype.model.Ledger;
 import com.example.pantrypalandroidprototype.model.Pantry;
 
 import java.util.Map;

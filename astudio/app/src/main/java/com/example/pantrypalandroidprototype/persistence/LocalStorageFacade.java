@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.example.pantrypalandroidprototype.model.Cookbook;
 import com.example.pantrypalandroidprototype.model.Ingredient;
-import com.example.pantrypalandroidprototype.model.Ledger;
 import com.example.pantrypalandroidprototype.model.Pantry;
 
 import java.io.File;
