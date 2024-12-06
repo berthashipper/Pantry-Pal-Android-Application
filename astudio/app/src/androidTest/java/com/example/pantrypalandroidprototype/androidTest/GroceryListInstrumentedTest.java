@@ -127,6 +127,63 @@ public class GroceryListInstrumentedTest {
     }
 
     /**
+     * Tests the "Shop For" functionality in recipes adding to grocery list
+     */
+    @Test
+    public void testShopForAddsToGroceryList() {
+        Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton))
+                .perform(ViewActions.click());
+        // Clear pantry from any persisted ingredients
+        Espresso.onView(ViewMatchers.withId(R.id.clearPantryButton))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withText("Yes"))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Chocolate Cake")),
+                        ViewActions.click()
+                ));
+
+        SystemClock.sleep(1000);
+
+        Espresso.onView(ViewMatchers.withId(R.id.shopForButton))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_grocery_list))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(1000);
+
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_grocery_list))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Sugar")),
+                        ViewActions.click()
+                ));
+
+        Espresso.onView(ViewMatchers.withText(CoreMatchers.containsString("150.0")))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_grocery_list))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Cocoa Powder")),
+                        ViewActions.click()
+                ));
+
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_grocery_list))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Flour")),
+                        ViewActions.click()
+                ));
+
+        Espresso.onView(ViewMatchers.withText(CoreMatchers.containsString("200.0")))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    /**
      * Helper method to type text into a text field.
      *
      * @param viewId the id of the text field to type into.
