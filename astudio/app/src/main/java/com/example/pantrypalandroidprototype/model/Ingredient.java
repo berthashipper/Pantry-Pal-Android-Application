@@ -128,6 +128,7 @@ public class Ingredient implements Serializable {
      * @param tag The dietary tag to add.
      */
     public void addDietaryTag(String tag) {
+        tag = tag.toUpperCase();
         tags.add(tag);
     }
 

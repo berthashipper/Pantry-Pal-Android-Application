@@ -728,7 +728,7 @@ public class ControllerActivity extends AppCompatActivity
     }
 
     public void addTagToRecipe(Recipe recipe, String newTag) {
-        String tag = newTag.toUpperCase();
+        newTag = newTag.toUpperCase();
         currentRecipe.addTag(newTag);
         currentRecipe.addDynamicTag(newTag); // Add the dynamic tag
         Log.d("AddTag", "Added dynamic tag: " + newTag);

@@ -277,7 +277,7 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
                 }
             } else if (requestCode == REQUEST_DELETE_TAG) {
                 // Handle tag deletion safely
-                String tagName = newValue;
+                String tagName = newValue.toUpperCase();
 
                 // Check if it is a valid dietary_tags enum value
                 /*Ingredient.dietary_tags tagToDelete = null;
