@@ -96,7 +96,7 @@ public class Cookbook implements Serializable {
                 .addInstruction("Add ground beef and cook until browned, breaking it up as it cooks. Season with salt and pepper.")
                 .addInstruction("Stir in tomato sauce and simmer for 15 minutes, adding reserved pasta water to adjust sauce consistency.")
                 .addInstruction("Serve the sauce over spaghetti with a sprinkle of grated Parmesan.")
-                .addTag("Dairy Free")
+                .addTag("DAIRY FREE")
                 .setDescription("A hearty Italian classic with a rich, savory sauce over pasta.")
                 .setCookTime(Duration.ofMinutes(40))
                 .setServingSize(4)

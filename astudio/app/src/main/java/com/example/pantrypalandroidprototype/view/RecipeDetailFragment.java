@@ -268,10 +268,14 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
             } else if (requestCode == REQUEST_ADD_TAG) {
                 String newTag = newValue.trim();
                 if (!newTag.isEmpty()) {
-                    controller.addTagToRecipe(recipe, newTag);  // Call controller to handle tag addition/creation
-                    Snackbar.make(getView(), "Tag added: " + newTag, Snackbar.LENGTH_SHORT).show();
-                    Log.d(TAG, "Added tag via result listener: " + newTag);
-                    updateTagsUI();  // Refresh UI
+                    if (recipe.getDietaryTags().contains(newTag.toUpperCase())) {
+                        Snackbar.make(getView(), "Tag already exists: " + newTag, Snackbar.LENGTH_SHORT).show();
+                    } else {
+                        controller.addTagToRecipe(recipe, newTag);  // Call controller to handle tag addition/creation
+                        Snackbar.make(getView(), "Tag added: " + newTag, Snackbar.LENGTH_SHORT).show();
+                        Log.d(TAG, "Added tag via result listener: " + newTag);
+                        updateTagsUI();  // Refresh UI
+                    }
                 } else {
                     Snackbar.make(getView(), "Invalid tag entered", Snackbar.LENGTH_SHORT).show();
                 }
