@@ -27,7 +27,7 @@ public class Recipe implements Serializable {
     public String instructions;
 
     /** The set of dietary tags associated with the recipe. */
-    public Set<Ingredient.dietary_tags> recipeTags;
+    //public Set<Ingredient.dietary_tags> recipeTags;
     public Set<String> recipeTagsStrings;
     public final Set<String> dynamicTags;
 
@@ -48,11 +48,6 @@ public class Recipe implements Serializable {
 
     /** The URL of the image representing the recipe. */
     public String imageUrl;
-
-    public Recipe() {
-        this.recipeTags = new HashSet<>();
-        this.dynamicTags = new HashSet<>();
-    }
 
     /**
      * Constructor for creating a {@code Recipe} object with basic details from EDAMAM recipes.

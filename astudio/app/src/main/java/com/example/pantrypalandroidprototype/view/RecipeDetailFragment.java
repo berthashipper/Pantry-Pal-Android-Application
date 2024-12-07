@@ -269,28 +269,18 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
                 String newTag = newValue.trim();
                 if (!newTag.isEmpty()) {
                     if (recipe.getDietaryTags().contains(newTag.toUpperCase())) {
-                        Snackbar.make(getView(), "Tag already exists: " + newTag, Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(getView(), "Tag already exists: " + newTag.toUpperCase(), Snackbar.LENGTH_SHORT).show();
                     } else {
                         controller.addTagToRecipe(recipe, newTag);  // Call controller to handle tag addition/creation
-                        Snackbar.make(getView(), "Tag added: " + newTag, Snackbar.LENGTH_SHORT).show();
-                        Log.d(TAG, "Added tag via result listener: " + newTag);
+                        Snackbar.make(getView(), "Tag added: " + newTag.toUpperCase(), Snackbar.LENGTH_SHORT).show();
+                        Log.d(TAG, "Added tag via result listener: " + newTag.toUpperCase());
                         updateTagsUI();  // Refresh UI
                     }
                 } else {
                     Snackbar.make(getView(), "Invalid tag entered", Snackbar.LENGTH_SHORT).show();
                 }
             } else if (requestCode == REQUEST_DELETE_TAG) {
-                // Handle tag deletion safely
                 String tagName = newValue.toUpperCase();
-
-                // Check if it is a valid dietary_tags enum value
-                /*Ingredient.dietary_tags tagToDelete = null;
-                try {
-                    tagToDelete = Ingredient.dietary_tags.valueOf(tagName);
-                } catch (IllegalArgumentException e) {
-                    Log.e(TAG, "Tag name is invalid: " + tagName, e);
-                }*/
-
                 if (tagName != null && recipe.getTags().contains(tagName)) {
                     controller.removeTagFromRecipe(recipe, tagName);
                     Snackbar.make(getView(), "Tag deleted: " + tagName, Snackbar.LENGTH_SHORT).show();

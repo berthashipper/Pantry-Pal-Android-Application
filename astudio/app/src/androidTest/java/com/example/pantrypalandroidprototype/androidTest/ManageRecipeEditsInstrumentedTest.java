@@ -345,6 +345,48 @@ public class ManageRecipeEditsInstrumentedTest {
     }
 
     /**
+     * Tests trying to add a tag to a recipe that already exists.
+     */
+    @org.junit.Test
+    public void testAddPreExistingTag() {
+        // Navigate to the cookbook screen
+        Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(3000);
+
+        String testName = "Spaghetti Bolognese";
+
+        // Select the recipe in the RecyclerView
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText(testName)),
+                        ViewActions.click()
+                ));
+
+        // Click the "Add tag" button
+        Espresso.onView(ViewMatchers.withId(R.id.tagsLayout))
+                .perform(ViewActions.scrollCompletelyTo());
+        SystemClock.sleep(2000);
+        Espresso.onView(ViewMatchers.withId(R.id.addTagButton))
+                .perform(ViewActions.click());
+
+        // Enter the new tag
+        Espresso.onView(ViewMatchers.withClassName(Matchers.equalTo(EditText.class.getName())))
+                .perform(ViewActions.clearText(), ViewActions.typeText("dairy free"));
+
+        // Confirm the changes by clicking the Save button
+        Espresso.onView(ViewMatchers.withText("Save"))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(2000);
+
+        // Verify snackbar
+        Espresso.onView(ViewMatchers.withText("Tag already exists: DAIRY FREE"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+    }
+
+    /**
      * Tests removing a tag from a recipe and verifying updates.
      */
     @org.junit.Test
@@ -355,7 +397,7 @@ public class ManageRecipeEditsInstrumentedTest {
 
         SystemClock.sleep(3000);
 
-        String testName = "Spaghetti Bolognese";
+        String testName = "Quinoa Salad";
 
         // Select the recipe in the RecyclerView
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
@@ -373,7 +415,7 @@ public class ManageRecipeEditsInstrumentedTest {
 
         // Enter the new tag
         Espresso.onView(ViewMatchers.withClassName(Matchers.equalTo(EditText.class.getName())))
-                .perform(ViewActions.clearText(), ViewActions.typeText("dairy_free"));
+                .perform(ViewActions.clearText(), ViewActions.typeText("high protein"));
 
         // Confirm the changes by clicking the Save button
         Espresso.onView(ViewMatchers.withText("Save"))
@@ -385,7 +427,7 @@ public class ManageRecipeEditsInstrumentedTest {
         // figure out how to scroll all the way down
         Espresso.onView(ViewMatchers.withId(R.id.tagsLayout))
                 .perform(ViewActions.scrollCompletelyTo());
-        Espresso.onView(ViewMatchers.withText("DAIRY_FREE"))
+        Espresso.onView(ViewMatchers.withText("HIGH PROTEIN"))
                 .check(ViewAssertions.doesNotExist());
 
         SystemClock.sleep(2000);

@@ -193,6 +193,7 @@ public class Cookbook implements Serializable {
                 .addInstruction("Whisk olive oil and lemon juice in a small bowl to make the dressing.")
                 .addInstruction("Chop fresh parsley and add it to the quinoa mixture along with the vegetables.")
                 .addInstruction("Toss everything together and drizzle with the dressing.")
+                .addTag("HIGH PROTEIN")
                 .setDescription("A refreshing salad made with quinoa, fresh veggies, and a zesty lemon dressing.")
                 .setCookTime(Duration.ofMinutes(25))
                 .setServingSize(4)
