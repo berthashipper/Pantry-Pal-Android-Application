@@ -198,7 +198,7 @@ public class BackToCookbookTest {
          */
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .perform(RecyclerViewActions.actionOnItem(
-                        ViewMatchers.hasDescendant(ViewMatchers.withText("Veggie Stir Fry")),
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Veggie Stir-Fry")),
                         ViewActions.click()
                 ));
 

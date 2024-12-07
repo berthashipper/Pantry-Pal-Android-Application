@@ -126,11 +126,11 @@ public class ManageRecipeEditsInstrumentedTest {
                 .perform(ViewActions.click());
 
         //Enter the new Ingredient Name
-        AddIngredientsInstrumentedTest.typeText(R.id.itemNameText, "Chicken Leg");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemNameText, "Cinnamon");
         // Enter the Added quantity
         AddIngredientsInstrumentedTest.typeText(R.id.itemQuantityText, "2");
         //Enter the Unit
-        AddIngredientsInstrumentedTest.typeText(R.id.itemUnitText, "pieces");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemUnitText, "tsp");
 
         Espresso.onView(ViewMatchers.withId(R.id.addButton))
                 .perform(ViewActions.click());
@@ -142,7 +142,7 @@ public class ManageRecipeEditsInstrumentedTest {
 
         SystemClock.sleep(2000);
 
-        Espresso.onView(ViewMatchers.withText("2.0 pieces of Chicken Leg"))
+        Espresso.onView(ViewMatchers.withText("2.0 tsp of Cinnamon"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         SystemClock.sleep(2000);

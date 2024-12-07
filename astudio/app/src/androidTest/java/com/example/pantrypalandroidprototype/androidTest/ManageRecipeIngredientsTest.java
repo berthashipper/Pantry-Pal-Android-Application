@@ -94,9 +94,9 @@ public class ManageRecipeIngredientsTest {
         //Enter the new Ingredient Name
         AddIngredientsInstrumentedTest.typeText(R.id.itemNameText, "Chicken Leg");
         // Enter the Added quantity
-        AddIngredientsInstrumentedTest.typeText(R.id.itemQuantityText, "200");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemQuantityText, "2");
         //Enter the Unit
-        AddIngredientsInstrumentedTest.typeText(R.id.itemUnitText, "g");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemUnitText, "pieces");
 
         // Click the Edit button to confirm
         Espresso.onView(ViewMatchers.withId(R.id.addButton))
@@ -110,7 +110,7 @@ public class ManageRecipeIngredientsTest {
 
         SystemClock.sleep(2000);
 
-        Espresso.onView(ViewMatchers.withText("200.0 g of Chicken Leg"))
+        Espresso.onView(ViewMatchers.withText("2.0 pieces of Chicken Leg"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
         SystemClock.sleep(2000);
     }
