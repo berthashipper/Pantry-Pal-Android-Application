@@ -49,7 +49,7 @@ public class ManageRecipeEditsInstrumentedTest {
                 .perform(ViewActions.click());
 
         AddIngredientsInstrumentedTest.typeText(R.id.itemNameText, "Chicken Breast");
-        AddIngredientsInstrumentedTest.typeText(R.id.itemQuantityText, "600");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemQuantityText, "3");
 
         // Click the Edit button to confirm
         Espresso.onView(ViewMatchers.withId(R.id.editButton))
@@ -62,7 +62,7 @@ public class ManageRecipeEditsInstrumentedTest {
 
         SystemClock.sleep(2000);
 
-        Espresso.onView(ViewMatchers.withText("600.0 g of Chicken Breast"))
+        Espresso.onView(ViewMatchers.withText("3.0 pieces of Chicken Breast"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
     }
 
@@ -128,9 +128,9 @@ public class ManageRecipeEditsInstrumentedTest {
         //Enter the new Ingredient Name
         AddIngredientsInstrumentedTest.typeText(R.id.itemNameText, "Chicken Leg");
         // Enter the Added quantity
-        AddIngredientsInstrumentedTest.typeText(R.id.itemQuantityText, "200");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemQuantityText, "2");
         //Enter the Unit
-        AddIngredientsInstrumentedTest.typeText(R.id.itemUnitText, "g");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemUnitText, "pieces");
 
         Espresso.onView(ViewMatchers.withId(R.id.addButton))
                 .perform(ViewActions.click());
@@ -142,7 +142,7 @@ public class ManageRecipeEditsInstrumentedTest {
 
         SystemClock.sleep(2000);
 
-        Espresso.onView(ViewMatchers.withText("200.0 g of Chicken Leg"))
+        Espresso.onView(ViewMatchers.withText("2.0 pieces of Chicken Leg"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         SystemClock.sleep(2000);
@@ -181,7 +181,7 @@ public class ManageRecipeEditsInstrumentedTest {
 
         SystemClock.sleep(2000);
 
-        Espresso.onView(ViewMatchers.withText("600.0 g of Chicken Breast"))
+        Espresso.onView(ViewMatchers.withText("2.0 pieces of Chicken Breast"))
                 .check(ViewAssertions.doesNotExist());
 
         SystemClock.sleep(2000);
@@ -323,6 +323,9 @@ public class ManageRecipeEditsInstrumentedTest {
                 ));
 
         // Click the "Add tag" button
+        Espresso.onView(ViewMatchers.withId(R.id.tagsLayout))
+                .perform(ViewActions.scrollCompletelyTo());
+        SystemClock.sleep(2000);
         Espresso.onView(ViewMatchers.withId(R.id.addTagButton))
                 .perform(ViewActions.click());
 
@@ -361,9 +364,10 @@ public class ManageRecipeEditsInstrumentedTest {
                         ViewActions.click()
                 ));
 
-        // Click the "Add tag" button
         Espresso.onView(ViewMatchers.withId(R.id.tagsLayout))
                 .perform(ViewActions.scrollCompletelyTo());
+        SystemClock.sleep(2000);
+
         Espresso.onView(ViewMatchers.withId(R.id.deleteTagButton))
                 .perform(ViewActions.click());
 
