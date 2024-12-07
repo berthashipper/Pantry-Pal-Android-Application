@@ -27,8 +27,10 @@ public class GenerateRecipesInstrumentedTest {
             new ActivityScenarioRule<>(ControllerActivity.class);
 
     /**
-     * Tests whether generating recipes works after adding the required ingredients
-     * for a grilled cheese recipe. Ingredients in pantry match exactly.
+     * Tests the recipe generation process for a Grilled Cheese Sandwich after
+     * adding the required ingredients to the pantry. The test ensures that the
+     * ingredients in the pantry match exactly, and verifies if the Grilled Cheese
+     * recipe appears in the generated recipe list.
      */
     @org.junit.Test
     public void testGenerateRecipesForGrilledCheese() {
@@ -37,10 +39,9 @@ public class GenerateRecipesInstrumentedTest {
                 .perform(ViewActions.click());
 
         // Add 3 slices of bread
-        addIngredient("Bread", "3", "slices");
-
+        AddIngredientsInstrumentedTest.addPantryIngredient("Bread", "3", "slices");
         // Add 4 slices of cheese
-        addIngredient("Cheese", "4", "slices");
+        AddIngredientsInstrumentedTest.addPantryIngredient("Cheese", "4", "slices");
 
         // Navigate back to the Pantry view
         Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton))
@@ -64,8 +65,10 @@ public class GenerateRecipesInstrumentedTest {
 
 
     /**
-     * Tests whether generating recipes works after adding the ingredients
-     * that are slightly different from the ones in the recipe.
+     * Tests the recipe generation process when ingredients are added that are
+     * similar but not an exact match to the required ingredients for a recipe.
+     * The test checks if the app still generates the appropriate recipe (e.g.,
+     * Spaghetti Bolognese) even when the ingredients slightly differ.
      */
     @org.junit.Test
     public void testGenerateRecipesForComplexIngredients() {
@@ -73,12 +76,12 @@ public class GenerateRecipesInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
                 .perform(ViewActions.click());
 
-        addIngredient("garlic", "3", "cloves");
-        addIngredient("beef", "400", "grams");
-        addIngredient("spaghetti", "300", "grams");
-        addIngredient("oil", "2", "bottles");
-        addIngredient("onion", "3", "heads");
-        addIngredient("sauce", "400", "ml");
+        AddIngredientsInstrumentedTest.addPantryIngredient("garlic", "3", "cloves");
+        AddIngredientsInstrumentedTest.addPantryIngredient("beef", "2", "pounds");
+        AddIngredientsInstrumentedTest.addPantryIngredient("spaghetti", "4", "cups");
+        AddIngredientsInstrumentedTest.addPantryIngredient("oil", "2", "bottles");
+        AddIngredientsInstrumentedTest.addPantryIngredient("onion", "3", " ");
+        AddIngredientsInstrumentedTest.addPantryIngredient("sauce", "10", "cups");
 
         // Navigate back to the Pantry view
         Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton))
@@ -109,8 +112,9 @@ public class GenerateRecipesInstrumentedTest {
     }
 
     /**
-     * Tests whether the app correctly shows a no recipes message
-     * when there are no matching recipes.
+     * Verifies that the app shows the appropriate message when no matching recipes
+     * are found due to the pantry being empty or ingredients not matching any
+     * recipes in the database.
      */
     @org.junit.Test
     public void testNoMatchingRecipes() {
@@ -131,39 +135,6 @@ public class GenerateRecipesInstrumentedTest {
         // Verify that the no recipes message is shown
         Espresso.onView(ViewMatchers.withText("No matching recipes found."))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-    }
-
-    /**
-     * Helper method to add an ingredient to the pantry.
-     *
-     * @param name  the name of the ingredient.
-     * @param qty   the quantity of the ingredient.
-     * @param unit  the unit of the ingredient.
-     */
-    public static void addIngredient(String name, String qty, String unit) {
-        Espresso.onView(ViewMatchers.withId(R.id.itemNameText))
-                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-
-        typeText(R.id.itemNameText, name);
-        typeText(R.id.itemQtyText, qty);
-        typeText(R.id.itemUnitText, unit);
-
-        // Click "Add" button
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo());
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
-
-        SystemClock.sleep(2000);
-    }
-
-    /**
-     * Helper method to type text into a text field.
-     *
-     * @param viewId the id of the text field to type into.
-     * @param text   the text to be typed.
-     */
-    public static void typeText(final int viewId, final String text) {
-        Espresso.onView(ViewMatchers.withId(viewId))
-                .perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard());
     }
 }
 

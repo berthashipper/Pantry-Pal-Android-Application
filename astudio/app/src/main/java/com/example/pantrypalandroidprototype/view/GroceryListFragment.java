@@ -7,17 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.EditText;
+import android.text.InputType;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantrypalandroidprototype.R;
-import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 import com.example.pantrypalandroidprototype.databinding.FragmentGroceryListBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
@@ -85,6 +85,12 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
     }
 
     @Override
+    public void onEditIngredientGroceryList(Ingredient ingredient) {
+        // Call the method to show the edit quantity dialog
+        adapter.showEditQuantityDialog(ingredient);
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         // Refresh the grocery list and adapter
@@ -112,12 +118,15 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
     }
 
     public void showDeletedMessage(Ingredient ingredient) {
-        Snackbar.make(getView(), "Deleted " + ingredient.getName() + " from Grocery List", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(getView(), "Deleted " + ingredient.getName() + " from Grocery List", Snackbar.LENGTH_SHORT).show();
+    }
+
+    public void showUpdatedQuantityMessage(String name, Double quantity) {
+        Snackbar.make(getView(), "Updated " + name + " to quantity " + quantity, Snackbar.LENGTH_SHORT).show();
     }
 
     // Adapter for the RecyclerView to display the shopping list
     private class GroceryListAdapter extends RecyclerView.Adapter<GroceryListAdapter.ViewHolder> {
-
         final Map<Ingredient, Double> groceryList;
 
         public GroceryListAdapter(Map<Ingredient, Double> groceryList) {
@@ -138,6 +147,11 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
             Log.d("GroceryListAdapter", "Binding ingredient: " + ingredient.getName() + ", Qty: " + quantity);
             holder.ingredientName.setText(ingredient.getName());
             holder.ingredientQuantity.setText(quantity + " " + ingredient.getUnit());
+            // Set up the edit button to show the dialog
+            holder.editButton.setOnClickListener(v -> {
+                // Show the edit quantity dialog when the edit button is clicked
+                showEditQuantityDialog(ingredient);
+            });
             holder.removeButton.setOnClickListener(v -> removeIngredient(ingredient));
         }
 
@@ -167,16 +181,47 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
                     .show();
         }
 
+        private void showEditQuantityDialog(Ingredient ingredient) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("Edit Quantity of " + ingredient.getName());
+
+            final EditText input = new EditText(requireContext());
+            input.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            // Set the initial value of the input field to the current quantity
+            Double currentQuantity = groceryList.get(ingredient);
+            input.setText(String.valueOf(currentQuantity));
+            builder.setView(input);
+
+            builder.setPositiveButton("Save", (dialog, which) -> {
+                double newQuantity = Double.parseDouble(input.getText().toString());
+                onEditQuantity(ingredient, newQuantity);
+            });
+
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+
+            builder.show();
+        }
+
+        public void onEditQuantity(Ingredient ingredient, double newQuantity) {
+            if (groceryList.containsKey(ingredient)) {
+                groceryList.put(ingredient, newQuantity);
+                notifyDataSetChanged(); // Update the adapter
+                showUpdatedQuantityMessage(ingredient.getName(), newQuantity);
+                //Snackbar.make(requireView(), "Updated quantity of " + ingredient.getName() + " to " + newQuantity, Snackbar.LENGTH_SHORT).show();
+            }
+        }
+
         public class ViewHolder extends RecyclerView.ViewHolder {
 
             TextView ingredientName, ingredientQuantity;
-            ImageView removeButton;
+            ImageView removeButton, editButton;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 ingredientName = itemView.findViewById(R.id.ingredient_name);
                 ingredientQuantity = itemView.findViewById(R.id.ingredient_quantity);
                 removeButton = itemView.findViewById(R.id.delete_icon);
+                editButton = itemView.findViewById(R.id.edit_icon);
             }
         }
     }

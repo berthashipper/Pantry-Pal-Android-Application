@@ -1,5 +1,9 @@
 package com.example.pantrypalandroidprototype.model;
 
+import android.util.Log;
+
+import com.example.pantrypalandroidprototype.controller.ControllerActivity;
+
 import java.io.Serializable;
 import java.util.*;
 import java.io.Serializable;
@@ -157,9 +161,9 @@ public class Pantry implements Serializable {
     }
 
     public void addIngredientToGroceryList(Ingredient ingredient) {
-        if (groceryList == null) {
+        /*if (groceryList == null) {
             groceryList = new HashMap<>();
-        }
+        }*/
         groceryList.put(ingredient, ingredient.getQuantity());
     }
 
@@ -223,57 +227,13 @@ public class Pantry implements Serializable {
         return new ArrayList<>(ingredientList.values());
     }
 
-    /**
-     * Adds missing or insufficient ingredients from a given recipe to the grocery list.
-     *
-     * @param recipe The {@link Recipe} to shop for.
-     */
-    public void shopFor(Set<Ingredient> ingredients) {
-        for (Ingredient ingredient : ingredients) {
-            String ingredientName = ingredient.getName().toLowerCase();
-            Ingredient pantryIngredient = ingredientList.get(ingredientName);
-
-            // Determine the quantity needed based on pantry contents
-            double quantityNeeded = ingredient.getQuantity();
-            if (pantryIngredient != null) {
-                quantityNeeded -= pantryIngredient.getQuantity();
-            }
-
-            if (quantityNeeded > 0) {
-                // Check if the ingredient is already on the grocery list
-                boolean updatedGroceryList = false;
-                for (Map.Entry<Ingredient, Double> entry : groceryList.entrySet()) {
-                    if (entry.getKey().getName().equalsIgnoreCase(ingredientName)) {
-                        // Update the quantity in the grocery list
-                        double updatedQuantity = entry.getValue() + quantityNeeded;
-                        groceryList.put(entry.getKey(), updatedQuantity);
-                        System.out.println("Updated grocery list: Added " + quantityNeeded + " more " +
-                                ingredient.getUnit() + " of " + ingredient.getName() + ".");
-                        updatedGroceryList = true;
-                        break;
-                    }
-                }
-
-                // If the ingredient is not in the grocery list, add it
-                if (!updatedGroceryList) {
-                    Ingredient ingredientToAdd = new Ingredient(
-                            ingredient.getName(),
-                            quantityNeeded,
-                            ingredient.getUnit(),
-                            ingredient.getTags()
-                    );
-                    addIngredientToGroceryList(ingredientToAdd);
-                    System.out.println("Added " + quantityNeeded + " " + ingredient.getUnit() +
-                            " of " + ingredient.getName() + " to the grocery list.");
-                }
-            } else {
-                System.out.println("Sufficient " + ingredient.getName() + " is already in the pantry.");
+    public Ingredient getIngredientByName(String name) {
+        for (Ingredient ingredient : ingredientList.values()) {
+            if (ingredient.getName().equalsIgnoreCase(name)) {
+                return ingredient;
             }
         }
-    }
-
-    public void shopFor(Recipe recipe) {
-        shopFor(recipe.getIngredients());
+        return null; // Return null if the ingredient is not found
     }
 
     /**

@@ -22,12 +22,12 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class ManageRecipeEditsInstrumentedTest {
 
-        @Rule
-        public ActivityScenarioRule<ControllerActivity> activityRule =
-                new ActivityScenarioRule<>(ControllerActivity.class);
+    @Rule
+    public ActivityScenarioRule<ControllerActivity> activityRule =
+            new ActivityScenarioRule<>(ControllerActivity.class);
 
     /**
-     * Tests editing an ingredient successfully.
+     * Tests updating an ingredient in a recipe, ensuring the changes are reflected in the UI.
      */
     @org.junit.Test
     public void testUpdateRecipeIngredientSuccessfully() {
@@ -48,8 +48,8 @@ public class ManageRecipeEditsInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.edit_recipe_ingredient))
                 .perform(ViewActions.click());
 
-        typeText(R.id.itemNameText, "Chicken Breast");
-        typeText(R.id.itemQuantityText, "600");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemNameText, "Chicken Breast");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemQuantityText, "600");
 
         // Click the Edit button to confirm
         Espresso.onView(ViewMatchers.withId(R.id.editButton))
@@ -67,7 +67,8 @@ public class ManageRecipeEditsInstrumentedTest {
     }
 
     /**
-     * Tests deleting a non-existent ingredient and checks for snackbar feedback.
+     * Tests deleting a non-existent ingredient in a recipe and checks
+     * for snackbar feedback indicating failure.
      */
     @org.junit.Test
     public void testDeleteNonExistentRecipeIngredient() {
@@ -87,7 +88,7 @@ public class ManageRecipeEditsInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.delete_recipe_ingredient))
                 .perform(ViewActions.click());
 
-        typeText(R.id.itemNameText, "NonExistentIngredient");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemNameText, "NonExistentIngredient");
 
         // Click the Delete button
         Espresso.onView(ViewMatchers.withId(R.id.deleteButton))
@@ -105,9 +106,7 @@ public class ManageRecipeEditsInstrumentedTest {
 
 
     /**
-
-    /**
-     * Tests adding a recipe's ingredient and verifying updates.
+     * Tests adding a new ingredient to a recipe and verifies that the ingredient is shown in the UI.
      */
     @org.junit.Test
     public void testAddRecipeIngredientUpdatesRecyclerView() {
@@ -127,11 +126,11 @@ public class ManageRecipeEditsInstrumentedTest {
                 .perform(ViewActions.click());
 
         //Enter the new Ingredient Name
-        typeText(R.id.itemNameText, "Chicken Leg");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemNameText, "Chicken Leg");
         // Enter the Added quantity
-        typeText(R.id.itemQuantityText, "200");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemQuantityText, "200");
         //Enter the Unit
-        typeText(R.id.itemUnitText, "g");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemUnitText, "g");
 
         Espresso.onView(ViewMatchers.withId(R.id.addButton))
                 .perform(ViewActions.click());
@@ -151,7 +150,7 @@ public class ManageRecipeEditsInstrumentedTest {
 
 
     /**
-     * Tests deleting a recipe's ingredient and verifying updates.
+     * Tests deleting an ingredient from a recipe and ensures the UI is updated accordingly.
      */
     @org.junit.Test
     public void testDeleteRecipeIngredientUpdatesRecyclerView() {
@@ -170,7 +169,7 @@ public class ManageRecipeEditsInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.delete_recipe_ingredient))
                 .perform(ViewActions.click());
 
-        typeText(R.id.itemNameText, "Chicken Breast");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemNameText, "Chicken Breast");
 
         Espresso.onView(ViewMatchers.withId(R.id.deleteButton))
                 .perform(ViewActions.click());
@@ -189,7 +188,7 @@ public class ManageRecipeEditsInstrumentedTest {
     }
 
     /**
-     * Tests editing a recipe's instructions and verifying updates.
+     * Tests editing the instructions for a recipe and ensuring the updates are reflected in the UI.
      */
     @org.junit.Test
     public void testEditInstructionsUpdatesRecyclerView() {
@@ -211,7 +210,7 @@ public class ManageRecipeEditsInstrumentedTest {
         // Enter the edited Instruction
         Espresso.onView(ViewMatchers.withId(R.id.instructionEditText))
                 .perform(ViewActions.clearText());
-        typeText(R.id.instructionEditText, "Test Instruction");
+        AddIngredientsInstrumentedTest.typeText(R.id.instructionEditText, "Test Instruction");
 
         // Click the Done button to edit the instruction
         Espresso.onView(ViewMatchers.withId(R.id.doneButton))
@@ -226,7 +225,7 @@ public class ManageRecipeEditsInstrumentedTest {
     }
 
     /**
-     * Tests editing a recipe's cook time and verifying updates.
+     * Tests editing the cook time of a recipe and verifying the updated value is displayed.
      */
     @org.junit.Test
     public void testEditCookTimeUpdatesRecyclerView() {
@@ -265,7 +264,7 @@ public class ManageRecipeEditsInstrumentedTest {
     }
 
     /**
-     * Tests editing a recipe's cook time and verifying updates.
+     * Tests editing the yield of a recipe and verifying the updated value is displayed.
      */
     @org.junit.Test
     public void testEditYieldUpdatesRecyclerView() {
@@ -343,7 +342,7 @@ public class ManageRecipeEditsInstrumentedTest {
     }
 
     /**
-     * Tests adding a tag to a recipe and verifying updates.
+     * Tests removing a tag from a recipe and verifying updates.
      */
     @org.junit.Test
     public void testRemoveTagUpdatesRecyclerView() {
@@ -427,16 +426,5 @@ public class ManageRecipeEditsInstrumentedTest {
         // Verify the updated tags in the UI
         Espresso.onView(ViewMatchers.withText("Tag not found: VEGETARIAN"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-    }
-
-    /**
-         * Helper method to type text into a text field.
-         *
-         * @param viewId the id of the text field to type into.
-         * @param text   the text to be typed.
-         */
-        private void typeText(final int viewId, final String text) {
-            Espresso.onView(ViewMatchers.withId(viewId))
-                    .perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard());
         }
     }

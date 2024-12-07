@@ -1,6 +1,7 @@
 package com.example.pantrypalandroidprototype.view;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -21,6 +22,7 @@ import com.example.pantrypalandroidprototype.databinding.FragmentAddToGroceryLis
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,9 +34,14 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
     Listener listener;
     Map<Ingredient, Double> addedIngredients = new HashMap<>();
     IngredientAdapter ingredientAdapter;
+    Map<Ingredient, Double> groceryList;
+    boolean isDialogShown = false;
 
-    public static AddToGroceryListFragment newInstance(Listener listener) {
+    public static AddToGroceryListFragment newInstance(Listener listener, Map<Ingredient, Double> groceryList) {
         AddToGroceryListFragment fragment = new AddToGroceryListFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("groceryList", (Serializable) groceryList);
+        fragment.setArguments(args);
         fragment.listener = listener;
         return fragment;
     }
@@ -51,6 +58,9 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (getArguments() != null) {
+            groceryList = (Map<Ingredient, Double>) getArguments().getSerializable("groceryList");
+        }
 
         binding.addIngredientButton.setOnClickListener(v -> onAddButtonClicked());
         binding.doneButton.setOnClickListener(v -> onDoneButtonClicked());
@@ -61,6 +71,7 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
     public void onAddButtonClicked() {
         String name = binding.itemNameText.getText().toString().trim();
         String qtyString = binding.itemQtyText.getText().toString().trim();
+        String unit = binding.itemUnitText.getText().toString().trim();
 
         if (name.isEmpty() || qtyString.isEmpty()) {
             Snackbar.make(getView(), "Please fill in all fields.", Snackbar.LENGTH_LONG).show();
@@ -68,18 +79,12 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
         }
 
         double qty = Double.parseDouble(qtyString);
-        Log.d("AddToGroceryListFragment", "Attempting to add ingredient: " + name + ", Qty: " + qty);
 
         if (listener != null) {
-            listener.onAddIngredientToGroceryList(name, qty);
+            listener.onAddIngredientToGroceryList(name, qty, unit);
             Log.d("AddToGroceryListFragment", "Listener called successfully.");
         }
 
-        Ingredient newIngredient = new Ingredient(name, qty, "unit_placeholder", new HashSet<>());
-        addedIngredients.put(newIngredient, qty);
-        Log.d("AddToGroceryListFragment", "Ingredient added locally: " + addedIngredients);
-        Snackbar.make(getView(), "Added " + newIngredient.getName() + " to grocery list.", Snackbar.LENGTH_SHORT).show();
-        ingredientAdapter.notifyDataSetChanged();
         clearInputs();
     }
 
@@ -102,6 +107,7 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
     public void clearInputs() {
         binding.itemNameText.setText("");
         binding.itemQtyText.setText("");
+        binding.itemUnitText.setText("");
     }
 
     public void onDoneButtonClicked() {
@@ -110,7 +116,41 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
         }
     }
 
-    public void showDoneMessage() {
-        //Snackbar.make(getView(), "Returning to Grocery List", Snackbar.LENGTH_SHORT).show();
+    public void showUpdateQuantityDialog(Ingredient existingIngredient, double newQty) {
+        // Check if the dialog is already showing to prevent a loop
+        if (isDialogShown) {
+            return; // Skip the dialog if it’s already showing
+        }
+
+        isDialogShown = true;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Ingredient Already on List")
+                .setMessage("The ingredient " + existingIngredient.getName() + " is already on your grocery list. Would you like to update the quantity?")
+                .setPositiveButton("Yes", (dialog, which) -> {
+                    // Update the grocery list with the new quantity
+                    groceryList.put(existingIngredient, newQty);
+                    Snackbar.make(getView(), "Updated quantity of " + existingIngredient.getName() + ".", Snackbar.LENGTH_SHORT).show();
+
+                    // Inform the controller that the quantity has been updated
+                    if (listener != null) {
+                        listener.onAddIngredientToGroceryList(existingIngredient.getName(), newQty, existingIngredient.getUnit());
+                    }
+
+                    // Dismiss the dialog after the update
+                    dialog.dismiss();
+                    isDialogShown = false;  // Reset the flag after the dialog is dismissed
+                })
+                .setNegativeButton("No", (dialog, which) -> {
+                    // Dismiss the dialog for the "No" option
+                    dialog.dismiss();
+                    isDialogShown = false;  // Reset the flag when the dialog is canceled
+                })
+                .create()
+                .show();
+    }
+
+    public void showAddedIngredientMessage(String name) {
+        Snackbar.make(getView(), "Added " + name + " to grocery list.", Snackbar.LENGTH_SHORT).show();
     }
 }

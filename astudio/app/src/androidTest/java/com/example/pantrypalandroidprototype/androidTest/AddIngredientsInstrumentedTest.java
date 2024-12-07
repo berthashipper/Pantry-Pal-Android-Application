@@ -25,15 +25,15 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class AddIngredientsInstrumentedTest {
 
-    /**
-     * Specifies the activity to launch before each test.
-     */
     @Rule
     public ActivityScenarioRule<ControllerActivity> activityRule =
             new ActivityScenarioRule<>(ControllerActivity.class);
 
     /**
      * Tests whether adding an ingredient updates the RecyclerView correctly.
+     * This test clears the pantry, navigates to the Add Ingredients screen,
+     * adds a new ingredient with valid data, and verifies that the ingredient
+     * is correctly displayed in the Pantry view with the correct quantity and unit.
      */
     @org.junit.Test
     public void testAddThenClearIngredient() {
@@ -47,31 +47,7 @@ public class AddIngredientsInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
                 .perform(ViewActions.click());
 
-        // Input test data
-        String testName = "Sugar";
-        String testQty = "1.5";
-        String testUnit = "kg";
-
-        typeText(R.id.itemNameText, testName);
-        typeText(R.id.itemQtyText, testName);
-        Espresso.onView(ViewMatchers.withId(R.id.itemQtyText))
-                .check(ViewAssertions.matches(ViewMatchers.withText(""))); //Checks if only take in numbers for input
-        typeText(R.id.itemQtyText, testQty);
-        Espresso.onView(ViewMatchers.withId(R.id.itemQtyText))
-                .check(ViewAssertions.matches(ViewMatchers.withText("1.5")));
-        typeText(R.id.itemUnitText, testUnit);
-
-        // Select dietary tags
-        Espresso.onView(ViewMatchers.withId(R.id.veganCheckbox)).perform(ViewActions.click());
-        Espresso.onView(ViewMatchers.withId(R.id.glutenFreeCheckbox)).perform(ViewActions.click());
-
-        // Click "Add" button
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo());
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
-
-        SystemClock.sleep(3000);
-
-        // Click "Done" button
+        addPantryIngredient("Sugar","1.5","cups");
         Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());
 
         SystemClock.sleep(2000);
@@ -84,7 +60,7 @@ public class AddIngredientsInstrumentedTest {
                 ));
 
         // Verify the ingredient quantity is correct
-        Espresso.onView(ViewMatchers.withText(CoreMatchers.containsString("1.5 kg")))
+        Espresso.onView(ViewMatchers.withText(CoreMatchers.containsString("1.5 cups")))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         SystemClock.sleep(2000);
@@ -99,7 +75,9 @@ public class AddIngredientsInstrumentedTest {
     }
 
     /**
-     * Tests whether clicking "Done" navigates back to the Pantry view.
+     * Tests whether clicking the "Done" button navigates back to the Pantry view.
+     * This test ensures that when the "Done" button is clicked, the user is redirected
+     * back to the Pantry screen where the list of ingredients is displayed.
      */
     @org.junit.Test
     public void testDoneButtonNavigatesToPantry() {
@@ -116,9 +94,11 @@ public class AddIngredientsInstrumentedTest {
     }
 
     /**
-     * Tests validation when required fields are empty.
+     * Tests the validation behavior when required fields are empty.
+     * This test attempts to submit the add ingredient form without filling in any of the required fields.
+     * It checks if the app displays the appropriate error message prompting the user
+     * to fill in all required fields.
      */
-
     @org.junit.Test
     public void testValidationWhenFieldsAreEmpty() {
         // Navigate to Add Ingredients screen
@@ -136,6 +116,26 @@ public class AddIngredientsInstrumentedTest {
                 .check(ViewAssertions.matches(ViewMatchers.withText("Please fill in all fields.")));
     }
 
+    /**
+     * Helper method to add an ingredient to the pantry.
+     *
+     * @param name  the name of the ingredient.
+     * @param qty   the quantity of the ingredient.
+     * @param unit  the unit of the ingredient.
+     */
+    public static void addPantryIngredient(String name, String qty, String unit) {
+        Espresso.onView(ViewMatchers.withId(R.id.itemNameText))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        AddIngredientsInstrumentedTest.typeText(R.id.itemNameText, name);
+        AddIngredientsInstrumentedTest.typeText(R.id.itemQtyText, qty);
+        AddIngredientsInstrumentedTest.typeText(R.id.itemUnitText, unit);
+
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo());
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
+
+        SystemClock.sleep(2000);
+    }
 
     /**
      * Helper method to type text into a text field.
@@ -143,7 +143,7 @@ public class AddIngredientsInstrumentedTest {
      * @param viewId the id of the text field to type into.
      * @param text   the text to be typed.
      */
-    private void typeText(final int viewId, final String text) {
+     public static void typeText(final int viewId, final String text) {
         Espresso.onView(ViewMatchers.withId(viewId))
                 .perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard());
     }

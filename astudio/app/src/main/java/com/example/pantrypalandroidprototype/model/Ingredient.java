@@ -1,7 +1,9 @@
 package com.example.pantrypalandroidprototype.model;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import java.io.Serializable;
@@ -26,6 +28,8 @@ public class Ingredient implements Serializable {
 
     /** A set of dietary tags associated with the ingredient. */
     public final Set<String> tags;
+    static final Map<String, dietary_tags> dynamicTags = new HashMap<>();
+
 
     /**
      * Enum representing common dietary tags for ingredients.
@@ -127,6 +131,15 @@ public class Ingredient implements Serializable {
         tags.add(tag);
     }
 
+    public static String addDynamicTag(String tagName) {
+        String formattedTagName = tagName.toUpperCase();
+        if (dynamicTags.containsKey(formattedTagName)) {
+            return formattedTagName;
+        }
+        dynamicTags.put(formattedTagName, null);
+        return formattedTagName;
+    }
+
     /**
      * Removes a dietary tag from the ingredient.
      *
@@ -135,6 +148,7 @@ public class Ingredient implements Serializable {
     public void removeDietaryTag(String tag) {
         tags.remove(tag);
     }
+
 
     /**
      * Returns a string representation of the ingredient, including its name, quantity, unit, and dietary tags.

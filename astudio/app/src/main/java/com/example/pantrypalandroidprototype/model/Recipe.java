@@ -27,7 +27,8 @@ public class Recipe implements Serializable {
     public String instructions;
 
     /** The set of dietary tags associated with the recipe. */
-    public Set<Ingredient.dietary_tags> recipeTags = new HashSet<>();
+    public Set<Ingredient.dietary_tags> recipeTags;
+    public final Set<String> dynamicTags;
 
     /** A brief description of the recipe. */
     public String recipeDescription;
@@ -47,6 +48,11 @@ public class Recipe implements Serializable {
     /** The URL of the image representing the recipe. */
     public String imageUrl;
 
+    public Recipe() {
+        this.recipeTags = new HashSet<>();
+        this.dynamicTags = new HashSet<>();
+    }
+
     /**
      * Constructor for creating a {@code Recipe} object with basic details from EDAMAM recipes.
      *
@@ -60,6 +66,7 @@ public class Recipe implements Serializable {
         this.url = url;
         this.ingredientsInRecipe = new HashSet<>();
         this.recipeTags = new HashSet<>();
+        this.dynamicTags = new HashSet<>();
     }
 
     /**
@@ -81,6 +88,7 @@ public class Recipe implements Serializable {
         this.ingredientsInRecipe = ingredientsInRecipe;
         this.instructions = instructions;
         this.recipeTags = recipeTags;
+        this.dynamicTags = new HashSet<>();
         this.recipeDescription = recipeDescription;
         this.cookTime = cookTime;
         this.servingSize = servingSize;
@@ -150,6 +158,18 @@ public class Recipe implements Serializable {
         recipeTags.add(tag);
     }
 
+    public void addDynamicTag(String tag) {
+        dynamicTags.add(tag);
+    }
+
+    public Set<Ingredient.dietary_tags> getDietaryTags() {
+        return new HashSet<>(recipeTags);
+    }
+
+    public Set<String> getDynamicTags() {
+        return new HashSet<>(Ingredient.dynamicTags.keySet());
+    }
+
     public boolean removeTag(Ingredient.dietary_tags tag) {
         if (recipeTags.contains(tag)) {
             recipeTags.remove(tag);
@@ -158,6 +178,10 @@ public class Recipe implements Serializable {
         }
         Log.e("Recipe", "Tag not found: " + tag.name());
         return false;
+    }
+
+    public void removeDynamicTag(String tag) {
+        dynamicTags.remove(tag);
     }
 
     /**

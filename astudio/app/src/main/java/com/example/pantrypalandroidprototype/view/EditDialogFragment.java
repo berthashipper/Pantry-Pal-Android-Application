@@ -15,6 +15,7 @@ import android.widget.EditText;
 
 import androidx.fragment.app.DialogFragment;
 
+import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
 
 public class EditDialogFragment extends DialogFragment {
@@ -40,6 +41,7 @@ public class EditDialogFragment extends DialogFragment {
         }
 
         Log.d("EditDialogFragment", "onCreateDialog: requestCode=" + requestCode + ", recipe=" + (recipe != null ? recipe.getRecipeName() : "null"));
+
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(requestCode == REQUEST_EDIT_COOK_TIME ? "Edit Cook Time" :

@@ -27,6 +27,9 @@ import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.time.Duration;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class RecipeDetailFragment extends Fragment implements IRecipeDetailView, EditTagDialogFragment.TagActionListener {
     static final String TAG = RecipeDetailFragment.class.getSimpleName();
@@ -94,10 +97,19 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         }
 
         // Add dietary tags to the layout dynamically
-        if (recipe.getTags() != null && !recipe.getTags().isEmpty()) {
-            Log.d(TAG, "Recipe tags found: " + recipe.getTags());
+        Set<String> allTags = new HashSet<>();
+        if (recipe.getTags() != null) {
             for (Ingredient.dietary_tags tag : recipe.getTags()) {
-                String tagString = tag.name();
+                allTags.add(tag.name()); // Add enum tags
+            }
+        }
+        if (recipe.getDynamicTags() != null) {
+            allTags.addAll(recipe.getDynamicTags()); // Add user-entered dynamic tags
+        }
+
+        if (!allTags.isEmpty()) {
+            Log.d(TAG, "Recipe tags found: " + allTags);
+            for (String tagString : allTags) {
                 Log.d(TAG, "Processing tag: " + tagString);
 
                 // Create a new TextView for each tag
@@ -117,7 +129,24 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
                 tagView.setLayoutParams(params);
 
                 tagView.setOnClickListener(v -> {
-                    showDeleteTagConfirmationDialog(tag);  // Show confirmation dialog before deletion
+                    try {
+                        Log.d(TAG, "Processing tag: " + tagString);
+
+                        // Check if tag is part of the enum
+                        boolean isEnumTag = Arrays.stream(Ingredient.dietary_tags.values())
+                                .anyMatch(t -> t.name().equals(tagString));
+
+                        if (isEnumTag) {
+                            Ingredient.dietary_tags tagEnum = Ingredient.dietary_tags.valueOf(tagString);
+                            Log.d(TAG, "Enum tag detected: " + tagEnum);
+                            showDeleteTagConfirmationDialog(tagEnum);
+                        } else {
+                            Log.d(TAG, "Dynamic tag detected: " + tagString);
+                            showDeleteTagConfirmationDialog(tagString);
+                        }
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error processing tag string: ", e);
+                    }
                 });
 
                 // Add the tag view to the tags layout
@@ -130,7 +159,6 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
             noTagsView.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
             binding.tagsLayout.addView(noTagsView);
         }
-
 
         // Set the recipe instructions
         binding.recipeInstructions.setText(recipe.instructions);
@@ -238,27 +266,37 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
                 binding.recipeServingSize.setText(newValue + " servings");
                 Snackbar.make(getView(), "Yield updated to " + newValue, Snackbar.LENGTH_SHORT).show();
             } else if (requestCode == REQUEST_ADD_TAG) {
-                // Add the new tag to the recipe
-                try {
-                    Ingredient.dietary_tags newTag = Ingredient.dietary_tags.valueOf(newValue.toUpperCase());
-                    controller.addTagToRecipe(recipe, newTag);  // Call controller to add the tag and persist
-                    recipe.addTag(newTag);
+                String newTag = newValue.trim();
+                if (!newTag.isEmpty()) {
+                    controller.addTagToRecipe(recipe, newTag);  // Call controller to handle tag addition/creation
                     Snackbar.make(getView(), "Tag added: " + newTag, Snackbar.LENGTH_SHORT).show();
-                    updateTagsUI();
-                } catch (IllegalArgumentException e) {
+                    Log.d(TAG, "Added tag via result listener: " + newTag);
+                    updateTagsUI();  // Refresh UI
+                } else {
                     Snackbar.make(getView(), "Invalid tag entered", Snackbar.LENGTH_SHORT).show();
                 }
             } else if (requestCode == REQUEST_DELETE_TAG) {
-                // Handle tag deletion from the dialog result
-                Ingredient.dietary_tags tagToDelete = Ingredient.dietary_tags.valueOf(newValue.toUpperCase());
+                // Handle tag deletion safely
+                String tagName = newValue.toUpperCase();
 
-                // Check if the tag exists in the recipe
-                if (recipe.getTags().contains(tagToDelete)) {
-                    controller.removeTagFromRecipe(recipe, tagToDelete);
+                // Check if it is a valid dietary_tags enum value
+                Ingredient.dietary_tags tagToDelete = null;
+                try {
+                    tagToDelete = Ingredient.dietary_tags.valueOf(tagName);
+                } catch (IllegalArgumentException e) {
+                    Log.e(TAG, "Tag name is invalid: " + tagName, e);
+                }
+
+                if (tagToDelete != null && recipe.getTags().contains(tagToDelete)) {
+                    controller.removeTagFromRecipe(recipe, String.valueOf(tagToDelete));
                     Snackbar.make(getView(), "Tag deleted: " + tagToDelete, Snackbar.LENGTH_SHORT).show();
-                    deleteTag(tagToDelete);  // Delete the tag from the recipe
+                    deleteTag(tagToDelete);
+                } else if (tagToDelete != null && recipe.getDynamicTags().contains(tagToDelete.toString())) {
+                    controller.removeTagFromRecipe(recipe, String.valueOf(tagToDelete));
+                    deleteTag(tagToDelete);
+                    Snackbar.make(getView(), "Tag deleted: " + tagToDelete, Snackbar.LENGTH_SHORT).show();
                 } else {
-                    Snackbar.make(getView(), "Tag not found: " + tagToDelete, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(getView(), "Tag not found: " + tagName, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -287,6 +325,16 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
                 .show();
     }
 
+    public void showDeleteTagConfirmationDialog(Object tag) {
+        if (tag instanceof Ingredient.dietary_tags) {
+            // Logic for predefined enum tag
+            Log.d(TAG, "Deleting predefined enum tag: " + tag);
+        } else if (tag instanceof String) {
+            // Logic for dynamic string tag
+            Log.d(TAG, "Deleting dynamic tag: " + tag);
+        }
+    }
+
     private void deleteTag(Ingredient.dietary_tags tag) {
         // Remove the tag from the recipe object
         boolean tagRemoved = recipe.removeTag(tag);
@@ -308,11 +356,23 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         binding.tagsLayout.removeAllViews();
 
         if (recipe.getTags() != null && !recipe.getTags().isEmpty()) {
-            Log.d(TAG, "Re-adding tags to the UI: " + recipe.getTags());
-            for (Ingredient.dietary_tags tag : recipe.getTags()) {
+            Log.d(TAG, "Re-adding tags to the UI: " + recipe.getTags() + recipe.getDynamicTags());
+
+            for (String tagString : recipe.getDynamicTags()) {
                 TextView tagView = new TextView(getContext());
-                tagView.setText(tag.name());
-                Log.d(TAG, "Adding tag to UI: " + tag.name());
+                Ingredient.dietary_tags enumTag = null;
+
+                // Safely check if the tag corresponds to an enum
+                if (isValidEnumTag(tagString)) {
+                    enumTag = Ingredient.dietary_tags.valueOf(tagString.toUpperCase());
+                    tagView.setText(enumTag.toString());
+                    Log.d(TAG, "Adding predefined tag to UI: " + enumTag.toString());
+                } else {
+                    // Handle dynamic tags directly
+                    tagView.setText(tagString);
+                    Log.d(TAG, "Adding dynamic tag to UI: " + tagString);
+                }
+
                 tagView.setTextSize(16);
                 tagView.setTextColor(Color.WHITE);
                 tagView.setPadding(20, 10, 20, 10);
@@ -325,12 +385,10 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
                 params.setMargins(8, 0, 8, 0);
                 tagView.setLayoutParams(params);
 
-                // Set onClickListener to handle tag deletion
                 tagView.setOnClickListener(v -> {
-                    showDeleteTagConfirmationDialog(tag);  // Show confirmation dialog before deletion
+                    showDeleteTagConfirmationDialog(Ingredient.dietary_tags.valueOf(tagString));
                 });
 
-                // Add tag view to the layout
                 binding.tagsLayout.addView(tagView);
             }
         } else {
@@ -338,6 +396,18 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
             noTagsView.setText("No tags available");
             noTagsView.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
             binding.tagsLayout.addView(noTagsView);
+        }
+    }
+
+    /**
+     * Helper method to safely check if the string is a valid enum name.
+     */
+    private boolean isValidEnumTag(String tag) {
+        try {
+            Ingredient.dietary_tags.valueOf(tag.toUpperCase());
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
         }
     }
 

@@ -20,15 +20,17 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class BackToPantryTest {
 
-    /**
-     * Specifies the activity to launch before each test.
-     */
     @Rule
     public ActivityScenarioRule<ControllerActivity> activityRule =
             new ActivityScenarioRule<>(ControllerActivity.class);
 
     /**
-     * Tests whether clicking "ViewButton" navigates back to the Pantry view.
+     * Tests whether clicking the "Done" button navigates back to the Pantry view.
+     * This test performs the following steps:
+     * 1. Navigates to the Add Ingredients screen.
+     * 2. Clicks the "Done" button and verifies that the Pantry view is displayed.
+     * 3. Repeats the same process from the "Search Ingredients" screen and verifies that the Pantry view is displayed again.
+     * 4. Repeats the process from the "Cookbook" view and verifies that the Pantry view is displayed.
      */
     @org.junit.Test
     public void testDoneButtonsNavigateToPantry() {

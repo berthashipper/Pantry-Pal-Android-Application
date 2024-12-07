@@ -84,7 +84,7 @@ public class RecipeBuilder implements Serializable {
      * @param dietaryTags The dietary tags associated with the ingredient.
      * @return The current {@code RecipeBuilder} instance for method chaining.
      */
-    public RecipeBuilder addIngredient(String name, int quantity, String unit, Set<Ingredient.dietary_tags> dietaryTags) {
+    public RecipeBuilder addIngredient(String name, double quantity, String unit, Set<Ingredient.dietary_tags> dietaryTags) {
         // Convert dietary_tags to a set of strings
         Set<String> tagStrings = dietaryTags.stream()
                 .map(Enum::name)

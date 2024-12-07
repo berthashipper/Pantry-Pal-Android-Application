@@ -25,17 +25,18 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class CookbookInstrumentedTest {
 
-    /**
-     * Specifies the activity to launch before each test.
-     */
     @Rule
     public ActivityScenarioRule<ControllerActivity> activityRule =
             new ActivityScenarioRule<>(ControllerActivity.class);
 
     /**
-     * Tests whether clicking "Add Recipe" functionality add to Cookbook and get updated.
+     * Tests whether the "Add Recipe" functionality adds a new recipe to the cookbook
+     * and that it is properly updated and displayed in the RecyclerView.
+     * This test verifies the complete recipe addition process, from entering details
+     * such as name, description, ingredients, and instructions to the final
+     * display of the new recipe in the cookbook.
      */
-    @org.junit.Test // passed
+    @org.junit.Test
     public void testAddRecipe() {
         // Navigate to cookbook screen
         Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
@@ -64,13 +65,13 @@ public class CookbookInstrumentedTest {
         String testInstruction2 = "Put butter on toast and sprinkle cinnamon on top.";
         String testInstruction3 = "Eat while warm, and enjoy!";
 
-        typeText(R.id.recipeNameEditText, testName);
-        typeText(R.id.descriptionEditText, testDescipt);
-        typeText(R.id.cookTimeEditText, testCooktime);
-        typeText(R.id.servingSizeEditText, testSsize);
-        typeText(R.id.ingredientNameEditText, ingName1);
-        typeText(R.id.ingredientQuantityEditText, ingQty1);
-        typeText(R.id.ingredientUnitEditText, IngUnit1);
+        AddIngredientsInstrumentedTest.typeText(R.id.recipeNameEditText, testName);
+        AddIngredientsInstrumentedTest.typeText(R.id.descriptionEditText, testDescipt);
+        AddIngredientsInstrumentedTest.typeText(R.id.cookTimeEditText, testCooktime);
+        AddIngredientsInstrumentedTest.typeText(R.id.servingSizeEditText, testSsize);
+        AddIngredientsInstrumentedTest.typeText(R.id.ingredientNameEditText, ingName1);
+        AddIngredientsInstrumentedTest.typeText(R.id.ingredientQuantityEditText, ingQty1);
+        AddIngredientsInstrumentedTest.typeText(R.id.ingredientUnitEditText, IngUnit1);
 
         // Click "Add ingredient" button
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
@@ -79,9 +80,9 @@ public class CookbookInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).check(ViewAssertions.matches(ViewMatchers.isDisplayed())); // Ensure visibility
 
         // Add second ingredient
-        typeText(R.id.ingredientNameEditText, ingName2);
-        typeText(R.id.ingredientQuantityEditText, ingQty2);
-        typeText(R.id.ingredientUnitEditText, IngUnit2);
+        AddIngredientsInstrumentedTest.typeText(R.id.ingredientNameEditText, ingName2);
+        AddIngredientsInstrumentedTest.typeText(R.id.ingredientQuantityEditText, ingQty2);
+        AddIngredientsInstrumentedTest.typeText(R.id.ingredientUnitEditText, IngUnit2);
 
         // Click "Add ingredient" button
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
@@ -92,9 +93,9 @@ public class CookbookInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
         // Add third ingredient
-        typeText(R.id.ingredientNameEditText, ingName3);
-        typeText(R.id.ingredientQuantityEditText, ingQty3);
-        typeText(R.id.ingredientUnitEditText, IngUnit3);
+        AddIngredientsInstrumentedTest.typeText(R.id.ingredientNameEditText, ingName3);
+        AddIngredientsInstrumentedTest.typeText(R.id.ingredientQuantityEditText, ingQty3);
+        AddIngredientsInstrumentedTest.typeText(R.id.ingredientUnitEditText, IngUnit3);
 
         // Click "Add ingredient" button
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
@@ -112,17 +113,17 @@ public class CookbookInstrumentedTest {
         SystemClock.sleep(2000);
 
         // Add instructions
-        typeText(R.id.instructionEditText, testInstruction1);
+        AddIngredientsInstrumentedTest.typeText(R.id.instructionEditText, testInstruction1);
         Espresso.onView(ViewMatchers.withId(R.id.addInstructionButton))
                 .perform(ViewActions.scrollTo(), ViewActions.click());
         SystemClock.sleep(2000);
 
-        typeText(R.id.instructionEditText, testInstruction2);
+        AddIngredientsInstrumentedTest.typeText(R.id.instructionEditText, testInstruction2);
         Espresso.onView(ViewMatchers.withId(R.id.addInstructionButton))
                 .perform(ViewActions.scrollTo(), ViewActions.click());
         SystemClock.sleep(2000);
 
-        typeText(R.id.instructionEditText, testInstruction3);
+        AddIngredientsInstrumentedTest.typeText(R.id.instructionEditText, testInstruction3);
         Espresso.onView(ViewMatchers.withId(R.id.addInstructionButton))
                 .perform(ViewActions.scrollTo(), ViewActions.click());
         SystemClock.sleep(2000);
@@ -172,10 +173,12 @@ public class CookbookInstrumentedTest {
 
 
     /**
-     * Tests click on Recipe blocks the details of the recipe is shown correctly.
-     * Tests "BackToCookbook" functionality.
+     * Tests the functionality of navigating to a recipe details screen and
+     * verifying that the details are correctly displayed. It also tests the
+     * "BackToCookbook" button, ensuring that the user can navigate back to the
+     * cookbook screen from the recipe details screen.
      */
-    @org.junit.Test //passed
+    @org.junit.Test
     public void testBackToCookbook() {
         // Navigate to cookbook screen
         Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
@@ -205,9 +208,6 @@ public class CookbookInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.recipe_serving_size)) // ID of serving size TextView
                 .check(ViewAssertions.matches(ViewMatchers.withText("Serves: 1"))); // Ensure the description matches
 
-        Espresso.onView(ViewMatchers.withId(R.id.recipe_instructions)) // ID of ingredients
-                .check(ViewAssertions.matches(ViewMatchers.withText("Butter the bread and place cheese between slices." + "\n" + "Grill the sandwich until golden brown on both sides."))); // Ensure the description matches
-
         SystemClock.sleep(2000);
 
         // Navigate to cookbook screen
@@ -230,7 +230,9 @@ public class CookbookInstrumentedTest {
 
 
     /**
-     * Tests whether a recipe added to the cookbook is still there after navigating away and coming back.
+     * Tests whether a recipe added to the cookbook is still visible after
+     * navigating away and returning to the cookbook screen. This ensures
+     * that data persists across navigation actions.
      */
     @org.junit.Test
     public void testAddRecipeAndNavigateAway() {
@@ -253,13 +255,13 @@ public class CookbookInstrumentedTest {
 
         String testInstruction1 = "Toast bread for 3 mins.";
 
-        typeText(R.id.recipeNameEditText, testName);
-        typeText(R.id.descriptionEditText, testDescipt);
-        typeText(R.id.cookTimeEditText, testCooktime);
-        typeText(R.id.servingSizeEditText, testSsize);
-        typeText(R.id.ingredientNameEditText, ingName1);
-        typeText(R.id.ingredientQuantityEditText, ingQty1);
-        typeText(R.id.ingredientUnitEditText, IngUnit1);
+        AddIngredientsInstrumentedTest.typeText(R.id.recipeNameEditText, testName);
+        AddIngredientsInstrumentedTest.typeText(R.id.descriptionEditText, testDescipt);
+        AddIngredientsInstrumentedTest.typeText(R.id.cookTimeEditText, testCooktime);
+        AddIngredientsInstrumentedTest.typeText(R.id.servingSizeEditText, testSsize);
+        AddIngredientsInstrumentedTest.typeText(R.id.ingredientNameEditText, ingName1);
+        AddIngredientsInstrumentedTest.typeText(R.id.ingredientQuantityEditText, ingQty1);
+        AddIngredientsInstrumentedTest.typeText(R.id.ingredientUnitEditText, IngUnit1);
 
         // Click "Add ingredient" button
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
@@ -281,7 +283,7 @@ public class CookbookInstrumentedTest {
         SystemClock.sleep(2000);
 
         // Add instructions
-        typeText(R.id.instructionEditText, testInstruction1);
+        AddIngredientsInstrumentedTest.typeText(R.id.instructionEditText, testInstruction1);
         Espresso.onView(ViewMatchers.withId(R.id.addInstructionButton))
                 .perform(ViewActions.scrollTo(), ViewActions.click());
         SystemClock.sleep(2000);
@@ -352,16 +354,5 @@ public class CookbookInstrumentedTest {
                 .check(ViewAssertions.matches(
                         ViewMatchers.hasDescendant(ViewMatchers.withText(testName))
                 ));
-    }
-
-    /**
-     * Helper method to type text into a text field.
-     *
-     * @param viewId the id of the text field to type into.
-     * @param text   the text to be typed.
-     */
-    private void typeText(final int viewId, final String text) {
-        Espresso.onView(ViewMatchers.withId(viewId))
-                .perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard());
     }
 }

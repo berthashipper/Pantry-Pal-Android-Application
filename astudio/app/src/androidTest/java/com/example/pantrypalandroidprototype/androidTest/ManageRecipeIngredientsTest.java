@@ -20,55 +20,58 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class ManageRecipeIngredientsTest {
 
-        @Rule
-        public ActivityScenarioRule<ControllerActivity> activityRule =
-                new ActivityScenarioRule<>(ControllerActivity.class);
-
-        /**
-         * Tests editing an ingredient's details and verifying updates.
-         */
-        @org.junit.Test
-        public void testEditRecipeIngredientUpdatesRecyclerView() {
-            // Navigate to Edit Ingredients screen
-            Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
-                    .perform(ViewActions.click());
-
-            SystemClock.sleep(3000);
-            String testName = "Chicken Curry";
-
-            // Scroll to the item and perform a click on it
-            Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
-                    .perform(RecyclerViewActions.actionOnItem(
-                            ViewMatchers.hasDescendant(ViewMatchers.withText(testName)),
-                            ViewActions.click()
-                    ));
-
-            Espresso.onView(ViewMatchers.withId(R.id.edit_recipe_ingredient))
-                    .perform(ViewActions.click());
-
-            typeText(R.id.itemNameText, "Garlic");
-            // Enter the edited quantity
-            typeText(R.id.itemQuantityText, "3");
-
-            // Click the Edit button to confirm
-            Espresso.onView(ViewMatchers.withId(R.id.editButton))
-                    .perform(ViewActions.click());
-
-            SystemClock.sleep(2000);
-
-            // Click the Edit button to confirm
-            Espresso.onView(ViewMatchers.withId(R.id.doneButton))
-                    .perform(ViewActions.click());
-
-            SystemClock.sleep(2000);
-
-            Espresso.onView(ViewMatchers.withText("3.0 cloves of Garlic"))
-                    .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-            SystemClock.sleep(2000);
-        }
+    @Rule
+    public ActivityScenarioRule<ControllerActivity> activityRule =
+            new ActivityScenarioRule<>(ControllerActivity.class);
 
     /**
-     * Tests adding an ingredient's details and verifying updates.
+     * Tests editing an ingredient's details in a recipe and verifying the update in the RecyclerView.
+     * It navigates to the recipe, selects an ingredient, edits its name and quantity, and confirms the update.
+     * After completing the update, it verifies that the new details are displayed in the RecyclerView.
+     */
+    @org.junit.Test
+    public void testEditRecipeIngredientUpdatesRecyclerView() {
+        // Navigate to Edit Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(3000);
+        String testName = "Chicken Curry";
+
+        // Scroll to the item and perform a click on it
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText(testName)),
+                        ViewActions.click()
+                ));
+
+        Espresso.onView(ViewMatchers.withId(R.id.edit_recipe_ingredient))
+                .perform(ViewActions.click());
+
+        AddIngredientsInstrumentedTest.typeText(R.id.itemNameText, "Garlic");
+        // Enter the edited quantity
+        AddIngredientsInstrumentedTest.typeText(R.id.itemQuantityText, "3");
+
+        // Click the Edit button to confirm
+        Espresso.onView(ViewMatchers.withId(R.id.editButton))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(2000);
+
+        // Click the Edit button to confirm
+        Espresso.onView(ViewMatchers.withId(R.id.doneButton))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(2000);
+
+        Espresso.onView(ViewMatchers.withText("3.0 cloves of Garlic"))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+        SystemClock.sleep(2000);
+    }
+
+    /**
+     * Tests adding a new ingredient to a recipe and verifying the update in the RecyclerView.
+     * It navigates to the recipe, adds a new ingredient with a name, quantity, and unit, then verifies that the new ingredient appears in the RecyclerView.
      */
     @org.junit.Test
     public void testAddRecipeIngredientUpdatesRecyclerView() {
@@ -89,11 +92,11 @@ public class ManageRecipeIngredientsTest {
                 .perform(ViewActions.click());
 
         //Enter the new Ingredient Name
-        typeText(R.id.itemNameText, "Chicken Leg");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemNameText, "Chicken Leg");
         // Enter the Added quantity
-        typeText(R.id.itemQuantityText, "200");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemQuantityText, "200");
         //Enter the Unit
-        typeText(R.id.itemUnitText, "g");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemUnitText, "g");
 
         // Click the Edit button to confirm
         Espresso.onView(ViewMatchers.withId(R.id.addButton))
@@ -114,7 +117,9 @@ public class ManageRecipeIngredientsTest {
 
 
     /**
-     * Tests deleting an ingredient's details and verifying updates.
+     * Tests deleting an ingredient from a recipe and verifying the update in the RecyclerView.
+     * It navigates to the recipe, deletes an ingredient, and verifies that the ingredient
+     * is no longer present in the RecyclerView.
      */
     @org.junit.Test
     public void testDeleteRecipeIngredientUpdatesRecyclerView() {
@@ -136,7 +141,7 @@ public class ManageRecipeIngredientsTest {
                 .perform(ViewActions.click());
 
         //Enter the new Ingredient Name
-        typeText(R.id.itemNameText, "Chicken Breast");
+        AddIngredientsInstrumentedTest.typeText(R.id.itemNameText, "Chicken Breast");
 
         // Click the Edit button to confirm
         Espresso.onView(ViewMatchers.withId(R.id.deleteButton))
@@ -152,18 +157,6 @@ public class ManageRecipeIngredientsTest {
                 .check(ViewAssertions.doesNotExist());
         SystemClock.sleep(2000);
     }
-
-
-        /**
-         * Helper method to type text into a text field.
-         *
-         * @param viewId the id of the text field to type into.
-         * @param text   the text to be typed.
-         */
-        private void typeText(final int viewId, final String text) {
-            Espresso.onView(ViewMatchers.withId(viewId))
-                    .perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard());
-        }
-    }
+}
 
 

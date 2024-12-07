@@ -23,9 +23,6 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class BackToCookbookTest {
 
-    /**
-     * Specifies the activity to launch before each test.
-     */
     @Rule
     public ActivityScenarioRule<ControllerActivity> activityRule =
             new ActivityScenarioRule<>(ControllerActivity.class);
@@ -37,7 +34,9 @@ public class BackToCookbookTest {
     public void testDoneButtonsNavigateToCookbook() {
 
         /**
-         * Back from Search Recipes Fragment
+         * Back from Search Recipes Fragment.
+         * This test simulates navigating to the search recipes view, then using the "back to Cookbook" button
+         * to verify the app navigates back to the Cookbook.
          */
         Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
                 .perform(ViewActions.click());
@@ -54,7 +53,9 @@ public class BackToCookbookTest {
         SystemClock.sleep(1000);
 
         /**
-         * Back from Add Recipe Fragment
+         * Back from Add Recipe Fragment.
+         * This test simulates navigating to the add recipe view, then using the "back to Cookbook" button
+         * to return to the Cookbook.
          */
         Espresso.onView(ViewMatchers.withId(R.id.addRecipeButton))
                 .perform(ViewActions.click());
@@ -68,7 +69,8 @@ public class BackToCookbookTest {
         SystemClock.sleep(1000);
 
         /**
-         * Back from Recipe Detail View Fragment
+         * Back from Recipe Detail View Fragment.
+         * This test navigates into the detail view of a recipe and uses the "done" button to return to the Cookbook.
          */
         Espresso.onView(ViewMatchers.withText("Spaghetti Bolognese"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
@@ -90,7 +92,9 @@ public class BackToCookbookTest {
         SystemClock.sleep(1000);
 
         /**
-         * Back from Scale Recipe Fragment
+         * Back from Scale Recipe Fragment.
+         * This test simulates navigating to the scale recipe fragment and using the "done" button
+         * to go back to the Cookbook.
          */
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .perform(RecyclerViewActions.actionOnItem(
@@ -113,7 +117,9 @@ public class BackToCookbookTest {
         SystemClock.sleep(1000);
 
         /**
-         * Back from Add Recipe Ingredient Fragment
+         * Back from Add Recipe Ingredient Fragment.
+         * This test simulates navigating to the "Add Recipe Ingredient" fragment, then uses the "done" button
+         * to return to the Cookbook.
          */
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .perform(RecyclerViewActions.actionOnItem(
@@ -136,7 +142,9 @@ public class BackToCookbookTest {
         SystemClock.sleep(1000);
 
         /**
-         * Back from Edit Recipe Ingredient Fragment
+         * Back from Edit Recipe Ingredient Fragment.
+         * This test simulates navigating to the "Edit Recipe Ingredient" fragment, and using the "done" button
+         * to go back to the Cookbook view.
          */
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .perform(RecyclerViewActions.actionOnItem(
@@ -159,7 +167,9 @@ public class BackToCookbookTest {
         SystemClock.sleep(1000);
 
         /**
-         * Back from Delete Recipe Ingredient Fragment
+         * Back from Delete Recipe Ingredient Fragment.
+         * This test simulates navigating to the "Delete Recipe Ingredient" fragment, and using the "done" button
+         * to return to the Cookbook view.
          */
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .perform(RecyclerViewActions.actionOnItem(
@@ -182,7 +192,9 @@ public class BackToCookbookTest {
         SystemClock.sleep(1000);
 
         /**
-         * Back from Edit Recipe Instruction Fragment
+         * Back from Edit Recipe Instruction Fragment.
+         * This test simulates navigating to the "Edit Recipe Instruction" fragment, and using the "done" button
+         * to navigate back to the Cookbook.
          */
         Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
                 .perform(RecyclerViewActions.actionOnItem(

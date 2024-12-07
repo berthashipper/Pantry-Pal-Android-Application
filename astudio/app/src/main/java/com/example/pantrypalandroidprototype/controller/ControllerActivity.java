@@ -1,5 +1,7 @@
 package com.example.pantrypalandroidprototype.controller;
 
+import static android.content.ContentValues.TAG;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
@@ -159,7 +161,6 @@ public class ControllerActivity extends AppCompatActivity
         }
         if (currentFragment instanceof AddToGroceryListFragment) {
             AddToGroceryListFragment addToGroceryListFragment = (AddToGroceryListFragment) currentFragment;
-            addToGroceryListFragment.showDoneMessage();
             // Switch to the Pantry fragment
             this.mainView.displayFragment(GroceryListFragment.newInstance(this, groceryList));
         }
@@ -369,11 +370,11 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onScaleRecipeMenu() {
         ScaleRecipeFragment fragment = ScaleRecipeFragment.newInstance(currentRecipe, this);
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.fragmentContainerView, fragment)
-                    .addToBackStack(null)
-                    .commit();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
@@ -549,7 +550,7 @@ public class ControllerActivity extends AppCompatActivity
                 break;
             }
         }
-    // Convert Set<Ingredient.dietary_tags> to Set<String>
+        // Convert Set<Ingredient.dietary_tags> to Set<String>
         Set<String> tagStrings = new HashSet<>();
         for (Ingredient.dietary_tags tag : tags) {
             tagStrings.add(tag.name()); // Converts enum to String
@@ -630,29 +631,54 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onEditInstructionDone() {
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
-        //Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
-    public void onAddIngredientToGroceryList(String name, double qty) {
-        Ingredient newIngredient = new Ingredient(name, qty, "", new HashSet<>());
-        groceryList.put(newIngredient, qty);
-
-        // Save the updated list to pantry
-        pantry.setGroceryList(groceryList); // Add this to reflect changes in the pantry
+    public void onAddIngredientToGroceryList(String name, double qty, String unit) {
+        // Check if the ingredient already exists in the grocery list
+        boolean ingredientExists = false;
+        Ingredient existingIngredient = null;
+        for (Ingredient ingredient : groceryList.keySet()) {
+            if (ingredient.getName().equals(name)) {
+                existingIngredient = ingredient;
+                ingredientExists = true;
+                break;
+            }
+        }
+        // If the ingredient exists, show an alert dialog to confirm updating the quantity
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        if (ingredientExists) {
+            if (fragment instanceof AddToGroceryListFragment) {
+                ((AddToGroceryListFragment) fragment).showUpdateQuantityDialog(existingIngredient, qty);
+            }
+        } else {
+            // If the ingredient doesn't exist, add it to the list
+            Ingredient newIngredient = new Ingredient(name, qty, unit, new HashSet<>());
+            groceryList.put(newIngredient, qty);
+            pantry.setGroceryList(groceryList);
+            if (fragment instanceof AddToGroceryListFragment) {
+                ((AddToGroceryListFragment) fragment).showAddedIngredientMessage(name);
+            }
+            Log.d("Controller", "Grocery list after addition: " + groceryList);
+        }
 
         persFacade.saveGroceryList(groceryList);
-
-        // Log the update for debugging
-        Log.d("Controller", "Grocery list after addition: " + groceryList);
     }
 
     @Override
     public void onAddIngredientsToGroceryListMenu() {
-        AddToGroceryListFragment addToGroceryListFragment = AddToGroceryListFragment.newInstance(this);
+        AddToGroceryListFragment addToGroceryListFragment = AddToGroceryListFragment.newInstance(this,groceryList);
         this.mainView.displayFragment(addToGroceryListFragment);
         persFacade.saveGroceryList(groceryList);
     }
+
+    @Override
+    public void onEditIngredientGroceryList(Ingredient ingredient) {
+        Log.d("GroceryListAdapter", "Binding ingredient: " + ingredient.getName() + ", Qty: " + ingredient.getQuantity() + ", Unit: " + ingredient.getUnit());
+        pantry.setGroceryList(groceryList);
+        persFacade.saveGroceryList(groceryList);
+    }
+
     @Override
     public void onViewGroceryListMenu() {
         if (groceryList == null) {
@@ -700,31 +726,114 @@ public class ControllerActivity extends AppCompatActivity
             groceryListFragment.showDeletedMessage(ingredient);
         }
     }
-    public void addTagToRecipe(Recipe recipe, Ingredient.dietary_tags newTag) {
-        recipe.addTag(newTag);  // Add the new tag to the recipe
-        persFacade.saveCookbook(cookbook);  // Save the updated cookbook
-        mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Refresh the view
+
+    public void addTagToRecipe(Recipe recipe, String newTag) {
+        String tag = newTag.toUpperCase();
+
+        // Check if the tag is predefined
+        try {
+            Ingredient.dietary_tags enumTag = Ingredient.dietary_tags.valueOf(tag);
+            recipe.addTag(enumTag); // Add the predefined dietary tag
+            Log.d("AddTag", "Added predefined tag: " + enumTag);
+        } catch (IllegalArgumentException e) {
+            // If not predefined, treat it as a dynamic tag
+            String dynamicTag = Ingredient.addDynamicTag(tag);
+            recipe.addDynamicTag(dynamicTag); // Add the dynamic tag
+            Log.d("AddTag", "Added dynamic tag: " + dynamicTag);
+        }
+
+        Log.d("AddTag", "Recipe tags after addition: " + recipe.getTags() + currentRecipe.dynamicTags);
+        // Save and refresh the view
+        persFacade.saveCookbook(cookbook);
+        mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));
     }
 
-    public void removeTagFromRecipe(Recipe recipe, Ingredient.dietary_tags tag) {
-        recipe.removeTag(tag); // Remove tag from recipe
-        persFacade.saveCookbook(cookbook);  // Save the updated cookbook
-        mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Refresh the view
+    public void removeTagFromRecipe(Recipe recipe, String tagString) {
+        try {
+            // First, check if it's a predefined dietary tag
+            Ingredient.dietary_tags predefinedTag = Ingredient.dietary_tags.valueOf(tagString);
+            if (recipe.getTags().contains(predefinedTag)) {
+                recipe.removeTag(predefinedTag);
+                Log.d("RemoveTag", "Removed predefined tag: " + predefinedTag);
+            } else {
+                Log.d("RemoveTag", "Tag is predefined but not part of the recipe's tags.");
+            }
+        } catch (IllegalArgumentException e) {
+            // If it's not a predefined enum value, treat it as a dynamic tag
+            if (recipe.getDynamicTags().contains(tagString)) {
+                recipe.removeDynamicTag(tagString);
+                Log.d("RemoveTag", "Removed dynamic tag: " + tagString);
+            } else {
+                Log.d("RemoveTag", "Tag is not part of dynamic tags or predefined tags.");
+            }
+        }
+
+        // Save the updated recipe state
+        persFacade.saveCookbook(cookbook);
+        mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));
+    }
+
+    public void deleteDynamicTagFromRecipe(Recipe recipe, String tagName) {
+        if (recipe.getDynamicTags().contains(tagName)) {
+            recipe.getDynamicTags().remove(tagName);
+            Log.d(TAG, "Removed tag from dynamic tag list.");
+        }
     }
 
     @Override
     public void shopFor(Set<Ingredient> ingredients) {
-        // Delegate to Pantry's shopFor method
-        pantry.shopFor(ingredients);
+        // Iterate through the ingredients to determine what needs to be added to the grocery list
+        for (Ingredient ingredient : ingredients) {
+            String ingredientName = ingredient.getName().toLowerCase();
+            Ingredient pantryIngredient = pantry.getIngredientByName(ingredientName);
 
-        // Save updated grocery list to persistence layer
+            // Calculate the quantity needed
+            double quantityNeeded = ingredient.getQuantity();
+            if (pantryIngredient != null && pantryIngredient.getQuantity() > 0) {
+                quantityNeeded -= pantryIngredient.getQuantity();
+            }
+
+            if (quantityNeeded > 0) {
+                boolean foundInList = false;
+
+                // Check if the ingredient is already in the grocery list
+                for (Map.Entry<Ingredient, Double> entry : groceryList.entrySet()) {
+                    if (entry.getKey().getName().equalsIgnoreCase(ingredientName)) {
+                        // Update the existing quantity in the grocery list
+                        double updatedQuantity = entry.getValue() + quantityNeeded;
+                        groceryList.put(entry.getKey(), updatedQuantity);
+                        foundInList = true;
+                        Log.d("Controller", "Updated grocery list: Added " + quantityNeeded + " more " +
+                                ingredient.getUnit() + " of " + ingredient.getName() + ".");
+                        break;
+                    }
+                }
+
+                // If the ingredient is not already in the list, add it as a new entry
+                if (!foundInList) {
+                    Ingredient newIngredient = new Ingredient(
+                            ingredient.getName(),
+                            quantityNeeded,
+                            ingredient.getUnit(),
+                            ingredient.getTags()
+                    );
+                    groceryList.put(newIngredient, quantityNeeded);
+                    Log.d("Controller", "Added " + quantityNeeded + " " + ingredient.getUnit() +
+                            " of " + ingredient.getName() + " to the grocery list.");
+                }
+            } else {
+                Log.d("Controller", "Sufficient " + ingredient.getName() + " is already in the pantry.");
+            }
+        }
+
+        // Reflect changes in the pantry and save to persistence
         pantry.setGroceryList(groceryList);
         persFacade.saveGroceryList(groceryList);
 
-        // Log the update for debugging
-        Log.d("Controller", "Ingredients added via shopFor: " + ingredients);
+        // Log the final grocery list for debugging
+        Log.d("Controller", "Final grocery list after shopFor: " + groceryList);
 
-        // Show updated grocery list
+        // Display the updated grocery list
         onViewGroceryListMenu();
     }
 }

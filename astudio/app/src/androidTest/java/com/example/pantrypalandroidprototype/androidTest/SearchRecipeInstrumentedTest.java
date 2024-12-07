@@ -10,6 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 
+import org.junit.Rule;
 import org.junit.runner.RunWith;
 
 /**
@@ -20,13 +21,13 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class SearchRecipeInstrumentedTest {
 
-    // Rule to launch the activity containing the SearchRecipeFragment
-    @org.junit.Rule
+    @Rule
     public ActivityScenarioRule<ControllerActivity> activityRule =
             new ActivityScenarioRule<>(ControllerActivity.class);
 
     /**
-     * This tests whether the search functionality works correctly when a valid query is entered.
+     * This test verifies that the search functionality works correctly when a valid recipe query is entered.
+     * It ensures that the search results are displayed properly when a recipe like "Salad" is searched.
      */
     @org.junit.Test
     public void testSearchRecipe_validQuery() {
@@ -40,7 +41,7 @@ public class SearchRecipeInstrumentedTest {
                 .perform(ViewActions.click());
 
         // Step 3: Type in a valid recipe name
-        this.typeText(R.id.searchQueryText, "Salad");
+        AddIngredientsInstrumentedTest.typeText(R.id.searchQueryText, "Salad");
 
         // Step 4: Click the search button
         Espresso.onView(ViewMatchers.withId(R.id.searchButton))
@@ -52,7 +53,8 @@ public class SearchRecipeInstrumentedTest {
     }
 
     /**
-     * This tests the behavior when an invalid query (empty query) is entered.
+     * This test verifies the behavior when an invalid search query (an empty query) is entered.
+     * It ensures that an error message "Please enter a valid search query." is displayed when the search query is empty.
      */
     @org.junit.Test
     public void testSearchRecipe_emptyQuery() {
@@ -66,7 +68,7 @@ public class SearchRecipeInstrumentedTest {
                 .perform(ViewActions.click());
 
         // Step 3: Leave the search query empty
-        this.typeText(R.id.searchQueryText, "");
+        AddIngredientsInstrumentedTest.typeText(R.id.searchQueryText, "");
 
         // Step 4: Click the search button
         Espresso.onView(ViewMatchers.withId(R.id.searchButton))
@@ -78,7 +80,8 @@ public class SearchRecipeInstrumentedTest {
     }
 
     /**
-     * This tests the behavior when no recipes match the search query.
+     * This test verifies the behavior when no recipes match the entered search query.
+     * It ensures that a "No recipes found" snackbar message is displayed when no recipes match the query.
      */
     @org.junit.Test
     public void testSearchRecipe_noMatches() {
@@ -92,7 +95,7 @@ public class SearchRecipeInstrumentedTest {
                 .perform(ViewActions.click());
 
         // Step 3: Type in a query that doesn't match any recipe
-        this.typeText(R.id.searchQueryText, "NonExistentRecipe");
+        AddIngredientsInstrumentedTest.typeText(R.id.searchQueryText, "NonExistentRecipe");
 
         // Step 4: Click the search button
         Espresso.onView(ViewMatchers.withId(R.id.searchButton))
@@ -101,18 +104,6 @@ public class SearchRecipeInstrumentedTest {
         // Step 5: Verify that a snackbar message is displayed indicating no recipes were found
         Espresso.onView(ViewMatchers.withText("No recipes found"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-    }
-
-    /**
-     * Helper method to type text into a text field.
-     *
-     * @param viewId the id of the text field to type into.
-     * @param text the text to be typed.
-     */
-    private void typeText(final int viewId, final String text) {
-        Espresso.onView(ViewMatchers.withId(viewId))
-                .perform(ViewActions.typeText(text));
-        Espresso.closeSoftKeyboard(); // close the keyboard to prevent it from occluding other objects
     }
 }
 

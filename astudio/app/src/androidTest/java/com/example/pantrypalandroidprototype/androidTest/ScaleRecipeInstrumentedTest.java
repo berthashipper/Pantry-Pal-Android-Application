@@ -13,18 +13,19 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 
+import org.junit.Rule;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class ScaleRecipeInstrumentedTest {
 
-    // Rule to launch the activity containing the ScaleRecipeFragment
-    @org.junit.Rule
+    @Rule
     public ActivityScenarioRule<ControllerActivity> activityRule =
             new ActivityScenarioRule<>(ControllerActivity.class);
 
     /**
-     * This tests the functionality of scaling a recipe.
+     * This tests the functionality of scaling a recipe with a valid scaling factor.
+     * The recipe's ingredients and serving size should be scaled correctly based on the factor.
      */
     @org.junit.Test
     public void testScaleRecipe_validScalingFactor() {
@@ -45,7 +46,7 @@ public class ScaleRecipeInstrumentedTest {
                 .perform(ViewActions.click());
 
         // Step 4: Enter a valid scaling factor
-        this.typeText(R.id.scaleFactor, "2");
+        AddIngredientsInstrumentedTest.typeText(R.id.scaleFactor, "2");
 
         // Step 5: Click the "Apply Scaling" button
         Espresso.onView(ViewMatchers.withId(R.id.scaleButton))
@@ -68,6 +69,7 @@ public class ScaleRecipeInstrumentedTest {
 
     /**
      * This tests the behavior when the scaling factor input is left empty.
+     * An error message should be displayed indicating an invalid scale factor.
      */
     @org.junit.Test
     public void testScaleRecipe_emptyScalingFactor() {
@@ -88,7 +90,7 @@ public class ScaleRecipeInstrumentedTest {
                 .perform(ViewActions.click());
 
         // Step 4: Leave the scaling factor input empty
-        this.typeText(R.id.scaleFactor, "");
+        AddIngredientsInstrumentedTest.typeText(R.id.scaleFactor, "");
 
         // Step 5: Click the "Apply Scaling" button
         Espresso.onView(ViewMatchers.withId(R.id.scaleButton))
@@ -103,6 +105,7 @@ public class ScaleRecipeInstrumentedTest {
 
     /**
      * This tests the behavior when the scaling factor is set to 0.
+     * An error message should be displayed indicating that the scale factor must be greater than 0.
      */
     @org.junit.Test
     public void testScaleRecipe_zeroScalingFactor() {
@@ -123,7 +126,7 @@ public class ScaleRecipeInstrumentedTest {
                 .perform(ViewActions.click());
 
         // Step 4: Enter a scaling factor of 0
-        this.typeText(R.id.scaleFactor, "0");
+        AddIngredientsInstrumentedTest.typeText(R.id.scaleFactor, "0");
 
         // Step 5: Click the "Apply Scaling" button
         Espresso.onView(ViewMatchers.withId(R.id.scaleButton))
@@ -137,7 +140,8 @@ public class ScaleRecipeInstrumentedTest {
     }
 
     /**
-     * This tests the functionality of scaling a recipe from generate recipes.
+     * This tests the functionality of scaling a recipe from the "Generate Recipes" screen.
+     * The scaled recipe should reflect the ingredients and serving size based on the scaling factor.
      */
     @org.junit.Test
     public void testScaleRecipe_generatedRecipe() {
@@ -146,10 +150,10 @@ public class ScaleRecipeInstrumentedTest {
                 .perform(ViewActions.click());
 
         // Add 3 slices of bread
-        GenerateRecipesInstrumentedTest.addIngredient("Bread", "3", "slices");
+        AddIngredientsInstrumentedTest.addPantryIngredient("Bread", "3", "slices");
 
         // Add 4 slices of cheese
-        GenerateRecipesInstrumentedTest.addIngredient("Cheese", "4", "slices");
+        AddIngredientsInstrumentedTest.addPantryIngredient("Cheese", "4", "slices");
 
         // Navigate back to the Pantry view
         Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton))
@@ -175,7 +179,7 @@ public class ScaleRecipeInstrumentedTest {
         SystemClock.sleep(1000);
 
         // Step 4: Enter a valid scaling factor
-        this.typeText(R.id.scaleFactor, "2");
+        AddIngredientsInstrumentedTest.typeText(R.id.scaleFactor, "2");
 
         SystemClock.sleep(1000);
 
@@ -201,7 +205,8 @@ public class ScaleRecipeInstrumentedTest {
     }
 
     /**
-     * This tests the functionality of navigating back to the recipe from the ScaleRecipeFragment.
+     * This tests the functionality of navigating back to the recipe details screen from the ScaleRecipeFragment.
+     * Upon navigation, the original recipe details should be visible again.
      */
     @org.junit.Test
     public void testBackToRecipeNavigation() {
@@ -226,18 +231,5 @@ public class ScaleRecipeInstrumentedTest {
 
         Espresso.onView(ViewMatchers.withText("Cook Time: 10 minutes"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-    }
-
-
-    /**
-     * Helper method to type text into a text field.
-     *
-     * @param viewId the id of the text field to type into.
-     * @param text the text to be typed.
-     */
-    private void typeText(final int viewId, final String text) {
-        Espresso.onView(ViewMatchers.withId(viewId))
-                .perform(ViewActions.typeText(text));
-        Espresso.closeSoftKeyboard();
     }
 }

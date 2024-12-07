@@ -12,18 +12,20 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 
+import org.junit.Rule;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class SearchIngredientsInstrumentedTest {
 
-    // Rule to launch the activity containing the AddRecipeFragment
-    @org.junit.Rule
+    @Rule
     public ActivityScenarioRule<ControllerActivity> activityRule =
             new ActivityScenarioRule<>(ControllerActivity.class);
 
     /**
-     * This tests whether the search functionality works correctly when a valid ingredient is entered.
+     * This test verifies that the search functionality works correctly when a valid ingredient query is entered.
+     * It adds ingredients to the pantry, navigates to the search screen, performs a search with a valid ingredient name,
+     * and checks that the filtered ingredient list is displayed.
      */
     @org.junit.Test
     public void testSearchIngredient_validQuery() {
@@ -32,8 +34,8 @@ public class SearchIngredientsInstrumentedTest {
                 .perform(ViewActions.click());
 
         // Add ingredients to search for
-        GenerateRecipesInstrumentedTest.addIngredient("Whole Wheat Bread", "30", "slices");
-        GenerateRecipesInstrumentedTest.addIngredient("White Bread", "10", "slices");
+        AddIngredientsInstrumentedTest.addPantryIngredient("Whole Wheat Bread", "30", "slices");
+        AddIngredientsInstrumentedTest.addPantryIngredient("White Bread", "10", "slices");
 
         // Navigate back to the Pantry view
         Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton))
@@ -46,7 +48,7 @@ public class SearchIngredientsInstrumentedTest {
                 .perform(ViewActions.click());
 
         // Type in a valid ingredient name
-        this.typeText(R.id.searchQueryText, "Bread");
+        AddIngredientsInstrumentedTest.typeText(R.id.searchQueryText, "Bread");
 
         // Click the search button
         Espresso.onView(ViewMatchers.withId(R.id.searchButton))
@@ -60,7 +62,9 @@ public class SearchIngredientsInstrumentedTest {
     }
 
     /**
-     * This tests the behavior when an invalid query (empty query) is entered.
+     * This test checks the behavior when an invalid (empty) search query is entered.
+     * It clicks the search button without typing anything in the search field,
+     * and then verifies that an error message ("Please enter a valid search query.") is displayed.
      */
     @org.junit.Test
     public void testSearchIngredient_emptyQuery() {
@@ -72,7 +76,7 @@ public class SearchIngredientsInstrumentedTest {
         SystemClock.sleep(1000);
 
         // Leave the search query empty
-        this.typeText(R.id.searchQueryText, "");
+        AddIngredientsInstrumentedTest.typeText(R.id.searchQueryText, "");
 
         // Click the search button
         Espresso.onView(ViewMatchers.withId(R.id.searchButton))
@@ -86,7 +90,9 @@ public class SearchIngredientsInstrumentedTest {
     }
 
     /**
-     * This tests the behavior when no ingredients match the search query.
+     * This test verifies the behavior when no ingredients match the search query.
+     * It enters a search query that does not match any existing ingredients and checks
+     * that a snackbar message indicating "No ingredients found" is displayed.
      */
     @org.junit.Test
     public void testSearchIngredient_noMatches() {
@@ -96,7 +102,7 @@ public class SearchIngredientsInstrumentedTest {
                 .perform(ViewActions.click());
 
         // Type in a query that doesn't match any ingredient
-        this.typeText(R.id.searchQueryText, "NonExistentIngredient");
+        AddIngredientsInstrumentedTest.typeText(R.id.searchQueryText, "NonExistentIngredient");
 
         // Click the search button
         Espresso.onView(ViewMatchers.withId(R.id.searchButton))
@@ -107,18 +113,5 @@ public class SearchIngredientsInstrumentedTest {
         // Verify that a snackbar message is displayed indicating no ingredients were found
         Espresso.onView(ViewMatchers.withText("No ingredients found"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
-    }
-
-
-    /**
-     * Helper method to type text into a text field.
-     *
-     * @param viewId the id of the text field to type into.
-     * @param text the text to be typed.
-     */
-    private void typeText(final int viewId, final String text) {
-        Espresso.onView(ViewMatchers.withId(viewId))
-                .perform(ViewActions.typeText(text));
-        Espresso.closeSoftKeyboard();
     }
 }

@@ -3,7 +3,6 @@ package com.example.pantrypalandroidprototype.androidTest;
 import android.os.SystemClock;
 
 import androidx.test.espresso.Espresso;
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
@@ -25,15 +24,14 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class DeleteIngredientsInstrumentedTest {
 
-    /**
-     * Specifies the activity to launch before each test.
-     */
     @Rule
     public ActivityScenarioRule<ControllerActivity> activityRule =
             new ActivityScenarioRule<>(ControllerActivity.class);
 
     /**
-     * Tests whether deleting an ingredient updates the RecyclerView correctly.
+     * Tests that deleting an ingredient from the pantry updates the RecyclerView correctly.
+     * This test first adds an ingredient (Sugar) to the pantry, then deletes it and verifies that the ingredient
+     * no longer appears in the RecyclerView. It also ensures the pantry view is displayed after the deletion.
      */
     @org.junit.Test
     public void testDeleteIngredientUpdatesRecyclerView() {
@@ -47,21 +45,9 @@ public class DeleteIngredientsInstrumentedTest {
         Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
                 .perform(ViewActions.click());
 
-        // Input test data
-        String testName = "Sugar";
-        String testQty = "1.5";
-        String testUnit = "kg";
-
-        typeText(R.id.itemNameText, testName);
-        typeText(R.id.itemQtyText, testQty);
-        typeText(R.id.itemUnitText, testUnit);
-
-        // Click "Add" button
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo());
-        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
-
-        // Navigate back to the pantry
-        Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());
+        AddIngredientsInstrumentedTest.addPantryIngredient("Sugar","1.5","cups");
+        Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton))
+                .perform(ViewActions.click());
 
         SystemClock.sleep(1000);
 
@@ -83,16 +69,5 @@ public class DeleteIngredientsInstrumentedTest {
         // Verify the ingredient is no longer displayed in the RecyclerView
         Espresso.onView(ViewMatchers.withText("Sugar"))
                 .check(ViewAssertions.doesNotExist());
-    }
-
-    /**
-     * Helper method to type text into a text field.
-     *
-     * @param viewId the id of the text field to type into.
-     * @param text   the text to be typed.
-     */
-    private void typeText(final int viewId, final String text) {
-        Espresso.onView(ViewMatchers.withId(viewId))
-                .perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard());
     }
 }

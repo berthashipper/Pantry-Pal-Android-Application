@@ -150,6 +150,7 @@ public class PantryFragment extends Fragment implements IPantryView {
         }
     }
 
+
     /**
      * Handles the "View Pantry" button click event.
      * Notifies the listener to open the view pantry menu.
