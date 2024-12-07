@@ -60,7 +60,7 @@ public class EditTagDialogFragment extends DialogFragment {
         builder.setPositiveButton("Add", (dialog, which) -> {
             String newTag = input.getText().toString();
             if (!newTag.isEmpty()) {
-                recipe.addTag(Ingredient.dietary_tags.valueOf(newTag));  // Add the new tag to the recipe
+                recipe.addTag(newTag);  // Add the new tag to the recipe
                 if (tagActionListener != null) {
                     tagActionListener.onTagAdded(recipe, newTag);  // Notify listener to update the UI
                 }
@@ -85,7 +85,7 @@ public class EditTagDialogFragment extends DialogFragment {
             if (requestCode == REQUEST_ADD_TAG) {
                 // Handle adding the tag to the recipe (e.g., add the tag to the recipe object)
                 if (newTag != null && !newTag.isEmpty()) {
-                    recipe.addTag(Ingredient.dietary_tags.valueOf(newTag)); // Update the recipe's tags
+                    recipe.addTag(newTag); // Update the recipe's tags
                     Snackbar.make(getView(), "Tag '" + newTag + "' added", Snackbar.LENGTH_SHORT).show();
                 } else {
                     Log.e(TAG, "Invalid tag input: " + newTag);

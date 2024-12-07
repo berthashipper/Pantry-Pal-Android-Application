@@ -208,7 +208,6 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
                 notifyDataSetChanged(); // Update the adapter
                 listener.onEditIngredientGroceryList(ingredient);
                 showUpdatedQuantityMessage(ingredient.getName(), newQuantity);
-                //Snackbar.make(requireView(), "Updated quantity of " + ingredient.getName() + " to " + newQuantity, Snackbar.LENGTH_SHORT).show();
             }
         }
 

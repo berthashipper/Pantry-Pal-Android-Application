@@ -28,6 +28,7 @@ public class Recipe implements Serializable {
 
     /** The set of dietary tags associated with the recipe. */
     public Set<Ingredient.dietary_tags> recipeTags;
+    public Set<String> recipeTagsStrings;
     public final Set<String> dynamicTags;
 
     /** A brief description of the recipe. */
@@ -65,7 +66,7 @@ public class Recipe implements Serializable {
         this.imageUrl = imageUrl;
         this.url = url;
         this.ingredientsInRecipe = new HashSet<>();
-        this.recipeTags = new HashSet<>();
+        this.recipeTagsStrings = new HashSet<>();
         this.dynamicTags = new HashSet<>();
     }
 
@@ -82,12 +83,12 @@ public class Recipe implements Serializable {
      * @param url                 The URL for more details.
      */
     public Recipe(String recipeName, Set<Ingredient> ingredientsInRecipe,
-                  String instructions, Set<Ingredient.dietary_tags> recipeTags,
+                  String instructions, Set<String> recipeTags,
                   String recipeDescription, Duration cookTime, int servingSize, String url) {
         this.recipeName = recipeName;
         this.ingredientsInRecipe = ingredientsInRecipe;
         this.instructions = instructions;
-        this.recipeTags = recipeTags;
+        this.recipeTagsStrings = recipeTags;
         this.dynamicTags = new HashSet<>();
         this.recipeDescription = recipeDescription;
         this.cookTime = cookTime;
@@ -146,42 +147,38 @@ public class Recipe implements Serializable {
      *
      * @return A set of dietary tags.
      */
-    public Set<Ingredient.dietary_tags> getTags() {
-        return recipeTags;
+    public Set<String> getTags() {
+        return new HashSet<>(recipeTagsStrings);
     }
 
-
-    public void addTag(Ingredient.dietary_tags tag) {
-        if (recipeTags == null) {
-            recipeTags = new HashSet<>();
+    public void addTag(String tag) {
+        if (recipeTagsStrings == null) {
+            recipeTagsStrings = new HashSet<>();
         }
-        recipeTags.add(tag);
+        recipeTagsStrings.add(tag);
     }
 
     public void addDynamicTag(String tag) {
         dynamicTags.add(tag);
     }
 
-    public Set<Ingredient.dietary_tags> getDietaryTags() {
-        return new HashSet<>(recipeTags);
+    public Set<String> getDietaryTags() {
+        return recipeTagsStrings;
     }
 
     public Set<String> getDynamicTags() {
-        return new HashSet<>(Ingredient.dynamicTags.keySet());
+        return recipeTagsStrings;
     }
 
-    public boolean removeTag(Ingredient.dietary_tags tag) {
-        if (recipeTags.contains(tag)) {
-            recipeTags.remove(tag);
-            Log.d("Recipe", "Tag removed from recipe: " + tag.name());
+    public boolean removeTag(String tag) {
+        if (recipeTagsStrings.contains(tag)) {
+            recipeTagsStrings.remove(tag);
+            dynamicTags.remove(tag);
+            Log.d("Recipe", "Tag removed from recipe: " + tag);
             return true;
         }
-        Log.e("Recipe", "Tag not found: " + tag.name());
+        Log.e("Recipe", "Tag not found: " + tag);
         return false;
-    }
-
-    public void removeDynamicTag(String tag) {
-        dynamicTags.remove(tag);
     }
 
     /**

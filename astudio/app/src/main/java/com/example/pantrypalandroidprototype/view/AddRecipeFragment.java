@@ -63,14 +63,14 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
 
         double quantity = Double.parseDouble(quantityString);
 
-        Set<Ingredient.dietary_tags> dietaryTags = new HashSet<>();
+        /*Set<String> dietaryTags = new HashSet<>();
         // Check if dietary tags are selected and add to set
-        if (binding.veganCheckbox.isChecked()) dietaryTags.add(Ingredient.dietary_tags.VEGAN);
-        if (binding.kosherCheckbox.isChecked()) dietaryTags.add(Ingredient.dietary_tags.KOSHER);
-        if (binding.glutenFreeCheckbox.isChecked()) dietaryTags.add(Ingredient.dietary_tags.GLUTEN_FREE);
+        if (binding.veganCheckbox.isChecked()) dietaryTags.add("VEGAN");
+        if (binding.kosherCheckbox.isChecked()) dietaryTags.add("KOSHER");
+        if (binding.glutenFreeCheckbox.isChecked()) dietaryTags.add("GLUTEN_FREE");*/
 
         // Add the ingredient to the RecipeBuilder
-        recipeBuilder.addIngredient(name, (int) quantity, unit, dietaryTags);
+        recipeBuilder.addIngredient(name, (int) quantity, unit, null);
 
         // Notify user
         Snackbar.make(getView(), "Ingredient added: " + name, Snackbar.LENGTH_SHORT).show();

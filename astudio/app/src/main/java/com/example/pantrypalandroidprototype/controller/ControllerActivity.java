@@ -729,9 +729,11 @@ public class ControllerActivity extends AppCompatActivity
 
     public void addTagToRecipe(Recipe recipe, String newTag) {
         String tag = newTag.toUpperCase();
-
+        currentRecipe.addTag(newTag);
+        currentRecipe.addDynamicTag(newTag); // Add the dynamic tag
+        Log.d("AddTag", "Added dynamic tag: " + newTag);
         // Check if the tag is predefined
-        try {
+        /*try {
             Ingredient.dietary_tags enumTag = Ingredient.dietary_tags.valueOf(tag);
             recipe.addTag(enumTag); // Add the predefined dietary tag
             Log.d("AddTag", "Added predefined tag: " + enumTag);
@@ -740,7 +742,7 @@ public class ControllerActivity extends AppCompatActivity
             String dynamicTag = Ingredient.addDynamicTag(tag);
             recipe.addDynamicTag(dynamicTag); // Add the dynamic tag
             Log.d("AddTag", "Added dynamic tag: " + dynamicTag);
-        }
+        }*/
 
         Log.d("AddTag", "Recipe tags after addition: " + recipe.getTags() + currentRecipe.dynamicTags);
         // Save and refresh the view
@@ -749,7 +751,16 @@ public class ControllerActivity extends AppCompatActivity
     }
 
     public void removeTagFromRecipe(Recipe recipe, String tagString) {
-        try {
+        if (recipe.getDynamicTags().contains(tagString)) {
+            recipe.removeTag(tagString);
+            Log.d("RemoveTag", "Removed dynamic tag: " + tagString);
+        } else if (recipe.getTags().contains(tagString)){
+            recipe.removeTag(tagString);
+            Log.d("RemoveTag", "Removed non dynamic tag: " + tagString);
+        } else {
+            Log.d("RemoveTag", "Tag is not part of dynamic tags or predefined tags.");
+        }
+        /*try {
             // First, check if it's a predefined dietary tag
             Ingredient.dietary_tags predefinedTag = Ingredient.dietary_tags.valueOf(tagString);
             if (recipe.getTags().contains(predefinedTag)) {
@@ -765,8 +776,7 @@ public class ControllerActivity extends AppCompatActivity
                 Log.d("RemoveTag", "Removed dynamic tag: " + tagString);
             } else {
                 Log.d("RemoveTag", "Tag is not part of dynamic tags or predefined tags.");
-            }
-        }
+            }*/
 
         // Save the updated recipe state
         persFacade.saveCookbook(cookbook);

@@ -33,7 +33,7 @@ public class RecipeBuilder implements Serializable {
     public List<String> instructions = new ArrayList<>();
 
     /** A set of dietary tags associated with the recipe. */
-    public Set<Ingredient.dietary_tags> tags = new HashSet<>();
+    public Set<String> tags = new HashSet<>();
 
     /** A description of the recipe. */
     public String description;
@@ -84,14 +84,17 @@ public class RecipeBuilder implements Serializable {
      * @param dietaryTags The dietary tags associated with the ingredient.
      * @return The current {@code RecipeBuilder} instance for method chaining.
      */
-    public RecipeBuilder addIngredient(String name, double quantity, String unit, Set<Ingredient.dietary_tags> dietaryTags) {
+    public RecipeBuilder addIngredient(String name, double quantity, String unit, Set<String> dietaryTags) {
+        if (dietaryTags == null) {
+            dietaryTags = new HashSet<>(); // Prevent null references
+        }
         // Convert dietary_tags to a set of strings
-        Set<String> tagStrings = dietaryTags.stream()
+        /*Set<String> tagStrings = dietaryTags.stream()
                 .map(Enum::name)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toSet());*/
 
         // Create a new Ingredient object and add it to the ingredients set
-        Ingredient ingredient = new Ingredient(name, quantity, unit, tagStrings);
+        Ingredient ingredient = new Ingredient(name, quantity, unit, dietaryTags);
         ingredients.add(ingredient);
         return this;
     }
@@ -113,7 +116,7 @@ public class RecipeBuilder implements Serializable {
      * @param tag A dietary tag to add to the recipe.
      * @return The current {@code RecipeBuilder} instance for method chaining.
      */
-    public RecipeBuilder addTag(Ingredient.dietary_tags tag) {
+    public RecipeBuilder addTag(String tag) {
         tags.add(tag);
         return this;
     }

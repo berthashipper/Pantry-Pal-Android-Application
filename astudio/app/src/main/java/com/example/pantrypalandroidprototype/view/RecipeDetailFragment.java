@@ -99,8 +99,8 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         // Add dietary tags to the layout dynamically
         Set<String> allTags = new HashSet<>();
         if (recipe.getTags() != null) {
-            for (Ingredient.dietary_tags tag : recipe.getTags()) {
-                allTags.add(tag.name()); // Add enum tags
+            for (String tag : recipe.getTags()) {
+                allTags.add(tag); // Add enum tags
             }
         }
         if (recipe.getDynamicTags() != null) {
@@ -277,24 +277,24 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
                 }
             } else if (requestCode == REQUEST_DELETE_TAG) {
                 // Handle tag deletion safely
-                String tagName = newValue.toUpperCase();
+                String tagName = newValue;
 
                 // Check if it is a valid dietary_tags enum value
-                Ingredient.dietary_tags tagToDelete = null;
+                /*Ingredient.dietary_tags tagToDelete = null;
                 try {
                     tagToDelete = Ingredient.dietary_tags.valueOf(tagName);
                 } catch (IllegalArgumentException e) {
                     Log.e(TAG, "Tag name is invalid: " + tagName, e);
-                }
+                }*/
 
-                if (tagToDelete != null && recipe.getTags().contains(tagToDelete)) {
-                    controller.removeTagFromRecipe(recipe, String.valueOf(tagToDelete));
-                    Snackbar.make(getView(), "Tag deleted: " + tagToDelete, Snackbar.LENGTH_SHORT).show();
-                    deleteTag(tagToDelete);
-                } else if (tagToDelete != null && recipe.getDynamicTags().contains(tagToDelete.toString())) {
-                    controller.removeTagFromRecipe(recipe, String.valueOf(tagToDelete));
-                    deleteTag(tagToDelete);
-                    Snackbar.make(getView(), "Tag deleted: " + tagToDelete, Snackbar.LENGTH_SHORT).show();
+                if (tagName != null && recipe.getTags().contains(tagName)) {
+                    controller.removeTagFromRecipe(recipe, tagName);
+                    Snackbar.make(getView(), "Tag deleted: " + tagName, Snackbar.LENGTH_SHORT).show();
+                    deleteTag(tagName);
+                } else if (tagName != null && recipe.getDynamicTags().contains(tagName)) {
+                    controller.removeTagFromRecipe(recipe,tagName);
+                    deleteTag(tagName);
+                    Snackbar.make(getView(), "Tag deleted: " + tagName, Snackbar.LENGTH_SHORT).show();
                 } else {
                     Snackbar.make(getView(), "Tag not found: " + tagName, Snackbar.LENGTH_SHORT).show();
                 }
@@ -316,10 +316,10 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         dialog.show(getParentFragmentManager(), "EditDialog");
     }
 
-    private void showDeleteTagConfirmationDialog(Ingredient.dietary_tags tag) {
+    private void showDeleteTagConfirmationDialog(String tag) {
         new AlertDialog.Builder(getContext())
                 .setTitle("Delete Tag")
-                .setMessage("Are you sure you want to delete the tag '" + tag.name() + "'?")
+                .setMessage("Are you sure you want to delete the tag '" + tag + "'?")
                 .setPositiveButton("Yes", (dialog, which) -> deleteTag(tag))  // Confirm deletion
                 .setNegativeButton("No", null)  // Cancel deletion
                 .show();
@@ -335,17 +335,17 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         }
     }
 
-    private void deleteTag(Ingredient.dietary_tags tag) {
+    private void deleteTag(String tag) {
         // Remove the tag from the recipe object
         boolean tagRemoved = recipe.removeTag(tag);
-        Log.d(TAG, "Tag removed from recipe: " + tag.name() + ", Success: " + tagRemoved);
+        Log.d(TAG, "Tag removed from recipe: " + tag + ", Success: " + tagRemoved);
 
         if (tagRemoved) {
             // Update the UI to reflect the removal
             updateTagsUI(); // This method updates the UI after a tag is removed
-            Snackbar.make(getView(), "Tag '" + tag.name() + "' deleted", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(getView(), "Tag '" + tag + "' deleted", Snackbar.LENGTH_SHORT).show();
         } else {
-            Log.e(TAG, "Failed to remove tag: " + tag.name());
+            Log.e(TAG, "Failed to remove tag: " + tag);
             //Snackbar.make(getView(), "Failed to delete tag", Snackbar.LENGTH_SHORT).show();
         }
     }
@@ -451,9 +451,9 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
 
         // Add the updated tags to the layout
         if (recipe.getTags() != null && !recipe.getTags().isEmpty()) {
-            for (Ingredient.dietary_tags tag : recipe.getTags()) {
+            for (String tag : recipe.getTags()) {
                 TextView tagView = new TextView(getContext());
-                tagView.setText(tag.name());
+                tagView.setText(tag);
                 tagView.setTextSize(16);
                 tagView.setTextColor(Color.WHITE);
                 tagView.setPadding(20, 20, 20, 20);

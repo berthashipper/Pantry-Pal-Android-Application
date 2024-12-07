@@ -41,7 +41,7 @@ public class RecipeBuilderTest extends TestCase {
     @Test
     public void testTestAddIngredient() {
         RecipeBuilder builder = new RecipeBuilder();
-        builder.addIngredient("Potato", 5, "kg", Set.of(Ingredient.dietary_tags.VEGAN, Ingredient.dietary_tags.GLUTEN_FREE));
+        builder.addIngredient("Potato", 5, "kg", Set.of("VEGAN", "GLUTEN_FREE"));
 
         Recipe recipe = builder.build();
         assertEquals(1, recipe.getIngredients().size());
@@ -81,12 +81,12 @@ public class RecipeBuilderTest extends TestCase {
      */
     public void testAddTag() {
         RecipeBuilder builder = new RecipeBuilder();
-        builder.addTag(Ingredient.dietary_tags.VEGAN);
-        builder.addTag(Ingredient.dietary_tags.GLUTEN_FREE);
+        builder.addTag("VEGAN");
+        builder.addTag("GLUTEN_FREE");
 
         Recipe recipe = builder.build();
-        assertTrue(recipe.getTags().contains(Ingredient.dietary_tags.VEGAN));
-        assertTrue(recipe.getTags().contains(Ingredient.dietary_tags.GLUTEN_FREE));
+        assertTrue(recipe.getTags().contains("VEGAN"));
+        assertTrue(recipe.getTags().contains("GLUTEN_FREE"));
     }
 
     /**
@@ -101,10 +101,10 @@ public class RecipeBuilderTest extends TestCase {
     public void testBuild() {
         RecipeBuilder builder = new RecipeBuilder();
         builder.setName("Vegetable Soup")
-                .addIngredient("Carrot", 3, "pieces", Set.of(Ingredient.dietary_tags.VEGAN))
+                .addIngredient("Carrot", 3, "pieces", null)
                 .addInstruction("Chop all vegetables")
                 .addInstruction("Cook in boiling water for 20 minutes")
-                .addTag(Ingredient.dietary_tags.VEGAN)
+                .addTag("VEGAN")
                 .setDescription("A healthy and nutritious soup")
                 .setCookTime(Duration.ofMinutes(30))
                 .setServingSize(4)
@@ -114,7 +114,7 @@ public class RecipeBuilderTest extends TestCase {
         assertEquals("Vegetable Soup", recipe.getRecipeName());
         assertEquals(4, recipe.getServingSize());
         assertTrue(recipe.getInstructions().contains("Chop all vegetables"));
-        assertTrue(recipe.getTags().contains(Ingredient.dietary_tags.VEGAN));
+        assertTrue(recipe.getTags().contains("VEGAN"));
         assertEquals(Duration.ofMinutes(30), recipe.getCookTime());
         assertEquals("http://example.com/vegetable-soup", recipe.getUrl());
     }
