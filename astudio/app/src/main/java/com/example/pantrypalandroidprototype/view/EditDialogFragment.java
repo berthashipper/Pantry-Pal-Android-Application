@@ -1,5 +1,4 @@
 package com.example.pantrypalandroidprototype.view;
-import androidx.fragment.app.FragmentResultListener;
 
 import static com.example.pantrypalandroidprototype.view.RecipeDetailFragment.REQUEST_ADD_TAG;
 import static com.example.pantrypalandroidprototype.view.RecipeDetailFragment.REQUEST_DELETE_TAG;
@@ -12,18 +11,29 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.widget.EditText;
-
 import androidx.fragment.app.DialogFragment;
-
-import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
 
+/**
+ * DialogFragment for editing various properties of a recipe or adding/removing tags.
+
+ * The behavior of the dialog is determined by the request code passed during instantiation.
+ * Supports editing cook time, serving size, adding a new tag, or deleting an existing tag.
+
+ */
 public class EditDialogFragment extends DialogFragment {
     static final String ARG_REQUEST_CODE = "request_code";
     static final String ARG_RECIPE = "recipe";
     int requestCode;
     Recipe recipe;
 
+    /**
+     * Creates a new instance of the dialog fragment.
+     *
+     * @param requestCode The code indicating the type of action to be performed (e.g., edit cook time, add tag).
+     * @param recipe      The {@link Recipe} object to be edited or associated with the action.
+     * @return A new instance of {@code EditDialogFragment}.
+     */
     public static EditDialogFragment newInstance(int requestCode, Recipe recipe) {
         EditDialogFragment fragment = new EditDialogFragment();
         Bundle args = new Bundle();
@@ -33,6 +43,14 @@ public class EditDialogFragment extends DialogFragment {
         return fragment;
     }
 
+    /**
+     * Creates the dialog interface for the user based on the request code.
+     * The dialog supports input fields for different actions like editing cook time, serving size,
+     * adding a tag, or deleting a tag.
+     *
+     * @param savedInstanceState Saved state information for restoring the fragment.
+     * @return The constructed {@link Dialog}.
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         if (getArguments() != null) {
