@@ -16,6 +16,10 @@ import com.example.pantrypalandroidprototype.databinding.FragmentEditRecipeIngre
 import com.google.android.material.snackbar.Snackbar;
 
 
+/**
+ * Fragment for editing a new ingredient to a recipe.
+ * Implements the functionality for input validation and communicates with the parent activity through a listener.
+ */
 public class EditRecipeIngredientFragment extends Fragment implements IEditRecipeIngredientView {
 
     private FragmentEditRecipeIngredientBinding binding;
@@ -139,10 +143,20 @@ public class EditRecipeIngredientFragment extends Fragment implements IEditRecip
         Snackbar.make(binding.getRoot(), "Updated quantity of " + name, Snackbar.LENGTH_LONG).show();
     }
 
+    /**
+     * Displays a Snackbar message indicating a successful update for the ingredient.
+     *
+     * @param name The name of the updated ingredient.
+     */
     public void showRecipeIngredientUpdatedMessage(String name) {
         Snackbar.make(binding.getRoot(), name + " updated.", Snackbar.LENGTH_SHORT).show();
     }
 
+    /**
+     * Displays a Snackbar message indicating an unsuccessful update for the ingredient.
+     *
+     * @param name The name of the updated ingredient.
+     */
     public void showRecipeIngredientNotFoundMessage(String name) {
         Snackbar.make(binding.getRoot(), name + " not found in recipe.", Snackbar.LENGTH_SHORT).show();
     }
