@@ -75,6 +75,73 @@ public class AddIngredientsInstrumentedTest {
     }
 
     /**
+     * Tests whether adding an ingredient that already exists in the pantry
+     * notifies the user correctly, and doesn't mess with the pre-existing value in the pantry.
+     */
+    @org.junit.Test
+    public void testAddPreExistingPantryIngredient() {
+        // Clear pantry from any persisted ingredients
+        Espresso.onView(ViewMatchers.withId(R.id.clearPantryButton))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withText("Yes"))
+                .perform(ViewActions.click());
+
+        // Navigate to Add Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
+                .perform(ViewActions.click());
+
+        addPantryIngredient("Flour","6","cups");
+        Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());
+
+        SystemClock.sleep(2000);
+
+        // Verify the ingredient has been added
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_pantry))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Flour")),
+                        ViewActions.click()
+                ));
+
+        // Verify the ingredient quantity is correct
+        Espresso.onView(ViewMatchers.withText(CoreMatchers.containsString("6.0 cups")))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        SystemClock.sleep(2000);
+
+        // Navigate to Add Ingredients screen
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientsButton))
+                .perform(ViewActions.click());
+
+        addPantryIngredient("Flour","300","cups");
+
+        Espresso.onView(ViewMatchers.withText("Flour already exists in the pantry."))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        SystemClock.sleep(5000);
+
+        Espresso.onView(ViewMatchers.withId(R.id.viewPantryButton)).perform(ViewActions.click());
+
+        // Verify the ingredient has been added
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_pantry))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText("Flour")),
+                        ViewActions.click()
+                ));
+
+        // Verify the ingredient quantity is correct
+        Espresso.onView(ViewMatchers.withText(CoreMatchers.containsString("6.0 cups")))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        // Clear pantry from any persisted ingredients
+        Espresso.onView(ViewMatchers.withId(R.id.clearPantryButton))
+                .perform(ViewActions.click());
+        Espresso.onView(ViewMatchers.withText("Yes"))
+                .perform(ViewActions.click());
+
+        SystemClock.sleep(2000);
+    }
+
+    /**
      * Tests whether clicking the "Done" button navigates back to the Pantry view.
      * This test ensures that when the "Done" button is clicked, the user is redirected
      * back to the Pantry screen where the list of ingredients is displayed.
