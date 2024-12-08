@@ -137,16 +137,21 @@ public class ControllerActivity extends AppCompatActivity
     }
 
     @Override
-    public void onAddIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags) {
+    public boolean onAddIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags) {
         // Convert Set<Ingredient.dietary_tags> to Set<String>
         Set<String> tagStrings = new HashSet<>();
         for (Ingredient.dietary_tags tag : tags) {
             tagStrings.add(tag.name()); // Converts enum to String
         }
         Ingredient newIngredient = new Ingredient(name, qty, unit, tagStrings);
+        // Check if ingredient already exists in the pantry
+        if (pantry.has_ingredient(newIngredient.getName())) {
+            return false; // Ingredient already exists
+        }
         pantry.add_ingredient(newIngredient);
         // Save updated pantry to local storage
         persFacade.savePantry(pantry);
+        return true; // Ingredient added successfully
     }
 
     @Override

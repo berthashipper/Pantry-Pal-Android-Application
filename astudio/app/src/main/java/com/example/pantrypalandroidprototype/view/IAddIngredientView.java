@@ -1,10 +1,6 @@
 package com.example.pantrypalandroidprototype.view;
 
-import android.view.View;
-
-import androidx.annotation.NonNull;
 import com.example.pantrypalandroidprototype.model.Ingredient;
-import com.example.pantrypalandroidprototype.model.Pantry;
 
 import java.util.Set;
 
@@ -26,11 +22,12 @@ public interface IAddIngredientView {
          * to the presenter or controller for processing.
          *
          * @param name The name of the ingredient to be added.
-         * @param qty The quantity of the ingredient to be added.
+         * @param qty  The quantity of the ingredient to be added.
          * @param unit The unit of measurement for the ingredient (e.g., "kg", "g", "cup").
          * @param tags A set of dietary tags associated with the ingredient, such as "Vegan", "Gluten-Free", etc.
+         * @return
          */
-        void onAddIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags);
+        boolean onAddIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags);
 
         /**
          * Called when the user finishes adding ingredients and is done with the process.

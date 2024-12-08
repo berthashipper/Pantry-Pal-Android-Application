@@ -118,13 +118,24 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
             tags.add(Ingredient.dietary_tags.DAIRY_FREE);
         }
 
-        if (listener != null) listener.onAddIngredient(name, qty, unit, tags);
+        if (listener != null) {
+            boolean addedSuccessfully = listener.onAddIngredient(name, qty, unit, tags);
+
+            if (addedSuccessfully) {
+                // Notify success
+                Snackbar.make(binding.getRoot(), "Added " + name + " to pantry.", Snackbar.LENGTH_SHORT).show();
+            } else {
+                // Notify ingredient already exists
+                Snackbar.make(binding.getRoot(), name + " already exists in the pantry.", Snackbar.LENGTH_LONG).show();
+            }
+        }
 
         // adapter update
         Ingredient newIngredient = new Ingredient(name, qty, unit, new HashSet<>());
-        addedIngredients.add(newIngredient);
-        Snackbar.make(binding.getRoot(), "Added " + newIngredient.getName() + " to pantry.", Snackbar.LENGTH_SHORT).show();
-        ingredientAdapter.notifyItemInserted(addedIngredients.size() - 1);
+        //addedIngredients.add(newIngredient);
+        //Snackbar.make(binding.getRoot(), "Added " + newIngredient.getName() + " to pantry.", Snackbar.LENGTH_SHORT).show();
+        //ingredientAdapter.notifyItemInserted(addedIngredients.size() - 1);
+        ingredientAdapter.notifyDataSetChanged();
         clearInputs();
     }
 
