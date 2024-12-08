@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * The {@code Cookbook} class represents a collection of recipes. It provides functionality
@@ -70,6 +71,29 @@ public class Cookbook implements Serializable {
 
     public void removeRecipe(Recipe recipe) {
         recipeList.remove(recipe.recipeName);
+    }
+
+    /**
+     * Filters recipes based on dietary tag and pantry item.
+     *
+     * @param dietaryTag The dietary tag to filter by.
+     * @param pantryItem The pantry item to filter by.
+     * @return A set of recipes matching the filter criteria.
+     */
+    /**
+     * Filters recipes based on dietary tag and pantry item.
+     *
+     * @param dietaryTag The dietary tag to filter by.
+     * @return A map of recipe names to Recipe objects matching the filter criteria.
+     */
+    public Map<String, Recipe> filterRecipes(String dietaryTag) {
+        return recipeList.entrySet().stream()
+                .filter(entry -> entry.getValue().getTags().contains(dietaryTag))
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public Map<String, Recipe> getRecipes() {
+        return recipeList;
     }
 
 

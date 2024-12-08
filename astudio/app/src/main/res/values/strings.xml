@@ -81,5 +81,14 @@
     <string name="grocery_list_empty_text">What ingredients do you need to restock?</string>
     <string name="filter_recipes">Filter Recipes</string>
 
+    <string-array name="dietary_tags">
+        <item>Vegetarian</item>
+        <item>Vegan</item>
+        <item>Gluten-Free</item>
+        <item>Keto</item>
+        <item>Paleo</item>
+        <item>Dairy-Free</item>
+    </string-array>
+
 
 </resources>

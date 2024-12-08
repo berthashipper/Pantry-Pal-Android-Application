@@ -78,5 +78,7 @@ public interface ICookbookView {
          * @param cookbook The updated Cookbook object, reflecting the changes made.
          */
         void onCookbookUpdated(Cookbook cookbook);
+
+        void onFilterRecipesMenu();
     }
 }

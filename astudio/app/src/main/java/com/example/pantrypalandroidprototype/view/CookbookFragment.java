@@ -72,6 +72,13 @@ public class CookbookFragment extends Fragment implements ICookbookView, RecipeA
             }
         });
 
+        // Add click listener for the Filter Recipes button
+        binding.filterRecipesButton.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onFilterRecipesMenu(); // Navigate to fragment
+            }
+        });
+
         return rootView;
     }
 

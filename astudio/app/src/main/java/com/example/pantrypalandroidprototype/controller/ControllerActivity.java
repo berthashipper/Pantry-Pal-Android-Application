@@ -27,6 +27,7 @@ import com.example.pantrypalandroidprototype.view.DeleteRecipeIngredientFragment
 import com.example.pantrypalandroidprototype.view.EditIngredientFragment;
 import com.example.pantrypalandroidprototype.view.EditInstructionFragment;
 import com.example.pantrypalandroidprototype.view.EditRecipeIngredientFragment;
+import com.example.pantrypalandroidprototype.view.FilterRecipeFragment;
 import com.example.pantrypalandroidprototype.view.GroceryListFragment;
 import com.example.pantrypalandroidprototype.view.IAddIngredientView;
 import com.example.pantrypalandroidprototype.view.IAddRecipeIngredientView;
@@ -71,7 +72,7 @@ public class ControllerActivity extends AppCompatActivity
         ISearchRecipeView.Listener, ISearchIngredientView.Listener, IScaleRecipeView.Listener,
         IEditRecipeIngredientView.Listener, IAddRecipeIngredientView.Listener,
         IDeleteRecipeIngredientView.Listener, IEditInstructionView.Listener,
-        IGroceryListView.Listener, IAddToGroceryListView.Listener {
+        IGroceryListView.Listener, IAddToGroceryListView.Listener, FilterRecipeFragment.Listener {
 
     IMainView mainView;
     Pantry pantry;
@@ -860,4 +861,34 @@ public class ControllerActivity extends AppCompatActivity
         // Display the updated grocery list
         onViewGroceryListMenu();
     }
+
+    @Override
+    public void onFilterRecipesMenu() {
+        FilterRecipeFragment filterRecipeFragment = FilterRecipeFragment.newInstance(this);
+        mainView.displayFragment(filterRecipeFragment);
+    }
+
+    @Override
+    public void onFilterRecipes(String dietaryTag) {
+        // Filter recipes based on the dietary tag
+        Map<String, Recipe> filteredRecipes = cookbook.filterRecipes(dietaryTag);
+
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+
+        if (filteredRecipes != null && !filteredRecipes.isEmpty()) {
+            // Display filtered recipes
+            RecipeFragment recipeFragment = RecipeFragment.newInstance(new Cookbook(new HashSet<>(filteredRecipes.values())));
+            mainView.displayFragment(recipeFragment);
+        } else if (currentFragment instanceof FilterRecipeFragment) {
+            // Use the current fragment to show the error
+            ((FilterRecipeFragment) currentFragment).showNoRecipesFoundError();
+        } else {
+            // Navigate back to FilterRecipeFragment and show the error
+            FilterRecipeFragment filterRecipeFragment = FilterRecipeFragment.newInstance(this);
+            mainView.displayFragment(filterRecipeFragment);
+            getSupportFragmentManager().executePendingTransactions();
+            filterRecipeFragment.showNoRecipesFoundError();
+        }
+    }
+
 }
