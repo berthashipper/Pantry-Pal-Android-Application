@@ -12,10 +12,10 @@ Key features include:
 
 ## Description
 **Pantry Pal** is a versatile kitchen management app designed to simplify your culinary experience. This feature-rich application combines powerful tools such as:
-1. **View Pantry**: Maintain a digital inventory of your pantry items.
-2. **View Grocery List**: Build and organize your grocery list effortlessly for quick and efficient shopping.
-3. **View Cookbook**: Create, save, and manage your personal collection of recipes in a cleanly designed digital cookbook.
-4. **Generate Recipe Suggestions**: Get personalized recipe recommendations based on the items you already have in your pantry and recipes you have in your cookbook.
+1. **Pantry**: Maintain a digital inventory of your pantry items.
+2. **Grocery List**: Build and organize your grocery list effortlessly for quick and efficient shopping.
+3. **Cookbook**: Create, save, and manage your personal collection of recipes in a cleanly designed digital cookbook.
+4. **Recipe Suggestions**: Get personalized recipe recommendations based on the items you already have in your pantry and recipes you have in your cookbook.
 
 This project represents an extensive Java-based prototype developed into the Android environment. This final version emphasizes clean design and intuitive functionality. Future updates aim to enhance its utility further with meal planning, and even more customizability.
 
@@ -27,10 +27,9 @@ This project represents an extensive Java-based prototype developed into the And
 - **Dynamic Ingredient Display**: The pantry has been transformed from a basic bullet-pointed list to an interactive card-based design using RecyclerView. Each card neatly displays the ingredient name, and tapping it reveals additional details such as quantity, unit, and associated tags.
 - **Effortless Editing and Deletion**: Each ingredient card includes intuitive edit and delete icons. Editing allows users to seamlessly update the quantity, while deletion prompts an AlertDialog confirmation to avoid accidental removals.
 - **Add and Search Ingredients**: The top of the pantry interface features dedicated icons for adding and searching ingredients. These icons direct users to designed screens for each of these tasks, enhancing usability and simplicity.
-- **Seamless Navigation**: All secondary screens provide a Back to Pantry arrow for convenient cancellation or quick returns without committing to changes.
-- **Clear Pantry Option**: A one-click Clear Pantry button allows users to delete all ingredients, with a confirmation dialog to prevent unintended actions.
+- **Seamless Navigation**: All secondary screens provide a `Back to Pantry` arrow for convenient cancellation or quick returns without committing to changes.
+- **Clear Pantry Option**: A one-click `Clear Pantry` button allows users to delete all ingredients, with a confirmation dialog to prevent unintended actions.
 - **Comprehensive Pantry Storage**: The pantry serves as the central repository for ingredients, powering advanced features like recipe generation by analyzing available items.
-- **Example**: Searching for `bread` will display both `Whole Wheat Bread` and `White Bread` if those ingredients have been added to the pantry.
 
 ### **Recipe Suggestions**
 - Provides suggested recipes that work with their pantry contents.
@@ -47,25 +46,25 @@ This project represents an extensive Java-based prototype developed into the And
   - Clicking the edit icon on the cook time and yield fields will open an EditDialogue (with cancel option), for quick adjustments without switching screens, and pre-fills the quantity field with the current quantity to make updating it easy and intuitive. 
   - Clicking the add, edit, or delete icon on the ingredients field will allow the user to perform those actions through intuitive UI fragments.
 - **Customizable Tags**: Add or remove tags to classify recipes (e.g., VEGAN, HIGH PROTEIN). Tags are fully customizable, allowing users to tailor categories to their preferences. Simply click the add or delete icons by the `Tags` header to do so.
-- **Recipe Scaling**: Scaling recipes for different serving sizes can be tedious and error prone, but with the Scale Recipe feature, it's effortless. Simply input a multiplier, and the app recalculates all ingredient quantities instantly. Whether you're doubling a recipe for a party or halving it for a quiet dinner, this feature ensures accurate adjustments. Plus, you can generate a grocery list tailored to the scaled recipe, saving you time and hassle at the store.
+- **Recipe Scaling**: Scaling recipes for different serving sizes can be tedious and error prone, but with the `Scale Recipe` feature, it's effortless. Simply input a multiplier, and the app recalculates all ingredient quantities instantly. Whether you're doubling a recipe for a party or halving it for a quiet dinner, this feature ensures accurate adjustments. Plus, you can generate a grocery list tailored to the scaled recipe, saving you time and hassle at the store.
 - **Integrated With Grocery List**: The most special feature of the recipe view within the cookbook is it's interaction with the grocery list. There is now a `Shop For` shopping cart icon that, when clicked, adds the necessary ingredients and quantities to the grocery list, with smart logic to ensure accuracy and efficiency. This feature checks both the pantry and grocery list to avoid unnecessary duplication: if an ingredient is already in the pantry in sufficient quantity, it won't be added; if more is needed, only the required amount will be added. Similarly, if the ingredient is already on the grocery list, it will simply update the quantity rather than duplicating entries. This ensures users always have the right amount of ingredients without the hassle of manual adjustments.
 
 ### **Grocery List Management**
 - **Card-Based Design**: The grocery list adopts the same clean CardView format as the pantry and cookbook, presenting ingredient names and quantities in an organized way.
 - **Editable Entries**: Users can update ingredient quantities directly from the grocery list by clicking on the edit icon for a given ingredient, and are presented with an intuitive EditDialog.
 - **Confirmation for Deletion**: Clicking the delete icon to delete an ingredient prompts a confirmation dialog to prevent accidental actions.
-- **Clear List Option**: Like the pantry, the grocery list includes a Clear List button, with a confirmation dialog for safety.
+- **Clear List Option**: Like the pantry, the grocery list includes a `Clear List` button, with a confirmation dialog for safety.
 
 ### **Navigation**
 - **Consistent Menu**: A unified menu ensures smooth transitions between key app features, including:
   - **`View Pantry`**
-  - **`Generate Recipe Suggestions`**
   - **`View Cookbook`**
   - **`View Grocery List`**
+  - **`Generate Recipe Suggestions`**
 - **Back Navigation**: All secondary screens offer a back arrow for quick returns, maintaining an intuitive user experience.
 
 ### **Data Persistence**
-- **Reliable Local Storage**: The app ensures all data, including pantry ingredients, grocery list contents, cookbook recipes, and user edits, are stored locally and persist across sessions. This guarantees that users can rely on the app as a comprehensive cooking companion.
+- **Reliable Local Storage**: PantryPal keeps all your important cooking data—pantry ingredients, grocery list contents, cookbook recipes, and personalized edits—securely stored locally and seamlessly persistent across sessions. This means you can always rely on PantryPal as your go-to, comprehensive cooking companion, knowing your information is safe, accessible, and ready whenever you are.
 
 ### **User Interface**
 - The app’s clean and visually appealing UI is crafted to provide an intuitive experience, prioritizing usability and efficiency.
@@ -88,9 +87,6 @@ https://gitlab.cs.vassar.edu/cmpu203-f24-projects/team-2g.git
 
 ## Limitations
 
-- **Recipe Database**
-  - The recipe database currently includes only pre-loaded recipes. More recipes will be added in future iterations.
-- **Meal Planning**
-  - While recipes can be added, there is no dedicated meal-planning feature or advanced recipe browsing beyond the pre-loaded ones.
-
+- **Meal Planning + Recipe Searching**
+  - Although users can add their own recipes, the app currently does not support a dedicated meal-planning feature or advanced recipe browsing beyond the pre-loaded options. Future updates will aim to introduce enhanced planning tools to improve the user experience.
 ---
