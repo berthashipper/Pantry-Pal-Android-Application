@@ -27,6 +27,9 @@ public interface IAddRecipeView {
          * @param recipe The recipe that has been created.
          */
         void onRecipeCreated(Recipe recipe);
+        /**
+         * Called when the user decides to go back to the Cookbook view.
+         */
         void onNavigateToCookbook();
     }
 
