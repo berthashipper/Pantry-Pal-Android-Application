@@ -103,6 +103,12 @@ public class RecipeFragment extends Fragment {
         return binding.getRoot();
     }
 
+    /**
+     * Sets a click listener for recipe items in the {@link RecipeAdapter}.
+     * This listener will be triggered when a recipe item is clicked.
+     *
+     * @param listener the {@link RecipeAdapter.OnRecipeClickListener} to handle recipe item click events
+     */
     public void setRecipeClickListener(RecipeAdapter.OnRecipeClickListener listener) {
         recipeAdapter.setOnRecipeClickListener(listener);
     }

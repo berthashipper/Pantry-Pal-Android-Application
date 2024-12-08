@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 import com.example.pantrypalandroidprototype.databinding.FragmentRecipeDetailBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
-import com.google.android.flexbox.FlexboxLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.time.Duration;
@@ -31,20 +28,39 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * A fragment for displaying detailed information about a recipe.
+ * It implements {@link IRecipeDetailView} and {@link EditTagDialogFragment.TagActionListener}.
+ * This fragment allows editing, deleting, scaling, and tagging recipes, as well as viewing their details.
+ */
 public class RecipeDetailFragment extends Fragment implements IRecipeDetailView, EditTagDialogFragment.TagActionListener {
+    /**
+     * Tag used for logging and identifying the fragment in the FragmentManager.
+     */
     static final String TAG = RecipeDetailFragment.class.getSimpleName();
+    /**
+     * Argument key for passing the {@link Recipe} object to the fragment.
+     */
     static final String ARG_RECIPE = "recipe";
-    Recipe recipe;
-    Listener listener;
-    EditTagDialogFragment.TagActionListener tagActionListener;
-    FragmentRecipeDetailBinding binding;
-    ControllerActivity controller;
+    // Fragment fields
+    Recipe recipe; // The recipe object displayed in this fragment
+    Listener listener; // Listener for handling user actions
+    EditTagDialogFragment.TagActionListener tagActionListener; // Listener for tag-related actions
+    FragmentRecipeDetailBinding binding; // View binding for the fragment
+    ControllerActivity controller; // Controller for managing recipe actions
+
+    // Request codes for handling dialog responses
     static final int REQUEST_EDIT_COOK_TIME = 1;
     static final int REQUEST_EDIT_SERVING_SIZE = 2;
     static final int REQUEST_ADD_TAG = 3;
     static final int REQUEST_DELETE_TAG = 4;
 
-
+    /**
+     * Creates a new instance of the fragment with the given recipe.
+     *
+     * @param recipe The recipe to display in this fragment.
+     * @return A new instance of {@link RecipeDetailFragment}.
+     */
     public static RecipeDetailFragment newInstance(Recipe recipe) {
         RecipeDetailFragment fragment = new RecipeDetailFragment();
         Bundle args = new Bundle();
@@ -53,6 +69,12 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         return fragment;
     }
 
+    /**
+     * Attaches the fragment to its parent activity, ensuring the activity implements the required interfaces.
+     *
+     * @param context the context of the activity to which the fragment is being attached
+     * @throws RuntimeException if the parent activity does not implement the required interfaces
+     */
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -68,6 +90,11 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         }
     }
 
+    /**
+     * Called when the fragment is created. Retrieves the recipe object from the fragment's arguments.
+     *
+     * @param savedInstanceState the saved instance state containing previously saved data, if available
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +103,14 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         }
     }
 
+    /**
+     * Inflates and initializes the fragment's view, setting up the UI and its event listeners.
+     *
+     * @param inflater the layout inflater used to inflate the view
+     * @param container the container where the view will be added
+     * @param savedInstanceState the saved instance state containing previously saved data, if available
+     * @return the root view of the fragment
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -239,6 +274,13 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         return binding.getRoot();
     }
 
+    /**
+     * Called after the fragment's view has been created.
+     * to handle results from other fragments and updates the UI or recipe details based on the received data.
+     *
+     * @param view the fragment's root view
+     * @param savedInstanceState the saved instance state containing previously saved data, if available
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -296,6 +338,12 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         });
     }
 
+    /**
+     * Formats the cook time of a recipe for display.
+     *
+     * @param cookTime The cook time as a {@link Duration}.
+     * @return A formatted string representing the cook time in minutes, or "Not specified" if null.
+     */
     public String formatCookTime(Duration cookTime) {
         if (cookTime != null) {
             long minutes = cookTime.toMinutes(); // Convert Duration to minutes
@@ -304,12 +352,22 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         return "Not specified";
     }
 
+    /**
+     * Displays an edit dialog for the specified request code.
+     *
+     * @param requestCode The request code for identifying the type of dialog.
+     */
     public void showEditDialog(int requestCode) {
         Log.d(TAG, "Showing EditDialog with requestCode=" + requestCode);
         EditDialogFragment dialog = EditDialogFragment.newInstance(requestCode, recipe);
         dialog.show(getParentFragmentManager(), "EditDialog");
     }
 
+    /**
+     * Displays a confirmation dialog for deleting a tag.
+     *
+     * @param tag The tag to be deleted.
+     */
     private void showDeleteTagConfirmationDialog(String tag) {
         new AlertDialog.Builder(getContext())
                 .setTitle("Delete Tag")
@@ -319,6 +377,11 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
                 .show();
     }
 
+    /**
+     * Displays a confirmation dialog for deleting a tag.
+     *
+     * @param tag The tag to be deleted.
+     */
     public void showDeleteTagConfirmationDialog(Object tag) {
         if (tag instanceof Ingredient.dietary_tags) {
             // Logic for predefined enum tag
@@ -329,6 +392,11 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         }
     }
 
+    /**
+     * Deletes a tag from the recipe and updates the UI.
+     *
+     * @param tag The tag to be deleted.
+     */
     private void deleteTag(String tag) {
         // Remove the tag from the recipe object
         boolean tagRemoved = recipe.removeTag(tag);
@@ -344,8 +412,9 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         }
     }
 
-
-    // Method to update the tags UI dynamically
+    /**
+     * Updates the tags displayed in the UI dynamically.
+     */
     private void updateTagsUI() {
         binding.tagsLayout.removeAllViews();
 
@@ -395,6 +464,9 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
 
     /**
      * Helper method to safely check if the string is a valid enum name.
+     *
+     * @param tag the string to validate against the enum names
+     * @return true if the provided tag is a valid enum name, false otherwise
      */
     private boolean isValidEnumTag(String tag) {
         try {
@@ -405,6 +477,12 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         }
     }
 
+    /**
+     * Handles the event when a dialog edit operation is completed.
+     *
+     * @param requestCode the unique identifier for the type of edit operation
+     * @param newValue the new value entered in the dialog
+     */
     @Override
     public void onDialogEditDone(int requestCode, String newValue) {
         Log.d(TAG, "Dialog edit done for request code: " + requestCode + ", new value: " + newValue);
@@ -434,10 +512,19 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         }
     }
 
+    /**
+     * Navigates back to the recipe view by delegating to the controller.
+     */
     public void onBackToRecipe() {
         controller.onBackToRecipe(recipe);  // Delegate to controller
     }
 
+    /**
+     * Handles the addition of a new tag to the recipe.
+     *
+     * @param recipe the recipe object to which the tag is added
+     * @param newTag the new tag to add to the recipe
+     */
     @Override
     public void onTagAdded(Recipe recipe, String newTag) {
         // Clear the existing tags and add the updated ones
