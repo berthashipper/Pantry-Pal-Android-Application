@@ -79,6 +79,7 @@
     <string name="pantry_empty">Your pantry is currently empty. Add some ingredients to get started!</string>
     <string name="back_to_grocery_list">Back to Grocery List</string>
     <string name="grocery_list_empty_text">What ingredients do you need to restock?</string>
+    <string name="filter_recipes">Filter Recipes</string>
 
 
 </resources>
