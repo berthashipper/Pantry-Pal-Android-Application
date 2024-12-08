@@ -10,9 +10,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.pantrypalandroidprototype.databinding.FragmentEditInstructionBinding;
-import com.example.pantrypalandroidprototype.model.RecipeBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
+
+/**
+ * Fragment for editing an Recipe instruction's details.
+
+ * This fragment allows the user to update the instructions of Recipes and notifies
+ * a listener about the changes. It also provides feedback through Snackbar messages for
+ * validation errors and update statuses.
+ */
 public class EditInstructionFragment extends Fragment implements IEditInstructionView {
     FragmentEditInstructionBinding binding;
     Listener listener;
@@ -62,6 +69,9 @@ public class EditInstructionFragment extends Fragment implements IEditInstructio
         });
     }
 
+    /**
+     * Notifying the result of the update
+     */
     private void onInstructionSubmitted() {
         String instruction = binding.instructionEditText.getText().toString().trim();
 
