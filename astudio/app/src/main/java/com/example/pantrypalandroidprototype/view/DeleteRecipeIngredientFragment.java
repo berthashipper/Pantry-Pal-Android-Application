@@ -1,8 +1,6 @@
 package com.example.pantrypalandroidprototype.view;
 
 import android.os.Bundle;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +12,10 @@ import androidx.fragment.app.Fragment;
 import com.example.pantrypalandroidprototype.databinding.FragmentDeleteRecipeIngredientBinding;
 import com.google.android.material.snackbar.Snackbar;
 
+/**
+ * Fragment for deleting a new ingredient to a recipe.
+ * Implements the functionality for input validation and communicates with the parent activity through a listener.
+ */
 public class DeleteRecipeIngredientFragment extends Fragment implements IDeleteRecipeIngredientView {
 
     private FragmentDeleteRecipeIngredientBinding binding;
@@ -105,6 +107,11 @@ public class DeleteRecipeIngredientFragment extends Fragment implements IDeleteR
         Snackbar.make(binding.getRoot(), "Deleted " + name + " from recipe.", Snackbar.LENGTH_SHORT).show();
     }
 
+    /**
+     * Displays a Snackbar message indicating that the ingredient to delete is not found in the recipe.
+     *
+     * @param name The name of the deleted ingredient.
+     */
     public void showRecipeIngredientNotFoundMessage(String name) {
         Snackbar.make(binding.getRoot(), name + " not found in recipe", Snackbar.LENGTH_SHORT).show();
     }
