@@ -36,6 +36,7 @@ public interface IPantryView {
          * The implementation should handle displaying the contents of the pantry, such as a list of available ingredients.
          */
         void onViewPantryMenu();
+
         /**
          * Called when the user triggers the edit ingredients menu.
          * The implementation should handle navigation to a screen where ingredients can be edited in the pantry.
@@ -47,19 +48,41 @@ public interface IPantryView {
          * The implementation should handle navigating to a screen where the user can view and interact with the cookbook.
          */
         void onViewCookbookMenu();
+
         /**
          * Called when the user triggers the generate recipes action.
          * The implementation should handle generating recipes based on the available pantry ingredients.
          */
         void onGenerateRecipes();
+
         /**
          * Called when the user triggers the search ingredients menu.
          * The implementation should handle navigating to a screen where the user can search for specific ingredients in the pantry.
          */
         void onSearchIngredientsMenu();
+
+        /**
+         * Clears the pantry, removing all ingredients.
+         */
         void onClearPantry();
+
+        /**
+         * Opens the edit menu for a specific ingredient, allowing the user to modify its details.
+         *
+         * @param ingredient The ingredient to be edited.
+         */
         void onEditIngredientMenu(Ingredient ingredient); // Open edit menu for ingredient
+
+        /**
+         * Handles the deletion of a specific ingredient from the pantry.
+         *
+         * @param ingredient The ingredient to be deleted.
+         */
         void onDeleteIngredientMenu(Ingredient ingredient); // Handle deletion of ingredient
+
+        /**
+         * Opens the grocery list menu, allowing the user to view or manage their grocery list.
+         */
         void onViewGroceryListMenu();
     }
 }
