@@ -1,6 +1,5 @@
 package com.example.pantrypalandroidprototype.view;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -9,15 +8,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.FragmentAddToGroceryListBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.google.android.material.snackbar.Snackbar;
@@ -25,10 +18,13 @@ import com.google.android.material.snackbar.Snackbar;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
+/**
+ * Fragment for adding ingredients to a grocery list.
+ * This fragment allows users to add ingredients with their quantities and units to a grocery list.
+ * It supports handling duplicate ingredients, updating their quantities, and notifying a listener of completed actions.
+ */
 public class AddToGroceryListFragment extends Fragment implements IAddToGroceryListView {
     FragmentAddToGroceryListBinding binding;
     Listener listener;
@@ -37,6 +33,13 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
     Map<Ingredient, Double> groceryList;
     boolean isDialogShown = false;
 
+    /**
+     * Creates a new instance of the fragment with a specified listener and grocery list.
+     *
+     * @param listener    A {@link Listener} to handle grocery list-related events.
+     * @param groceryList The initial grocery list to modify.
+     * @return A new instance of {@code AddToGroceryListFragment}.
+     */
     public static AddToGroceryListFragment newInstance(Listener listener, Map<Ingredient, Double> groceryList) {
         AddToGroceryListFragment fragment = new AddToGroceryListFragment();
         Bundle args = new Bundle();
@@ -46,6 +49,14 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
         return fragment;
     }
 
+    /**
+     * Inflates the fragment's layout and sets up the quantity input field.
+     *
+     * @param inflater           The {@link LayoutInflater} used to inflate the layout.
+     * @param container          The parent view that this fragment's UI will attach to.
+     * @param savedInstanceState Saved state information for restoring the fragment.
+     * @return The root {@link View} of the fragment.
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +66,12 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
         return rootView;
     }
 
+    /**
+     * Configures the fragment's UI components and sets up event listeners for user actions.
+     *
+     * @param view               The {@link View} of the fragment.
+     * @param savedInstanceState Saved state information for restoring the fragment.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -68,6 +85,10 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
         ingredientAdapter = new IngredientAdapter(new ArrayList<>(addedIngredients.keySet()), getContext());
     }
 
+    /**
+     * Handles the addition of a new ingredient to the grocery list.
+     * Validates the input fields, notifies the listener, and clears the input fields upon success.
+     */
     public void onAddButtonClicked() {
         String name = binding.itemNameText.getText().toString().trim();
         String qtyString = binding.itemQtyText.getText().toString().trim();
@@ -104,18 +125,34 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
         }});
     }
 
+    /**
+     * Clears all input fields related to adding an ingredient.
+     */
     public void clearInputs() {
         binding.itemNameText.setText("");
         binding.itemQtyText.setText("");
         binding.itemUnitText.setText("");
     }
 
+
+    /**
+     * Handles the finalization of the grocery list and notifies the listener.
+     */
     public void onDoneButtonClicked() {
         if (listener != null) {
             listener.onItemsDone();
         }
     }
 
+    /**
+     * Displays a dialog to update the quantity of an existing ingredient.
+
+     * If the ingredient already exists in the grocery list, this dialog allows the user to update its quantity.
+     * Prevents multiple dialogs from showing simultaneously.
+
+     * @param existingIngredient The ingredient already in the grocery list.
+     * @param newQty             The new quantity to update.
+     */
     public void showUpdateQuantityDialog(Ingredient existingIngredient, double newQty) {
         // Check if the dialog is already showing to prevent a loop
         if (isDialogShown) {
@@ -150,6 +187,11 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
                 .show();
     }
 
+    /**
+     * Displays a message to notify the user that an ingredient has been added to the grocery list.
+     *
+     * @param name The name of the ingredient that was added.
+     */
     public void showAddedIngredientMessage(String name) {
         Snackbar.make(binding.getRoot(), "Added " + name + " to grocery list.", Snackbar.LENGTH_SHORT).show();
     }
