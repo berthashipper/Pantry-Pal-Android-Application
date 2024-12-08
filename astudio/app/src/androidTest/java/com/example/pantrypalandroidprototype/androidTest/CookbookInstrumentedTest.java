@@ -4,8 +4,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 
 import android.os.SystemClock;
+import android.view.View;
 
 import androidx.test.espresso.Espresso;
+import androidx.test.espresso.PerformException;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.assertion.ViewAssertions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
@@ -16,6 +20,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 
+import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 
@@ -230,6 +235,92 @@ public class CookbookInstrumentedTest {
 
 
     /**
+     * Tests whether the "Delete Recipe" functionality deletes recipe from the cookbook.
+     */
+    @org.junit.Test
+    public void testDeleteRecipe() {
+        // Navigate to cookbook screen
+        Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
+                .perform(ViewActions.click());
+
+        // Navigate to add recipe screen
+        Espresso.onView(ViewMatchers.withId(R.id.addRecipeButton))
+                .perform(ViewActions.click());
+
+        // Input test data
+        String testName = "Test To Delete Recipe";
+        String testDescipt = "";
+        String testCooktime = "";
+        String testSsize = "";
+        String ingName1 = "Test";
+        String ingQty1 = "1";
+        String IngUnit1 = "";
+
+        String testInstruction1 = "Test";
+
+        AddIngredientsInstrumentedTest.typeText(R.id.recipeNameEditText, testName);
+        AddIngredientsInstrumentedTest.typeText(R.id.descriptionEditText, testDescipt);
+        AddIngredientsInstrumentedTest.typeText(R.id.cookTimeEditText, testCooktime);
+        AddIngredientsInstrumentedTest.typeText(R.id.servingSizeEditText, testSsize);
+        AddIngredientsInstrumentedTest.typeText(R.id.ingredientNameEditText, ingName1);
+        AddIngredientsInstrumentedTest.typeText(R.id.ingredientQuantityEditText, ingQty1);
+        AddIngredientsInstrumentedTest.typeText(R.id.ingredientUnitEditText, IngUnit1);
+
+        // Click "Add ingredient" button
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).perform(ViewActions.scrollTo()); // Ensure it's in view
+        Espresso.onView(ViewMatchers.withId(R.id.addIngredientButton)).check(ViewAssertions.matches(ViewMatchers.isDisplayed())); // Ensure visibility
+
+        // Ensure that the "Add Instruction" button is fully visible, even if it's out of view.
+        Espresso.onView(ViewMatchers.withId(R.id.fragmentContainerView))
+                .perform(ViewActions.scrollTo());  // Scroll down to the container that holds the button
+
+        SystemClock.sleep(2000);
+
+        Espresso.onView(ViewMatchers.withId(R.id.addInstructionButton))
+                .perform(ViewActions.scrollTo());
+        // Add instructions
+        AddIngredientsInstrumentedTest.typeText(R.id.instructionEditText, testInstruction1);
+        Espresso.onView(ViewMatchers.withId(R.id.addInstructionButton))
+                .perform(ViewActions.scrollTo(), ViewActions.click());
+        SystemClock.sleep(2000);
+
+        // Click done button
+        Espresso.onView(ViewMatchers.withId(R.id.doneButton))
+                .perform(ViewActions.scrollTo(), ViewActions.click());
+
+        SystemClock.sleep(2000);
+
+        // Verify that the added recipe is displayed in the RecyclerView
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes)) // Target RecyclerView
+                .perform(RecyclerViewActions.scrollTo( // Scroll to the item
+                        ViewMatchers.hasDescendant(ViewMatchers.withText(testName)) // Match child view
+                ));
+
+        // Check if the RecyclerView item with the expected recipe name is displayed
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes)) // Target RecyclerView again
+                .check(ViewAssertions.matches( // Verify condition
+                        ViewMatchers.hasDescendant(ViewMatchers.withText(testName)) // Ensure the text exists
+                ));
+
+        SystemClock.sleep(2000);
+
+        // Locate the delete icon within the recipe's item and click it
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .perform(RecyclerViewActions.actionOnItem(
+                        ViewMatchers.hasDescendant(ViewMatchers.withText(testName)),
+                        new DeleteIconClickAction(R.id.delete_icon)
+                ));
+
+        // Verify the recipe no longer exists in the RecyclerView
+        Espresso.onView(ViewMatchers.withText(testName))
+                .check(ViewAssertions.doesNotExist());
+
+        SystemClock.sleep(2000);
+    }
+
+    /**
      * Tests whether a recipe added to the cookbook is still visible after
      * navigating away and returning to the cookbook screen. This ensures
      * that data persists across navigation actions.
@@ -354,5 +445,38 @@ public class CookbookInstrumentedTest {
                 .check(ViewAssertions.matches(
                         ViewMatchers.hasDescendant(ViewMatchers.withText(testName))
                 ));
+    }
+
+    /**
+     * Custom ViewAction to click a specific delete_icon within the RecyclerView cookbook.
+     */
+    private static class DeleteIconClickAction implements ViewAction {
+        private final int viewId;
+
+        public DeleteIconClickAction(int viewId) {
+            this.viewId = viewId;
+        }
+
+        @Override
+        public Matcher<View> getConstraints() {
+            return ViewMatchers.isDisplayed(); // Ensure the view is visible
+        }
+
+        @Override
+        public String getDescription() {
+            return "Click on a specific child view with ID " + viewId;
+        }
+
+        @Override
+        public void perform(UiController uiController, View view) {
+            View childView = view.findViewById(viewId);
+            if (childView != null) {
+                childView.performClick();
+            } else {
+                throw new PerformException.Builder()
+                        .withCause(new IllegalStateException("View with ID " + viewId + " not found"))
+                        .build();
+            }
+        }
     }
 }
