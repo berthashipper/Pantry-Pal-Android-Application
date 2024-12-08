@@ -63,7 +63,6 @@ import java.util.Set;
 
 import com.example.pantrypalandroidprototype.persistence.IPersistenceFacade;
 import com.example.pantrypalandroidprototype.persistence.LocalStorageFacade;
-import com.google.android.material.snackbar.Snackbar;
 
 public class ControllerActivity extends AppCompatActivity
         implements IAddIngredientView.Listener, IPantryView.Listener,
@@ -507,12 +506,16 @@ public class ControllerActivity extends AppCompatActivity
                 break;
             }
         }
-
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         if (ingredientFound) {
+            if (fragment instanceof EditRecipeIngredientFragment) {
+                ((EditRecipeIngredientFragment) fragment).showRecipeIngredientUpdatedMessage(name);
+            }
             persFacade.saveCookbook(cookbook);
-            Snackbar.make(findViewById(R.id.fragmentContainerView), name + " updated.", Snackbar.LENGTH_LONG).show();
         } else {
-            Snackbar.make(findViewById(R.id.fragmentContainerView), name + " not found in recipe.", Snackbar.LENGTH_LONG).show();
+            if (fragment instanceof EditRecipeIngredientFragment) {
+                ((EditRecipeIngredientFragment) fragment).showRecipeIngredientNotFoundMessage(name);
+            }
         }
     }
 
@@ -564,8 +567,10 @@ public class ControllerActivity extends AppCompatActivity
 
         persFacade.saveCookbook(cookbook);
         // Notify the user that the ingredient has been added or updated
-        Snackbar.make(findViewById(R.id.fragmentContainerView), name + " added to recipe.", Snackbar.LENGTH_LONG).show();
-
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        if (fragment instanceof AddRecipeIngredientFragment) {
+            ((AddRecipeIngredientFragment) fragment).showRecipeIngredientAddedMessage(name);
+        }
     }
 
     @Override
@@ -600,11 +605,16 @@ public class ControllerActivity extends AppCompatActivity
         }
 
         // Notify the user of the deletion result
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
         if (ingredientFound) {
-            Snackbar.make(findViewById(R.id.fragmentContainerView), name + " deleted from recipe.", Snackbar.LENGTH_LONG).show();
+            if (fragment instanceof DeleteRecipeIngredientFragment) {
+                ((DeleteRecipeIngredientFragment) fragment).showRecipeIngredientDeletedMessage(name);
+            }
             persFacade.saveCookbook(cookbook);
         } else {
-            Snackbar.make(findViewById(R.id.fragmentContainerView), name + " not found in recipe", Snackbar.LENGTH_LONG).show();
+            if (fragment instanceof DeleteRecipeIngredientFragment) {
+                ((DeleteRecipeIngredientFragment) fragment).showRecipeIngredientNotFoundMessage(name);
+            }
             persFacade.saveCookbook(cookbook);
         }
 
@@ -612,7 +622,6 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onDeleteRecipeDone() {
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
-        //Snackbar.make(findViewById(R.id.fragmentContainerView), "Returned to Recipe Details", Snackbar.LENGTH_LONG).show();
     }
 
     @Override

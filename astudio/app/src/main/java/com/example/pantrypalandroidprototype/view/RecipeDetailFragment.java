@@ -256,41 +256,41 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
                     Duration newCookTime = Duration.ofMinutes(newCookTimeMinutes);
                     controller.setCookTime(newCookTime, recipe);
                     binding.recipeCookTime.setText(newCookTimeMinutes + " mins");
-                    Snackbar.make(getView(), "Cook time updated to " + newCookTimeMinutes + " mins", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(binding.getRoot(), "Cook time updated to " + newCookTimeMinutes + " mins", Snackbar.LENGTH_SHORT).show();
                 } catch (NumberFormatException e) {
                     Log.e(TAG, "Invalid input for cook time: " + newValue, e);
-                    Snackbar.make(getView(), "Invalid input for cook time", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(binding.getRoot(), "Invalid input for cook time", Snackbar.LENGTH_SHORT).show();
                 }
             } else if (requestCode == REQUEST_EDIT_SERVING_SIZE) {
                 controller.setServingSize(Integer.parseInt(newValue), recipe);
                 binding.recipeServingSize.setText(newValue + " servings");
-                Snackbar.make(getView(), "Yield updated to " + newValue, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(binding.getRoot(), "Yield updated to " + newValue, Snackbar.LENGTH_SHORT).show();
             } else if (requestCode == REQUEST_ADD_TAG) {
                 String newTag = newValue.trim();
                 if (!newTag.isEmpty()) {
                     if (recipe.getDietaryTags().contains(newTag.toUpperCase())) {
-                        Snackbar.make(getView(), "Tag already exists: " + newTag.toUpperCase(), Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(binding.getRoot(), "Tag already exists: " + newTag.toUpperCase(), Snackbar.LENGTH_SHORT).show();
                     } else {
                         controller.addTagToRecipe(recipe, newTag);  // Call controller to handle tag addition/creation
-                        Snackbar.make(getView(), "Tag added: " + newTag.toUpperCase(), Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(binding.getRoot(), "Tag added: " + newTag.toUpperCase(), Snackbar.LENGTH_SHORT).show();
                         Log.d(TAG, "Added tag via result listener: " + newTag.toUpperCase());
                         updateTagsUI();  // Refresh UI
                     }
                 } else {
-                    Snackbar.make(getView(), "Invalid tag entered", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(binding.getRoot(), "Invalid tag entered", Snackbar.LENGTH_SHORT).show();
                 }
             } else if (requestCode == REQUEST_DELETE_TAG) {
                 String tagName = newValue.toUpperCase();
                 if (tagName != null && recipe.getTags().contains(tagName)) {
                     controller.removeTagFromRecipe(recipe, tagName);
-                    Snackbar.make(getView(), "Tag deleted: " + tagName, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(binding.getRoot(), "Tag deleted: " + tagName, Snackbar.LENGTH_SHORT).show();
                     deleteTag(tagName);
                 } else if (tagName != null && recipe.getDynamicTags().contains(tagName)) {
                     controller.removeTagFromRecipe(recipe,tagName);
                     deleteTag(tagName);
-                    Snackbar.make(getView(), "Tag deleted: " + tagName, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(binding.getRoot(), "Tag deleted: " + tagName, Snackbar.LENGTH_SHORT).show();
                 } else {
-                    Snackbar.make(getView(), "Tag not found: " + tagName, Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(binding.getRoot(), "Tag not found: " + tagName, Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -337,10 +337,10 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
         if (tagRemoved) {
             // Update the UI to reflect the removal
             updateTagsUI(); // This method updates the UI after a tag is removed
-            Snackbar.make(getView(), "Tag '" + tag + "' deleted", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(binding.getRoot(), "Tag '" + tag + "' deleted", Snackbar.LENGTH_SHORT).show();
         } else {
             Log.e(TAG, "Failed to remove tag: " + tag);
-            //Snackbar.make(getView(), "Failed to delete tag", Snackbar.LENGTH_SHORT).show();
+            //Snackbar.make(binding.getRoot(), "Failed to delete tag", Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -420,17 +420,17 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
 
                 // Update the UI
                 binding.recipeCookTime.setText(newCookTimeMinutes + " mins");
-                Snackbar.make(getView(), "Cook time updated to " + newCookTimeMinutes + " mins", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(binding.getRoot(), "Cook time updated to " + newCookTimeMinutes + " mins", Snackbar.LENGTH_SHORT).show();
             } catch (NumberFormatException e) {
                 Log.e(TAG, "Invalid input for cook time: " + newValue, e);
                 // Handle invalid input (non-numeric)
-                Snackbar.make(getView(), "Invalid input for cook time", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(binding.getRoot(), "Invalid input for cook time", Snackbar.LENGTH_SHORT).show();
             }
         } else if (requestCode == REQUEST_EDIT_SERVING_SIZE) {
             Log.d(TAG, "Updating serving size to: " + newValue);
             controller.setServingSize(Integer.parseInt(newValue), recipe);
             binding.recipeServingSize.setText(newValue + " servings");
-            Snackbar.make(getView(), "Yield updated to " + newValue, Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(binding.getRoot(), "Yield updated to " + newValue, Snackbar.LENGTH_SHORT).show();
         }
     }
 

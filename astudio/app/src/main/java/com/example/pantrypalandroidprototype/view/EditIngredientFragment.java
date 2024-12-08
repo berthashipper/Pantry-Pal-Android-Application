@@ -88,7 +88,7 @@ public class EditIngredientFragment extends Fragment implements IEditIngredientV
         if (listener != null) {
             listener.onEditDone();
         }
-        Snackbar.make(getView(), "Returning to Pantry", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(binding.getRoot(), "Returning to Pantry", Snackbar.LENGTH_LONG).show();
     }
 
 

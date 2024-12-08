@@ -53,7 +53,7 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
 
         if (recipe == null) {
             Log.e("ScaleRecipeFragment", "Recipe object is null");
-            Snackbar.make(view, "Error: Recipe data is missing", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(binding.getRoot(), "Error: Recipe data is missing", Snackbar.LENGTH_LONG).show();
             return;  // Prevent further execution
         }
 
@@ -67,11 +67,11 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
                     listener.onRecipeScaled(scaledRecipe);
                 } else {
                     // Show error message for invalid scale factor
-                    Snackbar.make(getView(), "Scale factor must be greater than 0", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(binding.getRoot(), "Scale factor must be greater than 0", Snackbar.LENGTH_LONG).show();
                 }
             } catch (NumberFormatException e) {
                 // Handle invalid input
-                Snackbar.make(getView(), "Invalid scale factor", Snackbar.LENGTH_LONG).show();
+                Snackbar.make(binding.getRoot(), "Invalid scale factor", Snackbar.LENGTH_LONG).show();
             }
         });
 
@@ -118,7 +118,7 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
                 listener.onScaleRecipe(scaleFactor);  // Pass the scale factor to the controller
             }
         } catch (NumberFormatException e) {
-            Snackbar.make(getView(), "Invalid scale factor", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(binding.getRoot(), "Invalid scale factor", Snackbar.LENGTH_LONG).show();
         }
     }
 

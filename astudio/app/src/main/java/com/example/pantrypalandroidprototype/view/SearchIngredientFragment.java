@@ -91,7 +91,7 @@ public class SearchIngredientFragment extends Fragment implements ISearchIngredi
      * Displays an error message indicating that no ingredients were found.
      */
     public void showIngredientNotFoundError() {
-        Snackbar.make(getView(), "No ingredients found", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(binding.getRoot(), "No ingredients found", Snackbar.LENGTH_LONG).show();
     }
 
     /**

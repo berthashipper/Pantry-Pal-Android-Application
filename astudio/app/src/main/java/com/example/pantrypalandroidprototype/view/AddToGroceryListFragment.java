@@ -74,7 +74,7 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
         String unit = binding.itemUnitText.getText().toString().trim();
 
         if (name.isEmpty() || qtyString.isEmpty()) {
-            Snackbar.make(getView(), "Please fill in all fields.", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(binding.getRoot(), "Please fill in all fields.", Snackbar.LENGTH_LONG).show();
             return;
         }
 
@@ -130,7 +130,7 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
                 .setPositiveButton("Yes", (dialog, which) -> {
                     // Update the grocery list with the new quantity
                     groceryList.put(existingIngredient, newQty);
-                    Snackbar.make(getView(), "Updated quantity of " + existingIngredient.getName() + ".", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(binding.getRoot(), "Updated quantity of " + existingIngredient.getName() + ".", Snackbar.LENGTH_SHORT).show();
 
                     // Inform the controller that the quantity has been updated
                     if (listener != null) {
@@ -151,6 +151,6 @@ public class AddToGroceryListFragment extends Fragment implements IAddToGroceryL
     }
 
     public void showAddedIngredientMessage(String name) {
-        Snackbar.make(getView(), "Added " + name + " to grocery list.", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(binding.getRoot(), "Added " + name + " to grocery list.", Snackbar.LENGTH_SHORT).show();
     }
 }

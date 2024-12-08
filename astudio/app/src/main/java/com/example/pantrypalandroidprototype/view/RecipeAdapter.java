@@ -79,10 +79,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
     @Override
     public void onBindViewHolder(@NonNull RecipeViewHolder holder, int position) {
         Recipe recipe = new ArrayList<>(cookbook.recipeList.values()).get(position);
+        // Bind data
         holder.binding.recipeName.setText(recipe.recipeName);
-        holder.itemView.setOnClickListener(v -> onRecipeClickListener.onRecipeClick(recipe));
 
-        holder.deleteIcon.setOnClickListener(v -> onDeleteRecipeListener.onDeleteRecipe(recipe));
+        holder.binding.getRoot().setOnClickListener(v -> onRecipeClickListener.onRecipeClick(recipe));
+        holder.binding.deleteIcon.setOnClickListener(v -> onDeleteRecipeListener.onDeleteRecipe(recipe));
     }
 
     /**
@@ -130,12 +131,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
      */
     public static class RecipeViewHolder extends RecyclerView.ViewHolder {
 
-        /**
-         * TextView to display the recipe's name.
-         */
-        TextView recipeName;
         ItemRecipeBinding binding;
-        ImageView deleteIcon;
         /**
          * Constructs a {@code RecipeViewHolder} and initializes its views.
          *
@@ -144,8 +140,6 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         public RecipeViewHolder(ItemRecipeBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
-            recipeName = itemView.findViewById(R.id.recipe_name);
-            deleteIcon = itemView.findViewById(R.id.delete_icon);
         }
     }
 

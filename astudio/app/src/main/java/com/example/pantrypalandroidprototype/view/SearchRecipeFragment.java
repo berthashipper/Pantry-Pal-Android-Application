@@ -89,6 +89,6 @@ public class SearchRecipeFragment extends Fragment implements ISearchRecipeView 
      * Displays an error message indicating that no recipes were found.
      */
     public void showRecipeNotFoundError() {
-        Snackbar.make(getView(), "No recipes found", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(binding.getRoot(), "No recipes found", Snackbar.LENGTH_LONG).show();
     }
 }

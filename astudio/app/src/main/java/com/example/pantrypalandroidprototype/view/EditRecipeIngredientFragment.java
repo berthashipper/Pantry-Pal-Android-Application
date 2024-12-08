@@ -139,6 +139,14 @@ public class EditRecipeIngredientFragment extends Fragment implements IEditRecip
         Snackbar.make(binding.getRoot(), "Updated quantity of " + name, Snackbar.LENGTH_LONG).show();
     }
 
+    public void showRecipeIngredientUpdatedMessage(String name) {
+        Snackbar.make(binding.getRoot(), name + " updated.", Snackbar.LENGTH_SHORT).show();
+    }
+
+    public void showRecipeIngredientNotFoundMessage(String name) {
+        Snackbar.make(binding.getRoot(), name + " not found in recipe.", Snackbar.LENGTH_SHORT).show();
+    }
+
     /**
      * Displays a Snackbar message with an error.
      *

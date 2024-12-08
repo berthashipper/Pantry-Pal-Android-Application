@@ -101,9 +101,14 @@ public class DeleteRecipeIngredientFragment extends Fragment implements IDeleteR
      *
      * @param name The name of the deleted ingredient.
      */
-    private void showIngredientDeletedMessage(String name) {
-        Snackbar.make(binding.getRoot(), "Deleted " + name + " from recipe.", Snackbar.LENGTH_LONG).show();
+    public void showRecipeIngredientDeletedMessage(String name) {
+        Snackbar.make(binding.getRoot(), "Deleted " + name + " from recipe.", Snackbar.LENGTH_SHORT).show();
     }
+
+    public void showRecipeIngredientNotFoundMessage(String name) {
+        Snackbar.make(binding.getRoot(), name + " not found in recipe", Snackbar.LENGTH_SHORT).show();
+    }
+
 
     /**
      * Displays a Snackbar message with an error.

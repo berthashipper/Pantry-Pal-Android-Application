@@ -57,7 +57,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         String unit = binding.ingredientUnitEditText.getText().toString().trim();
 
         if (name.isEmpty() || quantityString.isEmpty()) {
-            Snackbar.make(getView(), "Please fill in all fields", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(binding.getRoot(), "Please fill in all fields", Snackbar.LENGTH_SHORT).show();
             return;
         }
 
@@ -73,7 +73,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         recipeBuilder.addIngredient(name, (int) quantity, unit, null);
 
         // Notify user
-        Snackbar.make(getView(), "Ingredient added: " + name, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(binding.getRoot(), "Ingredient added: " + name, Snackbar.LENGTH_SHORT).show();
         clearIngredientFields();
     }
 
@@ -81,7 +81,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         String instruction = binding.instructionEditText.getText().toString().trim();
 
         if (instruction.isEmpty()) {
-            Snackbar.make(getView(), "Please enter a valid instruction", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(binding.getRoot(), "Please enter a valid instruction", Snackbar.LENGTH_SHORT).show();
             return;
         }
 
@@ -89,7 +89,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         recipeBuilder.addInstruction(instruction);
 
         // Notify user
-        Snackbar.make(getView(), "Instruction added", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(binding.getRoot(), "Instruction added", Snackbar.LENGTH_SHORT).show();
         clearInstructionField();
     }
 
@@ -100,7 +100,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         String servingSizeString = binding.servingSizeEditText.getText().toString().trim();
 
         if (recipeName.isEmpty()) {
-            Snackbar.make(getView(), "Please provide a recipe name", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(binding.getRoot(), "Please provide a recipe name", Snackbar.LENGTH_SHORT).show();
             return;
         }
 
@@ -111,7 +111,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
                 long cookTimeInMinutes = Long.parseLong(cookTimeString);
                 cookTime = Duration.ofMinutes(cookTimeInMinutes);
             } catch (NumberFormatException e) {
-                Snackbar.make(getView(), "Please enter a valid cook time", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(binding.getRoot(), "Please enter a valid cook time", Snackbar.LENGTH_SHORT).show();
                 return; // Return if invalid cook time entered
             }
         }
@@ -122,7 +122,7 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
             try {
                 servingSize = Integer.parseInt(servingSizeString);
             } catch (NumberFormatException e) {
-                Snackbar.make(getView(), "Please enter a valid serving size", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(binding.getRoot(), "Please enter a valid serving size", Snackbar.LENGTH_SHORT).show();
                 return; // Return if invalid serving size entered
             }
         }

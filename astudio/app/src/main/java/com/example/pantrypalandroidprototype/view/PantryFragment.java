@@ -116,13 +116,13 @@ public class PantryFragment extends Fragment implements IPantryView {
                                     int position = ingredientList.indexOf(ingredient); // Get the position
                                     ingredientList.remove(position);
                                     adapter.notifyItemRemoved(position); // Notify adapter to update the view
-                                    Snackbar.make(getView(), "Deleted " + ingredient.getName() + " from Pantry", Snackbar.LENGTH_SHORT).show();
+                                    Snackbar.make(binding.getRoot(), "Deleted " + ingredient.getName() + " from Pantry", Snackbar.LENGTH_SHORT).show();
                                     if (listener != null) {
                                         listener.onDeleteIngredientMenu(ingredient);
                                     }
                                 } else {
                                     Log.d("PantryFragment", "Ingredient not found: " + ingredient.getName());
-                                    Snackbar.make(getView(), "Ingredient not found", Snackbar.LENGTH_SHORT).show();
+                                    Snackbar.make(binding.getRoot(), "Ingredient not found", Snackbar.LENGTH_SHORT).show();
                                 }
                             })
                             .setNegativeButton("No", (dialog, which) -> {
@@ -215,6 +215,6 @@ public class PantryFragment extends Fragment implements IPantryView {
      * Displays a Snackbar message indicating that the pantry has been cleared.
      */
     public void showClearedMessage() {
-        Snackbar.make(getView(), "Pantry cleared", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(binding.getRoot(), "Pantry cleared", Snackbar.LENGTH_LONG).show();
     }
 }

@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.FragmentGroceryListBinding;
+import com.example.pantrypalandroidprototype.databinding.ItemGroceryListBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Pantry;
 import com.google.android.material.snackbar.Snackbar;
@@ -32,7 +33,6 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
     GroceryListAdapter adapter;
     Listener listener;
     Map<Ingredient, Double> groceryList;
-    static final String ARG_GROCERY_LIST = "grocery_list";
 
     // Modify newInstance method to accept listener
     public static GroceryListFragment newInstance(Listener listener, Map<Ingredient, Double> groceryList) {
@@ -42,8 +42,7 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
         return fragment;
     }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentGroceryListBinding.inflate(inflater, container, false);
         View rootView = binding.getRoot();
 
@@ -114,15 +113,15 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
     }
 
     public void showClearedMessage() {
-        Snackbar.make(getView(), "Grocery List cleared", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(binding.getRoot(), "Grocery List cleared", Snackbar.LENGTH_LONG).show();
     }
 
     public void showDeletedMessage(Ingredient ingredient) {
-        Snackbar.make(getView(), "Deleted " + ingredient.getName() + " from Grocery List", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(binding.getRoot(), "Deleted " + ingredient.getName() + " from Grocery List", Snackbar.LENGTH_SHORT).show();
     }
 
     public void showUpdatedQuantityMessage(String name, Double quantity) {
-        Snackbar.make(getView(), "Updated " + name + " to quantity " + quantity, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(binding.getRoot(), "Updated " + name + " to quantity " + quantity, Snackbar.LENGTH_SHORT).show();
     }
 
     // Adapter for the RecyclerView to display the shopping list
@@ -135,24 +134,16 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.item_grocery_list, parent, false);
-            return new ViewHolder(view);
+            ItemGroceryListBinding binding = ItemGroceryListBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+            return new ViewHolder(binding);
         }
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             Ingredient ingredient = (Ingredient) groceryList.keySet().toArray()[position];
             Double quantity = groceryList.get(ingredient);
+            holder.bind(ingredient, quantity);
             Log.d("GroceryListAdapter", "Binding ingredient: " + ingredient.getName() + ", Qty: " + quantity);
-            holder.ingredientName.setText(ingredient.getName());
-            holder.ingredientQuantity.setText(quantity + " " + ingredient.getUnit());
-            // Set up the edit button to show the dialog
-            holder.editButton.setOnClickListener(v -> {
-                // Show the edit quantity dialog when the edit button is clicked
-                showEditQuantityDialog(ingredient);
-            });
-            holder.removeButton.setOnClickListener(v -> removeIngredient(ingredient));
         }
 
         @Override
@@ -170,7 +161,7 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
                         listener.onRemoveIngredient(ingredient);
                         notifyDataSetChanged(); // Update the UI
                         if (getView() != null) {
-                            Snackbar.make(getView(), ingredient.getName() + " deleted from Grocery List", Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(binding.getRoot(), ingredient.getName() + " deleted from Grocery List", Snackbar.LENGTH_SHORT).show();
                         }
                     })
                     .setNegativeButton("No", (dialog, which) -> {
@@ -212,16 +203,22 @@ public class GroceryListFragment extends Fragment implements IGroceryListView {
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
+            ItemGroceryListBinding binding;
 
-            TextView ingredientName, ingredientQuantity;
-            ImageView removeButton, editButton;
+            public ViewHolder(ItemGroceryListBinding binding) {
+                super(binding.getRoot());
+                this.binding = binding;
+            }
 
-            public ViewHolder(View itemView) {
-                super(itemView);
-                ingredientName = itemView.findViewById(R.id.ingredient_name);
-                ingredientQuantity = itemView.findViewById(R.id.ingredient_quantity);
-                removeButton = itemView.findViewById(R.id.delete_icon);
-                editButton = itemView.findViewById(R.id.edit_icon);
+            public void bind(Ingredient ingredient, Double quantity) {
+                binding.ingredientName.setText(ingredient.getName());
+                binding.ingredientQuantity.setText(quantity + " " + ingredient.getUnit());
+
+                binding.editIcon.setOnClickListener(v -> {
+                    showEditQuantityDialog(ingredient);
+                });
+
+                binding.deleteIcon.setOnClickListener(v -> removeIngredient(ingredient));
             }
         }
     }

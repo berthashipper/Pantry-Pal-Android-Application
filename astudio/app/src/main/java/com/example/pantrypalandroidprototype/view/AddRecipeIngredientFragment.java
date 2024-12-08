@@ -12,8 +12,11 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.FragmentAddRecipeIngredientBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -105,7 +108,7 @@ public class AddRecipeIngredientFragment extends Fragment {
         if (binding.kosherCheckbox.isChecked()) dietaryTags.add(Ingredient.dietary_tags.KOSHER);
         if (binding.glutenFreeCheckbox.isChecked()) dietaryTags.add(Ingredient.dietary_tags.GLUTEN_FREE);
         listener.onAddRecipeIngredient(name, newQty, unit, dietaryTags);
-        showIngredientAddedMessage(name);
+        showRecipeIngredientAddedMessage(name);
         clearInputs();
     }
 
@@ -117,7 +120,6 @@ public class AddRecipeIngredientFragment extends Fragment {
         if (listener != null) {
             listener.onAddRecipeDone();
         }
-        //Toast.makeText(getContext(), "Returning to Recipe Details", Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -153,8 +155,8 @@ public class AddRecipeIngredientFragment extends Fragment {
      *
      * @param name The name of the added ingredient.
      */
-    private void showIngredientAddedMessage(String name) {
-        //Toast.makeText(getContext(), "Successfully added " + name, Toast.LENGTH_LONG).show();
+    public void showRecipeIngredientAddedMessage(String name) {
+        Snackbar.make(binding.getRoot(), name + " added to recipe.", Snackbar.LENGTH_SHORT).show();
     }
 
     /**

@@ -91,7 +91,7 @@ public class DeleteIngredientFragment extends Fragment implements IDeleteIngredi
      * @param name The name of the deleted ingredient.
      */
     public void showIngredientDeletedMessage(String name) {
-        Snackbar.make(getView(), "Deleted ingredient: " + name, Snackbar.LENGTH_LONG).show();
+        Snackbar.make(binding.getRoot(), "Deleted ingredient: " + name, Snackbar.LENGTH_LONG).show();
     }
 
     /**
@@ -128,6 +128,6 @@ public class DeleteIngredientFragment extends Fragment implements IDeleteIngredi
         if (listener != null) {
             listener.onDeletionDone();
         }
-        Snackbar.make(getView(), "Returning to Pantry" , Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(binding.getRoot(), "Returning to Pantry" , Snackbar.LENGTH_SHORT).show();
     }
 }

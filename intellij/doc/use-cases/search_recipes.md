@@ -74,7 +74,7 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": Recipe Database" as db
+participant ": Cookbook" as db
 
 user -> ui : select "Search Recipe by Name"
 ui -> user : prompt "Enter recipe name"

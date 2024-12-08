@@ -57,7 +57,7 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         String unit = binding.itemUnitText.getText().toString().trim();
 
         if (name.isEmpty() || qtyString.isEmpty()) {
-            Snackbar.make(getView(), "Please fill in all fields.", Snackbar.LENGTH_LONG).show();
+            Snackbar.make(binding.getRoot(), "Please fill in all fields.", Snackbar.LENGTH_LONG).show();
             return;
         }
 
@@ -93,7 +93,7 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         // adapter update
         Ingredient newIngredient = new Ingredient(name, qty, unit, new HashSet<>());
         addedIngredients.add(newIngredient);
-        Snackbar.make(getView(), "Added " + newIngredient.getName() + " to pantry.", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(binding.getRoot(), "Added " + newIngredient.getName() + " to pantry.", Snackbar.LENGTH_SHORT).show();
         ingredientAdapter.notifyItemInserted(addedIngredients.size() - 1);
         clearInputs();
     }
@@ -133,6 +133,6 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         }
     }
     public void showDoneMessage() {
-        //Snackbar.make(getView(), "Returning to Pantry", Snackbar.LENGTH_SHORT).show();
+        //Snackbar.make(binding.getRoot(), "Returning to Pantry", Snackbar.LENGTH_SHORT).show();
     }
 }

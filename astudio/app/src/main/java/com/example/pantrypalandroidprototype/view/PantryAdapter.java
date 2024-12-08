@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.pantrypalandroidprototype.R;
+import com.example.pantrypalandroidprototype.databinding.ItemIngredientBinding;
 import com.example.pantrypalandroidprototype.databinding.ItemPantryBinding;
 import com.example.pantrypalandroidprototype.databinding.ItemRecipeBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
@@ -33,7 +34,7 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
      */
     //List<String> ingredients;
     PantryViewHolder.OnItemClickListener listener;
-    List<Ingredient> ingredients; // Now storing Ingredient objects instead of just names
+    List<Ingredient> ingredients;
 
 
     public PantryAdapter(List<Ingredient> ingredients, PantryViewHolder.OnItemClickListener listener) {
@@ -51,8 +52,10 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
     @NonNull
     @Override
     public PantryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ingredient, parent, false);
-        return new PantryViewHolder(view);
+        //View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ingredient, parent, false);
+        //return new PantryViewHolder(view);
+        ItemIngredientBinding binding = ItemIngredientBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        return new PantryViewHolder(binding);
     }
 
     /**
@@ -64,24 +67,23 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
     @Override
     public void onBindViewHolder(@NonNull PantryViewHolder holder, int position) {
         Ingredient ingredient = ingredients.get(position);
-        holder.ingredientName.setText(ingredient.getName());
-        holder.ingredientDetails.setText("Amount: " + ingredient.getQuantity() + " " + ingredient.getUnit() + ", Tags: " + ingredient.getTags());
+        holder.binding.ingredientName.setText(ingredient.getName());
+        holder.binding.ingredientDetails.setText("Amount: " + ingredient.getQuantity() + " " + ingredient.getUnit() + ", Tags: " + ingredient.getTags());
 
         // Show ingredient details when card is clicked
-        holder.itemView.setOnClickListener(v -> {
-            holder.ingredientDetails.setVisibility(View.VISIBLE);
+        holder.binding.getRoot().setOnClickListener(v -> {
+            holder.binding.ingredientDetails.setVisibility(View.VISIBLE);
         });
 
         // Set onClickListener for the edit icon
-        holder.editIcon.setOnClickListener(v -> {
-            // Open the edit ingredient screen
+        holder.binding.editIcon.setOnClickListener(v -> {
             if (listener != null) listener.onEditIngredient(ingredient);
         });
 
         // Set onClickListener for the delete icon
-        holder.deleteIcon.setOnClickListener(v -> {
+        holder.binding.deleteIcon.setOnClickListener(v -> {
             if (listener != null) {
-                listener.onDeleteIngredient(ingredient); // Trigger the delete action, handled in the fragment
+                listener.onDeleteIngredient(ingredient);
             }
         });
     }
@@ -100,26 +102,21 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
      * The {@code PantryViewHolder} class holds references to the views for each pantry item.
      */
     public static class PantryViewHolder extends RecyclerView.ViewHolder {
-        TextView ingredientName, ingredientDetails;
-        ImageView deleteIcon, editIcon;
+        ItemIngredientBinding binding;
 
         /**
          * Constructs a {@code PantryViewHolder} and initializes its views.
          *
-         * @param itemView The binding representing an individual pantry item.
+         * @param binding The binding representing an individual pantry item.
          */
-        public PantryViewHolder(View itemView) {
-            super(itemView);
-            ingredientName = itemView.findViewById(R.id.ingredient_name);
-            ingredientDetails = itemView.findViewById(R.id.ingredient_details);
-            deleteIcon = itemView.findViewById(R.id.delete_icon);
-            editIcon = itemView.findViewById(R.id.edit_icon);
+        public PantryViewHolder(ItemIngredientBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
         }
 
         public interface OnItemClickListener {
             void onEditIngredient(Ingredient ingredient);
             void onDeleteIngredient(Ingredient ingredient);
         }
-
     }
 }
