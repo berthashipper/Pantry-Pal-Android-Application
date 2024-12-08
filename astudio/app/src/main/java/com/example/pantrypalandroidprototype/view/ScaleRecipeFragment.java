@@ -23,11 +23,22 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * A fragment that allows users to scale a recipe's ingredients and serving size.
+ * This fragment interacts with the controller through the {@link IScaleRecipeView.Listener} interface.
+ */
 public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Listener {
     FragmentScaleRecipeBinding binding;
     IScaleRecipeView.Listener listener;
     Recipe recipe;
 
+    /**
+     * Creates a new instance of the {@link ScaleRecipeFragment} with the given recipe and listener.
+     *
+     * @param recipe  the recipe to be scaled
+     * @param listener  the listener to handle scaling results
+     * @return a new instance of {@link ScaleRecipeFragment}
+     */
     public static ScaleRecipeFragment newInstance(Recipe recipe, IScaleRecipeView.Listener listener) {
         ScaleRecipeFragment fragment = new ScaleRecipeFragment();
         Bundle args = new Bundle();
@@ -37,6 +48,14 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
         return fragment;
     }
 
+    /**
+     * Inflates the layout for the fragment and returns the root view.
+     *
+     * @param inflater the layout inflater
+     * @param container the container view group
+     * @param savedInstanceState the saved instance state
+     * @return the root view of the fragment's layout
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,6 +63,12 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
         return binding.getRoot();
     }
 
+    /**
+     * Initializes the fragment by retrieving the recipe and setting up listeners.
+     *
+     * @param view the fragment's root view
+     * @param savedInstanceState the saved instance state
+     */
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +107,13 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
         });
     }
 
+    /**
+     * Scales the recipe ingredients and serving size based on the given scale factor.
+     *
+     * @param originalRecipe the recipe to scale
+     * @param scaleFactor the factor by which to scale the recipe
+     * @return the scaled recipe
+     */
     public Recipe scaleRecipe(Recipe originalRecipe, double scaleFactor) {
         Set<Ingredient> scaledIngredients = new HashSet<>();
         // Scale each ingredient's quantity based on the scale factor
@@ -111,6 +143,10 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
         );
     }
 
+    /**
+     * Handles the scaling process when the scale button is clicked.
+     * It parses the scale factor and passes it to the listener.
+     */
     public void onScaleButtonClicked() {
         try {
             double scaleFactor = Double.parseDouble(binding.scaleFactor.getText().toString());
@@ -122,21 +158,39 @@ public class ScaleRecipeFragment extends Fragment implements IScaleRecipeView.Li
         }
     }
 
-
+    /**
+     * Displays an error message when the scale factor is invalid.
+     */
     public void showScaleError() {
         binding.errorMessage.setVisibility(View.VISIBLE);
     }
 
+    /**
+     * Callback method invoked when the recipe is scaled.
+     * This is a part of the {@link IScaleRecipeView.Listener} interface.
+     *
+     * @param scaleFactor the scale factor used to scale the recipe
+     */
     @Override
     public void onScaleRecipe(double scaleFactor) {
 
     }
 
+    /**
+     * Callback method invoked when the recipe has been successfully scaled.
+     * This is a part of the {@link IScaleRecipeView.Listener} interface.
+     *
+     * @param scaledRecipe the scaled recipe object
+     */
     @Override
     public void onRecipeScaled(Recipe scaledRecipe) {
 
     }
 
+    /**
+     * Callback method invoked when the user navigates back to the recipe.
+     * This is a part of the {@link IScaleRecipeView.Listener} interface.
+     */
     @Override
     public void onBackToRecipe() {
 
