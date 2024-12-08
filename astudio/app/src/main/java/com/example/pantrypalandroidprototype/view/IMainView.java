@@ -30,6 +30,10 @@ public interface IMainView {
      * @param transName the name this transaction can be referred by.
      */
     void displayFragment(@NonNull final Fragment fragment, final String transName);
-
+    /**
+     * Sets the listener for the pantry view. This listener is used to handle events triggered by the pantry view.
+     *
+     * @param listener The listener that will handle pantry view events.
+     */
     void setListener(IPantryView.Listener listener);
 }
