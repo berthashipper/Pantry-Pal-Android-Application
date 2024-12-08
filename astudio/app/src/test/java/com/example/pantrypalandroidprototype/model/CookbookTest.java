@@ -5,10 +5,16 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.util.Set;
-
+/**
+ * Unit tests for the {@link Cookbook} class, verifying the behavior of adding, searching, removing recipes,
+ * and initializing default recipes.
+ */
 public class CookbookTest extends TestCase {
 
-
+    /**
+     * Tests the functionality of adding a recipe to the cookbook.
+     * Verifies that the recipe is added to the recipe list and can be retrieved correctly.
+     */
     @Test
     public void testAddRecipe() {
         // Arrange
@@ -27,6 +33,10 @@ public class CookbookTest extends TestCase {
         assertEquals(newRecipe, cookbook.recipeList.get("Test Recipe"));
     }
 
+    /**
+     * Tests the search functionality of the cookbook.
+     * Verifies that the search returns the expected recipes based on the search keyword.
+     */
     @Test
     public void testSearchRecipes() {
         // Arrange
@@ -44,6 +54,10 @@ public class CookbookTest extends TestCase {
         }
     }
 
+    /**
+     * Tests the functionality of removing a recipe from the cookbook.
+     * Verifies that the recipe is removed from the recipe list after the removal.
+     */
     @Test
     public void testRemoveRecipe() {
         // Arrange
@@ -62,6 +76,10 @@ public class CookbookTest extends TestCase {
         assertFalse(cookbook.recipeList.containsKey("Test Recipe"));
     }
 
+    /**
+     * Tests the initialization of default recipes in the cookbook.
+     * Verifies that the cookbook contains a predefined set of default recipes.
+     */
     @Test
     public void testInitializeDefaultRecipes() {
         // Arrange

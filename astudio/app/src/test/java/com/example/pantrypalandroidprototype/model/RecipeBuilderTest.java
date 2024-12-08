@@ -31,7 +31,7 @@ public class RecipeBuilderTest extends TestCase {
     }
 
     /**
-     * Tests the {@link RecipeBuilder#addIngredient(String, int, String, Set)} method to ensure that ingredients
+     * Tests the method to ensure that ingredients
      * can be added using a simplified format (ingredient name, quantity, unit, and dietary tags).
      *
      * Asserts:
@@ -73,7 +73,7 @@ public class RecipeBuilderTest extends TestCase {
     }
 
     /**
-     * Tests the {@link RecipeBuilder#addTag(Ingredient.dietary_tags)} method to ensure that dietary tags
+     * Tests the method to ensure that dietary tags
      * are correctly added to the recipe.
      *
      * Asserts:
