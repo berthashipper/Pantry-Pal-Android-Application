@@ -43,6 +43,7 @@ public interface ICookbookView {
          * This method may navigate to the cookbook's main screen or display a list of recipes.
          */
         void onViewCookbookMenu();
+
         /**
          * Called when a recipe is clicked by the user.
          * The implementation should handle navigating to the recipe details or taking an appropriate action.
@@ -50,16 +51,19 @@ public interface ICookbookView {
          * @param recipe The recipe that was clicked by the user.
          */
         void onRecipeClick(Recipe recipe);
+
         /**
          * Called when the user wishes to navigate to the add recipe screen.
          * The implementation should handle navigation to a fragment or activity where a user can add a new recipe.
          */
         void onNavigateToAddRecipe();
+
         /**
          * Called when the user triggers the search menu for recipes.
          * The implementation should handle the search functionality, either by displaying a dialog or navigating to a search fragment.
          */
         void onSearchRecipesMenu();
+
         /**
          * Called when a new recipe is created and should be reflected in the UI.
          * This method is triggered after the recipe has been created, allowing the presenter or controller to handle it.
@@ -68,6 +72,11 @@ public interface ICookbookView {
          */
         void onRecipeCreated(Recipe recipe);
 
+        /**
+         * This method is called when the cookbook is updated.
+         *
+         * @param cookbook The updated Cookbook object, reflecting the changes made.
+         */
         void onCookbookUpdated(Cookbook cookbook);
     }
 }
