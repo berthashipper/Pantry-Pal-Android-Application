@@ -20,19 +20,38 @@ import com.google.android.material.snackbar.Snackbar;
 import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
-
+/**
+ * Fragment for adding a recipe with ingredients, instructions, and metadata.
+ * This fragment provides an interface for users to input a recipe name, description, cook time,
+ * serving size, ingredients, and instructions. It allows users to add items incrementally
+ * and finalize the recipe for submission.
+ */
 public class AddRecipeFragment extends Fragment implements IAddRecipeView {
 
     FragmentAddRecipeBinding binding;
     Listener listener;
     RecipeBuilder recipeBuilder = new RecipeBuilder();
 
+    /**
+     * Creates a new instance of the fragment with a specified listener.
+     *
+     * @param listener A {@link Listener} to handle recipe-related events.
+     * @return A new instance of {@code AddRecipeFragment}.
+     */
     public static AddRecipeFragment newInstance(Listener listener) {
         AddRecipeFragment fragment = new AddRecipeFragment();
         fragment.listener = listener;
         return fragment;
     }
 
+    /**
+     * Inflates the fragment's layout and sets up input fields for validation and restrictions.
+     *
+     * @param inflater           The {@link LayoutInflater} used to inflate the layout.
+     * @param container          The parent view that this fragment's UI will attach to.
+     * @param savedInstanceState Saved state information for restoring the fragment.
+     * @return The root {@link View} of the fragment.
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +60,12 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         return binding.getRoot();
     }
 
+    /**
+     * Configures the fragment's UI components and sets up event listeners for user actions.
+     *
+     * @param view               The {@link View} of the fragment.
+     * @param savedInstanceState Saved state information for restoring the fragment.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -51,6 +76,10 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         binding.backToCookbookIcon.setOnClickListener(v -> onBackToCookbookIconClicked());
     }
 
+    /**
+     * Handles the addition of a new ingredient to the recipe.
+     * Validates the input fields, adds the ingredient to the {@link RecipeBuilder}, and notifies the user.
+     */
     public void onAddIngredientButtonClicked() {
         String name = binding.ingredientNameEditText.getText().toString().trim();
         String quantityString = binding.ingredientQuantityEditText.getText().toString().trim();
@@ -77,6 +106,10 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         clearIngredientFields();
     }
 
+    /**
+     * Handles the addition of a new instruction to the recipe.
+     * Validates the instruction input, adds it to the {@link RecipeBuilder}, and notifies the user.
+     */
     public void onAddInstructionButtonClicked() {
         String instruction = binding.instructionEditText.getText().toString().trim();
 
@@ -93,6 +126,11 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         clearInstructionField();
     }
 
+    /**
+     * Handles the finalization of the recipe and notifies the listener.
+     * Validates the recipe's metadata fields, saves the recipe using {@link RecipeBuilder},
+     * and triggers a listener event to handle the new recipe.
+     */
     public void onDoneButtonClicked() {
         String recipeName = binding.recipeNameEditText.getText().toString().trim();
         String description = binding.descriptionEditText.getText().toString().trim();
@@ -140,6 +178,10 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         }
     }
 
+    /**
+     * Handles navigation back to the cookbook view.
+     * Notifies the listener or performs a navigation action to return to the cookbook.
+     */
     public void onBackToCookbookIconClicked() {
         // Notify the listener or navigate back to the cookbook
         if (listener != null) {
@@ -147,12 +189,18 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         }
     }
 
+    /**
+     * Clears all input fields related to ingredients.
+     */
     public void clearIngredientFields() {
         binding.ingredientNameEditText.setText("");
         binding.ingredientQuantityEditText.setText("");
         binding.ingredientUnitEditText.setText("");
     }
 
+    /**
+     * Clears the instruction input field.
+     */
     public void clearInstructionField() {
         binding.instructionEditText.setText("");
     }
@@ -165,6 +213,10 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         }
     }
 
+    /**
+     * Sets up input field restrictions to ensure valid data entry.
+     * Configures fields for numeric inputs such as ingredient quantity, cook time, and serving size.
+     */
     public void setupInputFields() {
         // Restrict quantity field to numbers only
         binding.ingredientQuantityEditText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(10),
