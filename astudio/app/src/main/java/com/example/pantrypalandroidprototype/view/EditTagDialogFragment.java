@@ -16,15 +16,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
-import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
 import com.google.android.material.snackbar.Snackbar;
 
+/**
+ * A dialog fragment for adding tags to a recipe.
+ * This fragment displays an input field where users can enter a new tag, which is then added to the recipe.
+ * It notifies a {@link TagActionListener} to handle the tag addition and update the UI.
+ */
 public class EditTagDialogFragment extends DialogFragment {
     static final String ARG_RECIPE = "recipe";
     Recipe recipe;
     private TagActionListener tagActionListener;
 
+    /**
+     * Creates a new instance of the fragment with the specified recipe.
+     *
+     * @param recipe The {@link Recipe} to which the tag will be added.
+     * @return A new instance of {@code EditTagDialogFragment}.
+     */
     public static EditTagDialogFragment newInstance(Recipe recipe) {
         EditTagDialogFragment fragment = new EditTagDialogFragment();
         Bundle args = new Bundle();
@@ -33,6 +43,13 @@ public class EditTagDialogFragment extends DialogFragment {
         return fragment;
     }
 
+    /**
+     * Called when the fragment is attached to a context.
+     * Ensures the context implements {@link TagActionListener}.
+     *
+     * @param context The context to which the fragment is attached.
+     * @throws RuntimeException if the context does not implement {@code TagActionListener}.
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -43,6 +60,12 @@ public class EditTagDialogFragment extends DialogFragment {
         }
     }
 
+    /**
+     * Creates the dialog for adding a new tag.
+     *
+     * @param savedInstanceState If non-null, this fragment is being re-created from a previous state.
+     * @return The dialog for adding a new tag.
+     */
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         if (getArguments() != null) {
@@ -72,6 +95,12 @@ public class EditTagDialogFragment extends DialogFragment {
         return builder.create();
     }
 
+    /**
+     * Sets up a result listener to handle results from related fragments, such as an "Add Tag" operation.
+     *
+     * @param view               The fragment's root view.
+     * @param savedInstanceState If non-null, this fragment is being re-constructed from a previous state.
+     */
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -95,7 +124,16 @@ public class EditTagDialogFragment extends DialogFragment {
         });
     }
 
+    /**
+     * Listener interface for handling tag-related actions.
+     */
     public interface TagActionListener {
+        /**
+         * Called when a new tag is added to a recipe.
+         *
+         * @param recipe The {@link Recipe} to which the tag was added.
+         * @param newTag The newly added tag.
+         */
         void onTagAdded(Recipe recipe, String newTag);
     }
 }
