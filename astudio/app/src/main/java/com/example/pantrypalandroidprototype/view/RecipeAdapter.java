@@ -106,6 +106,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         notifyDataSetChanged();
     }
 
+    /**
+     * Sets the listener for recipe click events.
+     *
+     * @param listener The listener to be notified when a recipe is clicked.
+     */
     public void setOnRecipeClickListener(OnRecipeClickListener listener) {
         this.onRecipeClickListener = listener;
     }
@@ -122,7 +127,15 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         void onRecipeClick(Recipe recipe);
     }
 
+    /**
+     * Listener interface for handling recipe deletion events.
+     */
     public interface OnDeleteRecipeListener {
+        /**
+         * Called when a recipe is to be deleted.
+         *
+         * @param recipe The recipe to be deleted.
+         */
         void onDeleteRecipe(Recipe recipe);
     }
 
@@ -143,6 +156,11 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeView
         }
     }
 
+    /**
+     * Removes a recipe from the cookbook and updates the UI.
+     *
+     * @param recipe The recipe to be removed.
+     */
     public void removeRecipe(Recipe recipe) {
         cookbook.removeRecipe(recipe);
         notifyDataSetChanged();
