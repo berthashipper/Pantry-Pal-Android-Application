@@ -153,18 +153,39 @@ public class Recipe implements Serializable {
         recipeTagsStrings.add(tag);
     }
 
+    /**
+     * Adds a new dynamic tag to the recipe.
+     *
+     * @param tag The dynamic tag to be added.
+     */
     public void addDynamicTag(String tag) {
         dynamicTags.add(tag);
     }
 
+    /**
+     * Retrieves the set of dietary tags associated with the recipe.
+     *
+     * @return A {@link Set} of dietary tag strings.
+     */
     public Set<String> getDietaryTags() {
         return recipeTagsStrings;
     }
 
+    /**
+     * Retrieves the set of dynamic tags associated with the recipe.
+     *
+     * @return A {@link Set} of dynamic tag strings.
+     */
     public Set<String> getDynamicTags() {
         return recipeTagsStrings;
     }
 
+    /**
+     * Removes a specified tag from the recipe.
+     *
+     * @param tag The tag to be removed.
+     * @return {@code true} if the tag was successfully removed, {@code false} if the tag was not found.
+     */
     public boolean removeTag(String tag) {
         if (recipeTagsStrings.contains(tag)) {
             recipeTagsStrings.remove(tag);
