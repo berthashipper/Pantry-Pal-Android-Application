@@ -19,6 +19,9 @@ import org.hamcrest.Matchers;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 
+/**
+ * Instrumented test class for verifying the Edit Recipe functionality.
+ */
 @RunWith(AndroidJUnit4.class)
 public class ManageRecipeEditsInstrumentedTest {
 

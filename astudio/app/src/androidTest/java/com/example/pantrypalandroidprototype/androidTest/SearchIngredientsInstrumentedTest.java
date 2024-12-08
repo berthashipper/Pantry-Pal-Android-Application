@@ -15,6 +15,9 @@ import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 
+/**
+ * Instrumented test class for verifying the "Search Ingredients" functionality.
+ */
 @RunWith(AndroidJUnit4.class)
 public class SearchIngredientsInstrumentedTest {
 

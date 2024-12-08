@@ -17,6 +17,9 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 
+/**
+ * Instrumented test class for verifying the Manage Ingredients in Recipe functionality.
+ */
 @RunWith(AndroidJUnit4.class)
 public class ManageRecipeIngredientsTest {
 

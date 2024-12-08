@@ -16,6 +16,9 @@ import com.example.pantrypalandroidprototype.controller.ControllerActivity;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 
+/**
+ * Instrumented test class for verifying the "Scale Recipe" functionality.
+ */
 @RunWith(AndroidJUnit4.class)
 public class ScaleRecipeInstrumentedTest {
 

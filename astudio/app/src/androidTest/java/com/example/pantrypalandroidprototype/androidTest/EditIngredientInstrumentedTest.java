@@ -18,6 +18,9 @@ import org.hamcrest.CoreMatchers;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 
+/**
+ * Instrumented test class for verifying the "Edit Ingredients" functionality.
+ */
 @RunWith(AndroidJUnit4.class)
 public class EditIngredientInstrumentedTest {
 
