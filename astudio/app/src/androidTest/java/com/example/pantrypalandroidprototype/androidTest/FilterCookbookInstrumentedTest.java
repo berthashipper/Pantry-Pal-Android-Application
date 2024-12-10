@@ -77,11 +77,11 @@ public class FilterCookbookInstrumentedTest {
         // Step 3: Click the "Apply Filter" button
         Espresso.onView(ViewMatchers.withId(R.id.applyFiltersButton))
                 .perform(ViewActions.click());
-
-        SystemClock.sleep(3000);
-
+        
         // Step 4: Verify the fallback message (if no selection was made)
         Espresso.onView(ViewMatchers.withText("Please select a tag"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        SystemClock.sleep(3000);
     }
 }
