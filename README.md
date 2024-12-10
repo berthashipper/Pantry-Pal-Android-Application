@@ -11,13 +11,13 @@ Key features include:
 ---
 
 ## Description
-**Pantry Pal** is a versatile kitchen management app designed to simplify your culinary experience. This feature-rich application combines powerful tools such as:
+**Pantry Pal** is more than just an app—it’s a solution to modern kitchen challenges. Developed with Java using an MVC architecture, Pantry Pal enhances the cooking experience by combining advanced features into a seamless application:
 1. **Pantry**: Maintain a digital inventory of your pantry items.
 2. **Grocery List**: Build and organize your grocery list effortlessly for quick and efficient shopping.
 3. **Cookbook**: Create, save, and manage your personal collection of recipes in a cleanly designed digital cookbook.
 4. **Recipe Suggestions**: Get personalized recipe recommendations based on the items you already have in your pantry and recipes you have in your cookbook.
 
-This project represents an extensive Java-based prototype developed into the Android environment. This final version emphasizes clean design and intuitive functionality. Future updates aim to enhance its utility further with meal planning, and even more customizability.
+Pantry Pal was inspired by a personal mission to address the challenges of managing food allergies and organizing a safe, nutritious kitchen. By streamlining processes like recipe management and grocery planning, it reduces the workload for users while fostering a sustainable, waste-free cooking practices.
 
 ---
 
@@ -88,6 +88,6 @@ https://gitlab.cs.vassar.edu/cmpu203-f24-projects/team-2g.git
 
 ## Limitations
 
-- **Meal Planning + Recipe Searching**
-  - Although users can add their own recipes, the app currently does not support a dedicated meal-planning feature or advanced recipe browsing beyond the pre-loaded options. Future updates will aim to introduce enhanced planning tools to improve the user experience.
+- **Meal Planning And Recipe Discovery**
+  - Currently, the app does not support a dedicated meal-planning feature or external recipe browsing. Future updates will enhance these areas to improve the user experience.
 ---
