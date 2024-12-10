@@ -5,7 +5,7 @@ Welcome to **Pantry Pal**, your ultimate kitchen assistant! This app brings your
 Key features include:
 - Effortless pantry tracking to help you see what you have and what’s running low.
 - Personalized recipe suggestions based on your pantry contents and cookbook recipes.
-- A customizable digital cookbook to store and organize your favorite recipes.
+- A customizable digital cookbook to store, organize, and filter your favorite recipes.
 - Integrated grocery list management to streamline shopping trips.
 
 ---
