@@ -62,6 +62,7 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
         super.onViewCreated(view, savedInstanceState);
 
         binding.applyFiltersButton.setOnClickListener(v -> onApplyFiltersClicked());
+        binding.backToCookbookIcon.setOnClickListener(v -> onBackToCookbookIconClicked());
     }
 /**
      * Populates the dietary preference spinner with a list of tags.
@@ -99,11 +100,22 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
         }
     }
 
+    /**
+     * Handles navigation back to the cookbook view.
+     * Notifies the listener or performs a navigation action to return to the cookbook.
+     */
+    public void onBackToCookbookIconClicked() {
+        // Notify the listener or navigate back to the cookbook
+        if (listener != null) {
+            listener.onNavigateToCookbook();
+        }
+    }
+
 /**
      * Displays a message indicating that no matching recipes were found.
      */
 
     public void showNoRecipesFoundError() {
-        Snackbar.make(binding.getRoot(), "Select a tag to filter by", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(binding.getRoot(), "Please select a tag", Snackbar.LENGTH_SHORT).show();
     }
 }
