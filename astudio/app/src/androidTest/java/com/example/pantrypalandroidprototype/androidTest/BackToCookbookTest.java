@@ -57,6 +57,25 @@ public class BackToCookbookTest {
          * This test simulates navigating to the add recipe view, then using the "back to Cookbook" button
          * to return to the Cookbook.
          */
+        Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.filterRecipesButton))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.backToCookbookIcon))
+                .perform(ViewActions.click());
+
+        Espresso.onView(ViewMatchers.withId(R.id.recycler_view_recipes))
+                .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        SystemClock.sleep(1000);
+
+        /**
+         * Back from Add Recipe Fragment.
+         * This test simulates navigating to the add recipe view, then using the "back to Cookbook" button
+         * to return to the Cookbook.
+         */
         Espresso.onView(ViewMatchers.withId(R.id.addRecipeButton))
                 .perform(ViewActions.click());
 
