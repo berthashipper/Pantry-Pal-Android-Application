@@ -40,6 +40,7 @@ import com.example.pantrypalandroidprototype.view.IDeleteRecipeIngredientView;
 import com.example.pantrypalandroidprototype.view.IEditIngredientView;
 import com.example.pantrypalandroidprototype.view.IEditInstructionView;
 import com.example.pantrypalandroidprototype.view.IEditRecipeIngredientView;
+import com.example.pantrypalandroidprototype.view.IFilterRecipeView;
 import com.example.pantrypalandroidprototype.view.IGroceryListView;
 import com.example.pantrypalandroidprototype.view.IMainView;
 import com.example.pantrypalandroidprototype.view.IPantryView;
@@ -74,12 +75,13 @@ public class ControllerActivity extends AppCompatActivity
         ISearchRecipeView.Listener, ISearchIngredientView.Listener, IScaleRecipeView.Listener,
         IEditRecipeIngredientView.Listener, IAddRecipeIngredientView.Listener,
         IDeleteRecipeIngredientView.Listener, IEditInstructionView.Listener,
-        IGroceryListView.Listener, IAddToGroceryListView.Listener, FilterRecipeFragment.Listener {
+        IGroceryListView.Listener, IAddToGroceryListView.Listener, IFilterRecipeView.Listener {
 
     IMainView mainView;
     Pantry pantry;
     Cookbook cookbook;
     Recipe currentRecipe;
+    List<String> tags;
     Map<Ingredient, Double> groceryList;
     IPersistenceFacade persFacade;
 
@@ -838,15 +840,21 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onFilterRecipesMenu() {
-        List<String> tags = getAllUniqueTags();
-        FilterRecipeFragment filterRecipeFragment = FilterRecipeFragment.newInstance(this);
-        mainView.displayFragment(filterRecipeFragment);
+        this.tags = getAllUniqueTags();
+        FilterRecipeFragment filterRecipeFragment = FilterRecipeFragment.newInstance(this, tags);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainerView, filterRecipeFragment)
+                .addToBackStack(null)
+                .commit();
+
+        /*mainView.displayFragment(filterRecipeFragment);
 
         // Ensure the transaction completes
         getSupportFragmentManager().executePendingTransactions();
 
         // Populate tags after the fragment is attached
-        filterRecipeFragment.populateTags(tags);
+        filterRecipeFragment.populateTags(tags);*/
     }
 
     public List<String> getAllUniqueTags() {
@@ -859,25 +867,29 @@ public class ControllerActivity extends AppCompatActivity
 
     @Override
     public void onFilterRecipes(String dietaryTag) {
-        // Filter recipes based on the dietary tag
         Map<String, Recipe> filteredRecipes = cookbook.filterRecipes(dietaryTag);
-
-        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        //List<String> tags = getAllUniqueTags();
 
         if (filteredRecipes != null && !filteredRecipes.isEmpty()) {
-            // Display filtered recipes
             RecipeFragment recipeFragment = RecipeFragment.newInstance(new Cookbook(new HashSet<>(filteredRecipes.values())));
-            mainView.displayFragment(recipeFragment);
-        } else if (currentFragment instanceof FilterRecipeFragment) {
-            // Use the current fragment to show the error
-            ((FilterRecipeFragment) currentFragment).showNoRecipesFoundError();
+
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainerView, recipeFragment)
+                    .addToBackStack("FilteredRecipes")
+                    .commit();
         } else {
-            // Navigate back to FilterRecipeFragment and show the error
-            FilterRecipeFragment filterRecipeFragment = FilterRecipeFragment.newInstance(this);
-            mainView.displayFragment(filterRecipeFragment);
+            // Only create and show the fragment when it's ready
+            FilterRecipeFragment filterRecipeFragment = FilterRecipeFragment.newInstance(this, tags);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainerView, filterRecipeFragment)
+                    .addToBackStack(null)
+                    .commit();
+
+            // Use a fragment manager transaction and ensure lifecycle readiness
             getSupportFragmentManager().executePendingTransactions();
-            filterRecipeFragment.showNoRecipesFoundError();
+            if (filterRecipeFragment.isAdded()) {
+                filterRecipeFragment.showNoRecipesFoundError();
+            }
         }
     }
-
 }
