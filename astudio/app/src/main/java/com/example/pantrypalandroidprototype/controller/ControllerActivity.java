@@ -495,6 +495,13 @@ public class ControllerActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Handles the result of an activity, particularly the addition of a recipe to the cookbook.
+     *
+     * @param requestCode The request code identifying the activity result.
+     * @param resultCode  The result code returned by the activity.
+     * @param data        The {@link Intent} containing the result data.
+     */
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -506,12 +513,18 @@ public class ControllerActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Navigates the user back to the {@link CookbookFragment} after viewing a recipe's details.
+     */
     @Override
     public void onDoneViewingRecipe() {
         // After viewing the recipe details, return to the CookbookFragment
         mainView.displayFragment(CookbookFragment.newInstance(this, cookbook));
     }
 
+    /**
+     * Navigates to the ScaleRecipeFragment to scale the current recipe.
+     */
     @Override
     public void onScaleRecipeMenu() {
         ScaleRecipeFragment fragment = ScaleRecipeFragment.newInstance(currentRecipe, this);
@@ -522,6 +535,12 @@ public class ControllerActivity extends AppCompatActivity
                 .commit();
     }
 
+    /**
+     * Handles the search for recipes based on a query and updates the UI with the results.
+     * If no recipes are found, displays an appropriate error message.
+     *
+     * @param query the search query string for filtering recipes.
+     */
     @Override
     public void onSearchRecipe(String query) {
         // Filter recipes based on the query
@@ -545,18 +564,30 @@ public class ControllerActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Handles navigation back to the Cookbook view after completing a recipe search.
+     */
     @Override
     public void onSearchDone() {
         // Navigate back to the Cookbook view
         mainView.displayFragment(CookbookFragment.newInstance(this, cookbook));
     }
 
+    /**
+     * Navigates to the SearchRecipeFragment to allow users to search for recipes.
+     */
     @Override
     public void onSearchRecipesMenu() {
         SearchRecipeFragment searchRecipeFragment = SearchRecipeFragment.newInstance(this);
         mainView.displayFragment(searchRecipeFragment);
     }
 
+    /**
+     * Handles the search for ingredients based on a query and updates the UI with the results.
+     * If no ingredients are found, displays an appropriate error message.
+     *
+     * @param query the search query string for finding ingredients in the pantry.
+     */
     @Override
     public void onSearchIngredient(String query) {
         // Search for ingredients in the pantry
@@ -587,24 +618,40 @@ public class ControllerActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Handles navigation back to the PantryFragment view after completing an ingredient search.
+     */
     @Override
     public void onSearchIngredientDone() {
         // Navigate back to the PantryFragment view or another fragment
         mainView.displayFragment(PantryFragment.newInstance(this, pantry));
     }
 
+    /**
+     * Navigates to the SearchIngredientFragment to allow users to search for ingredients in the pantry.
+     */
     @Override
     public void onSearchIngredientsMenu() {
         SearchIngredientFragment searchIngredientFragment = SearchIngredientFragment.newInstance(this);
         mainView.displayFragment(searchIngredientFragment);
     }
 
+    /**
+     * Handles the scaling of the current recipe by a given factor and navigates to the ScaleRecipeFragment.
+     *
+     * @param scaleFactor the factor by which to scale the recipe.
+     */
     @Override
     public void onScaleRecipe(double scaleFactor) {
         ScaleRecipeFragment scaleRecipeFragment = ScaleRecipeFragment.newInstance(currentRecipe,this);
         mainView.displayFragment(scaleRecipeFragment);
     }
 
+    /**
+     * Updates the current recipe with the scaled version and displays the scaled recipe details.
+     *
+     * @param scaledRecipe the recipe scaled by the given factor.
+     */
     @Override
     public void onRecipeScaled(Recipe scaledRecipe) {
         this.currentRecipe = scaledRecipe; // Update the current recipe
@@ -612,34 +659,65 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(recipeDetailFragment);
     }
 
+    /**
+     * Navigates back to the RecipeDetailFragment to display the details of the current recipe.
+     */
     @Override
     public void onBackToRecipe() {
         RecipeDetailFragment recipeDetailFragment = RecipeDetailFragment.newInstance(currentRecipe);
         mainView.displayFragment(recipeDetailFragment); // Navigate back to recipe
     }
 
+    /**
+     * Sets the cook time for a given recipe, saves the updated cookbook, and refreshes the view.
+     *
+     * @param cookTime the new cook time for the recipe.
+     * @param recipe   the recipe to update.
+     */
     public void setCookTime(Duration cookTime, Recipe recipe) {
         recipe.setCookTime(cookTime);
         persFacade.saveCookbook(cookbook);  // Save updated cookbook
         mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Refresh view
     }
 
+    /**
+     * Sets the serving size for a given recipe, saves the updated cookbook, and refreshes the view.
+     *
+     * @param servingSize the new serving size for the recipe.
+     * @param recipe      the recipe to update.
+     */
     public void setServingSize(int servingSize, Recipe recipe) {
         recipe.setServingSize(servingSize);
         persFacade.saveCookbook(cookbook);  // Save updated cookbook
         mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Refresh view
     }
 
+    /**
+     * Navigates back to the RecipeDetailFragment to display the specified recipe.
+     *
+     * @param recipe the recipe to display.
+     */
     public void onBackToRecipe(Recipe recipe) {
         mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));  // Navigate back to recipe view
     }
 
+    /**
+     * Completes the recipe editing process by saving the updated cookbook and navigating
+     * to the RecipeDetailFragment for the current recipe.
+     */
     @Override
     public void onEditRecipeDone() {
         persFacade.saveCookbook(cookbook);
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
     }
 
+    /**
+     * Updates the quantity of an ingredient in the current recipe. If the ingredient is found,
+     * it saves the updated cookbook and notifies the user. If not, it displays an error message.
+     *
+     * @param name   the name of the ingredient to update.
+     * @param newQty the new quantity of the ingredient.
+     */
     @Override
     public void onEditRecipeIngredient(String name, double newQty) {
         boolean ingredientFound = false;
@@ -664,6 +742,12 @@ public class ControllerActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Checks if an ingredient with the specified name exists in the current recipe.
+     *
+     * @param name the name of the ingredient to search for.
+     * @return {@code true} if the ingredient exists, {@code false} otherwise.
+     */
     public boolean isIngredientExists(String name) {
         for (Ingredient ingredient : currentRecipe.getIngredients()) {
             if (ingredient.getName().equalsIgnoreCase(name)) {
@@ -673,18 +757,33 @@ public class ControllerActivity extends AppCompatActivity
         return false;
     }
 
+    /**
+     * Navigates to the EditRecipeIngredientFragment to allow editing of the recipe's ingredients.
+     */
     @Override
     public void onEditRecipeIngredients() {
         EditRecipeIngredientFragment editRecipeIngredientFragment = EditRecipeIngredientFragment.newInstance(this);
         this.mainView.displayFragment(editRecipeIngredientFragment);
     }
 
+    /**
+     * Navigates to the AddRecipeIngredientFragment to allow adding new ingredients to a recipe.
+     */
     @Override
     public void onAddRecipeIngredients() {
         AddRecipeIngredientFragment addRecipeIngredientFragment = AddRecipeIngredientFragment.newInstance(this);
         this.mainView.displayFragment(addRecipeIngredientFragment);
     }
 
+    /**
+     * Adds a new ingredient or updates an existing one in the current recipe. The updated cookbook
+     * is saved, and the user is notified of the action.
+     *
+     * @param name   the name of the ingredient.
+     * @param newQty the quantity of the ingredient.
+     * @param unit   the unit of the ingredient.
+     * @param tags   the dietary tags associated with the ingredient.
+     */
     @Override
     public void onAddRecipeIngredient(String name, double newQty, String unit, Set<Ingredient.dietary_tags> tags) {
         boolean ingredientFound = false;
@@ -718,22 +817,37 @@ public class ControllerActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Completes the process of adding ingredients to a recipe and navigates back to the RecipeDetailFragment.
+     */
     @Override
     public void onAddRecipeDone() {
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
     }
 
+    /**
+     * Navigates to the CookbookFragment to display the cookbook.
+     */
     @Override
     public void onNavigateToCookbook() {
         mainView.displayFragment(CookbookFragment.newInstance(this,cookbook));
     }
 
+    /**
+     * Navigates to the DeleteRecipeIngredientFragment to allow users to delete ingredients from a recipe.
+     */
     @Override
     public void onDeleteRecipeIngredients() {
         DeleteRecipeIngredientFragment deleteRecipeIngredientFragment = DeleteRecipeIngredientFragment.newInstance(this);
         this.mainView.displayFragment(deleteRecipeIngredientFragment);
     }
 
+    /**
+     * Deletes a specified ingredient from the current recipe. If the ingredient is found and deleted,
+     * the cookbook is updated and saved. If the ingredient is not found, an error message is displayed.
+     *
+     * @param name the name of the ingredient to delete.
+     */
     @Override
     public void onDeleteRecipeIngredient(String name) {
         // Update the recipe object by removing the specified ingredient
@@ -764,11 +878,20 @@ public class ControllerActivity extends AppCompatActivity
         }
 
     }
+
+    /**
+     * Completes the deletion of recipe ingredients and navigates back to the RecipeDetailFragment.
+     */
     @Override
     public void onDeleteRecipeDone() {
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
     }
 
+    /**
+     * Navigates to the EditInstructionFragment to allow editing of recipe instructions.
+     *
+     * @param currentInstructions the current instructions to be edited.
+     */
     @Override
     public void onEditInstructions(String currentInstructions) {
         EditInstructionFragment editInstructionFragment = EditInstructionFragment.newInstance(this, currentInstructions);
@@ -776,17 +899,33 @@ public class ControllerActivity extends AppCompatActivity
         persFacade.saveCookbook(cookbook);
     }
 
+    /**
+     * Updates the instructions for the current recipe and saves the changes to the cookbook.
+     *
+     * @param instruction the new instructions for the recipe.
+     */
     @Override
     public void onEditInstruction(String instruction) {
         currentRecipe.setInstructions(instruction);
         persFacade.saveCookbook(cookbook);
     }
 
+    /**
+     * Completes the instruction editing process and navigates back to the RecipeDetailFragment.
+     */
     @Override
     public void onEditInstructionDone() {
         mainView.displayFragment(RecipeDetailFragment.newInstance(currentRecipe));
     }
 
+    /**
+     * Adds an ingredient to the grocery list. If the ingredient already exists, a dialog is shown
+     * to confirm updating the quantity. Otherwise, the ingredient is added to the list, and the changes are saved.
+     *
+     * @param name the name of the ingredient.
+     * @param qty  the quantity of the ingredient.
+     * @param unit the unit of the ingredient.
+     */
     @Override
     public void onAddIngredientToGroceryList(String name, double qty, String unit) {
         // Check if the ingredient already exists in the grocery list
@@ -819,6 +958,9 @@ public class ControllerActivity extends AppCompatActivity
         persFacade.saveGroceryList(groceryList);
     }
 
+    /**
+     * Navigates to the AddToGroceryListFragment to allow users to add ingredients to the grocery list.
+     */
     @Override
     public void onAddIngredientsToGroceryListMenu() {
         AddToGroceryListFragment addToGroceryListFragment = AddToGroceryListFragment.newInstance(this,groceryList);
@@ -826,6 +968,11 @@ public class ControllerActivity extends AppCompatActivity
         persFacade.saveGroceryList(groceryList);
     }
 
+    /**
+     * Handles editing an ingredient in the grocery list. This method updates the grocery list and saves it.
+     *
+     * @param ingredient the ingredient to be edited in the grocery list.
+     */
     @Override
     public void onEditIngredientGroceryList(Ingredient ingredient) {
         Log.d("GroceryListAdapter", "Binding ingredient: " + ingredient.getName() + ", Qty: " + ingredient.getQuantity() + ", Unit: " + ingredient.getUnit());
@@ -833,6 +980,9 @@ public class ControllerActivity extends AppCompatActivity
         persFacade.saveGroceryList(groceryList);
     }
 
+    /**
+     * Displays the grocery list by navigating to the GroceryListFragment. If the grocery list is null, it is fetched from the pantry.
+     */
     @Override
     public void onViewGroceryListMenu() {
         if (groceryList == null) {
@@ -844,6 +994,10 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(GroceryListFragment.newInstance(this, groceryList));
     }
 
+    /**
+     * Clears all items from the grocery list and notifies the user via the GroceryListFragment.
+     * The changes are saved to persistence and the list is reloaded.
+     */
     @Override
     public void onClearShoppingList() {
         groceryList.clear();
@@ -859,6 +1013,12 @@ public class ControllerActivity extends AppCompatActivity
         onViewGroceryListMenu(); // Return to the grocery list view
     }
 
+    /**
+     * Removes an ingredient from the grocery list and updates the UI with a confirmation message.
+     * The grocery list is saved after the update.
+     *
+     * @param ingredient the ingredient to be removed from the grocery list.
+     */
     @Override
     public void onRemoveIngredient(Ingredient ingredient) {
         groceryList.remove(ingredient);  // Remove ingredient from the list
@@ -872,6 +1032,13 @@ public class ControllerActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Adds a new tag to a recipe or updates an existing one by adding it to both the static and dynamic tag lists.
+     * The changes are saved and the recipe view is refreshed.
+     *
+     * @param recipe the recipe to which the tag will be added.
+     * @param newTag the tag to be added.
+     */
     public void addTagToRecipe(Recipe recipe, String newTag) {
         newTag = newTag.toUpperCase();
         currentRecipe.addTag(newTag);
@@ -884,6 +1051,12 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));
     }
 
+    /**
+     * Removes a tag from a recipe's tag list. The tag can either be a static or dynamic tag, and the corresponding changes are saved.
+     *
+     * @param recipe the recipe from which the tag will be removed.
+     * @param tagString the tag to be removed.
+     */
     public void removeTagFromRecipe(Recipe recipe, String tagString) {
         if (recipe.getDynamicTags().contains(tagString)) {
             recipe.removeTag(tagString);
@@ -900,6 +1073,12 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));
     }
 
+    /**
+     * Iterates over a set of ingredients to check if any items need to be added to the grocery list,
+     * and updates the list based on the available quantity in the pantry. Changes are saved, and the updated list is displayed.
+     *
+     * @param ingredients the set of ingredients to be added to the grocery list.
+     */
     @Override
     public void shopFor(Set<Ingredient> ingredients) {
         // Iterate through the ingredients to determine what needs to be added to the grocery list
@@ -957,6 +1136,9 @@ public class ControllerActivity extends AppCompatActivity
         onViewGroceryListMenu();
     }
 
+    /**
+     * Displays the FilterRecipeFragment to allow the user to filter recipes based on dietary tags.
+     */
     @Override
     public void onFilterRecipesMenu() {
         this.tags = getAllUniqueTags();
@@ -968,6 +1150,11 @@ public class ControllerActivity extends AppCompatActivity
                 .commit();
     }
 
+    /**
+     * Retrieves all unique dietary tags from the recipes in the cookbook and returns them as a list.
+     *
+     * @return a list of unique dietary tags.
+     */
     public List<String> getAllUniqueTags() {
         List<String> tags = new ArrayList<>();
         for (Recipe recipe : cookbook.getRecipes().values()) {
@@ -976,6 +1163,12 @@ public class ControllerActivity extends AppCompatActivity
         return new ArrayList<>(new HashSet<>(tags)); // Remove duplicates
     }
 
+    /**
+     * Filters recipes based on the selected dietary tag and displays the filtered recipes in a RecipeFragment.
+     * If no recipes match, an error message is shown.
+     *
+     * @param dietaryTag the dietary tag to filter recipes by.
+     */
     @Override
     public void onFilterRecipes(String dietaryTag) {
         Map<String, Recipe> filteredRecipes = cookbook.filterRecipes(dietaryTag);
