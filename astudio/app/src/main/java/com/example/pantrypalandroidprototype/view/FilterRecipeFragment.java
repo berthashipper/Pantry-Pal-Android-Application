@@ -70,22 +70,22 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
      */
 
     public void populateTags(List<String> tags) {
+        // Prepend "Choose tag" as the first option
+        List<String> modifiedTags = new ArrayList<>();
+        modifiedTags.add("Choose tag");
+        modifiedTags.addAll(tags);
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
-                tags
+                modifiedTags
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binding.dietaryPreferenceSpinner.setAdapter(adapter);
-    }
 
-    /*List<String> getTagsFromRecipes() {
-        List<String> tags = new ArrayList<>();
-        for (Recipe recipe : recipes) {
-            tags.addAll(recipe.getTags());
-        }
-        return new ArrayList<>(new HashSet<>(tags)); // Removes duplicates
-    }*/
+        // Ensure the spinner's default selection is "Choose tag"
+        binding.dietaryPreferenceSpinner.setSelection(0);
+    }
 
 
 /**
@@ -104,6 +104,6 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
      */
 
     public void showNoRecipesFoundError() {
-        Toast.makeText(requireContext(), "No matching recipes found", Toast.LENGTH_LONG).show();
+        Snackbar.make(binding.getRoot(), "Select a tag to filter by", Snackbar.LENGTH_SHORT).show();
     }
 }
