@@ -84,8 +84,6 @@ public class ControllerActivity extends AppCompatActivity
     List<String> tags;
     Map<Ingredient, Double> groceryList;
     IPersistenceFacade persFacade;
-
-
     public static final int REQUEST_CODE_ADD_TO_COOKBOOK = 1;
 
     @Override
@@ -463,7 +461,6 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(searchIngredientFragment);
     }
 
-
     @Override
     public void onScaleRecipe(double scaleFactor) {
         ScaleRecipeFragment scaleRecipeFragment = ScaleRecipeFragment.newInstance(currentRecipe,this);
@@ -709,15 +706,6 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(GroceryListFragment.newInstance(this, groceryList));
     }
 
-    // Helper method to convert Pantry to Map<Ingredient, Double>
-    public Map<Ingredient, Double> convertPantryToGroceryList(Pantry pantry) {
-        Map<Ingredient, Double> groceryListMap = new HashMap<>();
-        for (Ingredient ingredient : pantry.getAllIngredients()) {
-            groceryListMap.put(ingredient, ingredient.getQuantity());
-        }
-        return groceryListMap;
-    }
-
     @Override
     public void onClearShoppingList() {
         groceryList.clear();
@@ -772,13 +760,6 @@ public class ControllerActivity extends AppCompatActivity
         // Save the updated recipe state
         persFacade.saveCookbook(cookbook);
         mainView.displayFragment(RecipeDetailFragment.newInstance(recipe));
-    }
-
-    public void deleteDynamicTagFromRecipe(Recipe recipe, String tagName) {
-        if (recipe.getDynamicTags().contains(tagName)) {
-            recipe.getDynamicTags().remove(tagName);
-            Log.d(TAG, "Removed tag from dynamic tag list.");
-        }
     }
 
     @Override
@@ -847,14 +828,6 @@ public class ControllerActivity extends AppCompatActivity
                 .replace(R.id.fragmentContainerView, filterRecipeFragment)
                 .addToBackStack(null)
                 .commit();
-
-        /*mainView.displayFragment(filterRecipeFragment);
-
-        // Ensure the transaction completes
-        getSupportFragmentManager().executePendingTransactions();
-
-        // Populate tags after the fragment is attached
-        filterRecipeFragment.populateTags(tags);*/
     }
 
     public List<String> getAllUniqueTags() {
@@ -868,7 +841,6 @@ public class ControllerActivity extends AppCompatActivity
     @Override
     public void onFilterRecipes(String dietaryTag) {
         Map<String, Recipe> filteredRecipes = cookbook.filterRecipes(dietaryTag);
-        //List<String> tags = getAllUniqueTags();
 
         if (filteredRecipes != null && !filteredRecipes.isEmpty()) {
             RecipeFragment recipeFragment = RecipeFragment.newInstance(new Cookbook(new HashSet<>(filteredRecipes.values())));

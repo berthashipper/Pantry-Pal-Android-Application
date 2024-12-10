@@ -53,9 +53,9 @@ public class BackToCookbookTest {
         SystemClock.sleep(1000);
 
         /**
-         * Back from Add Recipe Fragment.
-         * This test simulates navigating to the add recipe view, then using the "back to Cookbook" button
-         * to return to the Cookbook.
+         * Back from Filter Recipes Fragment.
+         * This test simulates navigating to the filter recipe view,
+         * then using the "back to Cookbook" button to return to the Cookbook.
          */
         Espresso.onView(ViewMatchers.withId(R.id.viewCookbookButton))
                 .perform(ViewActions.click());

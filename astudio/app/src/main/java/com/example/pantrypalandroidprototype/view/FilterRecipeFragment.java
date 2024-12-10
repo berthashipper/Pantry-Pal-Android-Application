@@ -27,13 +27,12 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
     FragmentFilterRecipeBinding binding;
     Listener listener;
 
-/**
+    /**
      * Creates a new instance of {@code FilterRecipeFragment} with the specified listener.
      *
      * @param listener The listener to handle filter events.
      * @return A new instance of {@code FilterRecipeFragment}.
      */
-
     public static FilterRecipeFragment newInstance(Listener listener, List<String> tags) {
         FilterRecipeFragment fragment = new FilterRecipeFragment();
         Bundle args = new Bundle();
@@ -42,7 +41,8 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
         fragment.listener = listener;
         return fragment;
     }
-/**
+
+    /**
      * Called to inflate the fragment's layout. It sets up the view binding for the fragment.
      *
      * @param inflater           The LayoutInflater used to inflate the view.
@@ -50,20 +50,19 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
      * @param savedInstanceState A bundle containing the fragment's previously saved state, if available.
      * @return The root view of the fragment.
      */
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentFilterRecipeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
-/**
+
+    /**
      * Called after the fragment's view has been created. This method sets up the listeners for filter and reset buttons.
      *
      * @param view               The root view of the fragment.
      * @param savedInstanceState A bundle containing the fragment's previously saved state, if available.
      */
-
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
@@ -78,6 +77,7 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
             }
         }
     }
+
     /**
      * Populates the dietary preference spinner with a sorted list of tags.
      *
@@ -88,7 +88,6 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
             Log.e("FilterRecipeFragment", "Binding is null, cannot populate spinner.");
             return;
         }
-
         // Sort the tags
         Collections.sort(tags);
 
@@ -127,11 +126,9 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
         });
     }
 
-
-/**
+    /**
      * Handles the click event for the Apply Filters button. It triggers the filtering action.
      */
-
     public void onApplyFiltersClicked() {
         if (binding == null || binding.dietaryPreferenceSpinner.getSelectedItem() == null) {
             Log.e("FilterRecipeFragment", "Spinner state invalid or null");
@@ -155,10 +152,9 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
         }
     }
 
-/**
+    /**
      * Displays a message indicating that no matching recipes were found.
      */
-
     public void showNoRecipesFoundError() {
         if (binding != null && binding.getRoot() != null) {
             Snackbar.make(binding.getRoot(), "Please select a tag", Snackbar.LENGTH_SHORT).show();
