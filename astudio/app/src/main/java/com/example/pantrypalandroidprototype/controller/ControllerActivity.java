@@ -67,7 +67,11 @@ import java.util.Set;
 
 import com.example.pantrypalandroidprototype.persistence.IPersistenceFacade;
 import com.example.pantrypalandroidprototype.persistence.LocalStorageFacade;
-
+/**
+ * ControllerActivity serves as the main controller for handling user interactions and managing data
+ * for a pantry, cookbook, and grocery list application. It coordinates between the main view, fragments,
+ * and the persistence layer, providing a seamless user experience.
+ */
 public class ControllerActivity extends AppCompatActivity
         implements IAddIngredientView.Listener, IPantryView.Listener,
         IDeleteIngredientView.Listener, IEditIngredientView.Listener,
@@ -77,15 +81,51 @@ public class ControllerActivity extends AppCompatActivity
         IDeleteRecipeIngredientView.Listener, IEditInstructionView.Listener,
         IGroceryListView.Listener, IAddToGroceryListView.Listener, IFilterRecipeView.Listener {
 
+    /**
+     * The main view of the application, responsible for rendering the UI.
+     */
     IMainView mainView;
+
+    /**
+     * The pantry object containing a list of ingredients.
+     */
     Pantry pantry;
+
+    /**
+     * The cookbook object containing a list of recipes.
+     */
     Cookbook cookbook;
+
+    /**
+     * The currently selected recipe.
+     */
     Recipe currentRecipe;
+
+    /**
+     * A list of tags for categorizing items.
+     */
     List<String> tags;
+
+    /**
+     * A grocery list mapping ingredients to quantities.
+     */
     Map<Ingredient, Double> groceryList;
+
+    /**
+     * Facade for handling data persistence.
+     */
     IPersistenceFacade persFacade;
+
+    /**
+     * Request code for adding a recipe to the cookbook.
+     */
     public static final int REQUEST_CODE_ADD_TO_COOKBOOK = 1;
 
+    /**
+     * Saves the application state when the activity is destroyed.
+     *
+     * @param outState Bundle to store the saved state.
+     */
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -100,6 +140,11 @@ public class ControllerActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Initializes the activity, restoring saved state and setting up views and data.
+     *
+     * @param savedInstanceState Bundle containing the saved state.
+     */
     @SuppressLint("MissingInflatedId")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -139,6 +184,15 @@ public class ControllerActivity extends AppCompatActivity
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
     }
 
+    /**
+     * Adds a new ingredient to the pantry.
+     *
+     * @param name  Name of the ingredient.
+     * @param qty   Quantity of the ingredient.
+     * @param unit  Unit of measurement.
+     * @param tags  Dietary tags associated with the ingredient.
+     * @return true if the ingredient was added successfully; false if it already exists.
+     */
     @Override
     public boolean onAddIngredient(String name, double qty, String unit, Set<Ingredient.dietary_tags> tags) {
         // Convert Set<Ingredient.dietary_tags> to Set<String>
@@ -157,6 +211,9 @@ public class ControllerActivity extends AppCompatActivity
         return true; // Ingredient added successfully
     }
 
+    /**
+     * Handles the completion of tasks in the current fragment.
+     */
     @Override
     public void onItemsDone() {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
@@ -173,6 +230,9 @@ public class ControllerActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * Displays the fragment for adding ingredients.
+     */
     @Override
     public void onAddIngredientsMenu() {
         AddIngredientFragment addIngredientFragment = AddIngredientFragment.newInstance(this);
@@ -180,12 +240,20 @@ public class ControllerActivity extends AppCompatActivity
 
     }
 
+    /**
+     * Displays the pantry view.
+     */
     @Override
     public void onViewPantryMenu() {
         mainView.setListener(this);
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
     }
 
+    /**
+     * Handles the deletion of an ingredient by its name.
+     *
+     * @param name the name of the ingredient to delete
+     */
     @Override
     public void onDeleteIngredient(String name) {
         Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainerView);
@@ -203,6 +271,9 @@ public class ControllerActivity extends AppCompatActivity
         onViewPantryMenu(); // Return to the pantry view
     }
 
+    /**
+     * Handles the completion of the deletion process.
+     */
     @Override
     public void onDeletionDone() {
         // Pass the pantry data to the fragment
@@ -210,6 +281,9 @@ public class ControllerActivity extends AppCompatActivity
         persFacade.savePantry(pantry);
     }
 
+    /**
+     * Navigates to the delete ingredients menu.
+     */
     @Override
     public void onDeleteIngredientsMenu() {
         DeleteIngredientFragment deleteIngredientFragment = DeleteIngredientFragment.newInstance(this);
@@ -217,6 +291,9 @@ public class ControllerActivity extends AppCompatActivity
         persFacade.savePantry(pantry);
     }
 
+    /**
+     * Clears all ingredients from the pantry.
+     */
     @Override
     public void onClearPantry() {
         // Clear all ingredients from the pantry
@@ -234,12 +311,23 @@ public class ControllerActivity extends AppCompatActivity
         onViewPantryMenu(); // Return to the pantry view
     }
 
+
+    /**
+     * Navigates to the edit ingredient menu for a specific ingredient.
+     *
+     * @param ingredient the ingredient to edit
+     */
     @Override
     public void onEditIngredientMenu(Ingredient ingredient) {
         EditIngredientFragment editIngredientFragment = EditIngredientFragment.newInstance(this, ingredient);
         mainView.displayFragment(editIngredientFragment);
     }
 
+    /**
+     * Deletes a specific ingredient and updates the pantry view.
+     *
+     * @param ingredient the ingredient to delete
+     */
     @Override
     public void onDeleteIngredientMenu(Ingredient ingredient) {
         pantry.delete_ingredient(String.valueOf(ingredient));
@@ -247,6 +335,13 @@ public class ControllerActivity extends AppCompatActivity
         this.mainView.displayFragment(PantryFragment.newInstance(this, pantry));
     }
 
+    /**
+     * Updates an ingredient in the pantry with a new quantity.
+     *
+     * @param editIngredientFragment the fragment where the edit is performed
+     * @param name                   the name of the ingredient to edit
+     * @param newQty                 the new quantity of the ingredient
+     */
     @Override
     public void onEditIngredient(EditIngredientFragment editIngredientFragment, String name, double newQty) {
         boolean isUpdated = pantry.edit_ingredient(name, newQty);
@@ -261,17 +356,26 @@ public class ControllerActivity extends AppCompatActivity
         onViewPantryMenu();
     }
 
+    /**
+     * Handles the completion of the ingredient edit process.
+     */
     @Override
     public void onEditDone() {
         mainView.displayFragment(PantryFragment.newInstance(this, pantry));
     }
 
+    /**
+     * Navigates to the edit ingredients menu.
+     */
     @Override
     public void onEditIngredientsMenu() {
         //EditIngredientFragment editIngredientFragment = EditIngredientFragment.newInstance(this,);
         //mainView.displayFragment(editIngredientFragment);
     }
 
+    /**
+     * Navigates to the cookbook menu and loads the cookbook if needed.
+     */
     @Override
     public void onViewCookbookMenu() {
         mainView.setListener(this);
@@ -281,6 +385,11 @@ public class ControllerActivity extends AppCompatActivity
         this.mainView.displayFragment(CookbookFragment.newInstance(this, cookbook));
     }
 
+    /**
+     * Displays the details of a selected recipe.
+     *
+     * @param recipe the recipe to display details for
+     */
     @Override
     public void onRecipeClick(Recipe recipe) {
         this.currentRecipe = recipe;
@@ -288,6 +397,11 @@ public class ControllerActivity extends AppCompatActivity
         this.mainView.displayFragment(recipeDetailFragment);
     }
 
+    /**
+     * This method generates and displays recipes based on matching criteria from the pantry and cookbook.
+     * If matched recipes are found, the first recipe is displayed in a {@link RecipeFragment}.
+     * If no recipes are matched, a message is displayed to the user.
+     */
     @Override
     public void onGenerateRecipes() {
         Set<Recipe> matchedRecipes = generateMatchingRecipes();
@@ -316,12 +430,24 @@ public class ControllerActivity extends AppCompatActivity
         }
     }
 
+
+    /**
+     * Generates a set of recipes that match the available ingredients in the pantry and cookbook.
+     *
+     * @return A set of matched {@link Recipe} objects.
+     */
     public Set<Recipe> generateMatchingRecipes() {
         Log.d("ControllerActivity", "Recipes available in cookbook: " + cookbook.recipeList.size());
         GenerateRecipe recipeGenerator = new GenerateRecipe(pantry, cookbook);
         return recipeGenerator.generateMatchingRecipes();
     }
 
+    /**
+     * Updates the current cookbook with the provided cookbook instance and persists the changes.
+     * Refreshes the view to display the updated cookbook content.
+     *
+     * @param updatedCookbook The updated {@link Cookbook} instance.
+     */
     @Override
     public void onCookbookUpdated(Cookbook updatedCookbook) {
         this.cookbook = updatedCookbook;
@@ -329,6 +455,9 @@ public class ControllerActivity extends AppCompatActivity
         updateCookbookFragment();
     }
 
+    /**
+     * Navigates the user to the fragment for adding a new recipe.
+     */
     @Override
     public void onNavigateToAddRecipe() {
         // Navigate to AddRecipeFragment
@@ -336,6 +465,12 @@ public class ControllerActivity extends AppCompatActivity
         mainView.displayFragment(addRecipeFragment);
     }
 
+    /**
+     * Handles the creation of a new recipe by adding it to the cookbook,
+     * persisting the changes, and updating the view to reflect the new recipe.
+     *
+     * @param recipe The newly created {@link Recipe}.
+     */
     @Override
     public void onRecipeCreated(Recipe recipe) {
         // Add the recipe to the set of recipes
@@ -350,6 +485,9 @@ public class ControllerActivity extends AppCompatActivity
                 .commit();
     }
 
+    /**
+     * Updates the {@link CookbookFragment} to display the current list of recipes in the cookbook.
+     */
     public void updateCookbookFragment() {
         // Update CookbookFragment with the new list of recipes
         if (cookbook != null) {
