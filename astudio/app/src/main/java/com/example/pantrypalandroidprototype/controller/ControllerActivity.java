@@ -27,7 +27,7 @@ import com.example.pantrypalandroidprototype.view.DeleteRecipeIngredientFragment
 import com.example.pantrypalandroidprototype.view.EditIngredientFragment;
 import com.example.pantrypalandroidprototype.view.EditInstructionFragment;
 import com.example.pantrypalandroidprototype.view.EditRecipeIngredientFragment;
-import com.example.pantrypalandroidprototype.view.FilterRecipeFragment;
+//import com.example.pantrypalandroidprototype.view.FilterRecipeFragment;
 import com.example.pantrypalandroidprototype.view.GroceryListFragment;
 import com.example.pantrypalandroidprototype.view.IAddIngredientView;
 import com.example.pantrypalandroidprototype.view.IAddRecipeIngredientView;
@@ -72,7 +72,7 @@ public class ControllerActivity extends AppCompatActivity
         ISearchRecipeView.Listener, ISearchIngredientView.Listener, IScaleRecipeView.Listener,
         IEditRecipeIngredientView.Listener, IAddRecipeIngredientView.Listener,
         IDeleteRecipeIngredientView.Listener, IEditInstructionView.Listener,
-        IGroceryListView.Listener, IAddToGroceryListView.Listener, FilterRecipeFragment.Listener {
+        IGroceryListView.Listener, IAddToGroceryListView.Listener { //FilterRecipeFragment.Listener {
 
     IMainView mainView;
     Pantry pantry;
@@ -325,6 +325,11 @@ public class ControllerActivity extends AppCompatActivity
         this.cookbook = updatedCookbook;
         persFacade.saveCookbook(updatedCookbook);
         updateCookbookFragment();
+    }
+
+    @Override
+    public void onFilterRecipesMenu() {
+
     }
 
     @Override
@@ -862,7 +867,7 @@ public class ControllerActivity extends AppCompatActivity
         onViewGroceryListMenu();
     }
 
-    @Override
+    /*@Override
     public void onFilterRecipesMenu() {
         FilterRecipeFragment filterRecipeFragment = FilterRecipeFragment.newInstance(this);
         mainView.displayFragment(filterRecipeFragment);
@@ -889,6 +894,6 @@ public class ControllerActivity extends AppCompatActivity
             getSupportFragmentManager().executePendingTransactions();
             filterRecipeFragment.showNoRecipesFoundError();
         }
-    }
+    }*/
 
 }
