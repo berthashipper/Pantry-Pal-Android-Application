@@ -1,4 +1,3 @@
-/*
 package com.example.pantrypalandroidprototype.view;
 
 import android.os.Bundle;
@@ -24,21 +23,18 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
     FragmentFilterRecipeBinding binding;
     Listener listener;
 
-    */
 /**
      * Creates a new instance of {@code FilterRecipeFragment} with the specified listener.
      *
      * @param listener The listener to handle filter events.
      * @return A new instance of {@code FilterRecipeFragment}.
-     *//*
+     */
 
     public static FilterRecipeFragment newInstance(Listener listener) {
         FilterRecipeFragment fragment = new FilterRecipeFragment();
         fragment.listener = listener;
         return fragment;
     }
-
-    */
 /**
      * Called to inflate the fragment's layout. It sets up the view binding for the fragment.
      *
@@ -46,7 +42,7 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
      * @param container          The parent view group that the fragment's UI will be attached to.
      * @param savedInstanceState A bundle containing the fragment's previously saved state, if available.
      * @return The root view of the fragment.
-     *//*
+     */
 
     @Nullable
     @Override
@@ -54,14 +50,12 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
         binding = FragmentFilterRecipeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
-
-    */
 /**
      * Called after the fragment's view has been created. This method sets up the listeners for filter and reset buttons.
      *
      * @param view               The root view of the fragment.
      * @param savedInstanceState A bundle containing the fragment's previously saved state, if available.
-     *//*
+     */
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -69,13 +63,11 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
 
         binding.applyFiltersButton.setOnClickListener(v -> onApplyFiltersClicked());
     }
-
-    */
 /**
      * Populates the dietary preference spinner with a list of tags.
      *
      * @param tags The list of dietary tags to display.
-     *//*
+     */
 
     public void populateTags(List<String> tags) {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -87,18 +79,18 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
         binding.dietaryPreferenceSpinner.setAdapter(adapter);
     }
 
-    List<String> getTagsFromRecipes() {
+    /*List<String> getTagsFromRecipes() {
         List<String> tags = new ArrayList<>();
         for (Recipe recipe : recipes) {
             tags.addAll(recipe.getTags());
         }
         return new ArrayList<>(new HashSet<>(tags)); // Removes duplicates
-    }
+    }*/
 
-    */
+
 /**
      * Handles the click event for the Apply Filters button. It triggers the filtering action.
-     *//*
+     */
 
     public void onApplyFiltersClicked() {
         String selectedTag = binding.dietaryPreferenceSpinner.getSelectedItem().toString();
@@ -107,12 +99,11 @@ public class FilterRecipeFragment extends Fragment implements IFilterRecipeView 
         }
     }
 
-    */
 /**
      * Displays a message indicating that no matching recipes were found.
-     *//*
+     */
 
     public void showNoRecipesFoundError() {
         Toast.makeText(requireContext(), "No matching recipes found", Toast.LENGTH_LONG).show();
     }
-}*/
+}

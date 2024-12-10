@@ -28,6 +28,7 @@ import com.example.pantrypalandroidprototype.view.EditIngredientFragment;
 import com.example.pantrypalandroidprototype.view.EditInstructionFragment;
 import com.example.pantrypalandroidprototype.view.EditRecipeIngredientFragment;
 //import com.example.pantrypalandroidprototype.view.FilterRecipeFragment;
+import com.example.pantrypalandroidprototype.view.FilterRecipeFragment;
 import com.example.pantrypalandroidprototype.view.GroceryListFragment;
 import com.example.pantrypalandroidprototype.view.IAddIngredientView;
 import com.example.pantrypalandroidprototype.view.IAddRecipeIngredientView;
@@ -55,6 +56,7 @@ import com.example.pantrypalandroidprototype.view.SearchIngredientFragment;
 import com.example.pantrypalandroidprototype.view.SearchRecipeFragment;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -72,7 +74,7 @@ public class ControllerActivity extends AppCompatActivity
         ISearchRecipeView.Listener, ISearchIngredientView.Listener, IScaleRecipeView.Listener,
         IEditRecipeIngredientView.Listener, IAddRecipeIngredientView.Listener,
         IDeleteRecipeIngredientView.Listener, IEditInstructionView.Listener,
-        IGroceryListView.Listener, IAddToGroceryListView.Listener { //FilterRecipeFragment.Listener {
+        IGroceryListView.Listener, IAddToGroceryListView.Listener, FilterRecipeFragment.Listener {
 
     IMainView mainView;
     Pantry pantry;
@@ -325,11 +327,6 @@ public class ControllerActivity extends AppCompatActivity
         this.cookbook = updatedCookbook;
         persFacade.saveCookbook(updatedCookbook);
         updateCookbookFragment();
-    }
-
-    @Override
-    public void onFilterRecipesMenu() {
-
     }
 
     @Override
@@ -752,17 +749,6 @@ public class ControllerActivity extends AppCompatActivity
         currentRecipe.addTag(newTag);
         currentRecipe.addDynamicTag(newTag); // Add the dynamic tag
         Log.d("AddTag", "Added dynamic tag: " + newTag);
-        // Check if the tag is predefined
-        /*try {
-            Ingredient.dietary_tags enumTag = Ingredient.dietary_tags.valueOf(tag);
-            recipe.addTag(enumTag); // Add the predefined dietary tag
-            Log.d("AddTag", "Added predefined tag: " + enumTag);
-        } catch (IllegalArgumentException e) {
-            // If not predefined, treat it as a dynamic tag
-            String dynamicTag = Ingredient.addDynamicTag(tag);
-            recipe.addDynamicTag(dynamicTag); // Add the dynamic tag
-            Log.d("AddTag", "Added dynamic tag: " + dynamicTag);
-        }*/
 
         Log.d("AddTag", "Recipe tags after addition: " + recipe.getTags() + currentRecipe.dynamicTags);
         // Save and refresh the view
@@ -780,23 +766,6 @@ public class ControllerActivity extends AppCompatActivity
         } else {
             Log.d("RemoveTag", "Tag is not part of dynamic tags or predefined tags.");
         }
-        /*try {
-            // First, check if it's a predefined dietary tag
-            Ingredient.dietary_tags predefinedTag = Ingredient.dietary_tags.valueOf(tagString);
-            if (recipe.getTags().contains(predefinedTag)) {
-                recipe.removeTag(predefinedTag);
-                Log.d("RemoveTag", "Removed predefined tag: " + predefinedTag);
-            } else {
-                Log.d("RemoveTag", "Tag is predefined but not part of the recipe's tags.");
-            }
-        } catch (IllegalArgumentException e) {
-            // If it's not a predefined enum value, treat it as a dynamic tag
-            if (recipe.getDynamicTags().contains(tagString)) {
-                recipe.removeDynamicTag(tagString);
-                Log.d("RemoveTag", "Removed dynamic tag: " + tagString);
-            } else {
-                Log.d("RemoveTag", "Tag is not part of dynamic tags or predefined tags.");
-            }*/
 
         // Save the updated recipe state
         persFacade.saveCookbook(cookbook);
@@ -867,10 +836,25 @@ public class ControllerActivity extends AppCompatActivity
         onViewGroceryListMenu();
     }
 
-    /*@Override
+    @Override
     public void onFilterRecipesMenu() {
+        List<String> tags = getAllUniqueTags();
         FilterRecipeFragment filterRecipeFragment = FilterRecipeFragment.newInstance(this);
         mainView.displayFragment(filterRecipeFragment);
+
+        // Ensure the transaction completes
+        getSupportFragmentManager().executePendingTransactions();
+
+        // Populate tags after the fragment is attached
+        filterRecipeFragment.populateTags(tags);
+    }
+
+    public List<String> getAllUniqueTags() {
+        List<String> tags = new ArrayList<>();
+        for (Recipe recipe : cookbook.getRecipes().values()) {
+            tags.addAll(recipe.getTags());
+        }
+        return new ArrayList<>(new HashSet<>(tags)); // Remove duplicates
     }
 
     @Override
@@ -894,6 +878,6 @@ public class ControllerActivity extends AppCompatActivity
             getSupportFragmentManager().executePendingTransactions();
             filterRecipeFragment.showNoRecipesFoundError();
         }
-    }*/
+    }
 
 }
