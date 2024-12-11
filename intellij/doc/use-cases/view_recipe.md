@@ -66,24 +66,25 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": Cookbook" as cookbook
-participant ": Recipe" as recipe
-participant ": RecipeDetailFragment" as recipeDetailFragment
+participant ": CookbookFragment" as cf
+participant ": RecipeDetailFragment" as rdf
 
 user -> ui : Selects "View Cookbook"
-ui -> cont : onViewCookbookMenu()
-cont -> cookbook : CookbookFragment.newInstance()
-cookbook --> ui : Display list of recipes
+ui -> cont : onViewCookCookbookMenuClicked()
+cont -> cf: onViewCookbookMenu()
+cont -> ui: displayFragment(CookbookFragment)
+ui -> user: Shows recipe list
 
 user -> ui : Selects a recipe to view
-ui -> cont : onRecipeClick(recipe)
-cont -> recipeDetailFragment : RecipeDetailFragment.newInstance(recipe)
-recipeDetailFragment --> ui : Display recipe details
+ui -> cont: onRecipeClick(recipe)
+cont -> rdf: onRecipeClick(recipe)
+cont -> ui: displayFragment(recipeDetailFragment)
+ui -> user: Shows recipe details
 
 user -> ui : Selects "Done" to return to Cookbook
 ui -> cont : onDoneViewingRecipe()
-cont -> cookbook : CookbookFragment.newInstance()
-cookbook --> ui : Display list of recipes
+cont -> ui: displayFragment(cookbookFragment)
+ui -> user: Shows Cookbookdetails
 
 @enduml
 ```
