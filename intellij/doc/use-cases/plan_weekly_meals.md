@@ -1,5 +1,6 @@
 
 # Plan Weekly Meals
+### _Not implemented as of final submission_
 
 ## 1. Primary actor and goals
 * __User__: wants to plan their weekly meals by selecting and organizing recipes from a saved list.

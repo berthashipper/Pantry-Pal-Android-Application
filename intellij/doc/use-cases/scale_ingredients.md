@@ -70,13 +70,15 @@ participant ": Controller" as cont
 participant ": Recipe" as rec
 
 ui -> user: Present recipe
-user -> ui: Choose to scale recipe
+user -> ui: Click scale recipe button
+ui -> cont: onScaleButtonClicked()
+cont -> ui: displayFragment(scaleRecipeFragment)
 user -> ui: Enter scalar (double recipe, half it, etc.)
-ui -> cont: Communicate the (scalar)
-cont -> rec: recipe.scale_ingredients(scalar)
-rec -> cont: Return recipe details (name, ingredients, instructions)
-cont -> ui: Display recipe details with new ingredient quantites
-ui -> user: Present recipe details
+ui -> cont: scaleRecipe(double scalar)
+cont -> rec: scaleRecipe(scalar)
+rec -> cont: onRecipeScaled(recipeDetailFragment)
+cont -> ui: displayFragment(recipeDetailFragment)
+ui -> user: Shows recipe details
 
 @enduml
 ```
