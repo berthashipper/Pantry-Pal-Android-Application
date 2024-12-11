@@ -73,30 +73,15 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": Recipe" as rec
-participant ": Pantry" as pantry
 
-ui -> user: Displays search/generate recipe button
-user -> ui: Searches/generates recipes
-user -> ui: Selects multiple recipes to add to grocery list
+user -> ui: Clicks on the 'shop for' button on a selected recipe
+ui -> cont: onShopForClicked()
+cont -> RecipeDetailFragment : shopFor(Set<Ingredient> ingredients)
+RecipeDetailFragment -> cont : onViewGroceryListMenu()
+cont -> ui : onViewGroceryListMenu()
 
-loop for each selected recipe
-    ui -> cont: Get ingredients from selected recipe
-    cont -> rec: recipe.getIngredients()
-    rec -> cont: Returns ingredient list
-    
-    'Loop for each ingredient in the recipe
-    loop for each ingredient
-        cont -> pantry: Check if ingredient is in pantry
-        alt ingredient not found or insufficient
-            rec -> cont: Add ingredient to grocery list
-        end
-    end
-end
 
-cont -> ui: Display completed grocery list
-ui -> user: Shows final grocery list with missing ingredients
-
+ui -> user: Switches to grocery list framgnet and displays grocery list with the added ingredients
 
 @enduml
 ```
