@@ -40,18 +40,13 @@ title Filter Recipe (fully-dressed level)
 
 |User|
 start
-:Has obtained recipe from either
-__Generate recipe__ or __search recipe__;
-:Choose filters and restrictions;
+:Opens Cookbook and clicks filter button;
+:Selects tag to filter recipes by;
 
 |Recipe Management System|
-:Match the conditions to the recipes;
-
-:Evaluates list of restrictions on each
-recipe in the database;
-:Produces a final compilation of recipes
-that satisfy the given filters;
-:Present list of filtered recipes to user;
+:Checks all recipes to see if they contain the selected tag;
+:Produces a final list of recipes that satisfy the given filter;
+:Presents list of filtered recipes to user;
 stop
 
 @enduml
@@ -67,25 +62,28 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": RecipeList" as rec
+participant "CookbookFragment" as cookbook
+participant "FilterRecipeFragment" as filterFrag
 
-cont-> ui : displayRecipes()
-ui -> user : Present list of recipes
-ui -> user : Show filtering options
-user -> ui : Select filtering tags (i.e. sweet/savory, vegan, etc.)
-ui -> cont : recipeList.filter(tags)
-cont -> rec : recipeList.filter(tags)
+user -> ui : Select filtering option
+ui -> cont : onFilterRecipesMenu()
+cont -> cookbook : getAllUniqueTags()
+cookbook --> cont : List<String> uniqueTags
+cont -> filterFrag : newInstance(this, uniqueTags)
+cont -> ui : Display FilterRecipeFragment
 
-cont -> rec : getRecipeList()
-loop i in 0..recipeList.size-1
-cont -> rec : recipe = recipeList.filter(tags)
+user -> ui : Select dietary tag
+ui -> cont : onApplyFiltersClicked()
+filterFrag -> cont : onFilterRecipes(String dietaryTag)
+cont -> cookbook : filterRecipes(String dietaryTag)
+cookbook --> cont : Map<String, Recipe> filteredRecipes
+alt Recipes found
+    cont -> ui : Display RecipeFragment
+    ui -> user : Show list of matching recipes
+else No recipes found
+    cont -> ui : showNoRecipesFoundError()
+    ui -> user : Show error Snackbar
 end
-
-rec -> cont : recipeList.list()
-cont -> ui : displayRecipes()
-ui -> user : Present list of recipes
-
-
 @enduml
 ```
 
