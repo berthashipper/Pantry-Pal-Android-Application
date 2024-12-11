@@ -78,23 +78,30 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": Recipe" as recipe
-participant ": RecipeDetailFragment" as recipeDetailFragment
-participant ": CookbookFragment" as cookbookFragment
+participant ": AddRecipeFragment" as arf
+participant ": CookbookFragment" as cf
+participant ": RecipeDetailFragment" as rdf
 
-user -> ui : Selects "Upload Recipe"
-ui -> cont : onNavigateToAddRecipe()
-cont -> ui : Display AddRecipeFragment
-user -> ui : Enters recipe details (name, ingredients, instructions)
-user -> ui : Clicks "Done"
+user -> ui : Selects "View Cookbook"
+ui -> cont : onViewCookCookbookMenuClicked()
+cont -> cf: onViewCookbookMenu()
+cont -> ui: displayFragment(CookbookFragment)
+ui -> user: Shows recipe list
 
-ui -> cont : onRecipeCreated(recipe)
-cont -> recipe : Create Recipe object using RecipeBuilder
-recipe -> cookbookFragment : Add recipe to cookbook
-cookbookFragment --> cont : Recipe added to cookbook
-cont -> ui : Display RecipeDetailFragment
-ui -> recipeDetailFragment : Show Recipe details
-cont -> ui : Update CookbookFragment with new recipe
+user -> ui : Selects add Recipe button
+ui -> cont: navigateToAddRecipe()
+cont -> cf: navigateToAddRecipe()
+cont -> ui: displayFragment(AddRecipeFragment)
+ui -> user: Shows Add Recipe Fragment
+
+user -> ui : Input Recipe Details(name, description, cooktime, servingsize, ingredients, instructions, tags)
+user -> ui : Clicks "Done" Button
+ui -> cont : onDoneButtonClicked()
+cont -> arf : onDoneButtonClicked()
+cont -> cf: updateCookbookFragment()
+cont -> rdf: onRecipeCreated(recipe)
+cont -> ui : displayFragment(RecipeDetailFragment)
+ui -> user: Shows the newly Added Recipe Details
 
 @enduml
 ```
