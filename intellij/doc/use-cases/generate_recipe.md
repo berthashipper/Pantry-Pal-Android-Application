@@ -79,9 +79,9 @@ ui -> user: Display main menu
 user -> ui: Select "Generate Recipe Suggestions"
 ui -> cont: onGenerateRecipes()
 
-cont -> gr: generateMatchingRecipes()
-gr -> cb: Access all recipes
-gr -> pantry: Access pantry ingredients
+cont -> gr: Set<Recipe> generateMatchingRecipes()
+gr -> cb: boolean canMakeRecipe(Recipe recipe)
+gr -> pantry: Ingredient findMatchingPantryIngredient(String ingredientName)
 loop For each recipe in cookbook
     gr -> gr: Check if pantry has enough ingredients
     alt Matching ingredients found
@@ -90,22 +90,16 @@ loop For each recipe in cookbook
         gr -> gr: Skip recipe
     end
 end
-gr -> cont: Return matched recipes
+gr -> cont: Set<Recipe> generateMatchingRecipes()
 
 alt Matched recipes found
-    cont -> rf: Create RecipeFragment with matched recipes
     cont -> ui: displayFragment(RecipeFragment)
-    ui -> rf: Display list of matched recipes
-    rf -> ui: Display recipes
     ui -> user: Show matched recipes
 else No matched recipes
     alt Current fragment is RecipeFragment
-        cont -> rf: Show no recipes message
-        rf -> ui: Display "No matching recipes found"
-    else Different fragment
-        cont -> rf: Create RecipeFragment with empty cookbook
+        cont -> rf: showNoRecipesMessage()
         cont -> ui: displayFragment(RecipeFragment)
-        ui -> user: Display "No matching recipes found"
+        ui -> user: Display "No matching recipes found" and empty fragment
     end
 end
 
