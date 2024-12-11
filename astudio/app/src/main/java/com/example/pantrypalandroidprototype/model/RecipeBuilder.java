@@ -88,10 +88,6 @@ public class RecipeBuilder implements Serializable {
         if (dietaryTags == null) {
             dietaryTags = new HashSet<>(); // Prevent null references
         }
-        // Convert dietary_tags to a set of strings
-        /*Set<String> tagStrings = dietaryTags.stream()
-                .map(Enum::name)
-                .collect(Collectors.toSet());*/
 
         // Create a new Ingredient object and add it to the ingredients set
         Ingredient ingredient = new Ingredient(name, quantity, unit, dietaryTags);

@@ -161,9 +161,6 @@ public class Pantry implements Serializable {
     }
 
     public void addIngredientToGroceryList(Ingredient ingredient) {
-        /*if (groceryList == null) {
-            groceryList = new HashMap<>();
-        }*/
         groceryList.put(ingredient, ingredient.getQuantity());
     }
 

@@ -7,11 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.text.similarity.LevenshteinDistance;
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import org.apache.commons.text.similarity.LevenshteinDistance;
 
 /**
  * The {@code GenerateRecipe} class is responsible for generating recipes that can be made from a user's pantry.

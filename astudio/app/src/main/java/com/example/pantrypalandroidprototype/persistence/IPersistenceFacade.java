@@ -38,7 +38,17 @@ public interface IPersistenceFacade {
      * @return The loaded pantry, or a new one if none exists.
      */
     Pantry loadPantry();
+    /**
+     * Saves the grocery list to the underlying persistence subsystem.
+     *
+     * @param groceryList The grocery list to save.
+     */
     void saveGroceryList(Map<Ingredient, Double> groceryList);
+    /**
+     * Loads the grocery list from the underlying persistence subsystem.
+     *
+     * @return The loaded grocery list, or a new one if none exists.
+     */
     Map<Ingredient, Double> loadGroceryList();
 }
 

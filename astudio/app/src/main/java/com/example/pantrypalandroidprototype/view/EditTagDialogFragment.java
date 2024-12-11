@@ -112,7 +112,6 @@ public class EditTagDialogFragment extends DialogFragment {
             Log.d(TAG, "Received result: requestCode=" + requestCode + ", newTag=" + newTag);
 
             if (requestCode == REQUEST_ADD_TAG) {
-                // Handle adding the tag to the recipe (e.g., add the tag to the recipe object)
                 if (newTag != null && !newTag.isEmpty()) {
                     recipe.addTag(newTag); // Update the recipe's tags
                     Snackbar.make(getView(), "Tag '" + newTag + "' added", Snackbar.LENGTH_SHORT).show();
