@@ -97,8 +97,6 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller"  as cont
-participant ": curGroceryList : GroceryList" as grocery
-participant ": Ingredient" as ingr
 
 ui -> user : Display add ingredient option
 user -> ui : Input ingredient name
@@ -106,11 +104,9 @@ user -> ui : Input ingredient quantity
 user -> ui : Input ingredient unit
 user -> ui : Input dietary tags
 ui -> cont : addIngredient(name, quantity, unit, tags)
-cont -> grocery : add_ingredient(name, quantity, unit, tags)
-grocery -> ingr **: ingr = create(name,quantity,unit,tags)
-grocery -> cont : curGroceryList.display()
-cont -> ui : updateDisplay(grocery)
-ui -> user : Show updated Grocery list
+cont -> GroceryListFragment : onAddIngredientToGroceryList(String name, double qty, String unit)
+cont -> ui : displayFragment(groceryListFragment)
+ui -> user : Shows updated Grocery list
 
 @enduml
 ````
@@ -124,15 +120,13 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller"  as cont
-participant ": curGroceryList : GroceryList" as grocery
 
 ui -> user : Display delete ingredient option
 user -> ui : Input ingredient name to delete
 ui -> cont : deleteIngredient(name)
-cont -> grocery : delete_ingredient(name)
-grocery -> cont : curGroceryList.list()
-cont -> ui : updateDisplay(grocery)
-ui -> user : Show updated Grocery list
+cont -> GroceryListFragment : onRemoveIngredient(Ingredient ingredient)
+cont -> ui : displayFragment(groceryListFragment)
+ui -> user : Shows updated Grocery list
 
 @enduml
 ````
@@ -146,39 +140,13 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller"  as cont
-participant ": curGroceryList : GroceryList" as grocery
 
 ui -> user : Display edit buttons
-user -> ui : Select existing ingredient name
-user -> ui : Click edit button to change quantity
+user -> ui : Click edit button on chosen ingredient card
 ui -> cont : editItem(name, quantity)
-cont -> grocery : editItem(name, quantity)
-grocery -> cont : curGrocery.ingredient()
-cont -> ui : updateDisplay(grocery)
-ui -> user : show updated ingredient information
+cont -> GroceryListFragment : onEditIngredientGroceryList(Ingredient ingredient)
+cont -> ui : displayFragment(groceryListFragment)
+ui -> user : Shows updated ingredient information
 
 @enduml
-
-
-```plantuml
-@startuml
-skin rose
-
-hide footbox
-
-actor User as user
-participant ": UI" as ui
-participant ": Controller"  as cont
-participant ": curGroceryList : GroceryList" as grocery
-
-ui -> user : Display view Grocery List buttons
-user -> ui : Click view Grocery List buttons to view the full Grocery List
-ui -> cont : viewGroceryList()
-cont -> grocery :  viewGroceryList()
-pantry -> grocery :  viewGroceryList()
-cont -> ui : Display(grocery)
-ui -> user : show full Grocery List
-
-@enduml
-
 ````
