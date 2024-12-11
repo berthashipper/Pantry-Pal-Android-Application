@@ -1,6 +1,5 @@
 package com.example.pantrypalandroidprototype.view;
 
-
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.Spanned;
@@ -104,7 +103,6 @@ public class EditRecipeIngredientFragment extends Fragment implements IEditRecip
         if (listener != null) {
             listener.onEditRecipeDone();
         }
-        //Snackbar.make(binding.getRoot(), "Returning to Recipe Details", Snackbar.LENGTH_LONG).show();
     }
 
     /**

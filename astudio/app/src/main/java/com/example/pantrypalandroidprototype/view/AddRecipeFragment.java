@@ -6,20 +6,16 @@ import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.pantrypalandroidprototype.databinding.FragmentAddRecipeBinding;
-import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.example.pantrypalandroidprototype.model.Recipe;
 import com.example.pantrypalandroidprototype.model.RecipeBuilder;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.time.Duration;
-import java.util.HashSet;
-import java.util.Set;
 /**
  * Fragment for adding a recipe with ingredients, instructions, and metadata.
  * This fragment provides an interface for users to input a recipe name, description, cook time,
@@ -91,12 +87,6 @@ public class AddRecipeFragment extends Fragment implements IAddRecipeView {
         }
 
         double quantity = Double.parseDouble(quantityString);
-
-        /*Set<String> dietaryTags = new HashSet<>();
-        // Check if dietary tags are selected and add to set
-        if (binding.veganCheckbox.isChecked()) dietaryTags.add("VEGAN");
-        if (binding.kosherCheckbox.isChecked()) dietaryTags.add("KOSHER");
-        if (binding.glutenFreeCheckbox.isChecked()) dietaryTags.add("GLUTEN_FREE");*/
 
         // Add the ingredient to the RecipeBuilder
         recipeBuilder.addIngredient(name, (int) quantity, unit, null);

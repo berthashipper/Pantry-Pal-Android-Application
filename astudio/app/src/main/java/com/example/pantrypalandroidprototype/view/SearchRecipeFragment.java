@@ -20,7 +20,6 @@ public class SearchRecipeFragment extends Fragment implements ISearchRecipeView 
     FragmentSearchRecipeBinding binding;
     Listener listener;
 
-
     /**
      * Creates a new instance of {@code SearchRecipeFragment} with the specified listener.
      *
@@ -74,7 +73,6 @@ public class SearchRecipeFragment extends Fragment implements ISearchRecipeView 
             binding.errorText.setText("Please enter a valid search query.");
         }
     }
-
 
     /**
      * Handles the click event for the Back to Cookbook button. It triggers navigation back to the cookbook view.

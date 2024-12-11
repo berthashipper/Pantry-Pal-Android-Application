@@ -11,16 +11,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.pantrypalandroidprototype.databinding.FragmentFilterRecipeBinding;
-import com.example.pantrypalandroidprototype.model.Recipe;
 import com.google.android.material.snackbar.Snackbar;
 
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 public class FilterRecipeFragment extends Fragment implements IFilterRecipeView {

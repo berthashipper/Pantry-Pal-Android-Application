@@ -6,10 +6,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Represents an ingredient used in recipes. An ingredient has a name, quantity, unit, and a set of dietary tags.
  * Provides methods for managing the ingredient's quantity, tags, and printing its details.

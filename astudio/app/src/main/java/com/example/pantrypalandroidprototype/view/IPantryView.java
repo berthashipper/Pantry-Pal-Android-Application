@@ -1,10 +1,6 @@
 package com.example.pantrypalandroidprototype.view;
 
-import androidx.annotation.NonNull;
 import com.example.pantrypalandroidprototype.model.Ingredient;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * The {@code IPantryView} interface defines the contract for a view that manages pantry actions.

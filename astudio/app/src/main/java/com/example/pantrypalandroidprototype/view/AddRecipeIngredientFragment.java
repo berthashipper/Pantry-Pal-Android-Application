@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.FragmentAddRecipeIngredientBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 import com.google.android.material.snackbar.Snackbar;

@@ -1,6 +1,5 @@
 package com.example.pantrypalandroidprototype.view;
 
-import android.view.View;
 
 /**
  * Interface that defines the methods for a view that allows users to search for recipes.

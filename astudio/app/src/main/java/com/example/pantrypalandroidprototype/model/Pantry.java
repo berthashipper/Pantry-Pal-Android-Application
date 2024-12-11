@@ -1,11 +1,5 @@
 package com.example.pantrypalandroidprototype.model;
 
-import android.util.Log;
-
-import com.example.pantrypalandroidprototype.controller.ControllerActivity;
-
-import java.io.Serializable;
-import java.util.*;
 import java.io.Serializable;
 import java.util.*;
 

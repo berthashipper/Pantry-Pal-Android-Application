@@ -3,20 +3,13 @@ package com.example.pantrypalandroidprototype.view;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pantrypalandroidprototype.R;
 import com.example.pantrypalandroidprototype.databinding.ItemIngredientBinding;
-import com.example.pantrypalandroidprototype.databinding.ItemPantryBinding;
-import com.example.pantrypalandroidprototype.databinding.ItemRecipeBinding;
 import com.example.pantrypalandroidprototype.model.Ingredient;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,10 +22,6 @@ import java.util.List;
  * </p>
  */
 public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryViewHolder> {
-    /**
-     * List of {@link Ingredient} objects representing the pantry items to be displayed.
-     */
-    //List<String> ingredients;
     PantryViewHolder.OnItemClickListener listener;
     List<Ingredient> ingredients;
 
@@ -52,8 +41,6 @@ public class PantryAdapter extends RecyclerView.Adapter<PantryAdapter.PantryView
     @NonNull
     @Override
     public PantryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_ingredient, parent, false);
-        //return new PantryViewHolder(view);
         ItemIngredientBinding binding = ItemIngredientBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         return new PantryViewHolder(binding);
     }

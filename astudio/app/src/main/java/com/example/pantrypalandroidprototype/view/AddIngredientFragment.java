@@ -131,10 +131,6 @@ public class AddIngredientFragment extends Fragment implements IAddIngredientVie
         }
 
         // adapter update
-        Ingredient newIngredient = new Ingredient(name, qty, unit, new HashSet<>());
-        //addedIngredients.add(newIngredient);
-        //Snackbar.make(binding.getRoot(), "Added " + newIngredient.getName() + " to pantry.", Snackbar.LENGTH_SHORT).show();
-        //ingredientAdapter.notifyItemInserted(addedIngredients.size() - 1);
         ingredientAdapter.notifyDataSetChanged();
         clearInputs();
     }

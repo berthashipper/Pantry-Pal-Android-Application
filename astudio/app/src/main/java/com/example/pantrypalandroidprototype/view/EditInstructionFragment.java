@@ -58,8 +58,6 @@ public class EditInstructionFragment extends Fragment implements IEditInstructio
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        //binding.addButton.setOnClickListener(v -> onAddInstructionButtonClicked());
-        //binding.editButton.setOnClickListener(v -> onEditInstructionButtonClicked());
         binding.doneButton.setOnClickListener(v -> onInstructionSubmitted());
 
         binding.backToRecipeButton.setOnClickListener(v -> {

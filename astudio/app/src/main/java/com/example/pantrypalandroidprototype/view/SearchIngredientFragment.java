@@ -35,7 +35,6 @@ public class SearchIngredientFragment extends Fragment implements ISearchIngredi
         return fragment;
     }
 
-
     /**
      * Called to inflate the fragment's layout. It sets up the view binding for the fragment.
      *

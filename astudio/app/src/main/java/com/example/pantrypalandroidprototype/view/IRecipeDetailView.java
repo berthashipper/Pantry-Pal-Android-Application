@@ -1,9 +1,7 @@
 package com.example.pantrypalandroidprototype.view;
 
 import com.example.pantrypalandroidprototype.model.Ingredient;
-import com.example.pantrypalandroidprototype.model.Recipe;
 
-import java.util.List;
 import java.util.Set;
 /**
  * Interface that defines the methods for a view displaying recipe details.

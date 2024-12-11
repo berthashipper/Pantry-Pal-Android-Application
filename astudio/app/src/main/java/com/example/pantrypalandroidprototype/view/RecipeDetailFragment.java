@@ -408,7 +408,6 @@ public class RecipeDetailFragment extends Fragment implements IRecipeDetailView,
             Snackbar.make(binding.getRoot(), "Tag '" + tag + "' deleted", Snackbar.LENGTH_SHORT).show();
         } else {
             Log.e(TAG, "Failed to remove tag: " + tag);
-            //Snackbar.make(binding.getRoot(), "Failed to delete tag", Snackbar.LENGTH_SHORT).show();
         }
     }
 
