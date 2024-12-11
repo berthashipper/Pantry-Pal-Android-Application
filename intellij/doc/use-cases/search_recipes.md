@@ -74,19 +74,15 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": Cookbook" as db
 
-user -> ui : select "Search Recipe by Name"
+user -> ui : Click search icon in cookbook
 ui -> user : prompt "Enter recipe name"
-user -> ui : enter recipe name
-ui -> cont : searchRecipeByName(name)
+user -> ui : Enters recipe name
+ui -> cont : searchRecipeByName(String name)
 
-
-user -> ui : Selects "Search Recipe"
-ui -> cont : onSearchRecipe(query)
-cont -> cookbook : Search for recipe by name
-cookbook -> cont : Return filtered recipes
-cont -> ui : Display search results
-ui -> user : View search results or retry
+cont -> CookbookFragment : onSearchRecipe(query)
+CookbookFragment -> cont : displayFoundRecipes(foundRecipes)
+cont -> ui : displayFragment(recipeFragment)
+ui -> user : Shows search results
 @enduml
 ```
