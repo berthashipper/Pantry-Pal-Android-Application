@@ -73,16 +73,15 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": Recipe" as rec
+participant ": RecipeDetailFragment" as rdf
 
 user -> ui: Open saved recipes (cookbook)
 ui -> user: Display list of saved recipes
 loop User wants to view another recipe
     user -> ui: Select a recipe to view details
-    ui -> cont: Communicate selected recipe
-    cont -> rec: recipe.printRecipeDetails()
-    rec -> cont: Return recipe details (name, ingredients, instructions)
-    cont -> ui: Display recipe details
+    ui -> cont: onRecipeClick(Recipe recipe)
+    cont -> rdf: onRecipeClick(Recipe recipe)
+    cont -> ui: displayFragment(recipeDetailFragment)
     ui -> user: Present recipe details
     user -> ui: Return to saved recipes list
 end
