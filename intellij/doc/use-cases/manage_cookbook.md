@@ -82,34 +82,30 @@ actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
 participant ": CookbookFragment" as cf
-participant ": RecipeAdapter" as ra
 participant ": RecipeDetailFragment" as rdf
-participant ": AddRecipeFragment" as arf
 
 user -> ui: Open cookbook
-ui -> cf: Display CookbookFragment
-cf -> cont: onViewCookbookMenu()
-cont -> cf: CookbookFragment.newInstance()
-cf -> ui: Display recipe list
-cf -> ra: Set up RecyclerView with recipes
-ra -> ui: Display list of saved recipes
-ui -> user: Show saved recipes
+ui -> cont : onViewCookCookbookMenuClicked()
+cont -> cf: onViewCookbookMenu()
+cont -> ui: displayFragment(cookbookFragment)
+ui -> user: Shows recipe list
 
-user -> ui: Select recipe to view details
+
+user -> ui: Clicks on recipe to view
 ui -> cont: onRecipeClick(recipe)
-cont -> rdf: Display RecipeDetailFragment
-rdf -> ui: Show recipe details (name, ingredients, instructions)
-ui -> user: Show recipe details
+cont -> rdf: onRecipeClick(recipe)
+cont -> ui: displayFragment(recipeDetailFragment)
+ui -> user: Shows recipe details
 
 user -> ui: Add new recipe
 ui -> cont: onNavigateToAddRecipe()
-cont -> arf: Display AddRecipeFragment
+cont -> ui: displayFragment(addRecipeFragment)
 
 user -> ui: Enter new recipe details
 ui -> cont: onRecipeCreated(newRecipe)
-cont -> cf: Update recipes list with new recipe
-cf -> ui: Display updated CookbookFragment with new recipe
-ui -> user: Show confirmation of saved recipe
+cont -> cf: onCookbookUpdated(this, newRecipe)
+cont -> ui: displayFragment(cookbookFragment)
+ui -> user: Sees cookbook with their recipe added
 
 @enduml
 
