@@ -104,29 +104,6 @@ stop
 
 ```
 
-```plantuml
-@startuml
-skin rose
-
-title Manage Pantry Items: ADD TO GROCERY LIST (fully-dressed level)
-
-'define the lanes
-|#application|User|
-|#implementation|Recipe Management System|
-
-|Recipe Management System|
-start
-:Displays pantry;
-|User|
-:Selects ingredient from pantry to add to grocery list;
-|Recipe Management System|
-:Store selected ingredient in grocery list;
-|User|
-:Sees confirmation that ingredient is added to grocery list;
-stop
-@enduml
-```
-
 ## 6. Sequence Diagram
 
 ```plantuml
@@ -138,16 +115,17 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": curPantry : Pantry" as pantry
 
 ui -> user : Display add ingredient option
+ui -> cont : onAddIngredientButtonClicked()
+cont -> ui: displayFragment(addIngredientFragment)
 user -> ui : Input ingredient name
 user -> ui : Input ingredient quantity
 user -> ui : Input ingredient unit
-user -> ui : Input dietary tags
+user -> ui : Select dietary tags
 ui -> cont : onAddIngredient(name, qty, unit, tags)
-cont -> pantry : add_ingredient(newIngredient)
-pantry -> cont : curPantry.updatePantry()
+cont -> PantryFragment : addIngredient(newIngredient)
+PantryFragment -> cont : updatePantryDisplay()
 cont -> ui : onItemsDone()
 ui -> user : Show updated pantry display
 
@@ -164,13 +142,12 @@ hide footbox
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": curPantry : Pantry" as pantry
 
-ui -> user : Display delete ingredient option
-user -> ui : Input ingredient name to delete
+ui -> user : Display delete ingredient icons
+user -> ui : Click delete icon on ingredient card
 ui -> cont : onDeleteIngredient(name)
-cont -> pantry : delete_ingredient(name)
-pantry -> cont : curPantry.updatePantry()
+cont -> PantryFragment : deleteIngredient(name)
+PantryFragment -> cont : updatePantryDisplay()
 cont -> ui : onDeletionDone()
 ui -> user : Show updated pantry display
 
@@ -189,38 +166,14 @@ participant ": UI" as ui
 participant ": Controller" as cont
 participant ": curPantry : Pantry" as pantry
 
-ui -> user : Display edit ingredient option
-user -> ui : Input ingredient name to edit
+ui -> user : Display edit ingredient icons
+user -> ui : Click edit icon on ingredient card
 user -> ui : Input new quantity
 ui -> cont : onEditIngredient(name, newQuantity)
-cont -> pantry : edit_ingredient(name, newQuantity)
-pantry -> cont : curPantry.updatePantry()
+cont -> pantry : editIngredient(name, newQuantity)
+pantry -> cont : updatePantryDisplay()
 cont -> ui : onEditDone()
 ui -> user : Show updated pantry display
-
-@enduml
-
-````
-
-```plantuml
-@startuml
-skin rose
-
-hide footbox
-
-actor User as user
-participant ": UI" as ui
-participant ": Controller" as cont
-participant ": curPantry : Pantry"
-participant ": RecipeFragment" as recipeFragment
-
-ui -> user : Display generate recipes option
-user -> ui : Select to generate recipes
-ui -> cont : onGenerateRecipes()
-cont -> pantry : generateMatchingRecipes()
-pantry -> cont : matchingRecipesFound()
-cont -> recipeFragment : showMatchingRecipes(recipes)
-recipeFragment -> ui : displayRecipes()
 
 @enduml
 
