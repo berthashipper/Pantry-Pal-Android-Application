@@ -23,7 +23,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/back_icon"
-                android:contentDescription="Back to Cookbook"
+                android:contentDescription="@string/back_to_cookbook"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true" />
 
@@ -32,7 +32,7 @@
                 android:id="@+id/doneButtonText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Back to Cookbook"
+                android:text="@string/back_to_cookbook"
                 android:textSize="16sp"
                 android:textColor="#333333"
                 android:layout_toEndOf="@id/done_button"
@@ -45,7 +45,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/scale_icon"
-                android:contentDescription="Scale Recipe"
+                android:contentDescription="@string/scale_recipe"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true" />
 
@@ -54,7 +54,7 @@
                 android:id="@+id/scaleButtonText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Scale Recipe"
+                android:text="@string/scale_recipe"
                 android:textSize="16sp"
                 android:textColor="#333333"
                 android:layout_toStartOf="@id/scale_button"
@@ -102,7 +102,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/edit_icon"
-                android:contentDescription="Edit Cook Time"
+                android:contentDescription="@string/edit_cook_time"
                 android:layout_marginStart="8dp"
                 android:layout_centerVertical="true" />
         </LinearLayout>
@@ -125,7 +125,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/edit_icon"
-                android:contentDescription="Edit Yield"
+                android:contentDescription="@string/edit_yield"
                 android:layout_marginStart="8dp"
                 android:layout_centerVertical="true" />
         </LinearLayout>
@@ -142,7 +142,7 @@
                 android:id="@+id/ingredients_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ingredients"
+                android:text="@string/ingredients"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="#333333"
@@ -155,7 +155,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/shop_icon"
-                android:contentDescription="Shop for Ingredients"
+                android:contentDescription="@string/shop_for_ingredients"
                 android:layout_toEndOf="@id/ingredients_header"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="8dp" />
@@ -165,7 +165,7 @@
                 android:id="@+id/shopButtonText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Shop For"
+                android:text="@string/shop_for"
                 android:textSize="16sp"
                 android:textColor="#333333"
                 android:layout_toEndOf="@id/shopForButton"
@@ -178,7 +178,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/delete_icon"
-                android:contentDescription="Delete Ingredients"
+                android:contentDescription="@string/delete_ingredients"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="8dp" />
@@ -189,7 +189,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/edit_icon"
-                android:contentDescription="Edit Ingredients"
+                android:contentDescription="@string/edit_ingredients"
                 android:layout_toStartOf="@id/delete_recipe_ingredient"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="8dp"
@@ -201,7 +201,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/upload_icon"
-                android:contentDescription="Add Ingredients"
+                android:contentDescription="@string/add_ingredients"
                 android:layout_toStartOf="@id/edit_recipe_ingredient"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="8dp"
@@ -228,7 +228,7 @@
                 android:id="@+id/instructions_header"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Instructions"
+                android:text="@string/instructions"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="#333333"
@@ -242,7 +242,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/edit_icon"
-                android:contentDescription="Edit Instructions"
+                android:contentDescription="@string/edit_instructions"
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="8dp"
                 android:layout_centerVertical="true" />
@@ -290,7 +290,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/delete_icon"
-                android:contentDescription="Delete Tags"
+                android:contentDescription="@string/delete_tags"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="8dp" />
@@ -301,7 +301,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/upload_icon"
-                android:contentDescription="Add Tags"
+                android:contentDescription="@string/add_tags"
                 android:layout_toStartOf="@id/deleteTagButton"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="8dp"

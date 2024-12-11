@@ -66,7 +66,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="View Pantry"
+                android:text="@string/view_pantry"
                 android:layout_marginEnd="8dp"/>
 
             <Button
@@ -74,7 +74,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="View Cookbook"
+                android:text="@string/view_cookbook"
                 android:layout_marginStart="8dp"/>
 
         </LinearLayout>
@@ -92,7 +92,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Generate Recipes"
+                android:text="@string/generate_recipes"
                 android:layout_marginEnd="8dp"/>
 
             <Button
@@ -100,7 +100,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="View Grocery List"
+                android:text="@string/view_grocery_list"
                 android:layout_marginStart="8dp" />
 
         </LinearLayout>

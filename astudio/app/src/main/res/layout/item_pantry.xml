@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="Ingredient Name" />
+            android:text="@string/ingredient_name" />
 
         <ImageView
             android:id="@+id/delete_icon"
@@ -27,7 +27,7 @@
             android:layout_height="24dp"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:contentDescription="Delete Icon"
+            android:contentDescription="@string/delete_icon"
             android:src="@drawable/delete_icon"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

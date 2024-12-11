@@ -21,7 +21,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/back_icon"
-                android:contentDescription="Back to Pantry"
+                android:contentDescription="@string/back_to_pantry"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true" />
 
@@ -30,7 +30,7 @@
                 android:id="@+id/back_to_pantry_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Back to Pantry"
+                android:text="@string/back_to_pantry"
                 android:textSize="16sp"
                 android:textColor="#333333"
                 android:layout_toEndOf="@id/doneButton"
@@ -43,28 +43,28 @@
             android:id="@+id/itemNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ingredient Name"
+            android:hint="@string/ingredient_name"
             android:layout_marginBottom="8dp" />
 
         <EditText
             android:id="@+id/itemQtyText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Quantity"
+            android:hint="@string/quantity"
             android:layout_marginBottom="8dp" />
 
         <EditText
             android:id="@+id/itemUnitText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Unit"
+            android:hint="@string/unit"
             android:layout_marginBottom="16dp" />
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Select Dietary Tags:"
+            android:text="@string/select_dietary_tags"
             android:layout_marginBottom="8dp"
             android:textStyle="bold" />
 
@@ -79,43 +79,43 @@
                 android:id="@+id/veganCheckbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vegan" />
+                android:text="@string/vegan" />
 
             <CheckBox
                 android:id="@+id/kosherCheckbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kosher" />
+                android:text="@string/kosher" />
 
             <CheckBox
                 android:id="@+id/glutenFreeCheckbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gluten Free" />
+                android:text="@string/gluten_free" />
 
             <CheckBox
                 android:id="@+id/halalCheckbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Halal" />
+                android:text="@string/halal" />
 
             <CheckBox
                 android:id="@+id/nutFreeCheckbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nut Free" />
+                android:text="@string/nut_free" />
 
             <CheckBox
                 android:id="@+id/vegetarianCheckbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vegetarian" />
+                android:text="@string/vegetarian" />
 
             <CheckBox
                 android:id="@+id/dairyFreeCheckbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Dairy Free" />
+                android:text="@string/dairy_free" />
         </LinearLayout>
 
         <!-- Add Ingredient Button -->

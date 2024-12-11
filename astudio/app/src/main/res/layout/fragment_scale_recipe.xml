@@ -16,7 +16,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/back_icon"
-            android:contentDescription="Back to Recipe"
+            android:contentDescription="@string/back_to_recipe"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true" />
 
@@ -25,7 +25,7 @@
             android:id="@+id/back_to_recipe_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back to Recipe"
+            android:text="@string/back_to_recipe"
             android:textSize="16sp"
             android:textColor="#333333"
             android:layout_toEndOf="@id/backToRecipeButton"
@@ -42,13 +42,13 @@
         android:textStyle="bold"
         android:textColor="#333333"
         android:layout_marginBottom="16dp"
-        android:text="Recipe Name" />
+        android:text="@string/recipe_name" />
 
     <!-- Input and Button Section -->
     <EditText
         android:id="@+id/scaleFactor"
         android:inputType="numberDecimal"
-        android:hint="Enter scale factor"
+        android:hint="@string/enter_scale_factor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp" />
@@ -66,7 +66,7 @@
         android:id="@+id/scaledIngredients"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Scaled Ingredients will appear here"
+        android:text="@string/scaled_ingredients_will_appear_here"
         android:visibility="gone"
         android:paddingTop="16dp" />
 
@@ -78,6 +78,6 @@
         android:visibility="gone"
         android:textColor="@android:color/holo_red_dark"
         android:paddingTop="8dp"
-        android:text="Error: Invalid scale factor" />
+        android:text="@string/error_invalid_scale_factor" />
 
 </LinearLayout>

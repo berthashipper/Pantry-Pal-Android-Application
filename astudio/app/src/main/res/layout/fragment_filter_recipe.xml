@@ -26,7 +26,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/back_icon"
-                android:contentDescription="Back to Cookbook"
+                android:contentDescription="@string/back_to_cookbook"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true" />
 
@@ -35,7 +35,7 @@
                 android:id="@+id/backToCookbookText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Back to Cookbook"
+                android:text="@string/back_to_cookbook"
                 android:textSize="16sp"
                 android:textColor="#333333"
                 android:layout_toEndOf="@id/backToCookbookIcon"
@@ -56,7 +56,7 @@
             android:id="@+id/applyFiltersButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Apply Filter" />
+            android:text="@string/apply_filter" />
 
     </LinearLayout>
 </layout>

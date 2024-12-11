@@ -43,28 +43,28 @@
             android:id="@+id/itemNameText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ingredient Name"
+            android:hint="@string/ingredient_name"
             android:layout_marginBottom="8dp" />
 
         <EditText
             android:id="@+id/itemQtyText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Quantity"
+            android:hint="@string/quantity"
             android:layout_marginBottom="8dp" />
 
         <EditText
             android:id="@+id/itemUnitText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Unit"
+            android:hint="@string/unit"
             android:layout_marginBottom="8dp" />
 
         <Button
             android:id="@+id/addIngredientButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add"
+            android:text="@string/add_ingredient"
             android:layout_marginBottom="16dp"
             android:layout_gravity="center" />
     </LinearLayout>

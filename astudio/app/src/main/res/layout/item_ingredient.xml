@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="18sp"
-            android:text="Ingredient Name"
+            android:text="@string/ingredient_name"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -27,7 +27,7 @@
             android:id="@+id/ingredient_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Details"
+            android:text="@string/details"
             android:textSize="14sp"
             android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@id/ingredient_name"
@@ -39,7 +39,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_marginEnd="16dp"
-            android:contentDescription="Edit Icon"
+            android:contentDescription="@string/edit_icon"
             android:src="@drawable/edit_icon"
             android:clickable="true"
             android:focusable="true"
@@ -51,7 +51,7 @@
             android:id="@+id/delete_icon"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:contentDescription="Delete Icon"
+            android:contentDescription="@string/delete_icon"
             android:src="@drawable/delete_icon"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />

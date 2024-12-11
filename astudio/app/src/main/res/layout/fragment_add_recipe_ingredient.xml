@@ -17,7 +17,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/back_icon"
-            android:contentDescription="Back to Recipe"
+            android:contentDescription="@string/back_to_recipe"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true" />
 
@@ -26,7 +26,7 @@
             android:id="@+id/back_to_recipe_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back to Recipe"
+            android:text="@string/back_to_recipe"
             android:textSize="16sp"
             android:textColor="#333333"
             android:layout_toEndOf="@id/backToRecipeButton"
@@ -38,7 +38,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Ingredients to Recipe:"
+        android:text="@string/add_ingredients_to_recipe"
         android:layout_marginBottom="8dp"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -47,21 +47,21 @@
         android:id="@+id/itemNameText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ingredient Name"
+        android:hint="@string/ingredient_name"
         android:layout_marginBottom="8dp" />
 
     <EditText
         android:id="@+id/itemQuantityText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Quantity"
+        android:hint="@string/quantity"
         android:layout_marginBottom="8dp" />
 
     <EditText
         android:id="@+id/itemUnitText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Unit"
+        android:hint="@string/unit"
         android:layout_marginBottom="0dp" />
 
     <!-- Dietary Tags -->
@@ -75,21 +75,21 @@
             android:id="@+id/veganCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Vegan"
+            android:text="@string/vegan"
             android:visibility="gone" />
 
         <CheckBox
             android:id="@+id/kosherCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Kosher"
+            android:text="@string/kosher"
             android:visibility="gone" />
 
         <CheckBox
             android:id="@+id/glutenFreeCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gluten Free"
+            android:text="@string/gluten_free"
             android:visibility="gone" />
     </LinearLayout>
 
@@ -98,7 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:text="Add Ingredient" />
+        android:text="@string/add_ingredient" />
 
     <Button
         android:id="@+id/doneButton"

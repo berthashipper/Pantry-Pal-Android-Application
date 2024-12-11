@@ -22,7 +22,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/back_icon"
-                android:contentDescription="Back to Cookbook"
+                android:contentDescription="@string/back_to_cookbook"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true" />
 
@@ -31,7 +31,7 @@
                 android:id="@+id/backToCookbookText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Back to Cookbook"
+                android:text="@string/back_to_cookbook"
                 android:textSize="16sp"
                 android:textColor="#333333"
                 android:layout_toEndOf="@id/backToCookbookIcon"
@@ -49,7 +49,7 @@
                 android:id="@+id/headerText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Uploading Your Recipe"
+                android:text="@string/uploading_your_recipe"
                 android:textSize="24sp"
                 android:textStyle="bold"
                 android:layout_marginTop="0dp"
@@ -63,7 +63,7 @@
             android:id="@+id/recipeNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Recipe Name"
+            android:hint="@string/recipe_name"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="8dp" />
 
@@ -72,7 +72,7 @@
             android:id="@+id/descriptionEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Description"
+            android:hint="@string/description"
             android:layout_marginBottom="16dp" />
 
         <!-- Cook Time Input -->
@@ -80,7 +80,7 @@
             android:id="@+id/cookTimeEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Cook Time (in minutes)"
+            android:hint="@string/cook_time_in_minutes"
             android:inputType="number"
             android:layout_marginBottom="8dp" />
 
@@ -89,7 +89,7 @@
             android:id="@+id/servingSizeEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Serving Size"
+            android:hint="@string/yield"
             android:inputType="number"
             android:layout_marginBottom="16dp" />
 
@@ -97,7 +97,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Ingredients:"
+            android:text="@string/add_ingredients"
             android:layout_marginBottom="8dp"
             android:textStyle="bold" />
 
@@ -105,21 +105,21 @@
             android:id="@+id/ingredientNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ingredient Name"
+            android:hint="@string/ingredient_name"
             android:layout_marginBottom="8dp" />
 
         <EditText
             android:id="@+id/ingredientQuantityEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Quantity"
+            android:hint="@string/quantity"
             android:layout_marginBottom="8dp" />
 
         <EditText
             android:id="@+id/ingredientUnitEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Unit"
+            android:hint="@string/unit"
             android:layout_marginBottom="0dp" />
 
         <!-- Dietary Tags -->
@@ -133,21 +133,21 @@
                 android:id="@+id/veganCheckbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vegan"
+                android:text="@string/vegan"
                 android:visibility="gone" />
 
             <CheckBox
                 android:id="@+id/kosherCheckbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Kosher"
+                android:text="@string/kosher"
                 android:visibility="gone" />
 
             <CheckBox
                 android:id="@+id/glutenFreeCheckbox"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gluten Free"
+                android:text="@string/gluten_free"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -157,13 +157,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
-            android:text="Add Ingredient" />
+            android:text="@string/add_ingredient" />
 
         <!-- Instruction Section -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Instructions:"
+            android:text="@string/add_instructions"
             android:layout_marginBottom="8dp"
             android:textStyle="bold" />
 
@@ -171,7 +171,7 @@
             android:id="@+id/instructionEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Instruction"
+            android:hint="@string/instruction"
             android:layout_marginBottom="8dp" />
 
         <Button
@@ -180,7 +180,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="16dp"
-            android:text="Add Instruction" />
+            android:text="@string/add_instruction" />
 
         <!-- Done Button -->
         <Button
@@ -188,7 +188,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Create Recipe" />
+            android:text="@string/create_recipe" />
 
     </LinearLayout>
 </ScrollView>

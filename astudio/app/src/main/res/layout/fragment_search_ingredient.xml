@@ -17,7 +17,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/back_icon"
-            android:contentDescription="Back to Pantry"
+            android:contentDescription="@string/back_to_pantry"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true" />
 
@@ -26,7 +26,7 @@
             android:id="@+id/back_to_pantry_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back to Pantry"
+            android:text="@string/back_to_pantry"
             android:textSize="16sp"
             android:textColor="#333333"
             android:layout_toEndOf="@id/doneButton"
@@ -39,7 +39,7 @@
         android:id="@+id/searchQueryText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter ingredient name"
+        android:hint="@string/enter_ingredient_name"
         android:layout_marginBottom="16dp" />
 
     <!-- Search Button -->
@@ -47,7 +47,7 @@
         android:id="@+id/searchButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Search"
+        android:text="@string/search"
         android:layout_marginBottom="16dp" />
 
     <!-- Search Results Section -->
@@ -55,7 +55,7 @@
         android:id="@+id/searchResultsTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Results will appear here"
+        android:text="@string/results_will_appear_here"
         android:padding="8dp"
         android:layout_marginBottom="16dp" />
 
@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:textColor="@android:color/holo_red_dark"
         android:visibility="gone"
-        android:text="Error: Invalid search query"
+        android:text="@string/error_invalid_search_query"
         android:paddingTop="8dp"
         android:layout_marginBottom="16dp" />
 

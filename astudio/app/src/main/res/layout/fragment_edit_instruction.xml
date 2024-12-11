@@ -17,7 +17,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/back_icon"
-            android:contentDescription="Back to Recipe"
+            android:contentDescription="@string/back_to_recipe"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true" />
 
@@ -26,7 +26,7 @@
             android:id="@+id/back_to_recipe_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Back to Recipe"
+            android:text="@string/back_to_recipe"
             android:textSize="16sp"
             android:textColor="#333333"
             android:layout_toEndOf="@id/backToRecipeButton"
@@ -37,14 +37,14 @@
     <!-- Instruction Input -->
     <EditText
         android:id="@+id/instructionEditText"
-        android:hint="New Instruction"
+        android:hint="@string/new_instruction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
     <!-- Add Button -->
     <Button
         android:id="@+id/addButton"
-        android:text="Add Instruction"
+        android:text="@string/add_instruction"
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
@@ -53,7 +53,7 @@
     <!-- Edit Button -->
     <Button
         android:id="@+id/editButton"
-        android:text="Edit Instruction"
+        android:text="@string/edit_instruction"
         android:layout_width="wrap_content"
         android:layout_gravity="center"
         android:visibility="gone"
