@@ -72,21 +72,25 @@ participant ": Controller" as cont
 participant ": Pantry" as pantry
 participant ": SearchIngredientFragment" as fragment
 
+user -> ui: Click search icon
+ui -> cont: onSearchIngredientClicked()
+cont -> ui: displayFragment(searchIngredientFragment)
 user -> ui : Enter ingredient query
-ui -> cont : onSearchIngredient(query)
-cont -> pantry : searchIngredient(query)
-pantry -> cont : return found ingredients
+ui -> cont : onSearchIngredient(String name)
+cont -> pantry : String searchIngredient(String name)
 cont -> fragment : displayFoundIngredients(foundIngredients)
 
 alt No matches found
-    fragment -> ui : showIngredientNotFoundError()
+    fragment -> cont : showIngredientNotFoundError()
+    cont -> ui:  showIngredientNotFoundError()
+    ui -> user : Sees no found ingredients Snackbar
     user -> ui : Enter new query
-    ui -> cont : onSearchIngredient(query)
-    cont -> pantry : searchIngredient(query)
-    pantry -> cont : return found ingredients
+    ui -> cont : onSearchIngredient(String name)
+    cont -> pantry : searchIngredient(String name)
+    pantry -> cont : displayFoundIngredients(foundIngredients)
     cont -> ui : displayFoundIngredients(foundIngredients)
 end
 
-ui -> user : Show list of found ingredients
+ui -> user : Shows list of found ingredients
 @enduml
 ```
