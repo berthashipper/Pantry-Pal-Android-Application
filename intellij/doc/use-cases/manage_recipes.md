@@ -145,18 +145,38 @@ ui -> user : Display the Cookbook
 @startuml
 skin rose
 
+
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": Cookbook" as ck
+participant ": GenerateRecipe" as gr
+participant ": RecipeFragment" as rf
+participant ": Cookbook" as cb
 participant ": Pantry" as pantry
 
-user -> ui : Click "Generate Recipe" Button
-ui -> cont: onGenerateRecipes()
-cont -> ck: generateMatchingRecipes()
-cont -> pantry: generateMatchingRecipes()
-cont -> ui: displayFragment(RecipeFragment)
-ui -> user: Shows Generated Recipe Fragment
+cont -> gr: Set<Recipe> generateMatchingRecipes()
+gr -> cb: boolean canMakeRecipe(Recipe recipe)
+gr -> pantry: Ingredient findMatchingPantryIngredient(String ingredientName)
+loop For each recipe in cookbook
+    gr -> gr: Check if pantry has enough ingredients
+    alt Matching ingredients found
+        gr -> gr: Add recipe to matched recipes
+    else No match
+        gr -> gr: Skip recipe
+    end
+end
+gr -> cont: Set<Recipe> generateMatchingRecipes()
+
+alt Matched recipes found
+    cont -> ui: displayFragment(RecipeFragment)
+    ui -> user: Show matched recipes
+else No matched recipes
+    alt Current fragment is RecipeFragment
+        cont -> rf: showNoRecipesMessage()
+        cont -> ui: displayFragment(RecipeFragment)
+        ui -> user: Display "No matching recipes found" and empty fragment
+    end
+end
 
 @enduml
 ````
