@@ -79,28 +79,33 @@ actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
 participant ": Pantry" as pantry
-participant ": Recipe" as recipe
-participant ": Cookbook" as cookbook
-participant ": GenerateRecipe" as genRecipe
-participant ": RecipeFragment" as recipeFragment
-participant ": AddRecipeFragment" as addRecipeFragment
+participant ": RecipeDetailFragment" as rdf
+participant ": CookbookFragment" as cf
+participant ": GenerateRecipeFragment" as grf
+participant ": RecipeFragment" as rf
+participant ": AddRecipeFragment" as arf
 
 user -> ui : Selects "View Cookbook"
-ui -> cont : onViewCookbookMenu()
-cont -> cookbook : CookbookFragment.newInstance()
-cookbook --> ui : Display recipes
+ui -> cont : onViewCookCookbookMenuClicked()
+cont -> cf: onViewCookbookMenu()
+cont -> ui: displayFragment(CookbookFragment)
+ui -> user: Shows recipe list
 
-user -> ui : Selects "Upload Recipe"
-ui -> cont : onNavigateToAddRecipe()
-cont -> addRecipeFragment : AddRecipeFragment.newInstance()
-addRecipeFragment --> ui : Show Add Recipe Form
+user -> ui : Selects add Recipe button
+ui -> cont: navigateToAddRecipe()
+cont -> cf: navigateToAddRecipe()
+cont -> arf : AddRecipeFragment.newInstance()
+cont -> ui: displayFragment(AddRecipeFragment)
+ui -> user: Shows Add Recipe Fragment
 
-user -> ui : Inputs recipe details
-ui -> cont : onRecipeCreated(name, ingredients, instructions)
-cont -> recipe : Create new Recipe object
-recipe -> cookbook : Add recipe to cookbook
-cookbook --> cont : Confirmation
-cont --> ui : Show "Recipe uploaded successfully"
+user -> ui : Input Recipe Details(name, description, cooktime, servingsize, ingredients, instructions, tags)
+user -> ui : Clicks "Done" Button
+ui -> cont : onDoneButtonClicked()
+cont -> arf : onDoneButtonClicked()
+cont -> cf: updateCookbookFragment()
+cont -> rdf: onRecipeCreated(recipe)
+cont -> ui : displayFragment(RecipeDetailFragment)
+ui -> user: Shows the newly Added Recipe Details
 
 user -> ui : Selects "Search Recipe"
 ui -> cont : onSearchRecipe(query)

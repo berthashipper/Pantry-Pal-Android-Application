@@ -91,6 +91,7 @@ ui -> user: Shows recipe list
 user -> ui : Selects add Recipe button
 ui -> cont: navigateToAddRecipe()
 cont -> cf: navigateToAddRecipe()
+cont -> arf : AddRecipeFragment.newInstance()
 cont -> ui: displayFragment(AddRecipeFragment)
 ui -> user: Shows Add Recipe Fragment
 
