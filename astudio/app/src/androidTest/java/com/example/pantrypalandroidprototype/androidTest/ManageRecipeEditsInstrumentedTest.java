@@ -341,6 +341,9 @@ public class ManageRecipeEditsInstrumentedTest {
                 .perform(ViewActions.click());
 
         SystemClock.sleep(2000);
+        Espresso.onView(ViewMatchers.withId(R.id.tagsLayout))
+                .perform(ViewActions.scrollCompletelyTo());
+        SystemClock.sleep(2000);
 
         // Verify the tag in the UI
         Espresso.onView(ViewMatchers.withText("VEGETARIAN"))
@@ -464,16 +467,16 @@ public class ManageRecipeEditsInstrumentedTest {
 
         // Enter the tag to delete
         Espresso.onView(ViewMatchers.withClassName(Matchers.equalTo(EditText.class.getName())))
-                .perform(ViewActions.clearText(), ViewActions.typeText("vegetarian"));
+                .perform(ViewActions.clearText(), ViewActions.typeText("NonExistentTag"));
 
         // Confirm the changes by clicking the Save button
         Espresso.onView(ViewMatchers.withText("Save"))
                 .perform(ViewActions.click());
 
-        SystemClock.sleep(2000);
-
         // Verify the updated tags in the UI
-        Espresso.onView(ViewMatchers.withText("Tag not found: VEGETARIAN"))
+        Espresso.onView(ViewMatchers.withText("Tag not found: NONEXISTENTTAG"))
                 .check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+
+        SystemClock.sleep(2000);
         }
     }
