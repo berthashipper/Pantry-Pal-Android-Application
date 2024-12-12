@@ -78,11 +78,8 @@ skin rose
 actor User as user
 participant ": UI" as ui
 participant ": Controller" as cont
-participant ": Pantry" as pantry
 participant ": RecipeDetailFragment" as rdf
 participant ": CookbookFragment" as cf
-participant ": GenerateRecipeFragment" as grf
-participant ": RecipeFragment" as rf
 participant ": AddRecipeFragment" as arf
 
 user -> ui : Selects "View Cookbook"
@@ -107,11 +104,45 @@ cont -> rdf: onRecipeCreated(recipe)
 cont -> ui : displayFragment(RecipeDetailFragment)
 ui -> user: Shows the newly Added Recipe Details
 
-user -> ui : Selects "Search Recipe"
+@enduml
+````
+
+```plantuml
+@startuml
+skin rose
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller" as cont
+participant ": CookbookFragment" as cf
+participant ": SearchRecipeFragment" as srf
+
+user -> ui : Selects "View Cookbook"
+ui -> cont : onViewCookCookbookMenuClicked()
+cont -> cf: onViewCookbookMenu()
+cont -> ui: displayFragment(CookbookFragment)
+ui -> user: Shows recipe list
+
+user -> ui : Click "Search Recipe" Button
+ui -> cont: onSearchRecipesMenu()
+cont -> cf: onSearchRecipesMenu()
+cont -> ui: displayFragment(SearchRecipeFragment)
+ui -> user: Shows Search Recipe Fragment
+
+user -> ui : Input Recipe Name
+user -> ui : Clicks "Search" Button
 ui -> cont : onSearchRecipe(query)
-cont -> cookbook : Filter recipes by query
-cookbook --> cont : Return filtered recipes
-cont --> ui : Display filtered recipes
+cont -> srf : onSearchRecipe(String query)
+srf -> cont: onSearchButtonClicked()
+cont -> ui: displayFragment(SearchRecipeFragment)
+ui -> user: Shows the Searched Result
+
+user -> ui : Selects "Done Search"
+ui -> cont : onSearchDone()
+cont -> srf : onSearchDone()
+srf -> cont : onBackToCookbookClicked() 
+cont -> ui : displayFragment(CookbookFragment)
+ui -> user : Display the Cookbook
 
 @enduml
 ````
