@@ -117,12 +117,6 @@ participant ": Controller" as cont
 participant ": CookbookFragment" as cf
 participant ": SearchRecipeFragment" as srf
 
-user -> ui : Selects "View Cookbook"
-ui -> cont : onViewCookCookbookMenuClicked()
-cont -> cf: onViewCookbookMenu()
-cont -> ui: displayFragment(CookbookFragment)
-ui -> user: Shows recipe list
-
 user -> ui : Click "Search Recipe" Button
 ui -> cont: onSearchRecipesMenu()
 cont -> cf: onSearchRecipesMenu()
@@ -146,3 +140,25 @@ ui -> user : Display the Cookbook
 
 @enduml
 ````
+
+```plantuml
+@startuml
+skin rose
+
+actor User as user
+participant ": UI" as ui
+participant ": Controller" as cont
+participant ": Cookbook" as ck
+participant ": Pantry" as pantry
+
+user -> ui : Click "Generate Recipe" Button
+ui -> cont: onGenerateRecipes()
+cont -> ck: generateMatchingRecipes()
+cont -> pantry: generateMatchingRecipes()
+cont -> ui: displayFragment(RecipeFragment)
+ui -> user: Shows Generated Recipe Fragment
+
+@enduml
+````
+
+
