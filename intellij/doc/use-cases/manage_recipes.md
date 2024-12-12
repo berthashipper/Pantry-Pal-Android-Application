@@ -133,9 +133,9 @@ user -> ui : Input Recipe Name
 user -> ui : Clicks "Search" Button
 ui -> cont : onSearchRecipe(query)
 cont -> srf : onSearchRecipe(String query)
-srf -> cont: onSearchButtonClicked()
-cont -> ui: displayFragment(SearchRecipeFragment)
-ui -> user: Shows the Searched Result
+srf ->  cont : displayFoundRecipes(foundRecipes)
+cont -> ui : displayFragment(RecipeFragment)
+ui -> user: Shows Search Result
 
 user -> ui : Selects "Done Search"
 ui -> cont : onSearchDone()
