@@ -1,8 +1,5 @@
 package com.example.pantrypalandroidprototype.androidTest;
 
-import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withText;
-
 import android.os.SystemClock;
 import android.view.View;
 

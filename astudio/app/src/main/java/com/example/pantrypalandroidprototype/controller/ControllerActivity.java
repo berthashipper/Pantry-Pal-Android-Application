@@ -1,7 +1,5 @@
 package com.example.pantrypalandroidprototype.controller;
 
-import static android.content.ContentValues.TAG;
-
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
