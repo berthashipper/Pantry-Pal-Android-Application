@@ -1,6 +1,5 @@
-# CMPU-203 F24 - Team 2G
+# Pantry Pal Android App
 
-## Pantry Pal Android App
 Welcome to **Pantry Pal**, your ultimate kitchen assistant! This app brings your kitchen to life by organizing your pantry, suggesting recipes, helping plan your grocery list, and manage your cookbook in one seamless experience. Whether you’re an avid home cook or a college student looking to make meals from whatever is left in the fridge, Pantry Pal is here to simplify your process, making cooking stress-free and enjoyable.
 Key features include:
 - Effortless pantry tracking to help you see what you have and what’s running low.
