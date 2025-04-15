@@ -77,7 +77,7 @@ Pantry Pal was inspired by a personal mission to address the challenges of manag
 ### Steps:
 1. Clone the repository:  
 ```
-https://gitlab.cs.vassar.edu/cmpu203-f24-projects/team-2g.git
+git@github.com:berthashipper/Pantry-Pal-Android-Application.git
 ```
 2. Open the project in Android Studio.
 3. Connect your Android device or emulator.
